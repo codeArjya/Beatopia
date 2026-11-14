@@ -15,7 +15,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app import main
-from app.core import embed, planner, search_sql
+from app.core import embed, planner, rerank, search_sql
 from app.core.chips import chip_index
 from app.core.search_sql import Candidate
 from app.core.settings import REPO_ROOT, Settings
@@ -115,6 +115,7 @@ def client(monkeypatch: pytest.MonkeyPatch) -> Iterator[tuple[TestClient, list[S
         return CANDS, False
 
     planner.memory_cache.clear()
+    rerank.order_memo.clear()
     monkeypatch.setattr(planner, "db_get", lambda pool, key: None)
     monkeypatch.setattr(planner, "db_put", lambda pool, key, plan: None)
     monkeypatch.setattr(embed, "embed_query", lambda text: np.ones(512, dtype=np.float32) / np.sqrt(512))
@@ -196,6 +197,38 @@ def test_search_uses_the_gemini_plan(client: tuple[TestClient, list[SearchPlan]]
     assert plans[0].must_tags == ["trumpet"] and plans[0].bpm_range == (85, 95)
     assert SearchResponse.model_validate(r.json()).plan == plans[0]
     assert "plan;dur=" in r.headers["server-timing"]
+
+
+def test_search_reranks_and_fills_why(
+    client: tuple[TestClient, list[SearchPlan]], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from app.core.gemini import Gemini
+    from tests.test_planner import TRUMPET_RAW, FakeResponse
+
+    written: list[dict[str, str]] = []
+    monkeypatch.setattr(rerank, "write_notes", lambda pool, notes, model: written.append(notes))
+    order = ["jam_5:mix:0", "jam_2:drums:15200", "made_up:mix:0"]
+
+    class Models:
+        def generate_content(self, *, model: str, contents: Any, config: Any) -> FakeResponse:
+            if "order" in config.response_json_schema["properties"]:
+                notes = [{"id": "jam_5:mix:0", "note": "Loop it."}]
+                return FakeResponse(json.dumps({"order": order, "notes": notes}))
+            return FakeResponse(json.dumps(TRUMPET_RAW))
+
+    class Client:
+        models = Models()
+
+    c, _ = client
+    c.app.state.gemini = Gemini(Client(), "m")  # type: ignore[attr-defined]
+    r = c.post("/search", json={"text": "sad trumpet", "session_id": "s1"})
+    assert r.status_code == 200, r.text
+    validate_schema(r.json(), "SearchResponse")
+    res = SearchResponse.model_validate(r.json()).results
+    assert [x.window_id for x in res[:3]] == ["jam_5:mix:0", "jam_2:drums:15200", "jam_1:mix:0"]
+    assert len(res) == 8 and res[0].why == "Loop it." and res[2].why == "cached note"
+    assert written == [{"jam_5:mix:0": "Loop it."}]
+    assert "rerank;dur=" in r.headers["server-timing"]
 
 
 def test_every_chip_resolves() -> None:
