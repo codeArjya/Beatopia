@@ -24,6 +24,8 @@ PUBLIC = ROOT / "web" / "public"
 EXPECTED = {
     "chips": "ChipsResponse",
     "search": "SearchResponse",
+    "search_empty": "SearchResponse",
+    "search_fallback": "SearchResponse",
     "track_detail": "TrackDetail",
     "stems_ready": "StemsResponse",
     "stems_queued": "StemsResponse",

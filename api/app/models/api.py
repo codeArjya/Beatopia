@@ -114,12 +114,18 @@ class StemsResponse(BaseModel):
     job_id: str | None = None        # set when separation was queued
     stems: list[Stem] | None = None  # set when stems covering the range already exist
 
+class StemsJobOutput(BaseModel):
+    stems: list[Stem]
+
+class AnalyzeJobOutput(BaseModel):
+    track: TrackDetail
+
 class Job(BaseModel):
     id: str
     kind: Literal["stems", "analyze"]
     status: Literal["queued", "running", "done", "error"]
     progress: float
-    output: dict | None = None       # see CONTRACT §3 job output shapes
+    output: StemsJobOutput | AnalyzeJobOutput | None = None   # stems job → StemsJobOutput, analyze → AnalyzeJobOutput
     error: str | None = None
 
 class ImportResponse(BaseModel):

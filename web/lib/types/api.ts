@@ -37,6 +37,8 @@ export interface ApiSchema {
   TrackDetail: TrackDetail;
   StemsRequest: StemsRequest;
   StemsResponse: StemsResponse;
+  StemsJobOutput: StemsJobOutput;
+  AnalyzeJobOutput: AnalyzeJobOutput;
   Job: Job;
   ImportResponse: ImportResponse;
   WhyRequest: WhyRequest;
@@ -168,14 +170,18 @@ export interface StemsResponse {
   job_id?: string | null;
   stems?: Stem[] | null;
 }
+export interface StemsJobOutput {
+  stems: Stem[];
+}
+export interface AnalyzeJobOutput {
+  track: TrackDetail;
+}
 export interface Job {
   id: string;
   kind: "stems" | "analyze";
   status: "queued" | "running" | "done" | "error";
   progress: number;
-  output?: {
-    [k: string]: unknown;
-  } | null;
+  output?: StemsJobOutput | AnalyzeJobOutput | null;
   error?: string | null;
 }
 export interface ImportResponse {
