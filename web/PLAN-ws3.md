@@ -261,3 +261,36 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - First load shows plain "Searching…" text, not skeletons (T3.2). `?fixture=empty` shows "0 results" with no empty-state UI yet (T3.2).
   - Carried over: an "Open in editor" click within 300 ms of an edit can hand off the previous URL (T3.4).
 - **Blocked:** nothing. PR #3 (Gate H4) still needs review/merge. Next is T3.1 (PreviewProvider).
+
+### Session 4 (2026-11-14): T3.1 + T3.2
+- **Done:** T3.1 PreviewProvider, T3.2 ResultCard + ResultList. lint/typecheck are clean and tests pass 58/58 (5 new in `lib/preview/loop.test.ts`, 6 in `lib/search/results.test.ts`). I checked these by hand in Chrome on fixtures, with no console errors or hydration warnings:
+  - T3.1: a single `<audio>` element for every play. A cold start of `other.wav` reached the window start (5.333 s) about 1 ms after the click (local file). Switching cards on `mix.wav` jumps straight to the new window. The window loops at the end (10.52 → 0.07 on 0–10.667, 7.9 → 2.77 on 2.667–8.0, and the `ended` path on 5.333–16.0, which ends at the file end). Only one card shows Stop at a time. Stop pauses. Going to `/import` stops the preview (Activity hide).
+  - T3.2: 8 fixture cards render. `?fixture=fallback` shows the banner, "—" for null BPM/key and a truncated long title. `?fixture=empty` shows "No matches, try fewer chips", and "Remove last chip (Melancholy)" removes it and updates the URL. Idle → typing shows 8 skeletons, then 8 cards. The status reads "N results[, expanded to Freesound][, updating…]".
+- **Decisions:**
+  - The player is a plain class (`lib/preview/player.ts`) with `subscribe`/`getSnapshot`. The snapshot is immutable `{item, status}` with status `idle | loading | playing | error`. `PreviewItem = {id, url, start, end}` uses **file time**, so the stems drawer (T5.2) passes `start_s - range_start_s` itself.
+  - The window boundary is checked on rAF **and** on `timeupdate`, because background tabs get no rAF. The wrap happens one frame early (`LOOP_LOOKAHEAD_S = 1/60`). `ended` restarts the window when it ends at the file end.
+  - `play()` sets `currentTime` before metadata loads (the browser's default playback start position), so there's no blip from 0. `play().then` sets "playing" because switching windows on an element that's already playing fires no `playing` event. An epoch counter ignores AbortErrors from superseded plays.
+  - `warm(url)` sets `src` + `load()` only while nothing is active. Cards warm on pointerenter and focus.
+  - `usePreviewStatus(id)` selects a primitive, so only the cards whose status changed re-render. `usePreviewSnapshot()` and `player.progress(id)` exist for the T3.3 playhead (poll `progress` from the waveform's rAF).
+  - `useStopPreviewOnHide()` (a `useLayoutEffect` cleanup) is called in `SearchPage`.
+  - `dispose()` doesn't clear listeners, because of StrictMode effect re-runs.
+  - The card also shows the window as `m:ss.s–m:ss.s` and a "· Freesound" marker for `source === "freesound"`. Tags are muted text, not chip colors (tags aren't chip ids).
+  - Retryable errors (`rate_limited`/`upstream_error`) toast with `id: "search-error"`, so repeats don't stack.
+  - The empty-state subline says "Even Freesound came up empty" only when `fallback_used` is true.
+  - Grid: 1 column, 2 at `xl`.
+- **Files for next session:**
+  - `components/search/ResultCard.tsx`:
+    - T3.3: the waveform slot is the `h-12` placeholder div.
+    - T4.1: the why note is a plain `line-clamp-2` `<p>`.
+    - T3.4/T5.2: the Stems and Open in editor buttons go in the title row next to `PlayButton`.
+    - T3.4: Space/Enter go on the `<AppCard>` (it already has `tabIndex=0` and `aria-labelledby`).
+    - `previewItemOf(result)` is exported.
+  - `components/search/ResultList.tsx`
+  - `lib/search/results.ts`
+  - `lib/preview/{player.ts,PreviewProvider.tsx,loop.ts}`
+- **Known bugs / gotchas:**
+  - The error UI (network banner, inline retry, toast) is unit-tested only through `searchErrorKind`/`searchErrorMessage`. There's no fixture that fails, so I didn't see it in the browser. Check it in T6.1 by stopping the API.
+  - The Stems and Open in editor buttons aren't on the cards yet (T3.4, T5.2).
+  - Time to sound was measured on local fixture WAVs only. Check real MP3 latency in T6.1.
+  - Carried over: an "Open in editor" click within 300 ms of an edit can hand off the previous URL (T3.4).
+- **Blocked:** nothing. PR #3 (Gate H4) still needs review/merge. Next is T3.3 (MiniWaveform).
