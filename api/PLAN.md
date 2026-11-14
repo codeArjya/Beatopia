@@ -154,10 +154,19 @@ against WS1's seed once it is in the DB (the DB was empty this session).
       Null-bpm tracks pass a bpm filter (bpm_fit 0.5, §7.4). Dedupe drops same track + same stem windows that
       overlap ≥ 50% of the shorter one (the plan said > 50%; adjacent 10 s / 5 s-hop windows overlap exactly 50%).
       DB test uses temp tables that shadow the real ones inside a rolled-back transaction.
-- [ ] **T3.2 Bar snapping + Result mapping** (1.5 h). `core/snap.py`; stem windows use `tracks/{id}/stems/{stem}.mp3`.
+- [x] **T3.2 Bar snapping + Result mapping** (1.5 h). `core/snap.py`; stem windows use `tracks/{id}/stems/{stem}.mp3`.
       *Accept:* unit tests (90 bpm → 4 bars = 10.667 s; one-shot → 1/2 bars; end clamp); `/search` v1 (no Gemini)
       validates `SearchResponse` on seed, p50 < 1 s locally. Record the fallback rate of the 20 eval queries
       (> 30% → write proposal C5b).
+      *Done:* `scripts/search_check.py` (in process, real DB + CLAP) over the 20 queries in `scripts/eval_queries.py`:
+      all 200 and valid against `SearchResponse` and `shared/schema`. **p50 297 ms / p95 388 ms** uncached
+      (embed ≈ 100 ms, SQL 140–340 ms through the session pooler), p50 160 ms with cached query vectors.
+      **Fallback rate 0/20**, so C5b is not triggered. But note for T8.1: even "kazoo orchestra" tops out at 0.52,
+      because the non-sim terms give a floor of ≈ 0.25 (tags 0.1 + bpm 0.1 + loopability), so the §7.7 trigger
+      (< 3 results > 0.25) will practically never fire. T8.1 needs a trigger on `sim` instead → proposal then.
+      v1 plan = raw text (or chip labels + " music"), chips merged by `core/planner.py` (T4.1 adds Gemini in front).
+      Empty text with no chips, or an unknown chip id → 400 `bad_request`; CLAP not loaded → 502 `upstream_error`.
+      Snap: when nothing fits (sound shorter than 1 bar) the raw bounds stay with `bars=1`.
 - [ ] **T4.1 Gemini client + planner + cache** (2 h). `core/gemini.py` (singleton, retries, degraded switch),
       `core/planner.py` (P1, flat schema → `SearchPlan`, chip merge, `plan_cache`).
       *Accept:* recorded-response unit tests (mock client) for merge rules; live: "sad trumpet around 90 bpm,
