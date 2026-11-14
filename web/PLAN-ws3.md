@@ -224,3 +224,40 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - If you click "Open in editor" less than 300 ms after an edit, the URL can still hold the previous search. Flush the debounce on hand-off in T3.4 if that matters.
   - The tray's own scroll area is only bounded at `md+`. On mobile the page scrolls instead (fine for now).
 - **Blocked:** nothing. PR #3 (Gate H4) still needs review/merge. Next is T2.3 (SearchBar + drag-and-drop).
+
+### Session 3 (2026-11-14): T2.3 + T2.4
+- **Done:** T2.3 SearchBar + drag-and-drop, T2.4 search wired. lint/typecheck are clean and tests pass 47/47 (8 new in `lib/search/dnd.test.ts`). Drag-and-drop took about 1 h, well under the 2.5 h limit. I checked these by hand in Chrome on fixtures, with no console errors, including after a reload (no hydration warnings):
+  - Dragging Soul, Rhodes, then Melancholy into the bar appends them. The fixture vocabulary has no "Keys" chip, so I used Rhodes.
+  - Dropping Piano onto the Rhodes pill inserts it before Rhodes.
+  - Dragging a pill reorders the stack, and the URL `chips=` order follows.
+  - Dropping outside the bar does nothing.
+  - A real mouse click on a tray chip still adds it.
+  - Keyboard reorder works (Space, ←←, Space), and the live region reads "Funk moved to position 3 of 5." / "Funk dropped at position 3 of 5."
+  - Two typing pauses sent exactly 2 requests (`[search] request` console counter), and the list never unmounted during a refetch.
+- **Decisions:**
+  - dnd-kit API checked in `node_modules` (core 6.3.1, sortable 10.0.0):
+    - `KeyboardSensor` only starts a drag when `event.target === activatorNode`.
+    - `PointerSensor` swallows the click (capture-phase `stopPropagation`) once a drag has activated.
+  - **Tray chips drag by pointer only.** Only `listeners.onPointerDown` is passed; dnd-kit's `attributes` and `onKeyDown` are not, because they'd override `aria-pressed` and turn Enter into "pick up". The keyboard path from tray to bar is Enter/click. Stacked chips are `disabled` as draggables (clicking them removes them).
+  - **Pill drag handle = the label span** (`setActivatorNodeRef`), so the × button keeps its own click/keyboard behavior and there is no nested `role=button`.
+  - Drag ids: tray chips use `tray:{chipId}`, and pills use the bare chip id (the `SortableContext` items).
+  - Drop rules (`dropActions`):
+    - A tray chip dropped on the bar is appended. Dropped on a pill, it's inserted before that pill (`add` + `move`).
+    - A pill dropped on a pill moves into its slot. Dropped on the bar's empty area, it moves to the end.
+  - Collision (`searchCollision`): tray drags use `pointerWithin`, with pills ahead of the bar, so dropping anywhere else does nothing. Pill drags use `closestCenter` over pills only, which keyboard sorting needs.
+  - `DndContext id="search-dnd"` gives stable `aria-describedby` ids for SSR. Transforms are written by hand with translate only (no `@dnd-kit/utilities`).
+  - Announcements are rebuilt with `useMemo([index, chips])`. A ref-based version fails the React Compiler `react-hooks/refs` lint rule.
+  - T2.4: `SearchResults` is mounted only when `request` is non-null, so idle shows the hero text. `useSearch` already had `skipToken` + `keepPreviousData` from T1.2. While refreshing, the list dims to 60% with `aria-busy`. The count goes in `aria-live="polite"`, and errors show inline with a Retry button.
+  - A dev-only `console.debug("[search] request", params)` in `searchQuery`'s `queryFn` (behind `NODE_ENV === "development"`) is the request counter.
+- **Files for next session:**
+  - `lib/search/dnd.ts` (pure rules)
+  - `components/search/SearchDnd.tsx` (context, sensors, `DragOverlay`; T8.2's chip-snap `dropAnimation` goes here)
+  - `components/search/SearchBar.tsx`
+  - `components/search/ChipTray.tsx` (`TrayChip`)
+  - `components/search/SearchResults.tsx`: **interim rows** (title · artist, bpm, bars) that T3.2 replaces with `ResultList`/`ResultCard`. Status text, retry and dimming are already there; move them over.
+- **Known bugs / gotchas:**
+  - The Chrome MCP `left_click_drag` sends a single pointermove, which only *activates* the dnd-kit drag, so nothing drops. To test drags, dispatch a stepped PointerEvent sequence with JS. Real mouse drags aren't affected.
+  - Tray chips don't set `touch-action: none` (so the tray still scrolls on touch), which means touch dragging from the tray is unreliable. Click-to-add works on touch.
+  - First load shows plain "Searching…" text, not skeletons (T3.2). `?fixture=empty` shows "0 results" with no empty-state UI yet (T3.2).
+  - Carried over: an "Open in editor" click within 300 ms of an edit can hand off the previous URL (T3.4).
+- **Blocked:** nothing. PR #3 (Gate H4) still needs review/merge. Next is T3.1 (PreviewProvider).
