@@ -8,6 +8,15 @@ coverage audit, cached tag calibration and mapping freeze. Tooling is implemente
 remain open for unfinished hero/listening acceptance. No common/worker runtime, API/schema, dependency,
 ID, storage layout, model default or `.env` change. The existing schema edit is untouched and excluded.
 
+Implementation/evidence commit: **ff2ae8b** (`feat(ws1): add corpus audits and cached tag calibration evidence`).
+Post-commit read-only checkpoint **18:39:00 EST**: original hero PIDs **32252/30820 remain alive**;
+latest completed log checkpoint at **18:35:19** is **24/80 completed, 11 rejected**, next `jam_1275400`
+has finished separation and is still deriving/publishing at the observed tail. New late rejection
+**jam_1207327** is also at `heroes.py:164:features`; neither it nor `jam_1342553` has individual stem RMS
+measured in this session. Preserve their raw caches and investigate both next session. Full independent
+DB/object acceptance snapshot remains the explicitly timed 18:31:41 report below. Only the pre-existing
+schema edit remained outside the committed Session-5 files. No process was restarted or stopped.
+
 ### Verified results and partial acceptance
 
 - `ingest/report.py` reports every source/license/tag count, top examples, ten reproducibly random
