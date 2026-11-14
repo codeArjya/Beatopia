@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "zustand";
 import { api, USE_FIXTURES } from "@/lib/api/client";
-import type { Op } from "@/lib/types/api";
+import type { Op, TrackDetail } from "@/lib/types/api";
 import { loadSource } from "@/lib/audio/decode";
 import { parseEntry, resolveEntry } from "@/lib/audio/entry";
 import { sourceKey } from "@/lib/audio/evaluate";
@@ -21,7 +21,7 @@ import { Waveform } from "./waveform";
 import { ArrangementLane } from "./arrangement-lane";
 import { HistoryPanel } from "./history-panel";
 
-export function EditorClient() {
+export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDetail } = {}) {
   const params = useSearchParams();
   const parsed = useMemo(() => {
     try { return { entry: parseEntry(params), error: null }; }
@@ -36,8 +36,11 @@ export function EditorClient() {
   const [loop, setLoop] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [selectedOccurrence, setSelectedOccurrence] = useState(0);
-  const track = useQuery({ queryKey: ["track", parsed.entry?.trackId],
-    queryFn: () => api.getTrack(parsed.entry!.trackId), enabled: !!parsed.entry,
+  // Development-only metadata injection keeps real storage/UI checks independent of WS2.
+  // Use an isolated cache key so a snapshot never seeds the product's track cache.
+  const acceptance = process.env.NODE_ENV === "development" && acceptanceDetail?.track.id === parsed.entry?.trackId ? acceptanceDetail : undefined;
+  const track = useQuery({ queryKey: ["track", parsed.entry?.trackId, ...(acceptance ? ["acceptance-snapshot", acceptance.audio_url, acceptance.track.bpm, acceptance.beat_times.length] : [])],
+    queryFn: () => acceptance ? Promise.resolve(acceptance) : api.getTrack(parsed.entry!.trackId), enabled: !!parsed.entry,
     staleTime: Infinity, refetchOnWindowFocus: false, refetchOnReconnect: false });
 
   useEffect(() => {
@@ -162,7 +165,7 @@ export function EditorClient() {
     <header className="space-y-1">
       <h2 className="text-xl font-medium">{metadata.title}</h2>
       <p>{metadata.artist ?? "Unknown artist"} · {metadata.bpm ?? "Unknown"} BPM · {metadata.key ?? "Unknown key"}</p>
-      <p className="text-muted-foreground text-sm">{parsed.entry!.start}–{parsed.entry!.end} s · {parsed.entry!.stem} · {USE_FIXTURES ? "Fixture library" : "Live library"}</p>
+      <p className="text-muted-foreground text-sm">{parsed.entry!.start}–{parsed.entry!.end} s · {parsed.entry!.stem} · {acceptance ? "Development metadata snapshot / live public audio" : USE_FIXTURES ? "Fixture library" : "Live library"}</p>
       <p className="text-sm">{metadata.license} · {metadata.attribution}</p>
     </header>
     {load.status === "loading" && <p role="status">Loading and decoding audio…</p>}
