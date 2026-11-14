@@ -1,0 +1,38 @@
+[project]
+name = "beatopia-ingest"
+version = "0.1.0"
+description = "Library ingest (Freesound/Jamendo/FMA) and hero stem batch. Owned by WS1."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "common",
+    "demucs",
+    "httpx",
+    "pyyaml",
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+# The package directory IS this folder (ingest/*.py), so `python -m ingest.<module>` works from the repo root.
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["ingest"]
+package-dir = { "ingest" = "." }
+
+[tool.uv.sources]
+common = { path = "../common", editable = true }
+torch = [{ index = "pytorch-cpu", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff]
+extend = "../ruff.toml"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

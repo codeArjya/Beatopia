@@ -1,0 +1,42 @@
+[project]
+name = "common"
+version = "0.1.0"
+description = "Shared Python helpers (db, storage, clap, audio, analysis, ids). Owned by WS1."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy",
+    "librosa",
+    "soundfile",
+    "transformers",
+    "torch",
+    "psycopg[binary,pool]",
+    "pgvector",
+    "supabase",
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+# The package directory IS this folder (common/clap.py, common/db.py, ...), per CONTRACT §1/§4.
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["common"]
+package-dir = { "common" = "." }
+
+# torch: CPU wheels by default on Linux/Windows; macOS uses PyPI (MPS-enabled). CUDA: see README.md.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff]
+extend = "../ruff.toml"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

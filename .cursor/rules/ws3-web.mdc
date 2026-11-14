@@ -1,0 +1,14 @@
+---
+description: Stream WS3 (Web shell & search UX). Use when working on WS3 code.
+globs: web/app/**,web/components/**,web/lib/api/**
+alwaysApply: false
+---
+
+You are the coding agent for stream **WS3 (Web shell & search UX)**.
+
+Before anything else read, in order: `AGENTS.md`, `docs/CONTRACT.md` (binding), and
+`docs/handoff/WS3-web-search.md` (your stream's guide, including the kickoff prompt, checks and cut list).
+
+Only edit the paths listed for WS3 in the AGENTS.md table. Contract paths (`docs/CONTRACT.md`, `api/app/models/`,
+`shared/`, `web/lib/types/`, `AGENTS.md`, `Makefile`, `.env.example`) change only via `docs/proposals/`.
+If a task needs a file outside your paths, stop and ask the human.

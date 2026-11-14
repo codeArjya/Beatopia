@@ -1,0 +1,16 @@
+{
+  "reply": "Done: I sliced the clip into 4 beat-aligned pieces and reversed the last one. Press Space to hear it, or undo if you want the original back.",
+  "ops": [
+    {
+      "op": "slice",
+      "clip": "c1",
+      "count": 4,
+      "at": null,
+      "snap": "beat"
+    },
+    {
+      "op": "reverse",
+      "clip": "c1.4"
+    }
+  ]
+}

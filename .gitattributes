@@ -1,0 +1,5 @@
+# Mixed macOS/Windows team: LF in the repo and working tree for text; WAVs are binary.
+* text=auto eol=lf
+*.wav binary
+*.mp3 binary
+*.ico binary

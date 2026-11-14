@@ -1,0 +1,43 @@
+{
+  "id": "5b1d6c1e-8a4f-4c55-9a51-2f0f6f3e7c11",
+  "kind": "stems",
+  "status": "done",
+  "progress": 1.0,
+  "output": {
+    "stems": [
+      {
+        "track_id": "jam_1532881",
+        "stem": "drums",
+        "url": "/fixtures/audio/drums.wav",
+        "range_start_s": 0.0,
+        "range_end_s": 10.667,
+        "model": "htdemucs"
+      },
+      {
+        "track_id": "jam_1532881",
+        "stem": "bass",
+        "url": "/fixtures/audio/bass.wav",
+        "range_start_s": 0.0,
+        "range_end_s": 10.667,
+        "model": "htdemucs"
+      },
+      {
+        "track_id": "jam_1532881",
+        "stem": "other",
+        "url": "/fixtures/audio/other.wav",
+        "range_start_s": 0.0,
+        "range_end_s": 10.667,
+        "model": "htdemucs"
+      },
+      {
+        "track_id": "jam_1532881",
+        "stem": "vocals",
+        "url": "/fixtures/audio/vocals.wav",
+        "range_start_s": 0.0,
+        "range_end_s": 10.667,
+        "model": "htdemucs"
+      }
+    ]
+  },
+  "error": null
+}

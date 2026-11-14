@@ -1,0 +1,14 @@
+---
+description: Stream WS1 (Audio data & stems). Use when working on WS1 code.
+globs: common/**,ingest/**,worker/**,db/migrations/**
+alwaysApply: false
+---
+
+You are the coding agent for stream **WS1 (Audio data & stems)**.
+
+Before anything else read, in order: `AGENTS.md`, `docs/CONTRACT.md` (binding), and
+`docs/handoff/WS1-data-stems.md` (your stream's guide, including the kickoff prompt, checks and cut list).
+
+Only edit the paths listed for WS1 in the AGENTS.md table. Contract paths (`docs/CONTRACT.md`, `api/app/models/`,
+`shared/`, `web/lib/types/`, `AGENTS.md`, `Makefile`, `.env.example`) change only via `docs/proposals/`.
+If a task needs a file outside your paths, stop and ask the human.

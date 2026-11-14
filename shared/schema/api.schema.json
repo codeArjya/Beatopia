@@ -1,0 +1,1746 @@
+{
+  "$defs": {
+    "ApiError": {
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ApiError",
+      "type": "object"
+    },
+    "Arrange": {
+      "properties": {
+        "op": {
+          "const": "arrange",
+          "title": "Op",
+          "type": "string"
+        },
+        "order": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Order",
+          "type": "array"
+        }
+      },
+      "required": [
+        "op",
+        "order"
+      ],
+      "title": "Arrange",
+      "type": "object"
+    },
+    "AssistRequest": {
+      "properties": {
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/ChatMessage"
+          },
+          "title": "Messages",
+          "type": "array"
+        },
+        "editor": {
+          "$ref": "#/$defs/EditorState"
+        }
+      },
+      "required": [
+        "messages",
+        "editor"
+      ],
+      "title": "AssistRequest",
+      "type": "object"
+    },
+    "AssistResponse": {
+      "properties": {
+        "reply": {
+          "title": "Reply",
+          "type": "string"
+        },
+        "ops": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "arrange": "#/$defs/Arrange",
+                "fade_in": "#/$defs/FadeIn",
+                "fade_out": "#/$defs/FadeOut",
+                "filter": "#/$defs/Filter",
+                "gain": "#/$defs/Gain",
+                "loop": "#/$defs/Loop",
+                "normalize": "#/$defs/Normalize",
+                "pitch_shift": "#/$defs/PitchShift",
+                "repitch": "#/$defs/Repitch",
+                "reverse": "#/$defs/Reverse",
+                "slice": "#/$defs/Slice",
+                "stretch_to_bpm": "#/$defs/StretchToBpm",
+                "trim": "#/$defs/Trim"
+              },
+              "propertyName": "op"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/Trim"
+              },
+              {
+                "$ref": "#/$defs/Slice"
+              },
+              {
+                "$ref": "#/$defs/Reverse"
+              },
+              {
+                "$ref": "#/$defs/Repitch"
+              },
+              {
+                "$ref": "#/$defs/PitchShift"
+              },
+              {
+                "$ref": "#/$defs/StretchToBpm"
+              },
+              {
+                "$ref": "#/$defs/Gain"
+              },
+              {
+                "$ref": "#/$defs/FadeIn"
+              },
+              {
+                "$ref": "#/$defs/FadeOut"
+              },
+              {
+                "$ref": "#/$defs/Normalize"
+              },
+              {
+                "$ref": "#/$defs/Loop"
+              },
+              {
+                "$ref": "#/$defs/Filter"
+              },
+              {
+                "$ref": "#/$defs/Arrange"
+              }
+            ]
+          },
+          "title": "Ops",
+          "type": "array"
+        }
+      },
+      "required": [
+        "reply",
+        "ops"
+      ],
+      "title": "AssistResponse",
+      "type": "object"
+    },
+    "ChatMessage": {
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "content": {
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "ChatMessage",
+      "type": "object"
+    },
+    "Chip": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "instrument",
+            "genre",
+            "mood",
+            "tempo",
+            "key"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "filter": {
+          "$ref": "#/$defs/ChipFilter"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "category",
+        "filter"
+      ],
+      "title": "Chip",
+      "type": "object"
+    },
+    "ChipCategory": {
+      "properties": {
+        "id": {
+          "enum": [
+            "instrument",
+            "genre",
+            "mood",
+            "tempo",
+            "key"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "color": {
+          "title": "Color",
+          "type": "string"
+        },
+        "chips": {
+          "items": {
+            "$ref": "#/$defs/Chip"
+          },
+          "title": "Chips",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "color",
+        "chips"
+      ],
+      "title": "ChipCategory",
+      "type": "object"
+    },
+    "ChipFilter": {
+      "properties": {
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "bpm_range": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bpm Range"
+        },
+        "key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Key"
+        }
+      },
+      "title": "ChipFilter",
+      "type": "object"
+    },
+    "ChipsResponse": {
+      "properties": {
+        "categories": {
+          "items": {
+            "$ref": "#/$defs/ChipCategory"
+          },
+          "title": "Categories",
+          "type": "array"
+        }
+      },
+      "required": [
+        "categories"
+      ],
+      "title": "ChipsResponse",
+      "type": "object"
+    },
+    "Clip": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/ClipSource"
+        }
+      },
+      "required": [
+        "id",
+        "source"
+      ],
+      "title": "Clip",
+      "type": "object"
+    },
+    "ClipSource": {
+      "properties": {
+        "track_id": {
+          "title": "Track Id",
+          "type": "string"
+        },
+        "stem": {
+          "default": "mix",
+          "enum": [
+            "mix",
+            "vocals",
+            "drums",
+            "bass",
+            "other",
+            "guitar",
+            "piano"
+          ],
+          "title": "Stem",
+          "type": "string"
+        },
+        "audio_url": {
+          "title": "Audio Url",
+          "type": "string"
+        },
+        "start_s": {
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "title": "End S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "track_id",
+        "audio_url",
+        "start_s",
+        "end_s"
+      ],
+      "title": "ClipSource",
+      "type": "object"
+    },
+    "EditorState": {
+      "properties": {
+        "bpm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bpm"
+        },
+        "clips": {
+          "items": {
+            "$ref": "#/$defs/Clip"
+          },
+          "title": "Clips",
+          "type": "array"
+        },
+        "ops": {
+          "items": {
+            "discriminator": {
+              "mapping": {
+                "arrange": "#/$defs/Arrange",
+                "fade_in": "#/$defs/FadeIn",
+                "fade_out": "#/$defs/FadeOut",
+                "filter": "#/$defs/Filter",
+                "gain": "#/$defs/Gain",
+                "loop": "#/$defs/Loop",
+                "normalize": "#/$defs/Normalize",
+                "pitch_shift": "#/$defs/PitchShift",
+                "repitch": "#/$defs/Repitch",
+                "reverse": "#/$defs/Reverse",
+                "slice": "#/$defs/Slice",
+                "stretch_to_bpm": "#/$defs/StretchToBpm",
+                "trim": "#/$defs/Trim"
+              },
+              "propertyName": "op"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/$defs/Trim"
+              },
+              {
+                "$ref": "#/$defs/Slice"
+              },
+              {
+                "$ref": "#/$defs/Reverse"
+              },
+              {
+                "$ref": "#/$defs/Repitch"
+              },
+              {
+                "$ref": "#/$defs/PitchShift"
+              },
+              {
+                "$ref": "#/$defs/StretchToBpm"
+              },
+              {
+                "$ref": "#/$defs/Gain"
+              },
+              {
+                "$ref": "#/$defs/FadeIn"
+              },
+              {
+                "$ref": "#/$defs/FadeOut"
+              },
+              {
+                "$ref": "#/$defs/Normalize"
+              },
+              {
+                "$ref": "#/$defs/Loop"
+              },
+              {
+                "$ref": "#/$defs/Filter"
+              },
+              {
+                "$ref": "#/$defs/Arrange"
+              }
+            ]
+          },
+          "title": "Ops",
+          "type": "array"
+        },
+        "arrangement": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Arrangement",
+          "type": "array"
+        }
+      },
+      "required": [
+        "clips",
+        "ops"
+      ],
+      "title": "EditorState",
+      "type": "object"
+    },
+    "EventRequest": {
+      "properties": {
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "query_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query Id"
+        },
+        "window_id": {
+          "title": "Window Id",
+          "type": "string"
+        },
+        "action": {
+          "enum": [
+            "play",
+            "pick",
+            "export",
+            "skip"
+          ],
+          "title": "Action",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "window_id",
+        "action"
+      ],
+      "title": "EventRequest",
+      "type": "object"
+    },
+    "FadeIn": {
+      "properties": {
+        "op": {
+          "const": "fade_in",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "ms": {
+          "maximum": 10000,
+          "minimum": 0,
+          "title": "Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "ms"
+      ],
+      "title": "FadeIn",
+      "type": "object"
+    },
+    "FadeOut": {
+      "properties": {
+        "op": {
+          "const": "fade_out",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "ms": {
+          "maximum": 10000,
+          "minimum": 0,
+          "title": "Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "ms"
+      ],
+      "title": "FadeOut",
+      "type": "object"
+    },
+    "Filter": {
+      "properties": {
+        "op": {
+          "const": "filter",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "highpass",
+            "lowpass"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "freq_hz": {
+          "maximum": 20000,
+          "minimum": 20,
+          "title": "Freq Hz",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "type",
+        "freq_hz"
+      ],
+      "title": "Filter",
+      "type": "object"
+    },
+    "Gain": {
+      "properties": {
+        "op": {
+          "const": "gain",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "db": {
+          "maximum": 12,
+          "minimum": -36,
+          "title": "Db",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "db"
+      ],
+      "title": "Gain",
+      "type": "object"
+    },
+    "ImportResponse": {
+      "properties": {
+        "track_id": {
+          "title": "Track Id",
+          "type": "string"
+        },
+        "job_id": {
+          "title": "Job Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "track_id",
+        "job_id"
+      ],
+      "title": "ImportResponse",
+      "type": "object"
+    },
+    "Job": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "stems",
+            "analyze"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "done",
+            "error"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "progress": {
+          "title": "Progress",
+          "type": "number"
+        },
+        "output": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "status",
+        "progress"
+      ],
+      "title": "Job",
+      "type": "object"
+    },
+    "Loop": {
+      "properties": {
+        "op": {
+          "const": "loop",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "times": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Times",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "times"
+      ],
+      "title": "Loop",
+      "type": "object"
+    },
+    "Normalize": {
+      "properties": {
+        "op": {
+          "const": "normalize",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "peak_db": {
+          "default": -1.0,
+          "title": "Peak Db",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip"
+      ],
+      "title": "Normalize",
+      "type": "object"
+    },
+    "PitchShift": {
+      "properties": {
+        "op": {
+          "const": "pitch_shift",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "semitones": {
+          "maximum": 24,
+          "minimum": -24,
+          "title": "Semitones",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "semitones"
+      ],
+      "title": "PitchShift",
+      "type": "object"
+    },
+    "Repitch": {
+      "properties": {
+        "op": {
+          "const": "repitch",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "semitones": {
+          "maximum": 24,
+          "minimum": -24,
+          "title": "Semitones",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "semitones"
+      ],
+      "title": "Repitch",
+      "type": "object"
+    },
+    "Result": {
+      "properties": {
+        "window_id": {
+          "title": "Window Id",
+          "type": "string"
+        },
+        "track": {
+          "$ref": "#/$defs/TrackLite"
+        },
+        "stem": {
+          "enum": [
+            "mix",
+            "vocals",
+            "drums",
+            "bass",
+            "other",
+            "guitar",
+            "piano"
+          ],
+          "title": "Stem",
+          "type": "string"
+        },
+        "audio_url": {
+          "title": "Audio Url",
+          "type": "string"
+        },
+        "start_s": {
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "title": "End S",
+          "type": "number"
+        },
+        "bars": {
+          "enum": [
+            1,
+            2,
+            4,
+            8,
+            16
+          ],
+          "title": "Bars",
+          "type": "integer"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "score": {
+          "title": "Score",
+          "type": "number"
+        },
+        "why": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Why"
+        }
+      },
+      "required": [
+        "window_id",
+        "track",
+        "stem",
+        "audio_url",
+        "start_s",
+        "end_s",
+        "bars",
+        "tags",
+        "score"
+      ],
+      "title": "Result",
+      "type": "object"
+    },
+    "Reverse": {
+      "properties": {
+        "op": {
+          "const": "reverse",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "clip"
+      ],
+      "title": "Reverse",
+      "type": "object"
+    },
+    "SearchPlan": {
+      "properties": {
+        "clap_text": {
+          "title": "Clap Text",
+          "type": "string"
+        },
+        "must_tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Must Tags",
+          "type": "array"
+        },
+        "exclude_tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Exclude Tags",
+          "type": "array"
+        },
+        "bpm_range": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bpm Range"
+        },
+        "key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Key"
+        },
+        "stems_wanted": {
+          "default": [],
+          "items": {
+            "enum": [
+              "mix",
+              "vocals",
+              "drums",
+              "bass",
+              "other",
+              "guitar",
+              "piano"
+            ],
+            "type": "string"
+          },
+          "title": "Stems Wanted",
+          "type": "array"
+        },
+        "prefer_sparse": {
+          "default": false,
+          "title": "Prefer Sparse",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "clap_text"
+      ],
+      "title": "SearchPlan",
+      "type": "object"
+    },
+    "SearchRequest": {
+      "properties": {
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Text"
+        },
+        "chips": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Chips",
+          "type": "array"
+        },
+        "limit": {
+          "default": 8,
+          "maximum": 24,
+          "minimum": 1,
+          "title": "Limit",
+          "type": "integer"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id"
+      ],
+      "title": "SearchRequest",
+      "type": "object"
+    },
+    "SearchResponse": {
+      "properties": {
+        "query_id": {
+          "title": "Query Id",
+          "type": "string"
+        },
+        "plan": {
+          "$ref": "#/$defs/SearchPlan"
+        },
+        "results": {
+          "items": {
+            "$ref": "#/$defs/Result"
+          },
+          "title": "Results",
+          "type": "array"
+        },
+        "fallback_used": {
+          "default": false,
+          "title": "Fallback Used",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "query_id",
+        "plan",
+        "results"
+      ],
+      "title": "SearchResponse",
+      "type": "object"
+    },
+    "Slice": {
+      "properties": {
+        "op": {
+          "const": "slice",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "count": {
+          "anyOf": [
+            {
+              "maximum": 32,
+              "minimum": 2,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Count"
+        },
+        "at": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "At"
+        },
+        "snap": {
+          "default": "beat",
+          "enum": [
+            "beat",
+            "transient",
+            "none"
+          ],
+          "title": "Snap",
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "clip"
+      ],
+      "title": "Slice",
+      "type": "object"
+    },
+    "Stem": {
+      "properties": {
+        "track_id": {
+          "title": "Track Id",
+          "type": "string"
+        },
+        "stem": {
+          "enum": [
+            "mix",
+            "vocals",
+            "drums",
+            "bass",
+            "other",
+            "guitar",
+            "piano"
+          ],
+          "title": "Stem",
+          "type": "string"
+        },
+        "url": {
+          "title": "Url",
+          "type": "string"
+        },
+        "range_start_s": {
+          "title": "Range Start S",
+          "type": "number"
+        },
+        "range_end_s": {
+          "title": "Range End S",
+          "type": "number"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        }
+      },
+      "required": [
+        "track_id",
+        "stem",
+        "url",
+        "range_start_s",
+        "range_end_s",
+        "model"
+      ],
+      "title": "Stem",
+      "type": "object"
+    },
+    "StemsRequest": {
+      "properties": {
+        "start_s": {
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "title": "End S",
+          "type": "number"
+        },
+        "model": {
+          "default": "htdemucs",
+          "enum": [
+            "htdemucs",
+            "htdemucs_6s"
+          ],
+          "title": "Model",
+          "type": "string"
+        }
+      },
+      "required": [
+        "start_s",
+        "end_s"
+      ],
+      "title": "StemsRequest",
+      "type": "object"
+    },
+    "StemsResponse": {
+      "properties": {
+        "job_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Job Id"
+        },
+        "stems": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/Stem"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stems"
+        }
+      },
+      "title": "StemsResponse",
+      "type": "object"
+    },
+    "StretchToBpm": {
+      "properties": {
+        "op": {
+          "const": "stretch_to_bpm",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "target_bpm": {
+          "maximum": 240,
+          "minimum": 40,
+          "title": "Target Bpm",
+          "type": "number"
+        },
+        "keep_pitch": {
+          "default": false,
+          "title": "Keep Pitch",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "target_bpm"
+      ],
+      "title": "StretchToBpm",
+      "type": "object"
+    },
+    "TrackDetail": {
+      "properties": {
+        "track": {
+          "$ref": "#/$defs/TrackLite"
+        },
+        "audio_url": {
+          "title": "Audio Url",
+          "type": "string"
+        },
+        "beat_times": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Beat Times",
+          "type": "array"
+        },
+        "windows": {
+          "items": {
+            "$ref": "#/$defs/Window"
+          },
+          "title": "Windows",
+          "type": "array"
+        },
+        "stems": {
+          "items": {
+            "$ref": "#/$defs/Stem"
+          },
+          "title": "Stems",
+          "type": "array"
+        }
+      },
+      "required": [
+        "track",
+        "audio_url",
+        "beat_times",
+        "windows",
+        "stems"
+      ],
+      "title": "TrackDetail",
+      "type": "object"
+    },
+    "TrackLite": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "artist": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artist"
+        },
+        "source": {
+          "enum": [
+            "freesound",
+            "jamendo",
+            "fma",
+            "ccmixter",
+            "archive",
+            "import"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "license": {
+          "title": "License",
+          "type": "string"
+        },
+        "attribution": {
+          "title": "Attribution",
+          "type": "string"
+        },
+        "duration_s": {
+          "title": "Duration S",
+          "type": "number"
+        },
+        "bpm": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bpm"
+        },
+        "key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Key"
+        },
+        "is_hero": {
+          "default": false,
+          "title": "Is Hero",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "source",
+        "license",
+        "attribution",
+        "duration_s"
+      ],
+      "title": "TrackLite",
+      "type": "object"
+    },
+    "Trim": {
+      "properties": {
+        "op": {
+          "const": "trim",
+          "title": "Op",
+          "type": "string"
+        },
+        "clip": {
+          "title": "Clip",
+          "type": "string"
+        },
+        "start_s": {
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "title": "End S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "op",
+        "clip",
+        "start_s",
+        "end_s"
+      ],
+      "title": "Trim",
+      "type": "object"
+    },
+    "WhyRequest": {
+      "properties": {
+        "window_id": {
+          "title": "Window Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "window_id"
+      ],
+      "title": "WhyRequest",
+      "type": "object"
+    },
+    "WhyResponse": {
+      "properties": {
+        "window_id": {
+          "title": "Window Id",
+          "type": "string"
+        },
+        "note": {
+          "title": "Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "window_id",
+        "note"
+      ],
+      "title": "WhyResponse",
+      "type": "object"
+    },
+    "Window": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "track_id": {
+          "title": "Track Id",
+          "type": "string"
+        },
+        "stem": {
+          "enum": [
+            "mix",
+            "vocals",
+            "drums",
+            "bass",
+            "other",
+            "guitar",
+            "piano"
+          ],
+          "title": "Stem",
+          "type": "string"
+        },
+        "start_s": {
+          "title": "Start S",
+          "type": "number"
+        },
+        "end_s": {
+          "title": "End S",
+          "type": "number"
+        },
+        "tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "loopability": {
+          "title": "Loopability",
+          "type": "number"
+        },
+        "rms": {
+          "title": "Rms",
+          "type": "number"
+        },
+        "density": {
+          "title": "Density",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "track_id",
+        "stem",
+        "start_s",
+        "end_s",
+        "tags",
+        "loopability",
+        "rms",
+        "density"
+      ],
+      "title": "Window",
+      "type": "object"
+    },
+    "Op": {
+      "discriminator": {
+        "mapping": {
+          "arrange": "#/$defs/Arrange",
+          "fade_in": "#/$defs/FadeIn",
+          "fade_out": "#/$defs/FadeOut",
+          "filter": "#/$defs/Filter",
+          "gain": "#/$defs/Gain",
+          "loop": "#/$defs/Loop",
+          "normalize": "#/$defs/Normalize",
+          "pitch_shift": "#/$defs/PitchShift",
+          "repitch": "#/$defs/Repitch",
+          "reverse": "#/$defs/Reverse",
+          "slice": "#/$defs/Slice",
+          "stretch_to_bpm": "#/$defs/StretchToBpm",
+          "trim": "#/$defs/Trim"
+        },
+        "propertyName": "op"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Trim"
+        },
+        {
+          "$ref": "#/$defs/Slice"
+        },
+        {
+          "$ref": "#/$defs/Reverse"
+        },
+        {
+          "$ref": "#/$defs/Repitch"
+        },
+        {
+          "$ref": "#/$defs/PitchShift"
+        },
+        {
+          "$ref": "#/$defs/StretchToBpm"
+        },
+        {
+          "$ref": "#/$defs/Gain"
+        },
+        {
+          "$ref": "#/$defs/FadeIn"
+        },
+        {
+          "$ref": "#/$defs/FadeOut"
+        },
+        {
+          "$ref": "#/$defs/Normalize"
+        },
+        {
+          "$ref": "#/$defs/Loop"
+        },
+        {
+          "$ref": "#/$defs/Filter"
+        },
+        {
+          "$ref": "#/$defs/Arrange"
+        }
+      ],
+      "title": "Op"
+    }
+  },
+  "properties": {
+    "ApiError": {
+      "$ref": "#/$defs/ApiError"
+    },
+    "ChipFilter": {
+      "$ref": "#/$defs/ChipFilter"
+    },
+    "Chip": {
+      "$ref": "#/$defs/Chip"
+    },
+    "ChipCategory": {
+      "$ref": "#/$defs/ChipCategory"
+    },
+    "ChipsResponse": {
+      "$ref": "#/$defs/ChipsResponse"
+    },
+    "SearchPlan": {
+      "$ref": "#/$defs/SearchPlan"
+    },
+    "SearchRequest": {
+      "$ref": "#/$defs/SearchRequest"
+    },
+    "TrackLite": {
+      "$ref": "#/$defs/TrackLite"
+    },
+    "Result": {
+      "$ref": "#/$defs/Result"
+    },
+    "SearchResponse": {
+      "$ref": "#/$defs/SearchResponse"
+    },
+    "Window": {
+      "$ref": "#/$defs/Window"
+    },
+    "Stem": {
+      "$ref": "#/$defs/Stem"
+    },
+    "TrackDetail": {
+      "$ref": "#/$defs/TrackDetail"
+    },
+    "StemsRequest": {
+      "$ref": "#/$defs/StemsRequest"
+    },
+    "StemsResponse": {
+      "$ref": "#/$defs/StemsResponse"
+    },
+    "Job": {
+      "$ref": "#/$defs/Job"
+    },
+    "ImportResponse": {
+      "$ref": "#/$defs/ImportResponse"
+    },
+    "WhyRequest": {
+      "$ref": "#/$defs/WhyRequest"
+    },
+    "WhyResponse": {
+      "$ref": "#/$defs/WhyResponse"
+    },
+    "EventRequest": {
+      "$ref": "#/$defs/EventRequest"
+    },
+    "ClipSource": {
+      "$ref": "#/$defs/ClipSource"
+    },
+    "Clip": {
+      "$ref": "#/$defs/Clip"
+    },
+    "Trim": {
+      "$ref": "#/$defs/Trim"
+    },
+    "Slice": {
+      "$ref": "#/$defs/Slice"
+    },
+    "Reverse": {
+      "$ref": "#/$defs/Reverse"
+    },
+    "Repitch": {
+      "$ref": "#/$defs/Repitch"
+    },
+    "PitchShift": {
+      "$ref": "#/$defs/PitchShift"
+    },
+    "StretchToBpm": {
+      "$ref": "#/$defs/StretchToBpm"
+    },
+    "Gain": {
+      "$ref": "#/$defs/Gain"
+    },
+    "FadeIn": {
+      "$ref": "#/$defs/FadeIn"
+    },
+    "FadeOut": {
+      "$ref": "#/$defs/FadeOut"
+    },
+    "Normalize": {
+      "$ref": "#/$defs/Normalize"
+    },
+    "Loop": {
+      "$ref": "#/$defs/Loop"
+    },
+    "Filter": {
+      "$ref": "#/$defs/Filter"
+    },
+    "Arrange": {
+      "$ref": "#/$defs/Arrange"
+    },
+    "EditorState": {
+      "$ref": "#/$defs/EditorState"
+    },
+    "ChatMessage": {
+      "$ref": "#/$defs/ChatMessage"
+    },
+    "AssistRequest": {
+      "$ref": "#/$defs/AssistRequest"
+    },
+    "AssistResponse": {
+      "$ref": "#/$defs/AssistResponse"
+    },
+    "Op": {
+      "$ref": "#/$defs/Op"
+    }
+  },
+  "required": [
+    "ApiError",
+    "ChipFilter",
+    "Chip",
+    "ChipCategory",
+    "ChipsResponse",
+    "SearchPlan",
+    "SearchRequest",
+    "TrackLite",
+    "Result",
+    "SearchResponse",
+    "Window",
+    "Stem",
+    "TrackDetail",
+    "StemsRequest",
+    "StemsResponse",
+    "Job",
+    "ImportResponse",
+    "WhyRequest",
+    "WhyResponse",
+    "EventRequest",
+    "ClipSource",
+    "Clip",
+    "Trim",
+    "Slice",
+    "Reverse",
+    "Repitch",
+    "PitchShift",
+    "StretchToBpm",
+    "Gain",
+    "FadeIn",
+    "FadeOut",
+    "Normalize",
+    "Loop",
+    "Filter",
+    "Arrange",
+    "EditorState",
+    "ChatMessage",
+    "AssistRequest",
+    "AssistResponse",
+    "Op"
+  ],
+  "title": "ApiSchema",
+  "type": "object",
+  "description": "Beatopia API contract (CONTRACT \u00a75). Generated; do not edit."
+}
