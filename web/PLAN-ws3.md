@@ -96,7 +96,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* unit test for peaks (known sine, correct bucket count, values in [0,1]). On the page, 8 waveforms with `mix.wav` decoded once (network tab). A decode failure shows the placeholder.
 - [x] **T3.4 Editor hand-off + keyboard** (0.5 h). `lib/links.ts` `editorHref({track,start,end,stem})`, the "Open in editor" button, and Space/Enter on a focused card.
   *Accept:* unit test for `editorHref`. Clicking opens WS4's route with the right params, and Back restores the search.
-- [ ] **Gate H8:** walk through stack chips → hear a window → open in editor on fixtures, then open a PR `feat(ws3): search flow`.
+- [x] **Gate H8:** walk through stack chips → hear a window → open in editor on fixtures, then open a PR `feat(ws3): search flow` (PR #4, stacked on #3).
 
 ### Why notes, H8 → H9
 - [ ] **T4.1 WhyNote** (1 h). `useWhy(windowId, { initialData: result.why, enabled })`. Collapsed to 2 lines and expandable. When `why` is null, the fetch happens on first expand **or** first play (no fetch-on-scroll, to save Gemini calls). Loading shimmer, inline retry on error.
@@ -294,3 +294,34 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - Time to sound was measured on local fixture WAVs only. Check real MP3 latency in T6.1.
   - Carried over: an "Open in editor" click within 300 ms of an edit can hand off the previous URL (T3.4).
 - **Blocked:** nothing. PR #3 (Gate H4) still needs review/merge. Next is T3.3 (MiniWaveform).
+
+### Session 5 (2026-11-14): T3.3 + T3.4 + Gate H8
+- **Done:** T3.3 MiniWaveform, T3.4 editor hand-off + keyboard, and Gate H8 (PR #4 `feat(ws3): search flow`, https://github.com/codeArjya/Beatopia/pull/4). `origin/main` had nothing new (still cb05f68), so the rebase was a no-op. `make schema` + `make check-fixtures` passed (13 fixtures, 0 problems). lint/typecheck are clean, tests pass 72/72 (11 new in `lib/waveform/{peaks,limit}.test.ts`, 3 in `lib/links.test.ts`), and `pnpm build` passes. I walked through the gate in Chrome on fixtures (steps are in the PR body): stack Soul (drag) + Rhodes + Melancholy, see 8 waveforms, play with a moving playhead, Space/Enter on a focused card, Open in editor with the correct URL, and Back restores the search. No console errors.
+- **Decisions:**
+  - **PR #4 is stacked.** PR #3 (the shell) is still open from `ws3-web`, and `origin/ws3-web` is at session 1. So I pushed this session's work as `ws3-search-flow` and opened PR #4 with **base `ws3-web`**. That way #3 keeps reviewing only the shell. Merge #3, then retarget #4 to `main`. Local `ws3-web` now tracks `origin/ws3-search-flow`, so push with `git push origin ws3-web:ws3-search-flow` until #3 merges.
+  - **Waveform:**
+    - Decoding uses an `OfflineAudioContext(1, 1, 44100)`, so there's no autoplay warning and no gesture is needed.
+    - Decoded buffers are kept in an LRU of **3** (a real track's `AudioBuffer` is around 60 MB). Only the peaks are cached long-term, via TanStack Query (`keys.peaks`, `staleTime: Infinity`, `gcTime` 30 min, `retry: false`).
+    - At most 2 fetch+decode jobs run at once (`createLimiter`). Files over 30 MB (by Content-Length) are skipped.
+    - Peaks are max-abs over all channels, stored raw. `normalizePeaks` scales them when drawing, with a 0.1 floor so near-silence isn't amplified into noise.
+  - **Playhead:** a second canvas drawn in `text-primary` sits under a `clip-path: inset()` that a rAF loop updates from `player.progress(id)`, plus a separate 2 px line. The loop runs only while that card's status is playing/loading.
+  - **Hand-off:**
+    - `editorHref` rounds seconds to milliseconds and trims trailing zeros (`10.667`, `16`, `0`).
+    - The card's "Open in editor" is a Next `<Link>` (`AppButton asChild`) that stops the preview on click. Below `sm` it shows only an icon.
+    - Space/Enter toggle the preview only when the `<article>` itself has focus. Inner buttons and links keep their own keys, and `e.repeat` is ignored.
+  - **Dropped the 300 ms debounce flush.** I tried a `flushUrl()` (replaceState before navigating, even with the push deferred a tick). Next still restores the history entry's own older URL on Back. The page kept by `<Activity>` rewrites the URL about 25 ms later anyway, so I removed the flush instead of keeping code that does nothing.
+- **Files for next session:**
+  - `components/search/ResultCard.tsx`:
+    - T4.1: the why note is still the plain `line-clamp-2` `<p>`.
+    - T5.2: the Stems button goes in the `flex shrink-0` action group next to "Open in editor" and `PlayButton`.
+    - `editorHrefOf(result)` is exported.
+  - `components/search/MiniWaveform.tsx`
+  - `lib/waveform/{peaks,limit,decode,usePeaks}.ts`
+  - `lib/links.ts`: the stems drawer's "Use in editor" (T5.2) should call `editorHref` with the stem name.
+- **Known bugs / gotchas:**
+  - The waveform's failure path (CORS or a bad file gives a flat line) is only checked by reading the code. No fixture has a broken URL. Check it in T6.1 against Supabase and Freesound preview URLs (this is the WS1 CORS need in §2).
+  - Real windows fetch the track's whole audio file for the waveform, in addition to the `<audio>` preview. Check the bandwidth and the time to first waveform on real MP3s in T6.1. If it's too slow, the next step is server-side peaks, which is a contract proposal.
+  - In fixture mode the editor placeholder always shows `track_detail.json` (Late Bloom), whatever `track=` says. That's expected.
+  - If you click Open in editor within 300 ms of typing and the search page has been evicted or reloaded, Back loses that last edit (see Decisions).
+  - Carried over: the error UI and real-MP3 latency are unchecked until T6.1. Touch drag from the tray is unreliable (click works).
+- **Blocked:** nothing. PR #3 (shell) and PR #4 (search flow, stacked) need review. Merge #3 first. Next is T4.1 (why notes).
