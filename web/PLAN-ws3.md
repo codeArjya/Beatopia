@@ -84,7 +84,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* all 5 fixture categories render, clicking adds a pill, Tab reaches every chip, and Enter adds it.
 - [x] **T2.3 SearchBar + drag-and-drop** (2 h). Pills before the text input, Backspace removes the last pill, `DndContext` covers drag from tray to bar, sortable pills, and `DragOverlay`, plus announcements.
   *Accept (manual):* drag Soul, Keys, then Melancholy into the bar, reorder them, and see the URL `chips=` order change. A click still adds a chip without starting a drag. Keyboard drag works (Space, arrows, Space).
-- [ ] **T2.4 Wire search** (0.5 h). `useSearch(req ?? skipToken)` with `keepPreviousData`, and an idle state when the request is null.
+- [x] **T2.4 Wire search** (0.5 h). `useSearch(req ?? skipToken)` with `keepPreviousData`, and an idle state when the request is null.
   *Accept:* each pause after typing causes exactly one request (checked with a console counter). The list doesn't flash while a new search loads.
 
 ### Results, H5 → **Gate H8** (full search flow on fixtures)

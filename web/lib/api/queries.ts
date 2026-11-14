@@ -19,7 +19,11 @@ export const searchQuery = (params: SearchParams | null) =>
   queryOptions({
     queryKey: keys.search(params),
     queryFn: params
-      ? () => api.search({ text: params.text, chips: params.chips, limit: params.limit, session_id: getSessionId() })
+      ? () => {
+          // Dev-only request counter: one line per search actually sent (checks the 300 ms debounce).
+          if (process.env.NODE_ENV === "development") console.debug("[search] request", params);
+          return api.search({ text: params.text, chips: params.chips, limit: params.limit, session_id: getSessionId() });
+        }
       : skipToken,
     placeholderData: keepPreviousData,
     staleTime: 5 * 60_000,
