@@ -78,7 +78,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 - [x] **Gate H4:** open a PR `feat(ws3): app shell + lib/api hooks` and tell the human it's ready for WS4.
 
 ### Chip tray + search bar, H2 → H5
-- [ ] **T2.1 Search state** (1 h). `lib/search/state.ts` is a pure reducer (`add` dedupes, `remove`, `removeLast`, `reorder`, `setText`). `useSearchState` syncs with the URL (Suspense-wrapped) and returns a 300 ms debounced `SearchRequest` (or `null` when empty).
+- [x] **T2.1 Search state** (1 h). `lib/search/state.ts` is a pure reducer (`add` dedupes, `remove`, `removeLast`, `reorder`, `setText`). `useSearchState` syncs with the URL (Suspense-wrapped) and returns a 300 ms debounced `SearchRequest` (or `null` when empty).
   *Accept:* unit tests for the reducer, URL parsing/serializing, and unknown chip ids being dropped. Back/forward restores the search.
 - [ ] **T2.2 ChipTray** (1.5 h). Grouped and collapsible categories, a filter box, click to add. Chips already in the search look selected.
   *Accept:* all 5 fixture categories render, clicking adds a pill, Tab reaches every chip, and Enter adds it.
