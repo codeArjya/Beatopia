@@ -9,6 +9,8 @@ import { usePreviewPlayer, usePreviewStatus, type PreviewItem } from "@/lib/prev
 import { formatWindow, topTags } from "@/lib/search/results";
 import type { Result } from "@/lib/types/api";
 
+import { MiniWaveform } from "./MiniWaveform";
+
 export function previewItemOf(r: Result): PreviewItem {
   return { id: r.window_id, url: r.audio_url, start: r.start_s, end: r.end_s };
 }
@@ -28,8 +30,7 @@ export function ResultCard({ result: r }: { result: Result }) {
 
   return (
     <AppCard tabIndex={0} aria-labelledby={titleId} onPointerEnter={warm} onFocus={warm} className="min-w-0 flex-1 gap-2.5">
-      {/* T3.3: <MiniWaveform> goes here (same height, so nothing shifts). */}
-      <div aria-hidden className="h-12 rounded-md bg-muted/40" />
+      <MiniWaveform item={item} />
 
       <div className="flex min-w-0 items-start gap-3">
         <div className="min-w-0 flex-1">
