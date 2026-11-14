@@ -187,3 +187,20 @@ New files I expect under `web/`: `components/{shell,search,adapters}/…`, `lib/
 ## 6. Open questions
 
 None blocking. The four review questions were resolved as the defaults in §1.
+
+## Session log
+
+### Session 1 (2026-11-14): T1.1–T1.3 + Gate H4
+- **Done:** T1.1 shell, T1.2 `lib/api` hooks, T1.3 adapters, Gate H4 (PR #3 `feat(ws3): app shell + lib/api hooks`, https://github.com/codeArjya/Beatopia/pull/3). The branch was already on top of `origin/main` (cb05f68), so no rebase was needed. lint/typecheck clean, 25/25 tests, and `pnpm build` passes.
+- **Decisions:**
+  - Hook signatures as shipped for WS4: `useTrack(id|null)`, `useStems(trackId, StemsRequest|null)`, `useJob(id|null)`, `useAssist()` (mutation).
+  - `PillDemo` now handles `isError`.
+  - Local dev uses a git-ignored `web/.env.local` with `NEXT_PUBLIC_USE_FIXTURES=1`, because the repo-root `.env` has no `NEXT_PUBLIC_*` keys.
+- **Files for next session:**
+  - `lib/api/{client,keys,queries,hooks,index}.ts`
+  - `lib/session.ts`, `lib/license.ts`
+  - `components/adapters/*` (the `Pill` props `tone`, `color`, `onRemove` and `asChild` matter for the T2.2/T2.3 tray and bar)
+  - `components/search/PillDemo.tsx` (delete it in T2.2)
+  - `app/providers.tsx`, `app/layout.tsx`, `next.config.ts` (it pulls `NEXT_PUBLIC_*` from the root `.env`)
+- **Known bugs / gotchas:** without `NEXT_PUBLIC_USE_FIXTURES=1` and with no API on :8000, chips fail after one retry. Search states will need real error UI in T3.2.
+- **Blocked:** nothing. Waiting on PR #3 review/merge so WS4 can rebase. Next is T2.1 (search state + URL sync).
