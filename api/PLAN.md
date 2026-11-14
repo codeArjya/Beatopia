@@ -178,8 +178,14 @@ against WS1's seed once it is in the DB (the DB was empty this session).
       126-value enums → `400 INVALID_ARGUMENT`), filtered to the vocab server-side; thinking `MINIMAL` (LOW took
       3–11 s; sent as LOW to 3.8 Flash, which rejects MINIMAL); budgets are wall-clock (the API rejects HTTP
       deadlines < 10 s); auto-degrade (3 failures / 60 s → 5 min) landed now instead of T11.2.
-- [ ] **T4.2 Rerank + notes** (1.5 h). `core/rerank.py` (P2), notes cache read/write, skip rules.
+- [x] **T4.2 Rerank + notes** (1.5 h). `core/rerank.py` (P2), notes cache read/write, skip rules.
       *Accept:* mock test: hallucinated ids dropped, missing ids appended; live: top 8 get `why`, rerank_ms logged.
+      *Done:* live (`scripts/rerank_check.py`, `gemini-3.6-flash`): "dusty soul keys" and the trumpet query got 8/8
+      notes, rerank 2.3–3.3 s; the repeat search is `skipped:memo` in 219 ms (no Gemini call). Added an in-process
+      **order memo** (request + chips + limit + top-20 ids → Gemini's order): the score-order top 8 rarely equals
+      the reranked set, so the "top 8 cached" skip alone would re-call Gemini on every repeat. Free-tier key hits
+      `429 quota` after a few calls/minute; those searches fall back to score order + cached notes as designed.
+      **Open for T11.1:** uncached search = 2.8–5.3 s total (rerank output is the slow part), over the 3 s p50.
 - [ ] **T4.3 `/why` with audio** (1.5 h). Excerpt via ffmpeg, P3 / P3b fallback, cache.
       *Accept:* live note ≤ 45 words, 2nd call cached; text-only path covered by a test with audio fetch forced to fail.
       Run the 20 eval queries once and eyeball plans (temperature check from §1).
