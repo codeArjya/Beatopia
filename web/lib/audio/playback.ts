@@ -3,11 +3,11 @@ import { duration } from "./pcm";
 import { SAMPLE_RATE, type PcmBuffer } from "./types";
 import type { Evaluation } from "./evaluate";
 
-export function occurrenceAt(evaluation: Evaluation, position: number): { id: string; offset: number } | null {
+export function occurrenceAt(evaluation: Evaluation, position: number): { id: string; offset: number; index: number } | null {
   let offset = 0;
-  for (const id of evaluation.order) {
+  for (const [index, id] of evaluation.order.entries()) {
     const length = duration(evaluation.clips.get(id)!.pcm);
-    if (position < offset + length) return { id, offset };
+    if (position < offset + length) return { id, offset, index };
     offset += length;
   }
   return null;

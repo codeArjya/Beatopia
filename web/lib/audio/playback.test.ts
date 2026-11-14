@@ -78,8 +78,8 @@ it("maps full-render position to clip occurrences at exact boundaries", async ()
     clips: [{ id: "c1", source }], ops: [{ op: "slice", clip: "c1", count: 2, snap: "none" },
       { op: "arrange", order: ["c1.2", "c1.1", "c1.2"] }],
   });
-  expect(occurrenceAt(result, 0.5)).toEqual({ id: "c1.2", offset: 0 });
-  expect(occurrenceAt(result, 1)).toEqual({ id: "c1.1", offset: 1 });
-  expect(occurrenceAt(result, 2.5)).toEqual({ id: "c1.2", offset: 2 });
+  expect(occurrenceAt(result, 0.5)).toEqual({ id: "c1.2", offset: 0, index: 0 });
+  expect(occurrenceAt(result, 1)).toEqual({ id: "c1.1", offset: 1, index: 1 });
+  expect(occurrenceAt(result, 2.5)).toEqual({ id: "c1.2", offset: 2, index: 2 });
   expect(occurrenceAt(result, 3)).toBeNull();
 });

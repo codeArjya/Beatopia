@@ -13,10 +13,13 @@ import { renderOffline } from "@/lib/audio/native-offline";
 import { duration } from "@/lib/audio/pcm";
 import { occurrenceAt, PlaybackController } from "@/lib/audio/playback";
 import { encodeWav, exportFilename } from "@/lib/audio/wav";
+import { editorShortcut } from "@/lib/audio/editor-actions";
 import { createEditorStore } from "@/stores/editor";
 import { Button } from "@/components/ui/button";
 import { Toolbar } from "./toolbar";
 import { Waveform } from "./waveform";
+import { ArrangementLane } from "./arrangement-lane";
+import { HistoryPanel } from "./history-panel";
 
 export function EditorClient() {
   const params = useSearchParams();
@@ -32,8 +35,10 @@ export function EditorClient() {
   const [clock, setClock] = useState({ position: 0, playing: false });
   const [loop, setLoop] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [selectedOccurrence, setSelectedOccurrence] = useState(0);
   const track = useQuery({ queryKey: ["track", parsed.entry?.trackId],
-    queryFn: () => api.getTrack(parsed.entry!.trackId), enabled: !!parsed.entry });
+    queryFn: () => api.getTrack(parsed.entry!.trackId), enabled: !!parsed.entry,
+    staleTime: Infinity, refetchOnWindowFocus: false, refetchOnReconnect: false });
 
   useEffect(() => {
     const player = new PlaybackController();
@@ -43,6 +48,7 @@ export function EditorClient() {
       const state = store.getState();
       const occurrence = player.playing && state.current && occurrenceAt(state.current.evaluation, player.position);
       if (occurrence && occurrence.id !== state.active) state.select(occurrence.id);
+      if (occurrence) setSelectedOccurrence((previous) => previous === occurrence.index ? previous : occurrence.index);
       setClock((previous) => previous.position === player.position && previous.playing === player.playing
         ? previous : { position: player.position, playing: player.playing });
       frame = requestAnimationFrame(tick);
@@ -85,14 +91,14 @@ export function EditorClient() {
   const current = editor.current;
   const active = editor.active && current?.evaluation.clips.get(editor.active);
   const selection = editor.selection;
+  const playingOccurrence = current && clock.playing ? occurrenceAt(current.evaluation, clock.position) : null;
+  const activeIndex = current ? playingOccurrence?.index ?? (current.evaluation.order[selectedOccurrence] === editor.active
+    ? selectedOccurrence : current.evaluation.order.indexOf(editor.active ?? "")) : -1;
+  const activeOffset = current ? current.evaluation.order.slice(0, Math.max(0, activeIndex))
+    .reduce((sum, id) => sum + duration(current.evaluation.clips.get(id)!.pcm), 0) : 0;
   const seek = (time: number) => {
     if (!current || !editor.active) return;
-    let offset = 0;
-    for (const id of current.evaluation.order) {
-      if (id === editor.active) break;
-      offset += duration(current.evaluation.clips.get(id)!.pcm);
-    }
-    const position = offset + time;
+    const position = activeOffset + time;
     if (transport.current?.playing) void transport.current.play(current.evaluation.rendered, position, loop).catch((error: Error) => setNotice(error.message));
     else transport.current?.seek(position);
     setClock({ position, playing: transport.current?.playing ?? false });
@@ -103,30 +109,49 @@ export function EditorClient() {
     void transport.current?.play(current.evaluation.rendered, clock.position, loop).catch((error: Error) => setNotice(error.message));
   };
   const download = () => {
-    if (!current || !track.data || !parsed.entry) return;
-    const pcm = current.evaluation.rendered;
-    const filename = exportFilename(track.data.track);
-    const url = URL.createObjectURL(new Blob([encodeWav(pcm)], { type: "audio/wav" }));
-    const link = document.createElement("a");
-    link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setNotice(`Downloaded ${filename} · 44100 Hz · 16-bit PCM · ${pcm.channels.length} channels · ${pcm.channels[0].length} frames`);
-    const windowId = resolveEntry(parsed.entry, track.data).windowId;
-    if (windowId) {
-      try {
-        const sessionId = localStorage.getItem("session_id") ?? crypto.randomUUID();
-        localStorage.setItem("session_id", sessionId);
-        void api.postEvent({ session_id: sessionId, window_id: windowId, action: "export" }).catch(() => setNotice((value) => `${value} · Export telemetry unavailable.`));
-      } catch { /* Browser storage availability must not invalidate a download. */ }
-    }
+    if (!current || editor.pending || !track.data || !parsed.entry) return;
+    try {
+      const pcm = current.evaluation.rendered;
+      const filename = exportFilename(track.data.track);
+      const url = URL.createObjectURL(new Blob([encodeWav(pcm)], { type: "audio/wav" }));
+      const link = document.createElement("a");
+      link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setNotice(`Downloaded ${filename} · 44100 Hz · 16-bit PCM · ${pcm.channels.length} channels · ${pcm.channels[0].length} frames`);
+      const windowId = resolveEntry(parsed.entry, track.data).windowId;
+      if (windowId) {
+        try {
+          const sessionId = localStorage.getItem("session_id") ?? crypto.randomUUID();
+          localStorage.setItem("session_id", sessionId);
+          void api.postEvent({ session_id: sessionId, window_id: windowId, action: "export" }).catch(() => setNotice((value) => `${value} · Export telemetry unavailable.`));
+        } catch { /* Browser storage availability must not invalidate a download. */ }
+      }
+    } catch (error) { setNotice(`Export failed: ${(error as Error).message}`); }
   };
-  let activeOffset = 0;
-  if (current && editor.active) {
-    for (const id of current.evaluation.order) {
-      if (id === editor.active) break;
-      activeOffset += duration(current.evaluation.clips.get(id)!.pcm);
-    }
-  }
+  useEffect(() => {
+    const handleKey = (event: KeyboardEvent) => {
+      const target = event.target;
+      const typing = target instanceof Element && !!target.closest("input, textarea, select, button, a, [contenteditable]:not([contenteditable='false']), [role='textbox'], [role='slider'], [data-editor-shortcuts='off']");
+      const action = editorShortcut(event, typing);
+      if (!action || !current || !active || !editor.active || editor.pending || event.defaultPrevented) return;
+      event.preventDefault();
+      switch (action) {
+        case "play": play(); break;
+        case "undo": stop(); editor.undo(); break;
+        case "redo": stop(); editor.redo(); break;
+        case "export": download(); break;
+        case "reverse": apply([{ op: "reverse", clip: editor.active }]); break;
+        case "up": case "down": apply([{ op: "repitch", clip: editor.active, semitones: action === "up" ? 1 : -1 }]); break;
+        case "slice": {
+          const at = (transport.current?.position ?? clock.position) - activeOffset;
+          if (at > 0 && at < duration(active.pcm)) apply([{ op: "slice", clip: editor.active, at: [at], snap: "none" }]);
+          else setNotice("Move the playhead inside the active clip before slicing (S).");
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  });
 
   if (parsed.error) return <div className="space-y-3"><p role="alert">{parsed.error}</p>
     <a className="underline" href="/editor?track=jam_1532881&start=0&end=16&stem=mix">Open jam_1532881 fixture (16 s)</a></div>;
@@ -149,6 +174,12 @@ export function EditorClient() {
           {id} · {duration(current.evaluation.clips.get(id)!.pcm).toFixed(3)} s
         </Button>)}
       </div>
+      <ArrangementLane evaluation={current.evaluation} selected={activeIndex} disabled={editor.pending}
+        onApply={apply} onSelect={(index) => {
+          stop(); setSelectedOccurrence(index); editor.select(current.evaluation.order[index]);
+          const offset = current.evaluation.order.slice(0, index).reduce((sum, id) => sum + duration(current.evaluation.clips.get(id)!.pcm), 0);
+          transport.current?.seek(offset); setClock({ position: offset, playing: false });
+        }} />
       <section className="rounded-xl border p-4" aria-label="Waveform and selection">
         <Waveform pcm={active.pcm} bpm={active.tempoBpm} selection={selection}
           cursor={Math.max(0, Math.min(duration(active.pcm), clock.position - activeOffset))}
@@ -165,6 +196,8 @@ export function EditorClient() {
         <Button disabled={editor.pending} onClick={download}>Download WAV</Button>
       </div>
       <p className="text-muted-foreground text-sm">{current.wire.ops.length} edits · {current.evaluation.rendered.channels[0].length} frames · {current.evaluation.rendered.channels.length} channels · WAV: 44.1 kHz / 16-bit</p>
+      <p className="text-muted-foreground text-sm">Shortcuts (outside controls): Space play/stop · S split at playhead · R reverse · ↑/↓ repitch ±1 · Ctrl/Cmd+Z undo · Ctrl/Cmd+Shift+Z redo · E export</p>
+      <HistoryPanel editor={editor} />
       {editor.pending && <p role="status">Rendering…</p>}
     </>}
     {notice && <p role="status" className="break-words text-sm">{notice}</p>}
