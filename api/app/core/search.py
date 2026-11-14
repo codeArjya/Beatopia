@@ -1,6 +1,6 @@
-"""POST /search pipeline (CONTRACT §7): plan → CLAP → SQL → score → snap → Result.
+"""POST /search pipeline (CONTRACT §7): plan → CLAP → SQL → score → rerank + notes → snap → Result.
 
-Gemini planner + plan_cache (T4.1). No rerank yet (T4.2), no Freesound fallback yet (T8.1).
+Gemini planner + plan_cache (T4.1), Gemini rerank + notes (T4.2). No Freesound fallback yet (T8.1).
 """
 
 from __future__ import annotations
@@ -9,7 +9,7 @@ import secrets
 
 from psycopg_pool import ConnectionPool
 
-from app.core import embed, planner, search_sql
+from app.core import embed, planner, rerank, search_sql
 from app.core.errors import bad_request
 from app.core.gemini import Gemini
 from app.core.scoring import Scored, rank
@@ -32,7 +32,7 @@ def audio_path(track_id: str, stem: str, mix_path: str) -> str:
     return mix_path if stem == "mix" else f"tracks/{track_id}/stems/{stem}.mp3"
 
 
-def to_result(s: Scored) -> Result:
+def to_result(s: Scored, why: str | None = None) -> Result:
     c = s.candidate
     t = c.track
     snapped = snap_window(c.start_s, c.end_s, bpm=c.bpm, beat_times=t["beat_times"], duration_s=float(t["duration_s"]))
@@ -46,7 +46,7 @@ def to_result(s: Scored) -> Result:
         bars=snapped.bars,
         tags=list(c.tags),
         score=round(s.score, SCORE_DECIMALS),
-        why=c.why,
+        why=why if why is not None else c.why,
     )
 
 
@@ -66,13 +66,18 @@ def run_search(
     with stage("sql"), pool.connection() as conn:
         candidates, relaxed = search_sql.fetch_candidates(conn, plan, q)
     with stage("score"):
-        results = [to_result(s) for s in rank(candidates, plan)[: req.limit]]
+        ranked = rank(candidates, plan)
+    with stage("rerank"):
+        rr = rerank.rerank(text or planner.chip_caption(chips), chips, ranked, req.limit, gemini=gemini, pool=pool)
+    results = [to_result(s, rr.notes.get(s.candidate.window_id)) for s in rr.ordered]
     note(
         plan_source=outcome.source,
         plan_cached=outcome.cached,
         relaxed=relaxed,
         candidates=len(candidates),
         n=len(results),
+        rerank=rr.status,
+        new_notes=len(rr.new_notes),
         fallback=False,
     )
     return SearchResponse(query_id=new_query_id(), plan=plan, results=results, fallback_used=False)
