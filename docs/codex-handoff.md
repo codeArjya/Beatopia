@@ -8,6 +8,14 @@ worker claiming/status/stems and import analysis/range caching. Reporting/eval r
 No API, contract/schema, ID, storage layout, common helper, manifest/lockfile or dependency changes.
 Only `worker/`, `ingest/PLAN.md` and this explicitly user-authorized handoff changed.
 
+Implementation/evidence commit: **643b883** (`feat(ws1): implement safe worker jobs and import analysis`).
+Post-commit read-only PID/log check: **32252/30820 still alive**. At **17:43:53 EST**, hero log advanced
+to **16/80 verified, 4 failures**, next `jam_1149166` separating, ETA **14,769.811 s (~4 h 6 m)**,
+projected ~21:50 EST. New rejection `jam_1348228` is at `heroes.py:164:features`, no audible windows
+in at least one stem; its individual stem RMS has **not yet been measured**. Preserve its raw cache
+and investigate read-only next session. These are log counts; the last DB snapshot remains the
+explicitly timed 17:38:19 snapshot below. Only the pre-existing schema edit remains in git status.
+
 ### Verified results and important decisions
 
 - Real DB competing claims choose one job exactly once; `SKIP LOCKED` skips a locked queued row.
