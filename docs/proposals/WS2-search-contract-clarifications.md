@@ -2,7 +2,7 @@
 
 Covers the Gemini model id, server env vars, private imports, Freesound fallback tracks and score term definitions.
 
-**Author:** WS2 (Search API & AI) · **Status:** proposed, waiting for the human and affected streams ·
+**Author:** WS2 (Search API & AI) · **Status:** landed in `cb05f68` (contract PR), unchanged ·
 **Source:** `api/PLAN.md` §3 (C1–C5)
 
 This file covers all five contract changes from my plan, because they share the same two diffs. Each section
