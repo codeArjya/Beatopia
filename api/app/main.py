@@ -18,17 +18,19 @@ from fastapi.routing import APIRoute
 
 from app import fixture_routes
 from app.core import db, embed
+from app.core.chips import load_chips
 from app.core.errors import install_error_handlers
 from app.core.settings import Settings, get_settings
 from app.core.timing import configure_logging, install_timing
 from app.fixture_routes import fixture
+from app.routes import chips, tracks
 
 __all__ = ["app", "create_app", "fixture"]
 
 log = logging.getLogger("app")
 
 # Real routers, mounted in real mode. Each task adds its router here.
-REAL_ROUTERS: list[APIRouter] = []
+REAL_ROUTERS: list[APIRouter] = [chips.router, tracks.router]
 
 
 def _route_keys(router: APIRouter) -> set[tuple[str, str]]:
@@ -41,7 +43,11 @@ def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextMan
         app.state.pool = None
         app.state.clap_ready = False
         if not settings.use_fixtures:
-            # Fail loudly: a real-mode API without a database is a broken deploy, not a degraded one.
+            # Fail loudly: a real-mode API without a database, storage URL or vocab is a broken deploy.
+            missing = settings.missing("supabase_url")
+            if missing:
+                raise RuntimeError(f"real mode needs {', '.join(missing)} (or set USE_FIXTURES=1)")
+            load_chips(settings.vocab_path)
             app.state.pool = await asyncio.to_thread(db.open_pool, settings)
             app.state.clap_ready = await asyncio.to_thread(embed.warm)
         try:

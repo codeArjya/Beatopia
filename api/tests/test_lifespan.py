@@ -14,7 +14,9 @@ from app.core import db, embed
 from app.core.settings import Settings
 from app.core.timing import note, stage
 
-REAL = Settings.from_env({"DATABASE_URL": "postgresql://u:p@localhost:5432/x"})
+REAL = Settings.from_env(
+    {"DATABASE_URL": "postgresql://u:p@localhost:5432/x", "SUPABASE_URL": "https://ref.supabase.co"}
+)
 
 
 class FakePool:
