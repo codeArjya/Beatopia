@@ -20,7 +20,9 @@ Final code checks passed: `pnpm.cmd test lib/audio stores` (14 files / 60 tests)
 
 The native Computer Use tool still stops at state capture because it cannot confidently verify the Chrome URL. The [computer-use skill](C:/Users/ethan/.codex/plugins/cache/openai-bundled/computer-use/26.1111.21308/skills/computer-use/SKILL.md) requires its guidance to "stop issuing app input" after a stop; no further input followed. Human manual checks were used with explicit reports.
 
-Pending separate manual UI checklist: actual EditorClient trim/chop/reverse/-3/reorder/duplicate/undo/redo/play/download, missing-BPM/HTTP/decode scenarios and return to normal. Remaining detailed keyboard/text-input/S-endpoint, drag, nested repeated leaf, cursor/seek/loop/Regions and node/listener unmount instrumentation are not implied by the engine harness. Earlier Tone musical pitch/keep-pitch listening remains open. No gate boxes changed until each row's full acceptance passes. Retain approved cut order; no features cut or unassigned later work started.
+Human subsequently confirmed **normal loads and edits work** in response to the actual EditorClient edit/play/download workflow check. Human pasted the expected HTTP 404 and unsupported/corrupt decode messages from the intentional error scenarios; server requests confirm those scenario URLs, and returning to normal recovers. Added expected-outcome descriptions and a Restore normal live hero audio link to prevent those deliberate failures being mistaken for a regression. Required checks still pass after that clarity fix.
+
+Still pending: small manual shortcut/history/input guard and missing-BPM disabled-controls check. Remaining detailed S-endpoint, drag, nested repeated leaf, cursor/seek/loop/Regions and node/listener unmount instrumentation are not implied by the engine harness or broad workflow reply. Earlier Tone musical pitch/keep-pitch listening remains open. No gate boxes changed until each row's full acceptance passes. Retain approved cut order; no features cut or unassigned later work started.
 
 ## Resume / manual help
 
@@ -28,9 +30,9 @@ Dev server is running in fixture mode on localhost:3000 while manual checks are 
 
 1. Real storage checks: `http://localhost:3000/editor/live-audio-checks`. Fixture DSP checks remain at `/editor/audio-checks`. Routes are development + fixture-mode only and return not found in production.
 2. Actual hero editor: `http://localhost:3000/editor/live-editor-checks?track=jam_1047157&start=5&end=15&stem=mix`. This mounts the same EditorClient using a dev-only metadata input and isolated TanStack cache key. Links at the top cover normal/missing-bpm/http-error/decode-error/drums. Missing-BPM/error cases intentionally alter the development snapshot. Product cache keys and wire state are unchanged.
-3. Human was asked to trim 1..9, chop 4, select c1.4, reverse/-3, reorder/duplicate, undo/redo, play/download; then test scenario links and normal recovery. Record their reply before marking any new acceptance pass.
+3. Broad normal edit/play/download and deliberate HTTP/decode error/recovery checks are human-confirmed. Last requested manual check: click waveform -> R -> Ctrl+Z -> Ctrl+Shift+Z should change/restore history; arrows while focused in Semitones input should not add an edit; missing-bpm scenario should disable Beat and Fit. Record that reply before marking the remaining arrangement/native-DSP task acceptance.
 4. Finish remaining detailed earlier browser checks, especially keyboard guards/shortcuts and playback/Regions/unmount instrumentation, and Tone musical listening. Record unavailable cases separately.
-5. Obtain production API URL from WS2/human, restart with fixtures off and that NEXT_PUBLIC_API_URL, load the real hero on main `/editor`, verify covering stems and record production event/export result. No new hero credentials are needed for public audio; never put a secret API key in the browser.
+5. Human explicitly confirmed the production endpoint **is not ready yet**. When WS2 provides it, restart with fixtures off and that NEXT_PUBLIC_API_URL, load the real hero on main `/editor`, verify covering stems and record production event/export result. No new hero credentials are needed for public audio; never put a secret API key in the browser.
 6. Re-run plan checks after any code fix. Do not start queued/add-source stems, local import, chat or optimization unless assigned.
 
 ---

@@ -169,7 +169,9 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
       <p className="text-sm">{metadata.license} · {metadata.attribution}</p>
     </header>
     {load.status === "loading" && <p role="status">Loading and decoding audio…</p>}
-    {load.error && <div><p role="alert">{load.error}</p><Button onClick={retry}>Retry audio</Button><p className="text-sm">Fixture fallback: start the web server with NEXT_PUBLIC_USE_FIXTURES=1 and open the fixture link.</p></div>}
+    {load.error && <div className="space-y-2"><p role="alert">{load.error}</p><Button onClick={retry}>Retry audio</Button>
+      {acceptance ? <a className="block text-sm underline" href="/editor/live-editor-checks?track=jam_1047157&start=5&end=15&stem=mix&case=normal">Restore normal live hero audio</a>
+        : <p className="text-sm">Fixture fallback: start the web server with NEXT_PUBLIC_USE_FIXTURES=1 and open the fixture link.</p>}</div>}
     {editor.error && <p className="text-destructive" role="alert">{editor.error}</p>}
     {current && active && selection && editor.active && <>
       <div className="flex flex-wrap gap-2" aria-label="Choose active clip">

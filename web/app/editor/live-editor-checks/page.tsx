@@ -11,7 +11,14 @@ async function CheckEditor({ searchParams }: { searchParams: CheckParams }) {
   if (scenario === "missing-bpm") metadata = { ...metadata, track: { ...metadata.track, bpm: null }, beat_times: [] };
   if (scenario === "http-error") metadata = { ...metadata, audio_url: "/fixtures/audio/ws4-missing-check.wav" };
   if (scenario === "decode-error") metadata = { ...metadata, audio_url: "/editor/audio-checks" };
+  const expectations: Record<string, string> = {
+    normal: "Expected: live waveform, editing, playback and WAV download work.",
+    "missing-bpm": "Expected: seconds timeline; beat snap and Fit to BPM unavailable. Other edits remain available.",
+    "http-error": "Expected failure: HTTP 404 from an intentionally missing audio file. Select normal to recover.",
+    "decode-error": "Expected failure: unsupported/corrupt audio message from an intentionally non-audio URL. Select normal to recover.",
+  };
   return <><p className="text-sm">Test scenario: {scenario}. Error/BPM cases deliberately alter the development snapshot.</p>
+    <p className="text-sm">{expectations[scenario] ?? expectations.normal}</p>
     <EditorClient key={scenario} acceptanceDetail={metadata} /></>;
 }
 
