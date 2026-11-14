@@ -6,6 +6,7 @@ import { useChips } from "@/lib/api";
 
 export function PillDemo() {
   const chips = useChips();
+  if (chips.isError) return <p className="text-sm text-destructive">Couldn&apos;t load chips: {chips.error.message}</p>;
   if (!chips.data) return <p className="text-sm text-muted-foreground">Loading chips…</p>;
   return (
     <div className="space-y-3">
