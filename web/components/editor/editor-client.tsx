@@ -9,6 +9,7 @@ import type { Op } from "@/lib/types/api";
 import { loadSource } from "@/lib/audio/decode";
 import { parseEntry, resolveEntry } from "@/lib/audio/entry";
 import { sourceKey } from "@/lib/audio/evaluate";
+import { renderOffline } from "@/lib/audio/native-offline";
 import { duration } from "@/lib/audio/pcm";
 import { occurrenceAt, PlaybackController } from "@/lib/audio/playback";
 import { encodeWav, exportFilename } from "@/lib/audio/wav";
@@ -23,7 +24,7 @@ export function EditorClient() {
     try { return { entry: parseEntry(params), error: null }; }
     catch (error) { return { entry: null, error: (error as Error).message }; }
   }, [params]);
-  const [store] = useState(createEditorStore);
+  const [store] = useState(() => createEditorStore(renderOffline));
   const editor = useStore(store);
   const transport = useRef<PlaybackController | null>(null);
   const [attempt, setAttempt] = useState(0);
@@ -149,12 +150,12 @@ export function EditorClient() {
         </Button>)}
       </div>
       <section className="rounded-xl border p-4" aria-label="Waveform and selection">
-        <Waveform pcm={active.pcm} bpm={active.bpm} selection={selection}
+        <Waveform pcm={active.pcm} bpm={active.tempoBpm} selection={selection}
           cursor={Math.max(0, Math.min(duration(active.pcm), clock.position - activeOffset))}
           onSelect={editor.setSelection} onSeek={seek} />
       </section>
       <Toolbar active={editor.active} selection={selection} length={duration(active.pcm)} hasBeats={active.bpm != null && active.beatTimes.length > 0}
-        disabled={editor.pending} canUndo={editor.past.length > 0} canRedo={editor.future.length > 0}
+        bpm={active.bpm} disabled={editor.pending} canUndo={editor.past.length > 0} canRedo={editor.future.length > 0}
         onSelect={editor.setSelection} onApply={apply} onUndo={() => { stop(); editor.undo(); }} onRedo={() => { stop(); editor.redo(); }} />
       <div className="flex flex-wrap items-center gap-3 border-t pt-4">
         <Button disabled={editor.pending} onClick={play}>{clock.playing ? "Stop" : "Play"}</Button>
