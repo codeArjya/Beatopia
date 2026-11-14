@@ -7,15 +7,20 @@ startup logs which ones (that list must be empty before the H12 deploy).
 
 from __future__ import annotations
 
+import asyncio
 import logging
+from collections.abc import AsyncIterator, Callable
+from contextlib import AbstractAsyncContextManager, asynccontextmanager
 
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 
 from app import fixture_routes
+from app.core import db, embed
 from app.core.errors import install_error_handlers
 from app.core.settings import Settings, get_settings
+from app.core.timing import configure_logging, install_timing
 from app.fixture_routes import fixture
 
 __all__ = ["app", "create_app", "fixture"]
@@ -30,11 +35,32 @@ def _route_keys(router: APIRouter) -> set[tuple[str, str]]:
     return {(m, r.path) for r in router.routes if isinstance(r, APIRoute) for m in r.methods}
 
 
+def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextManager[None]]:
+    @asynccontextmanager
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        app.state.pool = None
+        app.state.clap_ready = False
+        if not settings.use_fixtures:
+            # Fail loudly: a real-mode API without a database is a broken deploy, not a degraded one.
+            app.state.pool = await asyncio.to_thread(db.open_pool, settings)
+            app.state.clap_ready = await asyncio.to_thread(embed.warm)
+        try:
+            yield
+        finally:
+            if app.state.pool is not None:
+                await asyncio.to_thread(app.state.pool.close)
+                app.state.pool = None
+
+    return lifespan
+
+
 def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or get_settings()
-    app = FastAPI(title="Beatopia API", version="0.1.0")
+    configure_logging()
+    app = FastAPI(title="Beatopia API", version="0.1.0", lifespan=_lifespan(settings))
     app.state.settings = settings
 
+    install_timing(app)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(settings.web_origins),
