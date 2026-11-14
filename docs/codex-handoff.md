@@ -1,4 +1,142 @@
-# Codex handoff — session 3 of 7
+# Codex handoff — session 4 of 7
+
+## Current handoff — Session 4 (supersedes all next steps below)
+
+2026-11-14. Human approved the implementation plan before code. Branch `ws1-data`, start `0877d84`
+(the Session-3 PR #5 squash). Implemented refined plan rows **7–8**, original handoff task #6:
+worker claiming/status/stems and import analysis/range caching. Reporting/eval remain later work.
+No API, contract/schema, ID, storage layout, common helper, manifest/lockfile or dependency changes.
+Only `worker/`, `ingest/PLAN.md` and this explicitly user-authorized handoff changed.
+
+### Verified results and important decisions
+
+- Real DB competing claims choose one job exactly once; `SKIP LOCKED` skips a locked queued row.
+  Claims close/commit before processing. A separate connection acquires the job row NOWAIT during
+  processing; progress 0.4 is visible separately and does not regress after 0.2. Held per-track session
+  advisory lock has null xact_start, so no transaction spans download/model work. No lease/schema
+  changes or unsafe automatic timeout recovery. Invalid/>60 s/reversed ranges and malformed analyze
+  jobs terminate as error/null output. Successful outputs pass original Pydantic contract models.
+- Actual **30 s CPU job [5,35] on fs_166649: 47.608574 s** enqueue→claim→processing→terminal poll;
+  **46.208013 s** handler+terminal DB, **29.384854 s** inference, **0.408206 s** Demucs load,
+  **0.445249 s** download/decode. Four 44.1 kHz stereo 192k public MP3s pass hash/decode/duration.
+  Cached weights; Python/module startup and queue backlog excluded. Single observation passes <60 s;
+  do not present it as p50 or deployed latency. Torch 2.15.0+cpu, Demucs 4.1.0, two threads, htdemucs,
+  split=true, segment=7 s, overlap=.25, shifts=1, seed=0, no fallback. CUDA/MPS unavailable:
+  **GPU timing is unverified/unavailable**, not a pass. Exact parameter/source hashes in SESSION4.md.
+- Covering [10,20] reused [5,35] stems in **5.282667 s** overall, without inference. File-local zero
+  means requested track time 10 plays at local 5. Returned coverage remains [5,35], paths remain
+  `tracks/fs_166649/stems/{stem}_5000_35000.mp3`. After final Postgres-real precision review, an
+  additional [10.001,20.001] covering request passed in **5.731500 s**, no inference.
+- Synthetic import **imp_16158261**: real analysis/CLAP, public `imports/{id}/mix.mp3`, 16 s,
+  3 windows [0,10]/[5,15]/[10,16], unit-normalized 512-D embeddings and real tags; measured
+  90.6661 BPM/A minor. Title/artist/license/attribution preserved. Initial enqueue→poll **77.591679 s**,
+  cached repeat **7.516235 s**, exactly 3 windows and unchanged mix hash. This acceptance fixture is
+  source=import/user-upload, **not a corpus track**; imports must stay excluded from public search.
+- Both job kinds checkpoint before publication; partial uploads/DB failures resume. Changed model/
+  source/vocab fingerprints are refused; quiet windows are never invented. Four-/six-source model
+  names preserved; one CPU retry on inference failure, then honest error. Actual six-source inference
+  was **not run** (weights unavailable); model naming/output/failure behavior is unit tested. Contract
+  range filenames have no model field, so conflicting variants/sub-ms filename collisions fail clearly
+  instead of overwriting previously published audio. On-demand stems do not create overlapping search
+  windows; imports index mix windows and existing full heroes keep their current windows.
+- Worker has no API package runtime dependency; the explicit acceptance harness reads original
+  Pydantic models only for validation. API endpoints in this checkout still serve fixtures:
+  **live API/browser polling/playback, import exclusion and deployed latency remain unverified**.
+
+### Exact checks and artifacts
+
+- Task 7: worker **14 passed/20.94 s**, ingest **44 passed/37.46 s**, live DB **2 passed/10.83 s**.
+- Task 8 preliminary: worker **22 passed, 2 skipped/69.52 s**, ingest **44 passed/46.87 s**.
+- Final product checks: worker **23 passed, 5 skipped/31.03 s**, ingest **44 passed/41.04 s**.
+  Five opt-in live DB tests separately **5 passed/22.69 s**; no acceptance assertions suppressed.
+- Exact root commands: `uv run --project worker pytest worker/tests` and
+  `uv run --project ingest pytest ingest/tests`, with `-q --tb=short -p no:cacheprovider`, fresh
+  `--basetemp=worker/data/pytest-task8-final` / `ingest/data/pytest-task8-final`, cached FFmpeg PATH,
+  workspace UV cache and OMP/MKL=2. Explicit test paths avoid cross-project collection.
+- Live command: `WORKER_LIVE_TESTS=1 uv run --project worker --env-file .env pytest
+  worker/tests/test_jobs_live.py -q -s --tb=short -p no:cacheprovider
+  --basetemp=worker/data/pytest-task8-live` (PowerShell environment assignment on Windows).
+- `make lint` attempted after both tasks/final review: Make absent. Direct Python Ruff check and
+  format-check common/ingest/worker/api/scripts pass, final **54 files** including local diagnostic.
+  No global web lint pass claimed. Common unchanged, common tests not rerun. `report.py` still absent;
+  read-only DB counts used. No unrelated web/API repair or dependency installation.
+- Initial DB tests were sandbox-blocked before insertions, then escalated successfully. Use
+  **--tb=short** for live pytest: full dependency tracebacks can print connection configuration.
+  Protected-cache decode/process inspection also required escalation; no permissions changed.
+- Unrelated `shared/schema/api.schema.json` remains untouched and excluded, SHA256
+  `BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5`.
+- Committed evidence: **worker/SESSION4.md**; operational guide: **worker/README.md**. New implementation:
+  `worker/{jobs,engine,handlers,imports,acceptance}.py`, `launch.ps1`, updated main.py and three test files.
+  Local evidence/checkpoints: `worker/data/{worker,acceptance-jobs}.jsonl`, `acceptance-session4.json`,
+  `imports/imp_16158261/`, `stems/fs_166649/*/{separated.npz,separated.json,*.mp3,*.wav}`. Preserve them.
+- Acceptance launcher **uv PID 17060 / venv Python 2764 / actual Python 10228**, started 17:20:30 EST,
+  finished normally. Logs `worker/data/acceptance-20261114-172030.{stdout,stderr}.log`.
+  Final covering regression launcher **27892**, started 17:36:40, also finished. Logs
+  `worker/data/acceptance-20261114-173640.{stdout,stderr}.log`. **No worker daemon left running.**
+  Both use `./worker/launch.ps1 -Mode acceptance` →
+  `uv run --no-sync --project worker --env-file .env python -m worker.acceptance`.
+
+### Counts, audit jobs and preserved processes
+
+Read-only snapshot **2026-11-14 17:38:19 EST** (epoch 1794695899.806): **351 tracks = 350 library +
+1 synthetic acceptance import; 6,838 windows; 64 stems = 60 hero + 4 on-demand; 15 heroes**.
+Mix windows=5,222 (5,219 library + 3 import); bass=392, drums=453, other=494, vocals=277.
+Licenses: Freesound BY-3.0=28, BY-4.0=98, CC0=74; Jamendo BY-3.0=34, BY-SA-3.0=116;
+import user-upload=1. Tag-qualifying heroes=15, **audibly verified prominent timbres still zero**.
+Jobs: **done=5, error=7, queued/running=0**. All seven errors are intentional acceptance audit rows;
+do not report them as unexplained production failures. Exact IDs for all jobs are in SESSION4.md.
+
+- Original ingest PIDs **29584/7980 are dead**; it finished itself, not stopped/restarted here.
+  Final log: **350 completed / 3 rejected / 353 attempted / 400 queued**, elapsed **8,310.891 s**,
+  at ~17:11:15 EST. Retain logs `ingest/data/launch-20261114-145243.*.log`, `ingest.log`, queue,
+  fingerprints, API budgets and manifests. Three failures remain recorded even though target reached.
+- Hero batch PIDs **32252/30820 remain alive**, original launch 16:31:16/17 EST. Same command:
+  `uv run --no-sync --project ingest --env-file .env python -m ingest.heroes --mode batch --limit 80`.
+  Logs `ingest/data/heroes-batch-20261114-163116.{stdout,stderr}.log`, `heroes/heroes.log`.
+  At 17:37:22: **15/80 verified, 3 rejected**, next `jam_1475806` separating. Latest measured ETA
+  **15,322.178 s (~4 h 15 m)** from that checkpoint, projected **~21:52 EST**; last ten published
+  heroes, subject to stalls/source/failures. Preserve all caches/raw stems/locks; never restart live PIDs.
+- Read-only diagnostics investigated existing failures. Mix RMS: fs_507355 **0.0049312245**,
+  fs_498604 **0.0021100365**, fs_498606 **0.0013835818**; log location pipeline.py:128 no audible
+  windows. Hero maximum any sliding 4-second decoded RMS: jam_1307441 vocals **0.0041934609**;
+  jam_1149165 bass **0.0015662981**, vocals **0.0018476197**; jam_1149164 bass **0.0002242316**,
+  vocals **0.0001773818**. These quiet stems support the existing features rejection below unchanged
+  **0.0056234133** gate; no fictional windows, lowered thresholds or changed checkpoints.
+  Local diagnostic `worker/data/inspect-session4.py`, run read-only via ingest environment/FFmpeg.
+
+### Exact next-session instructions (Session 5 of 7)
+
+1. Read this section, `ingest/PLAN.md`, `worker/SESSION4.md`, contract and WS1 guide. Inspect status/
+   commit; preserve the unrelated schema edit. Present Session 5's assigned plan and wait for approval.
+2. Inspect **32252/30820** and hero log tails. Do not restart while alive. Original ingest is complete;
+   do not rerun it just to reach a count already achieved. Run
+   `./ingest/launch-heroes.ps1 -Mode status -Foreground` for read-only counts (escalate network access
+   if blocked). Exclude the one acceptance import from library/license targets and the **seven**
+   deliberately failed audit jobs from operational failure summaries.
+3. If hero process is confirmed dead and target incomplete, resume the same
+   `./ingest/launch-heroes.ps1 -Mode batch -Limit 80`. Retain all failed outcomes/checkpoints, rank
+   spares honestly. Never lower silence gates. Listening/30 prominent timbres and 80 heroes stay open.
+4. Expected next refined work is reporting/coverage-quality audit and tag calibration/vocab freeze;
+   follow the human's explicit Session 5 scope. Implement report.py only after that plan is approved.
+   Verify completed library objects/features, distinguish 350 corpus rows from full quality acceptance,
+   report quiet-source failures and hero progress, and preserve prior failed semantic/listening gates.
+5. For deployment WS2 needs worker + common + ingest/vocab.txt + FFmpeg + model caches and exact
+   general CLAP revision before import/start. `python -m worker.main` remains the entrypoint;
+   Windows `./worker/launch.ps1 -Mode serve` launches hidden with PID/log output. Do not start an
+   unattended daemon just to rerun acceptance. Current API jobs/imports/stems routes need WS2 live
+   implementation; coordinate real polling/playback and import exclusion without editing API/web.
+6. Before recovering a crashed running job, confirm its owning process dead, inspect safe failure
+   frames/checkpoints, explicitly requeue only that ID. No bulk reset or automatic stale-claim timeout.
+   For new live evidence use --tb=short; `worker.acceptance` is resumable and only claims its own IDs,
+   but rerunning an already completed report does not repeat the original CPU benchmark.
+7. After every task: focused tests, make lint (record unavailable Make), ingest/worker suites with
+   explicit paths/project cwd, common if helpers changed, reporter once implemented; otherwise
+   read-only counts. Update this handoff with exact evidence/PIDs/logs/remaining gates and commit
+   only authorized work. H0 remains unknown; no absolute H12 pass is asserted.
+
+---
+
+# Historical Session 3 handoff
 
 ## Main sync and WS2 PR preparation — 2026-11-14 16:53 EST
 

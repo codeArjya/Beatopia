@@ -88,8 +88,8 @@ Each checkbox is a 1–2 hour active work unit; unattended downloads/inference a
 | [x] | H8 / 1 h | Harden analysis/ingest recovery (#2–3) | Tests cover join boundary, low-confidence BPM, terminal windows, corrupt download, partial upload/DB failure and resume; no invalid ranges/vectors or missing attribution. |
 | [x] | H8 / 1 h | Jamendo adapter and full run kickoff (#4) | BY/BY-SA and download-permission filtering checked; long excerpt duration/offsets agree with playback; absent key switches to Freesound; queue target ~350 (CLI limit 400 ceiling), bounded requests and ETA logged. FMA stays excluded unless small subset verified. |
 | [ ] | H8 / 2 h | Hero selection and resumable batch (#5) | Candidate ranking/30-track coverage audit, 30 s and 180 s benchmark, one complete hero with four playable stems and windows; start 80-track batch, record ETA and failures. H8 checkpoint reports actual mix/hero counts and projected H12 finish; no false completion if batch runs longer. |
-| [ ] | H12 / 1 h | Worker claiming/status/progress + stem jobs (#6) | Competing DB claim test selects a job once; valid range succeeds with contract output; invalid/>60 s rejected; failure terminates as error; no long-held claim transaction; progress visible to separate connection. |
-| [ ] | H12 / 1 h | Worker import analysis + range caching (#6) | Hand-insert analyze job on valid original -> updated placeholder, playable normalized mix, windows, TrackDetail output; malformed input errors; stem range paths/absolute metadata/local offsets agree; reuse covering stems; time end-to-end 30 s job on CPU and available GPU, report whether <60 s. |
+| [x] | H12 / 1 h | Worker claiming/status/progress + stem jobs (#6) | Session 4: real competing claims, skip-locked, separate-connection progress, NOWAIT during processing and transaction-free session lock passed; valid four-stem output verified; real invalid/>60 s jobs ended error. See `worker/SESSION4.md`. H12 elapsed-time gate not asserted. |
+| [x] | H12 / 1 h | Worker import analysis + range caching (#6) | Session 4: real import/TrackDetail/3 normalized vectors/public MP3 verified; repeat has no duplicates; range offsets and covering reuse verified. CPU 30 s job 47.608574 s enqueue-to-terminal-poll (<60); CUDA/MPS unavailable, no GPU timing claimed. API/browser and actual six-source inference remain unverified. See `worker/SESSION4.md`. |
 | [ ] | H12 / 1 h | Reporting + coverage/quality audit (#7) | report prints counts by source/tag/license, top-tag examples, ten random windows, missing objects/stages and errors; 300–500 playable licensed tracks and 80 complete heroes (or explicitly reported cut), at least 30 required hero timbres; inspect random audio and run stream checks. Notify human full-library status. |
 | [ ] | H12 / 1 h | Tag calibration and vocab freeze (#7) | Sparse/dense and horns/keys/strings examples inspected; tune thresholds/prompts only with evidence, re-tag affected windows from cached embeddings; publish tag examples and freeze mapping with WS2/WS3. |
 | [ ] | H20 (H12–H14) / 2 h | Twenty-query eval dataset and runner (#8) | `ingest/eval_queries.yaml` covers instruments, mood/genre, tempo, sparse/stem cases; runner calls actual `/search`, prints top five with IDs/tags/license and handles errors; two humans grade relevance and record failures. |
@@ -111,6 +111,40 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 - **Storage/DB divergence and stale fingerprints.** Upload before transactional publish; resume validates all stages, preserve source provenance; changed model requires re-embedding with the same revision for query and corpus. No automatic incompatible model swap.
 
 ## Execution record
+
+### Session 4 — worker claims, stems and import analysis (2026-11-14)
+
+Human approved the session plan before code. Implemented refined rows 7–8 (original handoff task #6)
+under `worker/`; no common/API/schema/dependency/ID/storage changes. The user-authorized handoff is
+also updated. Claims commit before inference, progress is independently committed, duplicate jobs use
+a transaction-free session advisory lock, and crashes require explicit recovery after confirming death.
+Raw separation and import features are fingerprinted/checkpointed; partial publication can resume.
+
+- Real competing-claim/progress/no-held-transaction tests: initial 2 passed/10.83 s; final live suite
+  5 passed/22.69 s including invalid-range/import error termination. Successful contract outputs were
+  validated against original Pydantic models. No API endpoint/browser integration is claimed.
+- `fs_166649` [5,35]: four public playable 44.1 kHz stereo stems, valid absolute coverage/local offsets.
+  CPU enqueue→claim→process→terminal-poll **47.608574 s**, including model load/upload/DB; handler
+  46.208013 s, inference 29.384854 s. CUDA/MPS unavailable. Cached weights; process startup/backlog
+  excluded. Covering repeat 5.282667 s; post-review fractional request reuse 5.731500 s, no inference.
+- Import `imp_16158261`: real normalized 16 s mix, 3 audible windows/unit-length 512-D vectors,
+  preserved supplied metadata; 77.591679 s initial / 7.516235 s cached repeat; exactly 3 windows.
+  Synthetic acceptance import is not counted as a licensed corpus track and remains source=import.
+- Final worker **23 passed, 5 skipped/31.03 s** (live tests separately passed); ingest **44 passed/41.04 s**.
+  Make absent; direct Python Ruff check/format pass, final **54 files** including local diagnostic.
+  Global web lint not run. Common unchanged; common tests not rerun. report.py remains deferred.
+- Read-only snapshot **17:38:19 EST**: **351 tracks (350 library + 1 acceptance import), 6,838 windows,
+  64 stem rows (60 hero + 4 range), 15 heroes**; jobs done=5, error=7, no queued/running jobs.
+  All 7 errors are labeled acceptance failures; actual malformed jobs were intentionally inserted.
+- Original ingest finished itself: 350 completed, 3 rejected in 8,310.891 s; old PIDs 29584/7980 dead.
+  Hero batch PIDs 32252/30820 remain live, 15/80 verified, 3 failures, current `jam_1475806`.
+  No processes restarted/killed; no caches/fingerprints/locks removed. Real quiet stems were decoded
+  read-only and confirmed below the unchanged silence gate; detailed measurements in SESSION4.md.
+
+Evidence, job IDs, runtime configuration and limits: `worker/SESSION4.md`. Exact running commands,
+logs, process recovery and next-session instructions: `docs/codex-handoff.md`. Real six-source/GPU
+inference, listening/30 prominent timbres, hero target 80, mixed-fixture CLAP semantic gate,
+full-library quality report and live API/browser integration remain separate unfinished acceptance.
 
 ### Session 3 — hero pipeline and running batch (2026-11-14)
 
