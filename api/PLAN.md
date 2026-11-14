@@ -171,6 +171,7 @@ against WS1's seed once it is in the DB (the DB was empty this session).
       `core/planner.py` (P1, flat schema → `SearchPlan`, chip merge, `plan_cache`).
       *Accept:* recorded-response unit tests (mock client) for merge rules; live: "sad trumpet around 90 bpm,
       no drums" → must_tags ⊇ {trumpet}, exclude ⊇ {drum loop|kick|snare...}, bpm ≈ [85, 95]; 2nd call hits cache (< 50 ms).
+      *Left:* `core/gemini.py`, P1 call + flat schema → `SearchPlan`, `plan_cache`; chip merge is already done (T3.2).
 - [ ] **T4.2 Rerank + notes** (1.5 h). `core/rerank.py` (P2), notes cache read/write, skip rules.
       *Accept:* mock test: hallucinated ids dropped, missing ids appended; live: top 8 get `why`, rerank_ms logged.
 - [ ] **T4.3 `/why` with audio** (1.5 h). Excerpt via ffmpeg, P3 / P3b fallback, cache.
@@ -200,6 +201,7 @@ against WS1's seed once it is in the DB (the DB was empty this session).
       `/tracks/fs_*` and `/why` for non-DB ids (in-memory note cache), `POST /tracks/fs_*/stems` stores the minimal
       row + copies the preview first (CONTRACT §7.7). *Accept:* mock-HTTP tests; live nonsense query
       "kazoo orchestra" → `fallback_used: true`, results validate, attribution present; `pick` writes no track row.
+      *Left:* all of it; the §7.7 trigger (< 3 scores > 0.25) never fires on the seed (score floor ≈ 0.25), so trigger on `sim` + proposal.
       **Gate H16: search → preview → stems → editor works in production (checked with WS3/WS4).**
 
 ### → Gate H24: `/assist`
