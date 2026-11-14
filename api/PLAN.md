@@ -104,6 +104,7 @@ contract and no longer assumptions:
 | C5b | At H3, > 30% of the 20 eval queries fall back on the seed (CLAP text–audio cosine is usually 0.1–0.4) | Rescale `sim = clamp(cos / 0.5, 0, 1)` in §7.4 |
 | C4b | WS4 finds Freesound preview URLs don't decode in the browser (CORS) | Copy the preview to `tracks/fs_{id}/mix.mp3` on first `GET /tracks/fs_*` |
 | C6 | After the hackathon | `tracks.owner_session text` so imports can be listed per session |
+| C7 | **Proposed** (needed now, can land at H12) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
 
 ---
 
@@ -112,7 +113,10 @@ contract and no longer assumptions:
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
 ### → Gate H3: real DB wired, chips and tracks real
-- [ ] **T1.1 Settings, errors, fixture mode** (1 h). `core/settings.py` (pydantic `BaseSettings`-free: plain
+- [x] **T1.1 Settings, errors, fixture mode** (1 h). *Done:* `create_app(settings)` factory; real mode mounts
+      `REAL_ROUTERS` and keeps fixture stand-ins only for endpoints not implemented yet, logging them at startup
+      (the list must be empty before T6.2). Unhandled errors → 500 `internal_error` (proposal C7,
+      `docs/proposals/WS2-internal-error-code.md`). Tests default to fixture mode via `tests/conftest.py`. `core/settings.py` (pydantic `BaseSettings`-free: plain
       dataclass from `os.environ`, every server variable in CONTRACT §8), `core/errors.py` (move `ApiException`, add `upstream_error`/`rate_limited`
       helpers), `USE_FIXTURES` routes to existing stubs (`app/fixture_routes.py`).
       *Accept:* `USE_FIXTURES=1 pytest` → all `test_stubs.py` pass unchanged; unknown route → `{"error":{"code":"not_found"}}`.
