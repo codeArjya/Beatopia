@@ -126,12 +126,18 @@ Checks after every task: `make lint`, `uv run --project api pytest api`, plus th
       *Done:* checked against the dev Supabase (pgvector 0.8.2, 7/7 tables). A probe connection runs before the
       pool so a bad URL / missing extension shows the real error. CLAP warm-up logs a warning instead of failing
       while `common.clap.embed_text` is still WS1's stub. Responses carry `Server-Timing` (used by T6.3).
-- [ ] **T2.1 `/chips`** (1 h). Parse `ingest/vocab.txt` (category headers), ids `inst.|genre.|mood.` +
-      slug (`r&b`→`r_b`, spaces→`_`), tempo 70–160 step 10 (`bpm_range` ±5), 24 keys (`key.a_minor` → `"A minor"`,
+- [x] **T2.1 `/chips`** (1 h). Parse `ingest/vocab.txt` (category headers), ids `inst.|genre.|mood.` +
+      slug (`r&b`→`rnb`, `hi-hats`→`hi_hats`, spaces→`_`, as in the fixture), tempo 70–160 step 10 (`bpm_range` ±5), 24 keys (`key.a_minor` → `"A minor"`,
       sharps as `c_sharp_major` → `"C# major"`). Colors `--chip-<category>`.
       *Accept:* response validates `ChipsResponse`; ids for trumpet/soul/tempo.90/key.a_minor equal the fixture's.
-- [ ] **T2.2 `/tracks/{id}`** (1 h). Join tracks + windows (+ stems) → `TrackDetail`, URLs via `public_url`;
+      *Done:* the generated response equals `chips.json` exactly (154 chips). Vocab is loaded at startup in real
+      mode (bad vocab or duplicate slugs fail loudly); `chip_index()` is ready for the planner merge (T4.1).
+- [x] **T2.2 `/tracks/{id}`** (1 h). Join tracks + windows (+ stems) → `TrackDetail`, URLs via `public_url`;
       404 `not_found`. *Accept:* against seed, a seed track validates `TrackDetail`; unknown id → 404 shape.
+      *Done:* the WS1 seed isn't in the DB yet (0 tracks), so the SQL is checked by an opt-in integration test
+      (`BEATOPIA_DB_TESTS=1`) that inserts a track/windows/stem in one transaction against the dev DB and rolls
+      back. Windows are ordered mix first, then by stem and start. Real mode now also requires `SUPABASE_URL`.
+      Re-check against the seed at H3. The `fs_*` live fallback is T8.1.
 
 ### → toward Gate H12: live `/search` in production
 - [ ] **T3.1 Search SQL + scoring** (2 h). `core/search_sql.py` (must ⊆ tags, relax to overlap if < 10, exclude,
