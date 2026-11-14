@@ -105,6 +105,7 @@ contract and no longer assumptions:
 | C4b | WS4 finds Freesound preview URLs don't decode in the browser (CORS) | Copy the preview to `tracks/fs_{id}/mix.mp3` on first `GET /tracks/fs_*` |
 | C6 | After the hackathon | `tracks.owner_session text` so imports can be listed per session |
 | C7 | **Proposed** (needed now, can land at H12) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
+| C8 | **Proposed** (needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
 
 ---
 
@@ -143,11 +144,16 @@ against WS1's seed once it is in the DB (the DB was empty this session).
       Re-check against the seed at H3. The `fs_*` live fallback is T8.1.
 
 ### → toward Gate H12: live `/search` in production
-- [ ] **T3.1 Search SQL + scoring** (2 h). `core/search_sql.py` (must ⊆ tags, relax to overlap if < 10, exclude,
+- [x] **T3.1 Search SQL + scoring** (2 h). `core/search_sql.py` (must ⊆ tags, relax to overlap if < 10, exclude,
       bpm incl. half/double, key, stems, `source <> 'import'`, order by `<=>`, limit 60), `core/scoring.py`
       (constants + per-track cap + overlap dedupe). *Accept:* unit tests for score math & caps; seed query
       "dusty soul keys" returns ≤ 8 results, ≤ 3 per track, scores in 0..1.
-      *Left:* all of it. Unit tests can be written now; the live check needs WS1's seed and `embed_text`.
+      *Done:* live on the WS1 seed (350 tracks, ~6.5k windows) with `CLAP_MODEL=laion/larger_clap_general` @
+      `ada0c23…` (WS1's model, see C8): 8 results, max 3 per track, scores 0.54–0.58, all Rhodes/R&B/soul windows.
+      Warm SQL 80–170 ms round trip (39 ms in Postgres, exact top-N sort, no ANN index needed at this size).
+      Null-bpm tracks pass a bpm filter (bpm_fit 0.5, §7.4). Dedupe drops same track + same stem windows that
+      overlap ≥ 50% of the shorter one (the plan said > 50%; adjacent 10 s / 5 s-hop windows overlap exactly 50%).
+      DB test uses temp tables that shadow the real ones inside a rolled-back transaction.
 - [ ] **T3.2 Bar snapping + Result mapping** (1.5 h). `core/snap.py`; stem windows use `tracks/{id}/stems/{stem}.mp3`.
       *Accept:* unit tests (90 bpm → 4 bars = 10.667 s; one-shot → 1/2 bars; end clamp); `/search` v1 (no Gemini)
       validates `SearchResponse` on seed, p50 < 1 s locally. Record the fallback rate of the 20 eval queries
