@@ -1,5 +1,17 @@
 {
   "$defs": {
+    "AnalyzeJobOutput": {
+      "properties": {
+        "track": {
+          "$ref": "#/$defs/TrackDetail"
+        }
+      },
+      "required": [
+        "track"
+      ],
+      "title": "AnalyzeJobOutput",
+      "type": "object"
+    },
     "ApiError": {
       "properties": {
         "code": {
@@ -661,8 +673,10 @@
         "output": {
           "anyOf": [
             {
-              "additionalProperties": true,
-              "type": "object"
+              "$ref": "#/$defs/StemsJobOutput"
+            },
+            {
+              "$ref": "#/$defs/AnalyzeJobOutput"
             },
             {
               "type": "null"
@@ -1157,6 +1171,22 @@
       "title": "Stem",
       "type": "object"
     },
+    "StemsJobOutput": {
+      "properties": {
+        "stems": {
+          "items": {
+            "$ref": "#/$defs/Stem"
+          },
+          "title": "Stems",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stems"
+      ],
+      "title": "StemsJobOutput",
+      "type": "object"
+    },
     "StemsRequest": {
       "properties": {
         "start_s": {
@@ -1622,6 +1652,12 @@
     "StemsResponse": {
       "$ref": "#/$defs/StemsResponse"
     },
+    "StemsJobOutput": {
+      "$ref": "#/$defs/StemsJobOutput"
+    },
+    "AnalyzeJobOutput": {
+      "$ref": "#/$defs/AnalyzeJobOutput"
+    },
     "Job": {
       "$ref": "#/$defs/Job"
     },
@@ -1714,6 +1750,8 @@
     "TrackDetail",
     "StemsRequest",
     "StemsResponse",
+    "StemsJobOutput",
+    "AnalyzeJobOutput",
     "Job",
     "ImportResponse",
     "WhyRequest",

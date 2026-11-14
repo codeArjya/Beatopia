@@ -1,0 +1,95 @@
+{
+  "query_id": "q_fb5d1c00",
+  "plan": {
+    "clap_text": "lonely harmonica, sparse, dusty",
+    "must_tags": [
+      "harmonica"
+    ],
+    "exclude_tags": [],
+    "bpm_range": null,
+    "key": null,
+    "stems_wanted": [],
+    "prefer_sparse": true
+  },
+  "results": [
+    {
+      "window_id": "fma_000123:mix:13333",
+      "track": {
+        "id": "fma_000123",
+        "title": "Velvet Static",
+        "artist": "The Quiet Arcade",
+        "source": "fma",
+        "source_url": "https://example.com/fixtures/fma/000123",
+        "license": "CC-BY-4.0",
+        "attribution": "\"Velvet Static\" by The Quiet Arcade, licensed under CC BY 4.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "C major",
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 13.333,
+      "end_s": 16.0,
+      "bars": 1,
+      "tags": [
+        "piano",
+        "jazz",
+        "bittersweet"
+      ],
+      "score": 0.31,
+      "why": null
+    },
+    {
+      "window_id": "fs_733104:mix:0",
+      "track": {
+        "id": "fs_733104",
+        "title": "harmonica_blues_riff_take3_FINAL_master_v2 (very long freesound title for truncation tests)",
+        "artist": null,
+        "source": "freesound",
+        "source_url": "https://example.com/fixtures/freesound/733104",
+        "license": "CC0",
+        "attribution": "\"harmonica_blues_riff_take3_FINAL_master_v2\" (Freesound sound 733104), CC0",
+        "duration_s": 12.4,
+        "bpm": null,
+        "key": null,
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 0.0,
+      "end_s": 12.4,
+      "bars": 4,
+      "tags": [],
+      "score": 0.22,
+      "why": null
+    },
+    {
+      "window_id": "fs_733190:mix:0",
+      "track": {
+        "id": "fs_733190",
+        "title": "Harmonica sustain",
+        "artist": "fixture_user",
+        "source": "freesound",
+        "source_url": "https://example.com/fixtures/freesound/733190",
+        "license": "CC-BY-4.0",
+        "attribution": "\"Harmonica sustain\" by fixture_user (Freesound), licensed under CC BY 4.0",
+        "duration_s": 4.1,
+        "bpm": null,
+        "key": null,
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 0.0,
+      "end_s": 4.1,
+      "bars": 1,
+      "tags": [
+        "harmonica"
+      ],
+      "score": 0.19,
+      "why": null
+    }
+  ],
+  "fallback_used": true
+}

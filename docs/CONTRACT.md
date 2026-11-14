@@ -45,7 +45,7 @@ conflicts, take `main`'s lockfile and re-run `pnpm install` / `uv sync`.
 | Thing | Format | Example |
 | --- | --- | --- |
 | Track id | `{source}_{source_id}` | `fs_482913`, `jam_1532881`, `fma_000123`, `imp_3f9a1c2e` |
-| Window id | `{track_id}:{stem}:{start_ms}` | `fs_482913:mix:15000` |
+| Window id | `{track_id}:{stem}:{start_ms}`; **opaque to clients**: always read `start_s`/`end_s`, never parse the id | `fs_482913:mix:15000` |
 | Job id | UUID | |
 | Session id | random UUID from the browser (localStorage `session_id`) | |
 
@@ -151,7 +151,8 @@ Job `input` shapes:
 - `stems`: `{"track_id": str, "start_s": float, "end_s": float, "model": "htdemucs"|"htdemucs_6s"}`
 - `analyze`: `{"track_id": str, "path": str}` (storage path of the uploaded original)
 
-Job `output` shapes: `stems` → `{"stems": [Stem, ...]}`; `analyze` → `{"track": TrackDetail}`.
+Job `output` shapes: `stems` → `StemsJobOutput` `{"stems": [Stem, ...]}`; `analyze` → `AnalyzeJobOutput`
+`{"track": TrackDetail}` (models in §5; `GET /jobs/{id}` validates them).
 
 The worker claims jobs with `select ... for update skip locked` and updates `progress` (0..1).
 
@@ -308,12 +309,18 @@ class StemsResponse(BaseModel):
     job_id: str | None = None        # set when separation was queued
     stems: list[Stem] | None = None  # set when stems covering the range already exist
 
+class StemsJobOutput(BaseModel):
+    stems: list[Stem]
+
+class AnalyzeJobOutput(BaseModel):
+    track: TrackDetail
+
 class Job(BaseModel):
     id: str
     kind: Literal["stems", "analyze"]
     status: Literal["queued", "running", "done", "error"]
     progress: float
-    output: dict | None = None       # see CONTRACT §3 job output shapes
+    output: StemsJobOutput | AnalyzeJobOutput | None = None   # stems job → StemsJobOutput, analyze → AnalyzeJobOutput
     error: str | None = None
 
 class ImportResponse(BaseModel):
@@ -408,11 +415,11 @@ Base URL `NEXT_PUBLIC_API_URL`. JSON everywhere except `/imports` (multipart). C
 | `GET /health` | — | `{"ok": true}` | |
 | `GET /chips` | — | `ChipsResponse` | built from `ingest/vocab.txt` + fixed tempo/key chips |
 | `POST /search` | `SearchRequest` | `SearchResponse` | target < 3 s p50 |
-| `GET /tracks/{id}` | — | `TrackDetail` | |
+| `GET /tracks/{id}` | — | `TrackDetail` | DB first; an `fs_*` id not in the DB (Freesound fallback) is built live from Freesound: one `mix` window, `beat_times: []`, `stems: []` |
 | `POST /tracks/{id}/stems` | `StemsRequest` | `StemsResponse` | existing stems covering the range → `stems`; else enqueue job |
 | `GET /jobs/{id}` | — | `Job` | poll every 1 s |
-| `POST /imports` | multipart `file` (≤ 25 MB; wav, mp3, flac, m4a, ogg), field `session_id` | `ImportResponse` | uploads, inserts a placeholder track, enqueues `analyze` |
-| `POST /why` | `WhyRequest` | `WhyResponse` | cached in `notes` |
+| `POST /imports` | multipart `file` (≤ 25 MB; wav, mp3, flac, m4a, ogg), field `session_id` | `ImportResponse` | uploads, inserts a placeholder track, enqueues `analyze`. Imported tracks are private: never returned by `/search`, only by id |
+| `POST /why` | `WhyRequest` | `WhyResponse` | cached in `notes`; fallback windows (not in `windows`) are cached in API memory only |
 | `POST /events` | `EventRequest` | 204 | |
 | `POST /assist` | `AssistRequest` | `AssistResponse` | Gemini function calling over the Op union |
 
@@ -427,12 +434,22 @@ Error codes in use: `not_found`, `bad_request`, `range_too_long`, `clip_is_slice
    Chip filters are merged into the plan deterministically **after** Gemini, so chips always apply.
 2. Query vector `q = embed_text([plan.clap_text])`.
 3. SQL: filter by `must_tags` ⊆ tags (or ≥ 1 overlap if that returns < 10), not `exclude_tags`, bpm range
-   (also accept half/double time), key; stem in `stems_wanted` if given; order by `embedding <=> q`; limit 60.
-4. `score = 0.6·sim + 0.2·tag_overlap + 0.1·bpm_fit + 0.1·loopability` (if `prefer_sparse`: subtract `0.15·density`).
+   (also accept half/double time), key; stem in `stems_wanted` if given; never `source = 'import'`;
+   order by `embedding <=> q`; limit 60.
+4. `score = 0.6·sim + 0.2·tag_overlap + 0.1·bpm_fit + 0.1·loopability` (if `prefer_sparse`: subtract `0.15·density`),
+   clamped to 0..1, where
+   - `sim = clamp(1 − (embedding <=> q), 0, 1)` (cosine similarity);
+   - `tag_overlap = |must_tags ∩ tags| / |must_tags|`, or 0.5 when `must_tags` is empty;
+   - `bpm_fit` = 1 when there is no `bpm_range` or the track bpm (or half/double) is inside it, falling linearly
+     to 0 at 10 bpm outside; 0.5 when the track bpm is null.
 5. Keep at most 3 windows per track; snap to 1/2/4/8/16 bars using beat_times.
 6. Gemini rerank of the top 20 → final `limit`; fill `why` from `notes` cache.
 7. If fewer than 3 results have score > 0.25 → Freesound fallback, normalized into `Result` (`track.source = "freesound"`,
-   id `fs_{id}`, not stored unless picked).
+   id `fs_{id}`, window id `fs_{id}:mix:0`, `audio_url` = Freesound `preview-hq-mp3`, window `0..min(duration, 16)` s,
+   `fallback_used = true`). Fallback tracks are **not stored** in v1 (not even when picked): `GET /tracks/{id}` and
+   `POST /why` serve them live, and a `pick` event only records the event. Exception: `POST /tracks/{id}/stems` on one
+   first stores a minimal `tracks` row (preview copied to `tracks/{id}/mix.mp3`, `bpm`/`key` null, no windows) so
+   the worker can separate it.
 
 ---
 
@@ -444,12 +461,15 @@ DATABASE_URL=postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supaba
 SUPABASE_URL=https://<ref>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=            # server only, never in web/
 GEMINI_API_KEY=
-GEMINI_MODEL=gemini-3.5-flash         # confirm the current Flash id
+GEMINI_MODEL=gemini-3.8-flash         # newest stable Flash on ai.google.dev as of 2026-11-14
+GEMINI_DEGRADED=0                     # 1 = skip planner/rerank/why/assist generation (Gemini down or rate-limited)
 FREESOUND_API_KEY=
 JAMENDO_CLIENT_ID=                    # optional
 CLAP_MODEL=laion/larger_clap_music
 DEMUCS_MODEL=htdemucs
-WEB_ORIGIN=http://localhost:3000
+WEB_ORIGIN=http://localhost:3000      # comma-separated list of allowed origins
+USE_FIXTURES=0                        # 1 = api answers every endpoint from shared/fixtures (no DB, no CLAP)
+API_DOMAIN=                           # deploy only: Caddy hostname, e.g. 203-0-113-7.sslip.io or api.example.com
 
 # web (Next.js)
 NEXT_PUBLIC_API_URL=http://localhost:8000
@@ -461,6 +481,8 @@ NEXT_PUBLIC_USE_FIXTURES=1            # 1 = lib/api returns shared/fixtures, no 
 ## 9. Fixtures (`shared/fixtures/`)
 
 One JSON file per response type, valid against the generated schema: `chips.json`, `search.json` (8 results),
+`search_empty.json` (0 results, `fallback_used`), `search_fallback.json` (3 low-score results incl. Freesound,
+null bpm/key/artist),
 `track_detail.json`, `stems_ready.json`, `stems_queued.json`, `job_running.json`, `job_done_stems.json`,
 `job_done_analyze.json`, `import.json`, `why.json`, `assist.json`.
 Fixture audio lives in `web/public/fixtures/audio/` (synthetic WAVs made by `scripts/make_fixture_audio.py`:
