@@ -112,6 +112,9 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
+**Status 2026-11-14:** T1.1–T2.2 done. Everything from T3.1 on is not started. T2.2 still needs one re-check
+against WS1's seed once it is in the DB (the DB was empty this session).
+
 ### → Gate H3: real DB wired, chips and tracks real
 - [x] **T1.1 Settings, errors, fixture mode** (1 h). *Done:* `create_app(settings)` factory; real mode mounts
       `REAL_ROUTERS` and keeps fixture stand-ins only for endpoints not implemented yet, logging them at startup
@@ -144,6 +147,7 @@ Checks after every task: `make lint`, `uv run --project api pytest api`, plus th
       bpm incl. half/double, key, stems, `source <> 'import'`, order by `<=>`, limit 60), `core/scoring.py`
       (constants + per-track cap + overlap dedupe). *Accept:* unit tests for score math & caps; seed query
       "dusty soul keys" returns ≤ 8 results, ≤ 3 per track, scores in 0..1.
+      *Left:* all of it. Unit tests can be written now; the live check needs WS1's seed and `embed_text`.
 - [ ] **T3.2 Bar snapping + Result mapping** (1.5 h). `core/snap.py`; stem windows use `tracks/{id}/stems/{stem}.mp3`.
       *Accept:* unit tests (90 bpm → 4 bars = 10.667 s; one-shot → 1/2 bars; end clamp); `/search` v1 (no Gemini)
       validates `SearchResponse` on seed, p50 < 1 s locally. Record the fallback rate of the 20 eval queries
