@@ -71,3 +71,71 @@ before this entry: `dafd768`.
   1. Move `ws2-api` to this branch with the force-with-lease command above.
   2. Land C7 (`internal_error`) at the H12 sync.
   3. Ask WS1 for the seed ETA (needed for the H3 gate and the T2.2 re-check).
+
+
+## 2026-11-14 · session 2 (sync with WS1, search SQL + scoring, snapping, `/search` v1)
+
+Branch `ws2-api` in the main checkout (the human merged `worktree-ws2-api-build` into it and removed that worktree).
+At the start, rebased onto `origin/main` `0877d84` (WS1 PR #5: shared CLAP + live seed) with no conflicts. Then
+`make schema` (CRLF-only diff in the shared files, left alone) and `make check-fixtures` (13 fixtures, 0 problems).
+Commits this session: `5693789` (T3.1) and `43c0e22` (T3.2).
+
+### Done
+- **State check:** `common.clap.embed_text` is implemented. The dev DB has **350 tracks** (150 Jamendo, 200 Freesound),
+  about **6.5k windows** (WS1's ingest was still adding rows), 36 stems, 9 heroes and 0 notes. Keys look like `"A minor"`.
+  113 tracks have a null bpm and 32 have no beats.
+- **T3.1 search SQL + scoring: pass, live.** "dusty soul keys" on the seed → 8 results, at most 3 per track, scores
+  0.54–0.58, all Rhodes/R&B/soul windows. The unit tests cover the score math, clamp, bpm_fit, tag_overlap, the
+  per-track cap and the dedupe. An opt-in DB test checks every filter against temp tables that shadow the real ones
+  inside a rolled-back transaction.
+- **T3.2 snapping + `/search` v1: pass, live.** `scripts/search_check.py` runs the real app (pool + CLAP) over
+  the 20 eval queries in `scripts/eval_queries.py`. All 20 returned 200 and validated against `SearchResponse` and
+  `shared/schema`. **p50 297–328 ms, p95 388–402 ms** uncached, p50 160 ms with cached query vectors.
+  **Fallback needed 0/20.**
+- **Proposal C8** `docs/proposals/WS2-clap-model-env.md`: the corpus was embedded with
+  `laion/larger_clap_general` @ `ada0c23a36c4e8582805bb38fec3905903f18b41`, but `.env.example` / CONTRACT §8 still
+  say `laion/larger_clap_music`. An API started with the documented env silently returns meaningless rankings.
+- Checks at the end: `make lint` green; `uv run --project api pytest api` gives 72 passed and 5 skipped (the opt-in
+  DB tests); with `BEATOPIA_DB_TESTS=1` the DB tests give 9 passed.
+
+### Deviations from PLAN.md
+- **Dedupe threshold is ≥ 50%** of the shorter window (same track and same stem), not > 50%. WS1's windows are 10 s
+  with a 5 s hop, so neighbours overlap exactly 50% and would otherwise all survive. Different stems of the same
+  moment are kept, because they're different samples.
+- **Null-bpm tracks pass a bpm filter** and score bpm_fit 0.5 (that's how I read §7.4's "0.5 when the track bpm is
+  null"). A null key does **not** pass a key filter. That's about a third of the library, so a tempo chip still
+  brings in unknown-tempo tracks at a small score penalty. Revisit if WS3 reports it.
+- **Chip merge landed early** in `core/planner.py` (it was planned for T4.1), because `/search` v1 needs chips.
+  T4.1 only adds Gemini + `plan_cache` in front of `merge_chips`.
+- **v1 caption:** text as typed (whitespace collapsed), else the instrument/genre/mood chip labels + " music"
+  (tempo/key chips never go into the CLAP text), else "music".
+- **New 400s:** no text and no chips, or an unknown chip id → `bad_request`. CLAP not loaded → 502 `upstream_error`.
+- **Snap fallback:** when not even 1 bar fits (a sound shorter than 1 bar at its bpm), the raw bounds stay with `bars=1`.
+- Files were written via a scratch dir + copy because the background-job guard blocks Write/Edit in the shared
+  checkout (the human said: no worktrees).
+
+### Gotchas
+- **Set the CLAP env before starting the API** (C8): `CLAP_MODEL=laion/larger_clap_general
+  CLAP_REVISION=ada0c23a36c4e8582805bb38fec3905903f18b41`. `common.clap` reads both at import time. The local `.env`
+  doesn't have them yet (I didn't edit it). The startup log line `clap warm (<model> @ <revision>)` shows what loaded.
+- The first CLAP load downloads the weights (≈ 170 s once). After that, startup takes 30–40 s (CPU warm-up).
+- The first SQL on a cold connection took 3.1 s; warm, it's 80–340 ms, of which 39 ms is in Postgres (exact top-N sort
+  over about 6.5k rows, no ANN index needed yet). The pool keeps its connections warm.
+- `common.storage.public_url` reads `SUPABASE_URL` from `os.environ`, not from `Settings`, so tests must `setenv` it.
+- On Windows, scripts that print track titles need a UTF-8 stdout (`search_check.py` reconfigures it).
+- **The fallback trigger won't fire:** the non-sim score terms give a floor of about 0.25, so even "kazoo
+  orchestra" tops out at 0.52. T8.1 must trigger on `sim` (for example, top-3 sim < X measured on the eval set) and
+  needs a §7.7 proposal.
+
+### State
+- Real endpoints: `/health`, `/chips`, `/tracks/{id}`, `/search` (v1: no Gemini plan/rerank, no fallback). Fixture
+  stand-ins are left for `/tracks/{id}/stems`, `/jobs/{id}`, `/imports`, `/why`, `/events` and `/assist`.
+- No production URL or VM yet.
+- Proposals waiting to land: C7 (`internal_error`) and **C8 (CLAP model/revision; needed before the deploy)**.
+
+### Next
+- T4.1 Gemini client + planner + `plan_cache`, then T4.2 rerank + notes.
+- Human actions:
+  1. Add the two `CLAP_*` lines to the local `.env`, and land C8 with WS1 (`.env.example` / CONTRACT §8).
+  2. Push `ws2-api`: the rebase onto main rewrote session 1's commits, so a plain push is rejected. Run
+     `git push --force-with-lease origin ws2-api` if you want the remote to match.
