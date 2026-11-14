@@ -1,4 +1,41 @@
-# WS4 arrangement/production session handoff
+# WS4 acceptance retry handoff
+
+Latest session starts at `07dd5b8`; new code/tooling commit `af96da1`. Work from repo root on `ws4-editor`. Use pnpm.cmd in web and preserve WS4 ownership. The historical records below remain for evidence; the 401/no-real-hero statements in them are superseded by this section. No shared/generated types, dependencies, API client, backend or `.env` edits.
+
+## Resolved and verified
+
+- Supabase lookup now succeeds (HTTP 200). The key is a new secret API key; the diagnostic request previously also sent it as a Bearer JWT. Corrected to `apikey` only, following [Supabase's documented headers](https://supabase.com/docs/guides/getting-started/api-keys). No credentials logged or rotated. Network requests and WindowsApps Python needed approved escalation; both succeeded.
+- Real hero: **jam_1047157 — km 1 - Escena III**, Oscar Avila, CC-BY-SA-3.0, BPM 139.675, G major, duration 174.667 s. Mix and four full-length stems (bass/drums/other/vocals) return public HTTP 200 with CORS `*`. Independent MP3 decode: 44100 Hz stereo, 7702800 frames; window 5..15 = 441000 finite/nonzero frames.
+- New `/editor/live-audio-checks` tests actual public hero mix/drums with a credential-free database metadata snapshot in `lib/audio/acceptance/hero-storage.json`. It uses existing decode, native DSP, replay/store and WAV code. Tests nonzero offsets; ranged-file adapter using a WAV made from decoded hero drums; trim/chop/reverse/-3/reorder/duplicate/undo/redo; output/input caps, missing-BPM rejection, real HTTP 404/corrupt file errors and valid decode afterward; browser WAV encode/decode. A synthesized ranged-file adapter is **not** a claim that a remote ranged stem object exists.
+- Human pasted ALL AUTOMATED BROWSER CHECKS PASSED and confirmed preview/download/opening work. That detailed first log identifies VS Code Electron 43.8.6 / Chromium 150. Human then explicitly confirmed a rerun in standalone Google Chrome after Ctrl+Shift+R, with hydration error gone and correct final WAV byte count. These are human-run checks, not agent UI automation.
+- Actual hero edit: track 5..15 -> trim relative 1..9 (track 6..14) -> four chops -> reverse c1.4 -> native -3 repitch (104888 frames) -> arrange [c1.4,c1.1,c1.4,c1.3,c1.2] -> undo/redo -> WAV.
+- Download: `C:\Users\ethan\Downloads\km 1 - Escena III-139.675bpm-G major.wav`. Independent Python wave read of all frames: 44100 Hz, 16-bit stereo PCM, 474376 frames, **10.756825396825397 seconds**, 1897504 audio bytes / **1897548 file bytes**. SHA256: `143886c5f9f522e0d46786d65cbf7dd43af8694540b7793a5086516862221b46`.
+- Fixed test log saying 0 bytes: decodeAudioData transfers/detaches its input; capture size before decoding. The download was intact. Hydration mismatch came from stale dev-server SSR text: old fixture paragraph remained in served HTML despite being absent from source. Restart restored current live text; human confirmed error stayed gone after hard reload. No hydration suppression, shell/extension/cache-directory/OS changes. Fonts still fall back.
+
+## Checks and remaining acceptance
+
+Final code checks passed: `pnpm.cmd test lib/audio stores` (14 files / 60 tests), `pnpm.cmd lint`, `pnpm.cmd tsc --noEmit`, `pnpm.cmd test` (15 files / 67 tests), `git diff --check`. Both new routes compile and return HTTP 200. No required pnpm checks blocked/unrun.
+
+**H16 remains open:** live storage/engine checks use a metadata snapshot. This branch's WS2 TrackDetail endpoint still returns fixtures; no working deployed API URL is configured/provided. Need WS2's real endpoint for main `/editor` with fixtures off and production telemetry. Do not label the development snapshot as production API integration, and do not edit backend/shared paths from WS4.
+
+The native Computer Use tool still stops at state capture because it cannot confidently verify the Chrome URL. The [computer-use skill](C:/Users/ethan/.codex/plugins/cache/openai-bundled/computer-use/26.1111.21308/skills/computer-use/SKILL.md) requires its guidance to "stop issuing app input" after a stop; no further input followed. Human manual checks were used with explicit reports.
+
+Pending separate manual UI checklist: actual EditorClient trim/chop/reverse/-3/reorder/duplicate/undo/redo/play/download, missing-BPM/HTTP/decode scenarios and return to normal. Remaining detailed keyboard/text-input/S-endpoint, drag, nested repeated leaf, cursor/seek/loop/Regions and node/listener unmount instrumentation are not implied by the engine harness. Earlier Tone musical pitch/keep-pitch listening remains open. No gate boxes changed until each row's full acceptance passes. Retain approved cut order; no features cut or unassigned later work started.
+
+## Resume / manual help
+
+Dev server is running in fixture mode on localhost:3000 while manual checks are pending. Avoid starting a second server; inspect port/server state first. Fresh start command from web: `$env:NEXT_PUBLIC_USE_FIXTURES='1'; pnpm.cmd dev`.
+
+1. Real storage checks: `http://localhost:3000/editor/live-audio-checks`. Fixture DSP checks remain at `/editor/audio-checks`. Routes are development + fixture-mode only and return not found in production.
+2. Actual hero editor: `http://localhost:3000/editor/live-editor-checks?track=jam_1047157&start=5&end=15&stem=mix`. This mounts the same EditorClient using a dev-only metadata input and isolated TanStack cache key. Links at the top cover normal/missing-bpm/http-error/decode-error/drums. Missing-BPM/error cases intentionally alter the development snapshot. Product cache keys and wire state are unchanged.
+3. Human was asked to trim 1..9, chop 4, select c1.4, reverse/-3, reorder/duplicate, undo/redo, play/download; then test scenario links and normal recovery. Record their reply before marking any new acceptance pass.
+4. Finish remaining detailed earlier browser checks, especially keyboard guards/shortcuts and playback/Regions/unmount instrumentation, and Tone musical listening. Record unavailable cases separately.
+5. Obtain production API URL from WS2/human, restart with fixtures off and that NEXT_PUBLIC_API_URL, load the real hero on main `/editor`, verify covering stems and record production event/export result. No new hero credentials are needed for public audio; never put a secret API key in the browser.
+6. Re-run plan checks after any code fix. Do not start queued/add-source stems, local import, chat or optimization unless assigned.
+
+---
+
+## Prior arrangement/production session record (historical)
 
 Work from the Beatopia repo root on `ws4-editor`. This session started clean at `18f02ac`. Read root/web AGENTS.md, docs/CONTRACT.md, docs/handoff/WS4-editor.md and reviewed web/PLAN-ws4.md. Use pnpm.cmd in PowerShell. The reviewed plan authorizes its log updates; all source changes stay in WS4 paths. No dependencies, lockfile, generated wire types, API client, shared files or WS3 shell edits.
 
