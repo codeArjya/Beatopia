@@ -114,8 +114,8 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-14:** T1.1–T2.2 done. Everything from T3.1 on is not started. T2.2 still needs one re-check
-against WS1's seed once it is in the DB (the DB was empty this session).
+**Status 2026-11-14 (end of session 3):** T1.1–T4.2 done. Everything from T4.3 on is not started. T2.2 still
+needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
 
 ### → Gate H3: real DB wired, chips and tracks real
 - [x] **T1.1 Settings, errors, fixture mode** (1 h). *Done:* `create_app(settings)` factory; real mode mounts
@@ -189,6 +189,7 @@ against WS1's seed once it is in the DB (the DB was empty this session).
 - [ ] **T4.3 `/why` with audio** (1.5 h). Excerpt via ffmpeg, P3 / P3b fallback, cache.
       *Accept:* live note ≤ 45 words, 2nd call cached; text-only path covered by a test with audio fetch forced to fail.
       Run the 20 eval queries once and eyeball plans (temperature check from §1).
+      *Left:* all of it; use thinking MINIMAL + `gemini.generate_json`, pace eval runs for the free-tier quota.
 - [ ] **T5.1 Contract test** (1 h). `tests/test_contract.py`: every endpoint, live (`API_URL` env) or TestClient,
       validated against `shared/schema/api.schema.json` with `jsonschema`, and key sets compared to fixtures.
       *Accept:* passes in fixture mode and against local real mode.
@@ -232,6 +233,7 @@ against WS1's seed once it is in the DB (the DB was empty this session).
 ### H24–H30: hardening
 - [ ] **T11.1 Latency pass** (1.5 h): speculatively `embed_text(raw text)` in parallel with the planner, use it if
       `plan.clap_text` == raw text; parallel rerank + notes fetch; bench before/after.
+      *Left:* all; main target is rerank (2.3–3.3 s, uncached search 2.8–5.3 s); auto-degrade already done (T4.1).
 - [ ] **T11.2 Timeouts, degraded mode, rate limits** (1.5 h): token bucket, auto-degrade, `GEMINI_DEGRADED` toggle
       documented in `api/README.md`. *Accept:* tests with mocked Gemini 503s → `/search` still 200 with cached notes.
 

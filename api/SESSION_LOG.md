@@ -176,3 +176,82 @@ The full results of this session are in the session 2 entry above. This entry re
 - **First task: T4.1** Gemini client + planner + `plan_cache` (the chip merge already exists in `core/planner.py`).
 - Human actions first: add the two `CLAP_*` lines to the local `.env`, and land C8 with WS1. C7 (`internal_error`)
   can wait until the H12 sync.
+
+
+## 2026-11-14 · session 3 (Gemini client, planner + plan_cache, rerank + notes)
+
+Branch `ws2-t4` (a worktree at `.claude/worktrees/ws2-t4`, branched from `ws2-api` `ca83aef`, pushed to origin).
+Commits: `290e73c` (T4.1), `7da36ac` (T4.2), plus this wrap-up. `origin/main` was still `0877d84`, so there was no
+sync.
+
+### Done
+- **T4.1 Gemini client + planner + plan_cache: pass, live** (`scripts/plan_check.py`, `gemini-3.6-flash`).
+  "sad trumpet around 90 bpm, no drums" → `must [trumpet]`, all 6 drum tags excluded, bpm (85, 95), in 1.5 s. The
+  second call hits the in-process LRU (0.1 ms), and a fresh process hits the `plan_cache` row (≈ 100 ms). "just the
+  drums, fast breakbeat" → `stems [drums]`, bpm 120–170, `prefer_sparse`. The mock tests cover the chip-merge
+  rules, defensive conversion, cache key normalization, the fallback on 503/429/bad JSON/timeout (not cached), the
+  degraded switch and auto-degrade.
+- **T4.2 Rerank + notes: pass, live** (`scripts/rerank_check.py`). "dusty soul keys" and the trumpet query got 8/8
+  notes, rerank 2.3–3.3 s, `rerank_ms` in the log line. The repeat search is `skipped:memo` at 219 ms total with no
+  Gemini call. The mock tests cover: fake, duplicate and out-of-top-20 ids dropped, missing ids appended in score
+  order, notes only for ordered uncached ids, the 30-word trim, a cached note never overwritten, the skip rules,
+  failure → score order, and a notes-write error that isn't fatal.
+- **Latency:** an uncached search (planner + rerank) takes **2.8–5.3 s** in total. With both cached, about 220 ms.
+  No p50 over the 20 eval queries this session (the free-tier quota doesn't allow 40 calls).
+- **Proposal C9** `docs/proposals/WS2-gemini-model.md`: `GEMINI_MODEL=gemini-3.6-flash`.
+- Checks: `make lint` green; `uv run --project api pytest api` gives 103 passed and 5 skipped (the opt-in DB tests).
+
+### Deviations from PLAN.md
+- **Tags are plain strings in the planner schema.** Two 126-value tag enums make the API return `400
+  INVALID_ARGUMENT` (the key and stem enums are fine). The prompt lists the vocab, and `from_gemini` filters to it.
+  This was the fallback named in PLAN §1.
+- **Thinking `MINIMAL`** for the planner and rerank, not `LOW`. On the full planner prompt with `3.6-flash`, LOW took
+  3–11 s and MINIMAL 1.0–1.3 s. `gemini.thinking_for` sends MINIMAL as LOW to `gemini-3.8-flash`, which rejects it.
+- **Budgets are wall-clock, enforced in `core/gemini.py`.** The API rejects HTTP deadlines under 10 s (`400 Manually
+  set deadline 4s is too short`), so the HTTP deadline is max(budget, 10 s). The call runs on an 8-thread pool and
+  we stop waiting at the budget.
+- **Sync client** (`client.models`), not `client.aio`, because `/search` is a sync handler in the threadpool.
+- **Auto-degrade landed now** (3 failures in 60 s → skip Gemini for 5 min) instead of T11.2. Without it, a 429 adds
+  seconds to every search.
+- **Rerank order memo** (in process, keyed by request + chips + limit + top-20 ids). The plan's "skip if the top 8
+  are cached" rule checks the score-order top 8, which rarely equals the reranked set, so every repeat would
+  re-call Gemini. With the memo, repeats reuse Gemini's order and skip once their notes are cached.
+- **Plan cache:** an in-process LRU (1024) sits in front of `plan_cache`, because the session pooler round trip is
+  80–170 ms and the acceptance check asks for < 50 ms. The cached value is the pre-merge plan, so chips are
+  re-applied on every hit.
+- New log fields: `plan_source` (chips|memory|db|gemini|fallback), `rerank` (ok|skipped:*|failed), `new_notes`.
+
+### Gotchas
+- **The local `.env` has `GEMINI_MODEL=gemini-3.8-flash-lite`, which doesn't exist (404 on every call).** Set
+  `gemini-3.6-flash` (C9). Today `gemini-3.8-flash` and `3.7-flash` returned 503 "high demand" on every call,
+  even on a 3-word prompt.
+- **Free-tier quota:** `429 You exceeded your current quota` after about 2–4 calls a minute; it recovers within
+  minutes. Live scripts pause 20 s between searches. An uncached search makes 2 Gemini calls. **The paid key is
+  needed before the deploy and demo.**
+- Live checks need, in the process env: `GEMINI_MODEL=gemini-3.6-flash CLAP_MODEL=laion/larger_clap_general
+  CLAP_REVISION=ada0c23a36c4e8582805bb38fec3905903f18b41`. `.env` wasn't edited; the worktree has a git-ignored copy.
+- The live checks wrote real rows to `plan_cache` and `notes` in the dev DB (about 15 notes with model
+  `gemini-3.6-flash:meta`). They are the cache; delete them if you want a cold run.
+- Tests: `tests/test_planner.py` provides `FakeClient` / `FakeResponse` / `api_error`, and other tests import them
+  (`from tests.test_planner import ...`). The search fixture clears `planner.memory_cache` and `rerank.order_memo`.
+- The worktree guard refuses compound shell commands that `cd` elsewhere or chain git with other directories. Run
+  from the worktree, and use `make -C .. lint` from `api/`.
+- Windows: Python `write_text` writes CRLF and git normalizes it to LF on commit (harmless warnings).
+- No failing tests.
+
+### State
+- No production URL or VM yet. WS3 is waiting for an API URL (fixtures until the deploy, or a temporary tunnel).
+  Vercel access has to come from the project owner. CORS still has no `*.vercel.app` regex (to add with T6.2).
+- Flags: `USE_FIXTURES=0`; `GEMINI_DEGRADED` is now read (1 = skip planner and rerank). Code default model is
+  `gemini-3.8-flash` (CONTRACT §8) until C9 lands.
+- Real endpoints: `/health`, `/chips`, `/tracks/{id}`, `/search` (planner + rerank, no Freesound fallback). Fixture
+  stand-ins: `/tracks/{id}/stems`, `/jobs/{id}`, `/imports`, `/why`, `/events`, `/assist`.
+- Fixtures: unchanged. Proposals waiting to land: C7, C8 (needed before the deploy), C9.
+
+### Next
+- **First task: T4.3 `/why` with audio**, unless the human moves the deploy forward (T6.1/T6.2) so WS3 gets a URL.
+- Human actions first:
+  1. Bring the work into `ws2-api`: from the main checkout, `git merge --ff-only ws2-t4 && git push origin ws2-api`.
+  2. Fix `GEMINI_MODEL` in `.env` (→ `gemini-3.6-flash`) and add the two `CLAP_*` lines; land C8 and C9.
+  3. Get the paid Gemini key before the deploy.
+  4. For the deploy: a Vultr VM IP plus SSH access, and WS3's exact Vercel domains for CORS.
