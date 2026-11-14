@@ -16,4 +16,4 @@ def search(req: SearchRequest, request: Request, pool: Annotated[ConnectionPool,
     # Sync handler: FastAPI runs it in the threadpool, so CLAP and the DB call don't block the event loop.
     if not request.app.state.clap_ready:
         raise upstream_error("the search model is not loaded (CLAP warm-up failed at startup)")
-    return run_search(req, pool, request.app.state.settings)
+    return run_search(req, pool, request.app.state.settings, getattr(request.app.state, "gemini", None))

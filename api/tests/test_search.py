@@ -114,6 +114,9 @@ def client(monkeypatch: pytest.MonkeyPatch) -> Iterator[tuple[TestClient, list[S
         plans.append(plan)
         return CANDS, False
 
+    planner.memory_cache.clear()
+    monkeypatch.setattr(planner, "db_get", lambda pool, key: None)
+    monkeypatch.setattr(planner, "db_put", lambda pool, key, plan: None)
     monkeypatch.setattr(embed, "embed_query", lambda text: np.ones(512, dtype=np.float32) / np.sqrt(512))
     monkeypatch.setattr(search_sql, "fetch_candidates", fake_fetch)
     app = main.create_app(SETTINGS)
@@ -179,6 +182,20 @@ def test_search_without_clap_is_upstream_error(client: tuple[TestClient, list[Se
     c.app.state.clap_ready = False  # type: ignore[attr-defined]
     r = c.post("/search", json={"text": "x", "session_id": "s1"})
     assert r.status_code == 502 and r.json()["error"]["code"] == "upstream_error"
+
+
+def test_search_uses_the_gemini_plan(client: tuple[TestClient, list[SearchPlan]]) -> None:
+    from app.core.gemini import Gemini
+    from tests.test_planner import TRUMPET_RAW, FakeClient
+
+    c, plans = client
+    c.app.state.gemini = Gemini(FakeClient(TRUMPET_RAW), "m")  # type: ignore[attr-defined]
+    r = c.post("/search", json={"text": "sad trumpet around 90 bpm, no drums", "session_id": "s1"})
+    assert r.status_code == 200, r.text
+    validate_schema(r.json(), "SearchResponse")
+    assert plans[0].must_tags == ["trumpet"] and plans[0].bpm_range == (85, 95)
+    assert SearchResponse.model_validate(r.json()).plan == plans[0]
+    assert "plan;dur=" in r.headers["server-timing"]
 
 
 def test_every_chip_resolves() -> None:
