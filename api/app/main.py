@@ -1,133 +1,68 @@
-"""FastAPI app. Bootstrap version: every CONTRACT §6 endpoint returns its shared/fixtures file.
+"""FastAPI app factory.
 
-WS2 replaces the stub bodies with real implementations (keep fixture mode behind USE_FIXTURES=1).
+USE_FIXTURES=1: every CONTRACT §6 endpoint answers from shared/fixtures (no DB, no CLAP, no Gemini).
+Real mode: real routers are mounted; endpoints without a real implementation yet still answer from fixtures, and
+startup logs which ones (that list must be empty before the H12 deploy).
 """
 
-import json
-import os
-from functools import cache
-from pathlib import Path
-from typing import Annotated, Any
+from __future__ import annotations
 
-from fastapi import FastAPI, File, Form, Request, Response, UploadFile
-from fastapi.exceptions import RequestValidationError
+import logging
+
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.routing import APIRoute
 
-from app.models.api import (
-    ApiError,
-    ChipsResponse,
-    EventRequest,
-    ImportResponse,
-    Job,
-    SearchRequest,
-    SearchResponse,
-    StemsRequest,
-    StemsResponse,
-    TrackDetail,
-    WhyRequest,
-    WhyResponse,
-)
-from app.models.ops import AssistRequest, AssistResponse
+from app import fixture_routes
+from app.core.errors import install_error_handlers
+from app.core.settings import Settings, get_settings
+from app.fixture_routes import fixture
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-FIXTURES_DIR = Path(os.environ.get("FIXTURES_DIR", REPO_ROOT / "shared" / "fixtures"))
-MAX_STEM_RANGE_S = 60.0
+__all__ = ["app", "create_app", "fixture"]
+
+log = logging.getLogger("app")
+
+# Real routers, mounted in real mode. Each task adds its router here.
+REAL_ROUTERS: list[APIRouter] = []
 
 
-@cache
-def fixture(name: str) -> Any:
-    return json.loads((FIXTURES_DIR / f"{name}.json").read_text(encoding="utf-8"))
+def _route_keys(router: APIRouter) -> set[tuple[str, str]]:
+    return {(m, r.path) for r in router.routes if isinstance(r, APIRoute) for m in r.methods}
 
 
-class ApiException(Exception):
-    def __init__(self, status: int, code: str, message: str) -> None:
-        self.status, self.code, self.message = status, code, message
+def create_app(settings: Settings | None = None) -> FastAPI:
+    settings = settings or get_settings()
+    app = FastAPI(title="Beatopia API", version="0.1.0")
+    app.state.settings = settings
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=list(settings.web_origins),
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    install_error_handlers(app)
+
+    @app.get("/health")
+    def health() -> dict[str, bool]:
+        return {"ok": True}
+
+    implemented: set[tuple[str, str]] = set()
+    if not settings.use_fixtures:
+        for router in REAL_ROUTERS:
+            app.include_router(router)
+            implemented |= _route_keys(router)
+
+    stand_ins = APIRouter()
+    for route in fixture_routes.router.routes:
+        if isinstance(route, APIRoute) and not {(m, route.path) for m in route.methods} <= implemented:
+            stand_ins.routes.append(route)
+    app.include_router(stand_ins)
+
+    if not settings.use_fixtures and stand_ins.routes:
+        names = ", ".join(f"{m} {r.path}" for r in stand_ins.routes if isinstance(r, APIRoute) for m in r.methods)
+        log.warning("real mode: still serving fixtures for %s", names)
+    return app
 
 
-def error_response(status: int, code: str, message: str) -> JSONResponse:
-    return JSONResponse(status_code=status, content={"error": ApiError(code=code, message=message).model_dump()})
-
-
-app = FastAPI(title="Beatopia API", version="0.1.0")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[o.strip() for o in os.environ.get("WEB_ORIGIN", "http://localhost:3000").split(",") if o.strip()],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.exception_handler(ApiException)
-async def _api_exception(_: Request, exc: ApiException) -> JSONResponse:
-    return error_response(exc.status, exc.code, exc.message)
-
-
-@app.exception_handler(StarletteHTTPException)
-async def _http_exception(_: Request, exc: StarletteHTTPException) -> JSONResponse:
-    code = "not_found" if exc.status_code == 404 else "bad_request"
-    return error_response(exc.status_code, code, str(exc.detail))
-
-
-@app.exception_handler(RequestValidationError)
-async def _validation_exception(_: Request, exc: RequestValidationError) -> JSONResponse:
-    return error_response(400, "bad_request", "; ".join(str(e.get("msg")) for e in exc.errors()) or "invalid request")
-
-
-@app.get("/health")
-def health() -> dict[str, bool]:
-    return {"ok": True}
-
-
-@app.get("/chips", response_model=ChipsResponse)
-def chips() -> Any:
-    return fixture("chips")
-
-
-@app.post("/search", response_model=SearchResponse)
-def search(req: SearchRequest) -> Any:
-    return fixture("search")
-
-
-@app.get("/tracks/{track_id}", response_model=TrackDetail)
-def get_track(track_id: str) -> Any:
-    return fixture("track_detail")
-
-
-@app.post("/tracks/{track_id}/stems", response_model=StemsResponse, response_model_exclude_none=False)
-def request_stems(track_id: str, req: StemsRequest) -> Any:
-    if req.end_s <= req.start_s:
-        raise ApiException(400, "bad_request", "end_s must be greater than start_s")
-    if req.end_s - req.start_s > MAX_STEM_RANGE_S:
-        raise ApiException(400, "range_too_long", f"stem ranges are limited to {MAX_STEM_RANGE_S:.0f} s")
-    return fixture("stems_ready")
-
-
-@app.get("/jobs/{job_id}", response_model=Job)
-def get_job(job_id: str) -> Any:
-    for name in ("job_done_stems", "job_done_analyze"):
-        if fixture(name)["id"] == job_id:
-            return fixture(name)
-    raise ApiException(404, "not_found", f"job {job_id} not found")
-
-
-@app.post("/imports", response_model=ImportResponse)
-async def create_import(file: Annotated[UploadFile, File()], session_id: Annotated[str, Form()]) -> Any:
-    return fixture("import")
-
-
-@app.post("/why", response_model=WhyResponse)
-def why(req: WhyRequest) -> Any:
-    return {**fixture("why"), "window_id": req.window_id}
-
-
-@app.post("/events", status_code=204)
-def events(req: EventRequest) -> Response:
-    return Response(status_code=204)
-
-
-@app.post("/assist", response_model=AssistResponse)
-def assist(req: AssistRequest) -> Any:
-    return fixture("assist")
+app = create_app()
