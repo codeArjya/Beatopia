@@ -1,17 +1,18 @@
 "use client";
 
-import { cn } from "cn";
-import { ExternalLinkIcon, LoaderCircleIcon, PlayIcon, SquareIcon, TriangleAlertIcon } from "lucide-react";
+import { ExternalLinkIcon, LayersIcon } from "lucide-react";
 import Link from "next/link";
-import { useId, type KeyboardEvent } from "react";
+import { useId, useState, type KeyboardEvent } from "react";
 
 import { AppButton, AppCard, Attribution, LicenseBadge, MonoStat } from "@/components/adapters";
 import { editorHref } from "@/lib/links";
-import { usePreviewPlayer, usePreviewStatus, type PreviewItem } from "@/lib/preview/PreviewProvider";
+import { StemsDrawer } from "@/components/stems/StemsDrawer";
+import { usePreviewPlayer, type PreviewItem } from "@/lib/preview/PreviewProvider";
 import { formatWindow, topTags } from "@/lib/search/results";
 import type { Result } from "@/lib/types/api";
 
 import { MiniWaveform } from "./MiniWaveform";
+import { PlayButton } from "./PlayButton";
 import { WhyNote } from "./WhyNote";
 
 export function previewItemOf(r: Result): PreviewItem {
@@ -24,8 +25,8 @@ export function editorHrefOf(r: Result): string {
 
 /**
  * One search result: mini waveform, title/artist, BPM · key · bars, top tags, why note, license + attribution,
- * Play and Open in editor. A focusable <article> labelled by its title; Space/Enter on the card itself toggles
- * the preview (keys inside its buttons/links keep their own meaning). Stems (T5.2) comes later.
+ * Stems, Open in editor and Play. A focusable <article> labelled by its title; Space/Enter on the card itself
+ * toggles the preview (keys inside its buttons/links, and in the portaled stems drawer, keep their own meaning).
  */
 export function ResultCard({ result: r }: { result: Result }) {
   const titleId = useId();
@@ -34,6 +35,7 @@ export function ResultCard({ result: r }: { result: Result }) {
   const warm = () => player.warm(r.audio_url);
   const tags = topTags(r.tags);
   const fallbackSource = r.track.source === "freesound";
+  const [stemsOpen, setStemsOpen] = useState(false);
 
   const onKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.target !== e.currentTarget || e.altKey || e.ctrlKey || e.metaKey) return;
@@ -65,6 +67,18 @@ export function ResultCard({ result: r }: { result: Result }) {
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1.5">
+          <AppButton
+            size="sm"
+            variant="ghost"
+            className="text-muted-foreground hover:text-foreground"
+            aria-label={`Stems of ${r.track.title}`}
+            aria-haspopup="dialog"
+            aria-expanded={stemsOpen}
+            onClick={() => setStemsOpen(true)}
+          >
+            <LayersIcon className="size-4" aria-hidden />
+            <span className="hidden sm:inline">Stems</span>
+          </AppButton>
           <AppButton asChild size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
             <Link
               href={editorHrefOf(r)}
@@ -79,6 +93,15 @@ export function ResultCard({ result: r }: { result: Result }) {
           <PlayButton item={item} title={r.track.title} />
         </div>
       </div>
+
+      <StemsDrawer
+        trackId={r.track.id}
+        trackTitle={r.track.title}
+        startS={r.start_s}
+        endS={r.end_s}
+        open={stemsOpen}
+        onOpenChange={setStemsOpen}
+      />
 
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">
         <MonoStat label="Tempo" value={r.track.bpm != null ? Math.round(r.track.bpm) : null} unit="bpm" />
@@ -106,30 +129,6 @@ export function ResultCard({ result: r }: { result: Result }) {
         <Attribution text={r.track.attribution} className="min-w-0 flex-1" />
       </div>
     </AppCard>
-  );
-}
-
-function PlayButton({ item, title }: { item: PreviewItem; title: string }) {
-  const player = usePreviewPlayer();
-  const status = usePreviewStatus(item.id);
-  const active = status === "playing" || status === "loading";
-  const Icon =
-    status === "playing" ? SquareIcon : status === "loading" ? LoaderCircleIcon : status === "error" ? TriangleAlertIcon : PlayIcon;
-  const label =
-    status === "error" ? `Preview failed, retry ${title}` : active ? `Stop preview of ${title}` : `Play preview of ${title}`;
-
-  return (
-    <AppButton
-      size="icon"
-      variant={active ? "default" : "outline"}
-      className={cn("shrink-0 rounded-full", status === "error" && "border-destructive text-destructive")}
-      aria-label={label}
-      aria-pressed={active}
-      title={status === "error" ? "Couldn't play this preview. Click to retry." : undefined}
-      onClick={() => player.toggle(item)}
-    >
-      <Icon className={cn("size-4", status === "loading" && "animate-spin", status === "playing" && "fill-current")} aria-hidden />
-    </AppButton>
   );
 }
 

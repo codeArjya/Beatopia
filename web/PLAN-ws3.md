@@ -105,7 +105,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 ### Stems drawer, H9 → H12
 - [x] **T5.1 StemsDrawer data flow** (1.5 h). The `useStemsFlow(trackId, start, end)` hook handles both the ready path and the job path, returns `{status, progress, stems, error, retry}`, clamps to 60 s, and invalidates `["track", id]` when the job is done.
   *Accept:* in fixture mode, `jam_1532881` with 0–10.667 is ready at once, and a range past 16 s goes queued → running (2 polls) → done.
-- [ ] **T5.2 StemsDrawer UI** (1.5 h). Sheet, progress bar, one row per stem with Play (solo, offset-aware) and "Use in editor", `onPick` for WS4.
+- [x] **T5.2 StemsDrawer UI** (1.5 h). Sheet, progress bar, one row per stem with Play (solo, offset-aware) and "Use in editor", `onPick` for WS4.
   *Accept:* unit test for the stem offset math. Manually: each stem plays its matching segment, and "Use in editor" opens `…&stem=drums`. Esc closes and returns focus to the Stems button.
 
 ### Go live + deploy, H12 → H14 (together with WS2)
