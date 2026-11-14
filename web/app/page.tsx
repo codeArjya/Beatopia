@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
+import { AppButton } from "@/components/adapters";
+import { PillDemo } from "@/components/search/PillDemo";
 
 // Stub: the search page (chip tray, search bar, results) replaces this from T2.x on.
 export default function Home() {
@@ -11,10 +12,11 @@ export default function Home() {
         Search goes here. The API client serves fixtures when{" "}
         <code className="font-mono text-sm">NEXT_PUBLIC_USE_FIXTURES=1</code>.
       </p>
+      <PillDemo />
       <div>
-        <Button asChild>
+        <AppButton asChild>
           <Link href="/editor?track=jam_1532881&start=0&end=10.667&stem=mix">Open the editor on a fixture</Link>
-        </Button>
+        </AppButton>
       </div>
     </main>
   );

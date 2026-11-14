@@ -73,7 +73,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* `/`, `/import`, `/editor?track=jam_1532881&start=0&end=10.667&stem=mix` all render under the header with no console errors. `pnpm build` passes.
 - [x] **T1.2 `lib/api` hooks for every endpoint** (1.5 h). `lib/api/keys.ts`, `lib/api/queries.ts` (`chipsQuery`, `searchQuery`, `trackQuery`, `stemsQuery`, `jobQuery`, `whyQuery`), `lib/api/hooks.ts` (`useHealth`, `useChips`, `useSearch`, `useTrack`, `useStems`, `useJob`, `useWhy`, `useImport`, `useSeedTrackFromJob`, `usePostEvent`, `useAssist`), `jobStems`/`jobTrack` output accessors, the `?fixture=empty|fallback` switch in the fixture client, `lib/session.ts` (`getSessionId()`, SSR-safe), and `lib/api/index.ts` barrel.
   *Accept:* Vitest in fixture mode covers each query factory (search → 8, chips → 5 categories, job polling interval 1000 → false once done), typed `output` narrowing on both done fixtures, and `getSessionId` being stable across calls.
-- [ ] **T1.3 Adapters + tokens skeleton** (1 h). `AppButton`, `AppCard`, `AppSheet`, `Pill`, `LicenseBadge`, `MonoStat`. `--chip-*` tints wired in `globals.css`.
+- [x] **T1.3 Adapters + tokens skeleton** (1 h). `AppButton`, `AppCard`, `AppSheet`, `Pill`, `LicenseBadge`, `MonoStat`. `--chip-*` tints wired in `globals.css`.
   *Accept:* a temporary `/` demo row shows one pill per category in its color, and keyboard focus is visible.
 - [ ] **Gate H4:** open a PR `feat(ws3): app shell + lib/api hooks` and tell the human it's ready for WS4.
 
