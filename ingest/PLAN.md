@@ -83,7 +83,7 @@ Each checkbox is a 1–2 hour active work unit; unattended downloads/inference a
 | Done | Gate / effort | Refined task (handoff task) | Acceptance check |
 | --- | --- | --- | --- |
 | [x] | H3 / 1 h | Runtime preflight + common I/O/DB/storage/IDs (#1) | Completed: see execution record below. Record actual versions, ffmpeg encode/decode and available device; pgvector roundtrip; upload twice to same path, public playback 44.1 kHz stereo; existing common tests pass. Start model downloads early. |
-| [ ] | H3 / 1 h | Shared lazy CLAP + initial analysis/tagging (#1–2) | Fixture and drum-loop text finite normalized `(1,512)`, cosine >0.2; 90 BPM ±2, three bounded windows from 16 s; silence/short input safe; vocab scores complete. Failure is investigated, never patched with a magic score. |
+| [ ] | H3 / 1 h | Shared lazy CLAP + initial analysis/tagging (#1–2) | Implementation and offline tests complete; default checkpoint fails semantic acceptance. See `CLAP_MODEL_REVIEW.md` and execution record. Fixture and drum-loop text finite normalized `(1,512)`, cosine >0.2; 90 BPM ±2, three bounded windows from 16 s; silence/short input safe; vocab scores complete. Failure is investigated, never patched with a magic score. |
 | [ ] | H3 / 1 h | Freesound source + minimal resumable seed pipeline (#3) | `uv run --project ingest python -m ingest.run --source freesound --limit 20`: 20 real licensed tracks with playable storage, nonempty searchable windows and normalized embeddings; repeat adds no duplicates; notify human seed is ready for WS2. |
 | [ ] | H8 / 1 h | Harden analysis/ingest recovery (#2–3) | Tests cover join boundary, low-confidence BPM, terminal windows, corrupt download, partial upload/DB failure and resume; no invalid ranges/vectors or missing attribution. |
 | [ ] | H8 / 1 h | Jamendo adapter and full run kickoff (#4) | BY/BY-SA and download-permission filtering checked; long excerpt duration/offsets agree with playback; absent key switches to Freesound; queue target ~350 (CLI limit 400 ceiling), bounded requests and ETA logged. FMA stays excluded unless small subset verified. |
@@ -124,4 +124,15 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 - Check limitation: `make lint` could not start because Make is not installed. Its Python checks were run directly and passed; global web checks were not run for this Python-only task. `ingest/report.py` does not exist yet, so preflight's read-only counts provide the planned interim report.
 - Pre-existing modification in `shared/schema/api.schema.json` is outside WS1 and excluded from this task's commit.
 
-Next unchecked task: shared lazy CLAP and initial analysis/tagging. Real library ingest has not started.
+Task 1 commit: `01ea00b` (`feat(ws1): implement shared audio and service helpers`).
+
+### Task 2 — implemented, semantic acceptance blocked on checkpoint choice
+
+- Implemented lazy shared CLAP, pinned default revision, serialized model initialization/inference, batch 16 with OOM downshift, finite normalized 512-dimensional outputs, deterministic long-input cropping and exact-duration 48 kHz resampling. Installed Transformers source confirms projected features are `.pooler_output` in this version.
+- Implemented full-clip beats/BPM confidence, chroma-template key, bounded windows including terminal excerpts, silence removal, onset-bar loopability, spectral/onset density and per-category top-three zero-shot tags with all 120 scores.
+- Offline checks: common **45 passed**, ingest **1 passed**, worker **1 passed**. Python lint/format checks pass. Make remains unavailable; global web lint is not claimed. No library ingest or report.py yet; task 1's DB counts remain the last live count check (zero corpus rows).
+- Mixed fixture: 90.666 BPM, A minor, windows [0,10], [5,15], [10,16]. Real unit-length output shapes pass. But contract-default `larger_clap_music` scores only 0.002979 against `drum loop`; unrelated text embeddings have mean cosine 0.999295. Direct model forward reproduces this. The dedicated drum fixture also fails (0.011423).
+- Investigated against publisher discussion and a matching independent reproduction. Tested `larger_clap_general` using per-command environment overrides only: unrelated-text mean cosine 0.293701; dedicated drum fixture cosine 0.277668, all semantic smoke checks pass. Mixed fixture cosine 0.186066 still misses 0.2 and is recorded as a failure, not hidden. Both checkpoint revisions and exact reproduction commands are in `CLAP_MODEL_REVIEW.md`.
+- The proposed configuration is concrete and tested. Root `.env` and WS2 settings are outside WS1 ownership; coordinate the same model/revision in all processes before real ingest. Checked-in contract default, shared files and project environment were not changed. Task 2 stays unchecked pending that decision; implementation and diagnostics are committed as a reviewable checkpoint.
+
+Next action: agree the model setting with the human/WS2, rerun semantic acceptance, then start the Freesound seed task. Real library ingest has not started.
