@@ -1,5 +1,38 @@
 # Codex handoff — session 3 of 7
 
+## Main sync and WS2 PR preparation — 2026-11-14 16:53 EST
+
+User requested syncing with main and opening a PR to unblock WS2. `git fetch origin` succeeded;
+`git rebase --autostash origin/main` reported already up to date at main commit `cb05f68`, with no
+conflicts. The pre-existing schema edit was restored byte-for-byte after autostash/schema checks:
+SHA256 `BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5`.
+Only WS1 code/docs and the authorized handoff are in the branch diff; no shared/schema edits are staged.
+
+- Required Make targets (`schema`, `check-fixtures`, `lint`) could not launch: Make absent. Ran the
+  underlying Python commands: schema generated successfully, **13 fixtures / 0 problems**, Ruff
+  check and format-check pass (**45 files**). TS regeneration skipped because web dependencies are
+  missing; generated files restored afterward to preserve the existing workspace changes.
+- Fresh focused stream suites: **common 54 passed/25.05 s; ingest 44 passed/44.91 s; worker 1 passed/0.03 s**.
+  Executed `uv run --project <stream> pytest <stream>/tests` from repo root with explicit test paths,
+  two OMP/MKL threads, cached FFmpeg PATH, workspace UV cache and unique basetemps.
+- Read-only DB snapshot at **16:53:25 EST**: **226 tracks / 5,490 windows / 20 stems / 5 heroes**, no jobs;
+  mix windows=4,906. Freesound BY-3.0=13, BY-4.0=63; Jamendo BY-3.0=34, BY-SA-3.0=116.
+- Hero batch has five verified heroes and one failed candidate, `jam_1307441`: actual decoded vocals
+  max sliding-window RMS **0.0026658564**, below unchanged **0.0056234133** gate; zero audible vocals
+  windows. Other stems have audible windows. This is an honest candidate rejection; raw stems remain
+  checkpointed and ranked spares remain available. No fake windows or threshold changes.
+- Full ingest's one rejection is the previously investigated `fs_507355` silence failure. At 16:52:54
+  it had completed=223, failed=1, ETA=4,087.803 s; target remains 350. Preserve both live processes.
+- WS2 merge requirement: `CLAP_MODEL=laion/larger_clap_general` and
+  `CLAP_REVISION=ada0c23a36c4e8582805bb38fec3905903f18b41` **before import/start**, same Supabase
+  credentials, live mode (`USE_FIXTURES=0`), restart API. The branch includes `common.clap.embed_text`
+  and the seed was already verified in the shared DB. Default music checkpoint is incompatible with
+  the general-model corpus. Live endpoint relevance/end-to-end worker gates are not claimed passed.
+
+Next: review/merge the WS1 PR into main, then WS2 pulls main, sets the exact model/revision and runs
+its real `/search` integration checks. Merge does not restart or require stopping background WS1 jobs.
+Continue using the process/log/recovery instructions below; do not restart live PIDs.
+
 ## Current handoff — session 3 (supersedes the session-2 next steps below)
 
 Human approved the implementation plan before code. Scope was the hero batch (original WS1 handoff
