@@ -16,7 +16,7 @@ describe("editor URL", () => {
       expect(() => parseEntry(new URLSearchParams(query))).toThrow();
     }
     const entry = { trackId: "jam_1532881", start: 0, end: 16, stem: "mix" as const };
-    expect(() => resolveEntry({ ...entry, trackId: "wrong" }, fixture as TrackDetail)).toThrow("fixture");
+    expect(() => resolveEntry({ ...entry, trackId: "wrong" }, fixture as TrackDetail)).toThrow("different track");
     expect(() => resolveEntry({ ...entry, end: 17 }, fixture as TrackDetail)).toThrow("beyond");
   });
   it("maps ranged stem origins without changing absolute wire times", () => {
@@ -25,5 +25,19 @@ describe("editor URL", () => {
     const result = resolveEntry({ trackId: "jam_1532881", start: 6, end: 10, stem: "drums" }, detail);
     expect(result.origin).toBe(5);
     expect(result.source.start_s).toBe(6);
+  });
+  it("selects a covering production stem from the same track, preferring the smallest file", () => {
+    const detail = structuredClone(fixture) as TrackDetail;
+    const stem = detail.stems[0];
+    detail.audio_url = "https://audio.example/tracks/hero/mix.mp3";
+    detail.stems = [{ ...stem, track_id: "wrong", range_start_s: 5, range_end_s: 12, url: "wrong.mp3" },
+      { ...stem, range_start_s: 0, range_end_s: 16, url: "full.mp3" },
+      { ...stem, range_start_s: 5, range_end_s: 12, url: "range.mp3" }];
+    const entry = { trackId: detail.track.id, start: 6, end: 10, stem: stem.stem };
+    const resolved = resolveEntry(entry, detail);
+    expect(resolved.origin).toBe(5);
+    expect(resolved.source.audio_url).toBe("range.mp3");
+    expect(resolveEntry({ ...entry, stem: "mix" }, detail).source.audio_url).toBe(detail.audio_url);
+    expect(() => resolveEntry({ ...entry, stem: "guitar" }, detail)).toThrow("not ready");
   });
 });

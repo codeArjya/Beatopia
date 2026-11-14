@@ -19,10 +19,11 @@ export function parseEntry(params: Pick<URLSearchParams, "get">): EditorEntry {
   return { trackId, start, end, stem: stem as StemName };
 }
 export function resolveEntry(entry: EditorEntry, detail: TrackDetail): { source: ClipSource; origin: number; windowId?: string } {
-  if (detail.track.id !== entry.trackId) throw new AudioEngineError("bad_request", "This track is not available in the current fixture library.");
+  if (detail.track.id !== entry.trackId) throw new AudioEngineError("bad_request", "The API returned a different track. Check the track ID and library mode.");
   if (entry.end > detail.track.duration_s) throw new AudioEngineError("bad_request", "The requested window extends beyond the track.");
-  const stem = entry.stem === "mix" ? null : detail.stems.find((item) =>
-    item.stem === entry.stem && item.range_start_s <= entry.start && item.range_end_s >= entry.end);
+  const stem = entry.stem === "mix" ? null : detail.stems.filter((item) =>
+    item.track_id === entry.trackId && item.stem === entry.stem && item.range_start_s <= entry.start && item.range_end_s >= entry.end)
+    .sort((a, b) => (a.range_end_s - a.range_start_s) - (b.range_end_s - b.range_start_s))[0];
   if (entry.stem !== "mix" && !stem) throw new AudioEngineError("bad_request", "This stem is not ready for the requested range. Choose mix.");
   return {
     source: { track_id: entry.trackId, stem: entry.stem, audio_url: stem?.url ?? detail.audio_url,

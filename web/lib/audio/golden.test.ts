@@ -7,7 +7,7 @@ import { sourceKey } from "./evaluate";
 import { SAMPLE_RATE } from "./types";
 import { encodeWav, exportFilename } from "./wav";
 
-it("exports the real jam_1532881 fixture after four chops, reverse, undo and redo", async () => {
+it("exports the synthetic jam_1532881 fixture after four chops, reverse, undo and redo", async () => {
   const input = readFileSync(resolve("public/fixtures/audio/mix.wav"));
   const channels = input.readUInt16LE(22);
   const frames = input.readUInt32LE(40) / (channels * 2);
@@ -52,6 +52,41 @@ it("exports the real jam_1532881 fixture after four chops, reverse, undo and red
   expect(mismatches).toBe(0);
   // Opt-in artifact for independent file-reader inspection; ordinary tests only read the fixture.
   if (process.env.WS4_GOLDEN_WAV) writeFileSync(process.env.WS4_GOLDEN_WAV, new Uint8Array(output));
+});
+
+it("exports a nonzero fixture window through trim, chop, reverse, reorder, duplicate and undo/redo", async () => {
+  const input = readFileSync(resolve("public/fixtures/audio/mix.wav"));
+  const pcm = { sampleRate: SAMPLE_RATE, channels: [0, 1].map((channel) =>
+    Float32Array.from({ length: 16 * SAMPLE_RATE }, (_, frame) => input.readInt16LE(44 + (frame * 2 + channel) * 2) / 32768)) };
+  const source = { track_id: fixture.track.id, audio_url: fixture.audio_url, start_s: 5, end_s: 15 };
+  const store = createEditorStore();
+  await store.getState().initialize({ clips: [{ id: "c1", source }], ops: [], bpm: 90 },
+    new Map([[sourceKey(source), { pcm, origin: 0, beatTimes: fixture.beat_times, bpm: 90 }]]));
+  await store.getState().apply([{ op: "trim", clip: "c1", start_s: 1, end_s: 9 }]);
+  await store.getState().apply([{ op: "slice", clip: "c1", count: 4, snap: "none" }]);
+  await store.getState().apply([{ op: "reverse", clip: "c1.4" }]);
+  const before = store.getState().current;
+  const order = ["c1.4", "c1.1", "c1.4", "c1.3", "c1.2"];
+  await store.getState().apply([{ op: "arrange", order }]);
+  const after = store.getState().current;
+  store.getState().undo(); expect(store.getState().current).toBe(before);
+  store.getState().redo(); expect(store.getState().current).toBe(after);
+  const output = encodeWav(after!.evaluation.rendered), view = new DataView(output);
+  expect(output.byteLength).toBe(1764044);
+  expect(view.getUint32(40, true) / 4).toBe(441000);
+  let mismatches = 0;
+  for (let frame = 0; frame < 441000; frame++) {
+    const occurrence = Math.floor(frame / (2 * SAMPLE_RATE));
+    const leaf = [4, 1, 4, 3, 2][occurrence];
+    const within = frame % (2 * SAMPLE_RATE);
+    const sourceFrame = (6 + (leaf - 1) * 2) * SAMPLE_RATE + (leaf === 4 ? 2 * SAMPLE_RATE - 1 - within : within);
+    for (let channel = 0; channel < 2; channel++) {
+      const sample = pcm.channels[channel][sourceFrame];
+      if (view.getInt16(44 + (frame * 2 + channel) * 2, true) !== Math.round(sample * (sample < 0 ? 32768 : 32767))) mismatches++;
+    }
+  }
+  expect(mismatches).toBe(0);
+  if (process.env.WS4_ARRANGEMENT_WAV) writeFileSync(process.env.WS4_ARRANGEMENT_WAV, new Uint8Array(output));
 });
 
 it("sanitizes download metadata and names unknown source metadata honestly", () => {

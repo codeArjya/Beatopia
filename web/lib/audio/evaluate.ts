@@ -120,6 +120,7 @@ export async function evaluate(
       case "fade_out": result = ops.fadeOut(pcm, op.ms); break;
       case "normalize": result = ops.normalize(pcm, op.peak_db); break;
       case "loop":
+        checkOrder({ id: op.clip, frames: pcm.channels[0].length * op.times });
         result = ops.loop(pcm, op.times);
         beatTimes = Array.from({ length: op.times }, (_, index) => beatTimes.map((beat) => beat + index * length)).flat();
         break;

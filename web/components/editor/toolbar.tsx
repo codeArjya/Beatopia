@@ -42,10 +42,10 @@ export function Toolbar(props: Props) {
       <label className="text-sm">Slices <select className="rounded border p-2" value={count} onChange={(event) => setCount(Number(event.target.value))}>
         {[2, 4, 8, 16].map((value) => <option key={value}>{value}</option>)}
       </select></label>
-      <label className="text-sm">Snap <select className="rounded border p-2" value={snap} onChange={(event) => setSnap(event.target.value as typeof snap)}>
+      <label className="text-sm">Snap <select className="rounded border p-2" value={snap === "beat" && !props.hasBeats ? "none" : snap} onChange={(event) => setSnap(event.target.value as typeof snap)}>
         <option value="none">None (equal parts)</option><option value="beat" disabled={!props.hasBeats}>Beat</option><option value="transient">Transient</option>
       </select></label>
-      <Button onClick={() => props.onApply([{ op: "slice", clip: props.active, count, snap }])}>Chop into {count}</Button>
+      <Button onClick={() => props.onApply([{ op: "slice", clip: props.active, count, snap: snap === "beat" && !props.hasBeats ? "none" : snap }])}>Chop into {count}</Button>
       <Button variant="outline" onClick={() => props.onApply([{ op: "reverse", clip: props.active }])}>Reverse</Button>
       <Button variant="outline" disabled={!props.canUndo} onClick={props.onUndo}>Undo</Button>
       <Button variant="outline" disabled={!props.canRedo} onClick={props.onRedo}>Redo</Button>
