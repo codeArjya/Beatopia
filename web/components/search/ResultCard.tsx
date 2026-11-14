@@ -1,10 +1,12 @@
 "use client";
 
 import { cn } from "cn";
-import { LoaderCircleIcon, PlayIcon, SquareIcon, TriangleAlertIcon } from "lucide-react";
-import { useId } from "react";
+import { ExternalLinkIcon, LoaderCircleIcon, PlayIcon, SquareIcon, TriangleAlertIcon } from "lucide-react";
+import Link from "next/link";
+import { useId, type KeyboardEvent } from "react";
 
 import { AppButton, AppCard, Attribution, LicenseBadge, MonoStat } from "@/components/adapters";
+import { editorHref } from "@/lib/links";
 import { usePreviewPlayer, usePreviewStatus, type PreviewItem } from "@/lib/preview/PreviewProvider";
 import { formatWindow, topTags } from "@/lib/search/results";
 import type { Result } from "@/lib/types/api";
@@ -15,10 +17,14 @@ export function previewItemOf(r: Result): PreviewItem {
   return { id: r.window_id, url: r.audio_url, start: r.start_s, end: r.end_s };
 }
 
+export function editorHrefOf(r: Result): string {
+  return editorHref({ track: r.track.id, start: r.start_s, end: r.end_s, stem: r.stem });
+}
+
 /**
- * One search result: waveform slot, title/artist, BPM · key · bars, top tags, why note, license + attribution.
- * A focusable <article> labelled by its title. Space/Enter on the card (T3.4), Stems (T5.2) and
- * Open in editor (T3.4) come later; the waveform slot is a placeholder until T3.3.
+ * One search result: mini waveform, title/artist, BPM · key · bars, top tags, why note, license + attribution,
+ * Play and Open in editor. A focusable <article> labelled by its title; Space/Enter on the card itself toggles
+ * the preview (keys inside its buttons/links keep their own meaning). Stems (T5.2) comes later.
  */
 export function ResultCard({ result: r }: { result: Result }) {
   const titleId = useId();
@@ -28,8 +34,23 @@ export function ResultCard({ result: r }: { result: Result }) {
   const tags = topTags(r.tags);
   const fallbackSource = r.track.source === "freesound";
 
+  const onKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    if (e.target !== e.currentTarget || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key !== " " && e.key !== "Enter") return;
+    e.preventDefault(); // Space would scroll the page
+    if (!e.repeat) player.toggle(item);
+  };
+
   return (
-    <AppCard tabIndex={0} aria-labelledby={titleId} onPointerEnter={warm} onFocus={warm} className="min-w-0 flex-1 gap-2.5">
+    <AppCard
+      tabIndex={0}
+      aria-labelledby={titleId}
+      aria-keyshortcuts="Space Enter"
+      onPointerEnter={warm}
+      onFocus={warm}
+      onKeyDown={onKeyDown}
+      className="min-w-0 flex-1 gap-2.5"
+    >
       <MiniWaveform item={item} />
 
       <div className="flex min-w-0 items-start gap-3">
@@ -42,7 +63,20 @@ export function ResultCard({ result: r }: { result: Result }) {
             {fallbackSource && <span className="text-xs"> · Freesound</span>}
           </p>
         </div>
-        <PlayButton item={item} title={r.track.title} />
+        <div className="flex shrink-0 items-center gap-1.5">
+          <AppButton asChild size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
+            <Link
+              href={editorHrefOf(r)}
+              aria-label={`Open ${r.track.title} in the editor`}
+              // Hiding the page stops the preview too (useStopPreviewOnHide); stopping here is immediate.
+              onClick={() => player.stop()}
+            >
+              <ExternalLinkIcon className="size-4" aria-hidden />
+              <span className="hidden sm:inline">Open in editor</span>
+            </Link>
+          </AppButton>
+          <PlayButton item={item} title={r.track.title} />
+        </div>
       </div>
 
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">

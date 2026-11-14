@@ -94,7 +94,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* the 8 fixture cards render. `?fixture=empty` (`search_empty.json`) and `?fixture=fallback` (`search_fallback.json`) show their states. A null key or bpm shows "—". Long titles truncate.
 - [x] **T3.3 MiniWaveform** (1.5 h). `lib/waveform/peaks.ts` (pure: buffer + range → 96 peaks), a decode cache, the concurrency limit of 2, an IntersectionObserver trigger, canvas drawing at the device pixel ratio, and a playhead overlay from the preview state.
   *Accept:* unit test for peaks (known sine, correct bucket count, values in [0,1]). On the page, 8 waveforms with `mix.wav` decoded once (network tab). A decode failure shows the placeholder.
-- [ ] **T3.4 Editor hand-off + keyboard** (0.5 h). `lib/links.ts` `editorHref({track,start,end,stem})`, the "Open in editor" button, and Space/Enter on a focused card.
+- [x] **T3.4 Editor hand-off + keyboard** (0.5 h). `lib/links.ts` `editorHref({track,start,end,stem})`, the "Open in editor" button, and Space/Enter on a focused card.
   *Accept:* unit test for `editorHref`. Clicking opens WS4's route with the right params, and Back restores the search.
 - [ ] **Gate H8:** walk through stack chips → hear a window → open in editor on fixtures, then open a PR `feat(ws3): search flow`.
 
