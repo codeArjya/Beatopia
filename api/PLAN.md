@@ -120,9 +120,12 @@ Checks after every task: `make lint`, `uv run --project api pytest api`, plus th
       dataclass from `os.environ`, every server variable in CONTRACT §8), `core/errors.py` (move `ApiException`, add `upstream_error`/`rate_limited`
       helpers), `USE_FIXTURES` routes to existing stubs (`app/fixture_routes.py`).
       *Accept:* `USE_FIXTURES=1 pytest` → all `test_stubs.py` pass unchanged; unknown route → `{"error":{"code":"not_found"}}`.
-- [ ] **T1.2 DB pool + lifespan + timing logs** (1.5 h). `core/db.py` pool, lifespan opens pool and warms CLAP
+- [x] **T1.2 DB pool + lifespan + timing logs** (1.5 h). `core/db.py` pool, lifespan opens pool and warms CLAP
       (skipped in fixture mode), `core/timing.py` middleware + contextvar timer, JSON log line.
       *Accept:* `make dev-api` with real `.env` → `/health` ok, log line printed with `ms`; startup fails loudly if DB down.
+      *Done:* checked against the dev Supabase (pgvector 0.8.2, 7/7 tables). A probe connection runs before the
+      pool so a bad URL / missing extension shows the real error. CLAP warm-up logs a warning instead of failing
+      while `common.clap.embed_text` is still WS1's stub. Responses carry `Server-Timing` (used by T6.3).
 - [ ] **T2.1 `/chips`** (1 h). Parse `ingest/vocab.txt` (category headers), ids `inst.|genre.|mood.` +
       slug (`r&b`→`r_b`, spaces→`_`), tempo 70–160 step 10 (`bpm_range` ±5), 24 keys (`key.a_minor` → `"A minor"`,
       sharps as `c_sharp_major` → `"C# major"`). Colors `--chip-<category>`.
