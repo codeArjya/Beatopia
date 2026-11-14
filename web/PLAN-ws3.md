@@ -204,3 +204,23 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - `app/providers.tsx`, `app/layout.tsx`, `next.config.ts` (it pulls `NEXT_PUBLIC_*` from the root `.env`)
 - **Known bugs / gotchas:** without `NEXT_PUBLIC_USE_FIXTURES=1` and with no API on :8000, chips fail after one retry. Search states will need real error UI in T3.2.
 - **Blocked:** nothing. Waiting on PR #3 review/merge so WS4 can rebase. Next is T2.1 (search state + URL sync).
+
+### Session 2 (2026-11-14): T2.1 + T2.2
+- **Done:** T2.1 search state + URL sync, T2.2 ChipTray. The branch was already on top of `origin/main` (cb05f68). `make schema` and `make check-fixtures` passed (13 fixtures, 0 problems). lint/typecheck are clean and tests pass 39/39. I checked these by hand in Chrome on fixtures: a stale `chips=bogus.chip` is dropped from the URL; typing, toggling chips and filter+Enter update `?q=…&chips=…` after the debounce; Back from `/import` restores the search; the logo resets it, and Back/Forward across that reset both work; Tab reaches the chips in order and Enter adds one; groups collapse. No console errors.
+- **Decisions:**
+  - The URL is written with `window.history.replaceState`, not `router.replace`. Next 16 feeds native history calls into `useSearchParams`, and this way no RSC request runs per keystroke. Other params such as `?fixture=` are kept.
+  - Local state is the source of truth. The URL follows the **debounced** state. A URL change that matches neither the debounced nor the current state counts as navigation (Back/Forward, logo link) and replaces the state. That adjustment happens during render, not in an effect.
+  - Unknown chip ids are dropped once `/chips` loads. Until then, a request that has chips is held back (it's `null`), so stale ids never reach the API. If `/chips` errors, the request is sent anyway.
+  - Clicking a selected tray chip **removes** it (toggle, `aria-pressed`). The reducer's `add` still dedupes. In the filter box, Enter adds the first match and Esc clears the filter. While filtering, all groups are forced open.
+  - The reducer action is `move {id, overId}` (dnd-kit sortable semantics) instead of `reorder`.
+  - Added the `AppInput` adapter. `Pill` with `selected` now uses a 40% tint, because 22% was barely visible against the unselected tray chips.
+- **Files for next session:**
+  - `lib/search/state.ts` (reducer, `parseSearchParams`/`serializeSearchParams`, `toSearchParams`, `SEARCH_LIMIT=8`)
+  - `lib/search/useSearchState.ts` (returns `{state, dispatch, request}`)
+  - `lib/search/chips.ts` (`indexChips`, `filterCategories`)
+  - `components/search/ChipTray.tsx`. `TrayChip` is where `useDraggable` goes in T2.3.
+  - `components/search/SearchPage.tsx`. It holds an **interim** search bar (pills + input + Backspace-removes-last) that T2.3 replaces with the droppable/sortable `SearchBar`, and a "Ready to search for …" placeholder that T2.4 replaces with results.
+- **Known bugs / gotchas:**
+  - If you click "Open in editor" less than 300 ms after an edit, the URL can still hold the previous search. Flush the debounce on hand-off in T3.4 if that matters.
+  - The tray's own scroll area is only bounded at `md+`. On mobile the page scrolls instead (fine for now).
+- **Blocked:** nothing. PR #3 (Gate H4) still needs review/merge. Next is T2.3 (SearchBar + drag-and-drop).
