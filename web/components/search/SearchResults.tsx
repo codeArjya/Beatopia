@@ -4,6 +4,8 @@ import { cn } from "cn";
 
 import { AppButton, MonoStat } from "@/components/adapters";
 import { ApiError, useSearch, type SearchParams } from "@/lib/api";
+import { usePreviewPlayer, usePreviewStatus } from "@/lib/preview/PreviewProvider";
+import type { Result } from "@/lib/types/api";
 
 type SearchResultsProps = {
   /** Debounced request from useSearchState; never null here (the page shows the idle state instead). */
@@ -57,10 +59,29 @@ export function SearchResults({ request }: SearchResultsProps) {
               </span>
               <MonoStat label="BPM" value={r.track.bpm != null ? Math.round(r.track.bpm) : null} unit="bpm" />
               <MonoStat label="Bars" value={r.bars} unit="bars" />
+              <InterimPlay result={r} />
             </li>
           ))}
         </ol>
       )}
     </div>
+  );
+}
+
+/** Interim play toggle (T3.1); T3.2's ResultCard replaces it. */
+function InterimPlay({ result: r }: { result: Result }) {
+  const player = usePreviewPlayer();
+  const status = usePreviewStatus(r.window_id);
+  const item = { id: r.window_id, url: r.audio_url, start: r.start_s, end: r.end_s };
+  return (
+    <AppButton
+      size="sm"
+      variant="outline"
+      onPointerEnter={() => player.warm(r.audio_url)}
+      onClick={() => player.toggle(item)}
+      aria-pressed={status === "playing" || status === "loading"}
+    >
+      {status === "playing" ? "Stop" : status === "loading" ? "…" : status === "error" ? "Retry" : "Play"}
+    </AppButton>
   );
 }

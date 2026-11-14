@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { PreviewProvider } from "@/lib/preview/PreviewProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
@@ -16,8 +17,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        {children}
-        <Toaster theme="dark" />
+        <PreviewProvider>
+          {children}
+          <Toaster theme="dark" />
+        </PreviewProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

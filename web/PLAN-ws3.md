@@ -88,7 +88,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* each pause after typing causes exactly one request (checked with a console counter). The list doesn't flash while a new search loads.
 
 ### Results, H5 → **Gate H8** (full search flow on fixtures)
-- [ ] **T3.1 PreviewProvider** (1.5 h). Shared `<audio>`, `play/stop/toggle`, loop at `end_s` checked with rAF, state exposed with `useSyncExternalStore`, warm-up on hover.
+- [x] **T3.1 PreviewProvider** (1.5 h). Shared `<audio>`, `play/stop/toggle`, loop at `end_s` checked with rAF, state exposed with `useSyncExternalStore`, warm-up on hover.
   *Accept:* unit test for the pure loop-boundary helper. Manually: sound within 1 s of a click, only one preview at a time, loops cleanly at the window end.
 - [ ] **T3.2 ResultCard + ResultList** (2 h). Meta row in monospace, top 3 tags, license badge + attribution caption, skeletons, the empty state with "Remove last chip", the fallback banner, error states, and the `aria-live` count.
   *Accept:* the 8 fixture cards render. `?fixture=empty` (`search_empty.json`) and `?fixture=fallback` (`search_fallback.json`) show their states. A null key or bpm shows "—". Long titles truncate.

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 import { useChips } from "@/lib/api";
+import { useStopPreviewOnHide } from "@/lib/preview/PreviewProvider";
 import { indexChips } from "@/lib/search/chips";
 import { useSearchState } from "@/lib/search/useSearchState";
 
@@ -15,6 +16,7 @@ import { SearchResults } from "./SearchResults";
 /** The search page body. Render inside <Suspense> (it reads the URL). */
 export function SearchPage() {
   const { state, dispatch, request } = useSearchState();
+  useStopPreviewOnHide();
   const chips = useChips();
   const index = useMemo(() => indexChips(chips.data?.categories ?? []), [chips.data]);
 
