@@ -1,0 +1,14 @@
+---
+description: Stream WS2 (Search API & AI). Use when working on WS2 code.
+globs: api/**,deploy/**
+alwaysApply: false
+---
+
+You are the coding agent for stream **WS2 (Search API & AI)**.
+
+Before anything else read, in order: `AGENTS.md`, `docs/CONTRACT.md` (binding), and
+`docs/handoff/WS2-api-ai.md` (your stream's guide, including the kickoff prompt, checks and cut list).
+
+Only edit the paths listed for WS2 in the AGENTS.md table. Contract paths (`docs/CONTRACT.md`, `api/app/models/`,
+`shared/`, `web/lib/types/`, `AGENTS.md`, `Makefile`, `.env.example`) change only via `docs/proposals/`.
+If a task needs a file outside your paths, stop and ask the human.

@@ -1,0 +1,245 @@
+{
+  "query_id": "q_7f3c2a91",
+  "plan": {
+    "clap_text": "warm melancholy soul electric piano chords, dusty vintage recording",
+    "must_tags": [
+      "soul",
+      "rhodes",
+      "melancholy"
+    ],
+    "exclude_tags": [
+      "vocal chop"
+    ],
+    "bpm_range": null,
+    "key": null,
+    "stems_wanted": [],
+    "prefer_sparse": false
+  },
+  "results": [
+    {
+      "window_id": "jam_1532881:mix:0",
+      "track": {
+        "id": "jam_1532881",
+        "title": "Late Bloom (Instrumental)",
+        "artist": "Marisol Vey",
+        "source": "jamendo",
+        "source_url": "https://example.com/fixtures/jamendo/1532881",
+        "license": "CC-BY-SA-3.0",
+        "attribution": "\"Late Bloom (Instrumental)\" by Marisol Vey, licensed under CC BY-SA 3.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "A minor",
+        "is_hero": true
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 0.0,
+      "end_s": 10.667,
+      "bars": 4,
+      "tags": [
+        "rhodes",
+        "soul",
+        "melancholy"
+      ],
+      "score": 0.91,
+      "why": "A clean four-bar Rhodes progression with the drums sitting back, so it loops without a bump. Chop each chord on the downbeat and replay them in a new order for an instant soul flip."
+    },
+    {
+      "window_id": "jam_1532881:other:5000",
+      "track": {
+        "id": "jam_1532881",
+        "title": "Late Bloom (Instrumental)",
+        "artist": "Marisol Vey",
+        "source": "jamendo",
+        "source_url": "https://example.com/fixtures/jamendo/1532881",
+        "license": "CC-BY-SA-3.0",
+        "attribution": "\"Late Bloom (Instrumental)\" by Marisol Vey, licensed under CC BY-SA 3.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "A minor",
+        "is_hero": true
+      },
+      "stem": "other",
+      "audio_url": "/fixtures/audio/other.wav",
+      "start_s": 5.333,
+      "end_s": 16.0,
+      "bars": 4,
+      "tags": [
+        "synth pad",
+        "soul",
+        "warm"
+      ],
+      "score": 0.87,
+      "why": "The separated keys stem: no drums, no bass, just the chords. Perfect if you want to put your own drums under it. Try pitching it down two semitones for a darker, heavier mood."
+    },
+    {
+      "window_id": "fs_482913:mix:0",
+      "track": {
+        "id": "fs_482913",
+        "title": "Dusty Rhodes Loop 90",
+        "artist": "tapeworm_audio",
+        "source": "freesound",
+        "source_url": "https://example.com/fixtures/freesound/482913",
+        "license": "CC0",
+        "attribution": "\"Dusty Rhodes Loop 90\" by tapeworm_audio, licensed under CC0 1.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "A minor",
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 0.0,
+      "end_s": 10.667,
+      "bars": 4,
+      "tags": [
+        "rhodes",
+        "lo-fi",
+        "dusty"
+      ],
+      "score": 0.84,
+      "why": "Made to be a loop, so the start and end line up already. The tape wobble gives it that dusty feel. Slice it into 8 and try reversing every other slice."
+    },
+    {
+      "window_id": "fma_000123:mix:0",
+      "track": {
+        "id": "fma_000123",
+        "title": "Velvet Static",
+        "artist": "The Quiet Arcade",
+        "source": "fma",
+        "source_url": "https://example.com/fixtures/fma/000123",
+        "license": "CC-BY-4.0",
+        "attribution": "\"Velvet Static\" by The Quiet Arcade, licensed under CC BY 4.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "C major",
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 2.667,
+      "end_s": 8.0,
+      "bars": 2,
+      "tags": [
+        "piano",
+        "jazz",
+        "nostalgic"
+      ],
+      "score": 0.79,
+      "why": null
+    },
+    {
+      "window_id": "fs_517204:mix:0",
+      "track": {
+        "id": "fs_517204",
+        "title": "Boom Bap Break 02",
+        "artist": "kitbasher",
+        "source": "freesound",
+        "source_url": "https://example.com/fixtures/freesound/517204",
+        "license": "CC-BY-4.0",
+        "attribution": "\"Boom Bap Break 02\" by kitbasher, licensed under CC BY 4.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": null,
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 0.0,
+      "end_s": 10.667,
+      "bars": 4,
+      "tags": [
+        "breakbeat",
+        "boom bap",
+        "gritty"
+      ],
+      "score": 0.74,
+      "why": "A dry, punchy break at 90 BPM, the classic boom bap tempo. Chop the kick and snare into separate hits and resequence them to make your own groove."
+    },
+    {
+      "window_id": "jam_1532881:drums:0",
+      "track": {
+        "id": "jam_1532881",
+        "title": "Late Bloom (Instrumental)",
+        "artist": "Marisol Vey",
+        "source": "jamendo",
+        "source_url": "https://example.com/fixtures/jamendo/1532881",
+        "license": "CC-BY-SA-3.0",
+        "attribution": "\"Late Bloom (Instrumental)\" by Marisol Vey, licensed under CC BY-SA 3.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "A minor",
+        "is_hero": true
+      },
+      "stem": "drums",
+      "audio_url": "/fixtures/audio/drums.wav",
+      "start_s": 0.0,
+      "end_s": 5.333,
+      "bars": 2,
+      "tags": [
+        "drum loop",
+        "hip hop",
+        "groovy"
+      ],
+      "score": 0.7,
+      "why": "Just the drums from the same song, so they already match the keys result above. Layer them under the chop or swap in your own snare."
+    },
+    {
+      "window_id": "fs_482913:mix:5000",
+      "track": {
+        "id": "fs_482913",
+        "title": "Dusty Rhodes Loop 90",
+        "artist": "tapeworm_audio",
+        "source": "freesound",
+        "source_url": "https://example.com/fixtures/freesound/482913",
+        "license": "CC0",
+        "attribution": "\"Dusty Rhodes Loop 90\" by tapeworm_audio, licensed under CC0 1.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "A minor",
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 5.333,
+      "end_s": 16.0,
+      "bars": 4,
+      "tags": [
+        "rhodes",
+        "lo-fi",
+        "chill"
+      ],
+      "score": 0.66,
+      "why": null
+    },
+    {
+      "window_id": "fma_000123:mix:6000",
+      "track": {
+        "id": "fma_000123",
+        "title": "Velvet Static",
+        "artist": "The Quiet Arcade",
+        "source": "fma",
+        "source_url": "https://example.com/fixtures/fma/000123",
+        "license": "CC-BY-4.0",
+        "attribution": "\"Velvet Static\" by The Quiet Arcade, licensed under CC BY 4.0",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "C major",
+        "is_hero": false
+      },
+      "stem": "mix",
+      "audio_url": "/fixtures/audio/mix.wav",
+      "start_s": 13.333,
+      "end_s": 16.0,
+      "bars": 1,
+      "tags": [
+        "piano",
+        "jazz",
+        "bittersweet"
+      ],
+      "score": 0.61,
+      "why": "One bar of a single sustained chord. Short and simple, so it is great for learning: repitch it up and down to play a melody."
+    }
+  ],
+  "fallback_used": false
+}

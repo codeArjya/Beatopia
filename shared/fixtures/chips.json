@@ -1,0 +1,1575 @@
+{
+  "categories": [
+    {
+      "id": "instrument",
+      "label": "Instruments",
+      "color": "--chip-instrument",
+      "chips": [
+        {
+          "id": "inst.trumpet",
+          "label": "Trumpet",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "trumpet"
+            ]
+          }
+        },
+        {
+          "id": "inst.horns",
+          "label": "Horns",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "horns"
+            ]
+          }
+        },
+        {
+          "id": "inst.trombone",
+          "label": "Trombone",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "trombone"
+            ]
+          }
+        },
+        {
+          "id": "inst.saxophone",
+          "label": "Saxophone",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "saxophone"
+            ]
+          }
+        },
+        {
+          "id": "inst.flute",
+          "label": "Flute",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "flute"
+            ]
+          }
+        },
+        {
+          "id": "inst.clarinet",
+          "label": "Clarinet",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "clarinet"
+            ]
+          }
+        },
+        {
+          "id": "inst.strings",
+          "label": "Strings",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "strings"
+            ]
+          }
+        },
+        {
+          "id": "inst.violin",
+          "label": "Violin",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "violin"
+            ]
+          }
+        },
+        {
+          "id": "inst.cello",
+          "label": "Cello",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "cello"
+            ]
+          }
+        },
+        {
+          "id": "inst.harp",
+          "label": "Harp",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "harp"
+            ]
+          }
+        },
+        {
+          "id": "inst.piano",
+          "label": "Piano",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "piano"
+            ]
+          }
+        },
+        {
+          "id": "inst.rhodes",
+          "label": "Rhodes",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "rhodes"
+            ]
+          }
+        },
+        {
+          "id": "inst.wurlitzer",
+          "label": "Wurlitzer",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "wurlitzer"
+            ]
+          }
+        },
+        {
+          "id": "inst.organ",
+          "label": "Organ",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "organ"
+            ]
+          }
+        },
+        {
+          "id": "inst.clavinet",
+          "label": "Clavinet",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "clavinet"
+            ]
+          }
+        },
+        {
+          "id": "inst.harpsichord",
+          "label": "Harpsichord",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "harpsichord"
+            ]
+          }
+        },
+        {
+          "id": "inst.mellotron",
+          "label": "Mellotron",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "mellotron"
+            ]
+          }
+        },
+        {
+          "id": "inst.synth_pad",
+          "label": "Synth pad",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "synth pad"
+            ]
+          }
+        },
+        {
+          "id": "inst.synth_lead",
+          "label": "Synth lead",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "synth lead"
+            ]
+          }
+        },
+        {
+          "id": "inst.synth_bass",
+          "label": "Synth bass",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "synth bass"
+            ]
+          }
+        },
+        {
+          "id": "inst.arpeggio",
+          "label": "Arpeggio",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "arpeggio"
+            ]
+          }
+        },
+        {
+          "id": "inst.bass_guitar",
+          "label": "Bass guitar",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "bass guitar"
+            ]
+          }
+        },
+        {
+          "id": "inst.upright_bass",
+          "label": "Upright bass",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "upright bass"
+            ]
+          }
+        },
+        {
+          "id": "inst.808",
+          "label": "808",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "808"
+            ]
+          }
+        },
+        {
+          "id": "inst.electric_guitar",
+          "label": "Electric guitar",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "electric guitar"
+            ]
+          }
+        },
+        {
+          "id": "inst.acoustic_guitar",
+          "label": "Acoustic guitar",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "acoustic guitar"
+            ]
+          }
+        },
+        {
+          "id": "inst.wah_guitar",
+          "label": "Wah guitar",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "wah guitar"
+            ]
+          }
+        },
+        {
+          "id": "inst.slide_guitar",
+          "label": "Slide guitar",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "slide guitar"
+            ]
+          }
+        },
+        {
+          "id": "inst.banjo",
+          "label": "Banjo",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "banjo"
+            ]
+          }
+        },
+        {
+          "id": "inst.sitar",
+          "label": "Sitar",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "sitar"
+            ]
+          }
+        },
+        {
+          "id": "inst.koto",
+          "label": "Koto",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "koto"
+            ]
+          }
+        },
+        {
+          "id": "inst.kalimba",
+          "label": "Kalimba",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "kalimba"
+            ]
+          }
+        },
+        {
+          "id": "inst.marimba",
+          "label": "Marimba",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "marimba"
+            ]
+          }
+        },
+        {
+          "id": "inst.vibraphone",
+          "label": "Vibraphone",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "vibraphone"
+            ]
+          }
+        },
+        {
+          "id": "inst.glockenspiel",
+          "label": "Glockenspiel",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "glockenspiel"
+            ]
+          }
+        },
+        {
+          "id": "inst.music_box",
+          "label": "Music box",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "music box"
+            ]
+          }
+        },
+        {
+          "id": "inst.bells",
+          "label": "Bells",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "bells"
+            ]
+          }
+        },
+        {
+          "id": "inst.steel_drums",
+          "label": "Steel drums",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "steel drums"
+            ]
+          }
+        },
+        {
+          "id": "inst.accordion",
+          "label": "Accordion",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "accordion"
+            ]
+          }
+        },
+        {
+          "id": "inst.harmonica",
+          "label": "Harmonica",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "harmonica"
+            ]
+          }
+        },
+        {
+          "id": "inst.choir",
+          "label": "Choir",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "choir"
+            ]
+          }
+        },
+        {
+          "id": "inst.vocal_chop",
+          "label": "Vocal chop",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "vocal chop"
+            ]
+          }
+        },
+        {
+          "id": "inst.female_vocals",
+          "label": "Female vocals",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "female vocals"
+            ]
+          }
+        },
+        {
+          "id": "inst.male_vocals",
+          "label": "Male vocals",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "male vocals"
+            ]
+          }
+        },
+        {
+          "id": "inst.humming",
+          "label": "Humming",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "humming"
+            ]
+          }
+        },
+        {
+          "id": "inst.spoken_word",
+          "label": "Spoken word",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "spoken word"
+            ]
+          }
+        },
+        {
+          "id": "inst.breakbeat",
+          "label": "Breakbeat",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "breakbeat"
+            ]
+          }
+        },
+        {
+          "id": "inst.drum_loop",
+          "label": "Drum loop",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "drum loop"
+            ]
+          }
+        },
+        {
+          "id": "inst.kick",
+          "label": "Kick",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "kick"
+            ]
+          }
+        },
+        {
+          "id": "inst.snare",
+          "label": "Snare",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "snare"
+            ]
+          }
+        },
+        {
+          "id": "inst.hi_hats",
+          "label": "Hi-hats",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "hi-hats"
+            ]
+          }
+        },
+        {
+          "id": "inst.claps",
+          "label": "Claps",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "claps"
+            ]
+          }
+        },
+        {
+          "id": "inst.shaker",
+          "label": "Shaker",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "shaker"
+            ]
+          }
+        },
+        {
+          "id": "inst.tambourine",
+          "label": "Tambourine",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "tambourine"
+            ]
+          }
+        },
+        {
+          "id": "inst.congas",
+          "label": "Congas",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "congas"
+            ]
+          }
+        },
+        {
+          "id": "inst.bongos",
+          "label": "Bongos",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "bongos"
+            ]
+          }
+        },
+        {
+          "id": "inst.tabla",
+          "label": "Tabla",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "tabla"
+            ]
+          }
+        },
+        {
+          "id": "inst.cymbals",
+          "label": "Cymbals",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "cymbals"
+            ]
+          }
+        },
+        {
+          "id": "inst.timpani",
+          "label": "Timpani",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "timpani"
+            ]
+          }
+        },
+        {
+          "id": "inst.vinyl_crackle",
+          "label": "Vinyl crackle",
+          "category": "instrument",
+          "filter": {
+            "tags": [
+              "vinyl crackle"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "genre",
+      "label": "Genres",
+      "color": "--chip-genre",
+      "chips": [
+        {
+          "id": "genre.soul",
+          "label": "Soul",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "soul"
+            ]
+          }
+        },
+        {
+          "id": "genre.funk",
+          "label": "Funk",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "funk"
+            ]
+          }
+        },
+        {
+          "id": "genre.jazz",
+          "label": "Jazz",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "jazz"
+            ]
+          }
+        },
+        {
+          "id": "genre.gospel",
+          "label": "Gospel",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "gospel"
+            ]
+          }
+        },
+        {
+          "id": "genre.rnb",
+          "label": "R&B",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "r&b"
+            ]
+          }
+        },
+        {
+          "id": "genre.hip_hop",
+          "label": "Hip hop",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "hip hop"
+            ]
+          }
+        },
+        {
+          "id": "genre.boom_bap",
+          "label": "Boom bap",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "boom bap"
+            ]
+          }
+        },
+        {
+          "id": "genre.lo_fi",
+          "label": "Lo-fi",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "lo-fi"
+            ]
+          }
+        },
+        {
+          "id": "genre.trap",
+          "label": "Trap",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "trap"
+            ]
+          }
+        },
+        {
+          "id": "genre.drill",
+          "label": "Drill",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "drill"
+            ]
+          }
+        },
+        {
+          "id": "genre.house",
+          "label": "House",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "house"
+            ]
+          }
+        },
+        {
+          "id": "genre.techno",
+          "label": "Techno",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "techno"
+            ]
+          }
+        },
+        {
+          "id": "genre.disco",
+          "label": "Disco",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "disco"
+            ]
+          }
+        },
+        {
+          "id": "genre.ambient",
+          "label": "Ambient",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "ambient"
+            ]
+          }
+        },
+        {
+          "id": "genre.downtempo",
+          "label": "Downtempo",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "downtempo"
+            ]
+          }
+        },
+        {
+          "id": "genre.trip_hop",
+          "label": "Trip hop",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "trip hop"
+            ]
+          }
+        },
+        {
+          "id": "genre.dub",
+          "label": "Dub",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "dub"
+            ]
+          }
+        },
+        {
+          "id": "genre.reggae",
+          "label": "Reggae",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "reggae"
+            ]
+          }
+        },
+        {
+          "id": "genre.afrobeat",
+          "label": "Afrobeat",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "afrobeat"
+            ]
+          }
+        },
+        {
+          "id": "genre.bossa_nova",
+          "label": "Bossa nova",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "bossa nova"
+            ]
+          }
+        },
+        {
+          "id": "genre.latin",
+          "label": "Latin",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "latin"
+            ]
+          }
+        },
+        {
+          "id": "genre.blues",
+          "label": "Blues",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "blues"
+            ]
+          }
+        },
+        {
+          "id": "genre.rock",
+          "label": "Rock",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "rock"
+            ]
+          }
+        },
+        {
+          "id": "genre.psychedelic",
+          "label": "Psychedelic",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "psychedelic"
+            ]
+          }
+        },
+        {
+          "id": "genre.folk",
+          "label": "Folk",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "folk"
+            ]
+          }
+        },
+        {
+          "id": "genre.classical",
+          "label": "Classical",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "classical"
+            ]
+          }
+        },
+        {
+          "id": "genre.cinematic",
+          "label": "Cinematic",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "cinematic"
+            ]
+          }
+        },
+        {
+          "id": "genre.electronic",
+          "label": "Electronic",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "electronic"
+            ]
+          }
+        },
+        {
+          "id": "genre.synthwave",
+          "label": "Synthwave",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "synthwave"
+            ]
+          }
+        },
+        {
+          "id": "genre.drum_and_bass",
+          "label": "Drum and bass",
+          "category": "genre",
+          "filter": {
+            "tags": [
+              "drum and bass"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mood",
+      "label": "Moods",
+      "color": "--chip-mood",
+      "chips": [
+        {
+          "id": "mood.melancholy",
+          "label": "Melancholy",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "melancholy"
+            ]
+          }
+        },
+        {
+          "id": "mood.uplifting",
+          "label": "Uplifting",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "uplifting"
+            ]
+          }
+        },
+        {
+          "id": "mood.dark",
+          "label": "Dark",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "dark"
+            ]
+          }
+        },
+        {
+          "id": "mood.dreamy",
+          "label": "Dreamy",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "dreamy"
+            ]
+          }
+        },
+        {
+          "id": "mood.nostalgic",
+          "label": "Nostalgic",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "nostalgic"
+            ]
+          }
+        },
+        {
+          "id": "mood.warm",
+          "label": "Warm",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "warm"
+            ]
+          }
+        },
+        {
+          "id": "mood.dusty",
+          "label": "Dusty",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "dusty"
+            ]
+          }
+        },
+        {
+          "id": "mood.gritty",
+          "label": "Gritty",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "gritty"
+            ]
+          }
+        },
+        {
+          "id": "mood.eerie",
+          "label": "Eerie",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "eerie"
+            ]
+          }
+        },
+        {
+          "id": "mood.tense",
+          "label": "Tense",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "tense"
+            ]
+          }
+        },
+        {
+          "id": "mood.romantic",
+          "label": "Romantic",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "romantic"
+            ]
+          }
+        },
+        {
+          "id": "mood.peaceful",
+          "label": "Peaceful",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "peaceful"
+            ]
+          }
+        },
+        {
+          "id": "mood.energetic",
+          "label": "Energetic",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "energetic"
+            ]
+          }
+        },
+        {
+          "id": "mood.groovy",
+          "label": "Groovy",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "groovy"
+            ]
+          }
+        },
+        {
+          "id": "mood.playful",
+          "label": "Playful",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "playful"
+            ]
+          }
+        },
+        {
+          "id": "mood.epic",
+          "label": "Epic",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "epic"
+            ]
+          }
+        },
+        {
+          "id": "mood.mysterious",
+          "label": "Mysterious",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "mysterious"
+            ]
+          }
+        },
+        {
+          "id": "mood.sad",
+          "label": "Sad",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "sad"
+            ]
+          }
+        },
+        {
+          "id": "mood.hopeful",
+          "label": "Hopeful",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "hopeful"
+            ]
+          }
+        },
+        {
+          "id": "mood.aggressive",
+          "label": "Aggressive",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "aggressive"
+            ]
+          }
+        },
+        {
+          "id": "mood.chill",
+          "label": "Chill",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "chill"
+            ]
+          }
+        },
+        {
+          "id": "mood.smooth",
+          "label": "Smooth",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "smooth"
+            ]
+          }
+        },
+        {
+          "id": "mood.haunting",
+          "label": "Haunting",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "haunting"
+            ]
+          }
+        },
+        {
+          "id": "mood.triumphant",
+          "label": "Triumphant",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "triumphant"
+            ]
+          }
+        },
+        {
+          "id": "mood.lush",
+          "label": "Lush",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "lush"
+            ]
+          }
+        },
+        {
+          "id": "mood.sparse",
+          "label": "Sparse",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "sparse"
+            ]
+          }
+        },
+        {
+          "id": "mood.hypnotic",
+          "label": "Hypnotic",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "hypnotic"
+            ]
+          }
+        },
+        {
+          "id": "mood.soulful",
+          "label": "Soulful",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "soulful"
+            ]
+          }
+        },
+        {
+          "id": "mood.bittersweet",
+          "label": "Bittersweet",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "bittersweet"
+            ]
+          }
+        },
+        {
+          "id": "mood.raw",
+          "label": "Raw",
+          "category": "mood",
+          "filter": {
+            "tags": [
+              "raw"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "tempo",
+      "label": "Tempo",
+      "color": "--chip-tempo",
+      "chips": [
+        {
+          "id": "tempo.70",
+          "label": "70 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              65,
+              75
+            ]
+          }
+        },
+        {
+          "id": "tempo.80",
+          "label": "80 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              75,
+              85
+            ]
+          }
+        },
+        {
+          "id": "tempo.90",
+          "label": "90 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              85,
+              95
+            ]
+          }
+        },
+        {
+          "id": "tempo.100",
+          "label": "100 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              95,
+              105
+            ]
+          }
+        },
+        {
+          "id": "tempo.110",
+          "label": "110 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              105,
+              115
+            ]
+          }
+        },
+        {
+          "id": "tempo.120",
+          "label": "120 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              115,
+              125
+            ]
+          }
+        },
+        {
+          "id": "tempo.130",
+          "label": "130 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              125,
+              135
+            ]
+          }
+        },
+        {
+          "id": "tempo.140",
+          "label": "140 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              135,
+              145
+            ]
+          }
+        },
+        {
+          "id": "tempo.150",
+          "label": "150 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              145,
+              155
+            ]
+          }
+        },
+        {
+          "id": "tempo.160",
+          "label": "160 BPM",
+          "category": "tempo",
+          "filter": {
+            "tags": [],
+            "bpm_range": [
+              155,
+              165
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "key",
+      "label": "Key",
+      "color": "--chip-key",
+      "chips": [
+        {
+          "id": "key.c_major",
+          "label": "C major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "C major"
+          }
+        },
+        {
+          "id": "key.c_sharp_major",
+          "label": "C# major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "C# major"
+          }
+        },
+        {
+          "id": "key.d_major",
+          "label": "D major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "D major"
+          }
+        },
+        {
+          "id": "key.d_sharp_major",
+          "label": "D# major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "D# major"
+          }
+        },
+        {
+          "id": "key.e_major",
+          "label": "E major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "E major"
+          }
+        },
+        {
+          "id": "key.f_major",
+          "label": "F major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "F major"
+          }
+        },
+        {
+          "id": "key.f_sharp_major",
+          "label": "F# major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "F# major"
+          }
+        },
+        {
+          "id": "key.g_major",
+          "label": "G major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "G major"
+          }
+        },
+        {
+          "id": "key.g_sharp_major",
+          "label": "G# major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "G# major"
+          }
+        },
+        {
+          "id": "key.a_major",
+          "label": "A major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "A major"
+          }
+        },
+        {
+          "id": "key.a_sharp_major",
+          "label": "A# major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "A# major"
+          }
+        },
+        {
+          "id": "key.b_major",
+          "label": "B major",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "B major"
+          }
+        },
+        {
+          "id": "key.c_minor",
+          "label": "C minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "C minor"
+          }
+        },
+        {
+          "id": "key.c_sharp_minor",
+          "label": "C# minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "C# minor"
+          }
+        },
+        {
+          "id": "key.d_minor",
+          "label": "D minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "D minor"
+          }
+        },
+        {
+          "id": "key.d_sharp_minor",
+          "label": "D# minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "D# minor"
+          }
+        },
+        {
+          "id": "key.e_minor",
+          "label": "E minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "E minor"
+          }
+        },
+        {
+          "id": "key.f_minor",
+          "label": "F minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "F minor"
+          }
+        },
+        {
+          "id": "key.f_sharp_minor",
+          "label": "F# minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "F# minor"
+          }
+        },
+        {
+          "id": "key.g_minor",
+          "label": "G minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "G minor"
+          }
+        },
+        {
+          "id": "key.g_sharp_minor",
+          "label": "G# minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "G# minor"
+          }
+        },
+        {
+          "id": "key.a_minor",
+          "label": "A minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "A minor"
+          }
+        },
+        {
+          "id": "key.a_sharp_minor",
+          "label": "A# minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "A# minor"
+          }
+        },
+        {
+          "id": "key.b_minor",
+          "label": "B minor",
+          "category": "key",
+          "filter": {
+            "tags": [],
+            "key": "B minor"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "c2a7e9d4-3b18-4f0e-8d6a-91b4e0f5a6b2",
+  "kind": "analyze",
+  "status": "done",
+  "progress": 1.0,
+  "output": {
+    "track": {
+      "track": {
+        "id": "imp_3f9a1c2e",
+        "title": "my_loop_01",
+        "artist": null,
+        "source": "import",
+        "source_url": null,
+        "license": "user-upload",
+        "attribution": "Uploaded by you",
+        "duration_s": 16.0,
+        "bpm": 90.0,
+        "key": "A minor",
+        "is_hero": false
+      },
+      "audio_url": "/fixtures/audio/mix.wav",
+      "beat_times": [
+        0.0,
+        0.667,
+        1.333,
+        2.0,
+        2.667,
+        3.333,
+        4.0,
+        4.667,
+        5.333,
+        6.0,
+        6.667,
+        7.333,
+        8.0,
+        8.667,
+        9.333,
+        10.0,
+        10.667,
+        11.333,
+        12.0,
+        12.667,
+        13.333,
+        14.0,
+        14.667,
+        15.333
+      ],
+      "windows": [
+        {
+          "id": "imp_3f9a1c2e:mix:0",
+          "track_id": "imp_3f9a1c2e",
+          "stem": "mix",
+          "start_s": 0.0,
+          "end_s": 10.0,
+          "tags": [
+            "rhodes",
+            "drum loop",
+            "warm"
+          ],
+          "loopability": 0.8,
+          "rms": 0.2,
+          "density": 0.65
+        },
+        {
+          "id": "imp_3f9a1c2e:mix:5000",
+          "track_id": "imp_3f9a1c2e",
+          "stem": "mix",
+          "start_s": 5.0,
+          "end_s": 15.0,
+          "tags": [
+            "rhodes",
+            "soul",
+            "warm"
+          ],
+          "loopability": 0.8,
+          "rms": 0.2,
+          "density": 0.65
+        },
+        {
+          "id": "imp_3f9a1c2e:mix:6000",
+          "track_id": "imp_3f9a1c2e",
+          "stem": "mix",
+          "start_s": 6.0,
+          "end_s": 16.0,
+          "tags": [
+            "rhodes",
+            "drum loop",
+            "groovy"
+          ],
+          "loopability": 0.8,
+          "rms": 0.2,
+          "density": 0.65
+        }
+      ],
+      "stems": []
+    }
+  },
+  "error": null
+}

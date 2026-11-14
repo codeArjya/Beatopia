@@ -1,0 +1,213 @@
+{
+  "track": {
+    "id": "jam_1532881",
+    "title": "Late Bloom (Instrumental)",
+    "artist": "Marisol Vey",
+    "source": "jamendo",
+    "source_url": "https://example.com/fixtures/jamendo/1532881",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "\"Late Bloom (Instrumental)\" by Marisol Vey, licensed under CC BY-SA 3.0",
+    "duration_s": 16.0,
+    "bpm": 90.0,
+    "key": "A minor",
+    "is_hero": true
+  },
+  "audio_url": "/fixtures/audio/mix.wav",
+  "beat_times": [
+    0.0,
+    0.667,
+    1.333,
+    2.0,
+    2.667,
+    3.333,
+    4.0,
+    4.667,
+    5.333,
+    6.0,
+    6.667,
+    7.333,
+    8.0,
+    8.667,
+    9.333,
+    10.0,
+    10.667,
+    11.333,
+    12.0,
+    12.667,
+    13.333,
+    14.0,
+    14.667,
+    15.333
+  ],
+  "windows": [
+    {
+      "id": "jam_1532881:mix:0",
+      "track_id": "jam_1532881",
+      "stem": "mix",
+      "start_s": 0.0,
+      "end_s": 10.0,
+      "tags": [
+        "rhodes",
+        "soul",
+        "melancholy"
+      ],
+      "loopability": 0.82,
+      "rms": 0.21,
+      "density": 0.68
+    },
+    {
+      "id": "jam_1532881:mix:5000",
+      "track_id": "jam_1532881",
+      "stem": "mix",
+      "start_s": 5.0,
+      "end_s": 15.0,
+      "tags": [
+        "rhodes",
+        "soul",
+        "warm"
+      ],
+      "loopability": 0.82,
+      "rms": 0.21,
+      "density": 0.68
+    },
+    {
+      "id": "jam_1532881:mix:6000",
+      "track_id": "jam_1532881",
+      "stem": "mix",
+      "start_s": 6.0,
+      "end_s": 16.0,
+      "tags": [
+        "rhodes",
+        "drum loop",
+        "warm"
+      ],
+      "loopability": 0.82,
+      "rms": 0.21,
+      "density": 0.68
+    },
+    {
+      "id": "jam_1532881:drums:0",
+      "track_id": "jam_1532881",
+      "stem": "drums",
+      "start_s": 0.0,
+      "end_s": 10.0,
+      "tags": [
+        "drum loop",
+        "hip hop",
+        "groovy"
+      ],
+      "loopability": 0.91,
+      "rms": 0.17,
+      "density": 0.44
+    },
+    {
+      "id": "jam_1532881:drums:6000",
+      "track_id": "jam_1532881",
+      "stem": "drums",
+      "start_s": 6.0,
+      "end_s": 16.0,
+      "tags": [
+        "drum loop",
+        "kick",
+        "groovy"
+      ],
+      "loopability": 0.91,
+      "rms": 0.17,
+      "density": 0.44
+    },
+    {
+      "id": "jam_1532881:bass:0",
+      "track_id": "jam_1532881",
+      "stem": "bass",
+      "start_s": 0.0,
+      "end_s": 10.0,
+      "tags": [
+        "bass guitar",
+        "soul",
+        "warm"
+      ],
+      "loopability": 0.77,
+      "rms": 0.09,
+      "density": 0.22
+    },
+    {
+      "id": "jam_1532881:other:0",
+      "track_id": "jam_1532881",
+      "stem": "other",
+      "start_s": 0.0,
+      "end_s": 10.0,
+      "tags": [
+        "rhodes",
+        "synth pad",
+        "lush"
+      ],
+      "loopability": 0.74,
+      "rms": 0.08,
+      "density": 0.31
+    },
+    {
+      "id": "jam_1532881:other:5000",
+      "track_id": "jam_1532881",
+      "stem": "other",
+      "start_s": 5.0,
+      "end_s": 15.0,
+      "tags": [
+        "synth pad",
+        "soul",
+        "warm"
+      ],
+      "loopability": 0.74,
+      "rms": 0.08,
+      "density": 0.31
+    },
+    {
+      "id": "jam_1532881:vocals:0",
+      "track_id": "jam_1532881",
+      "stem": "vocals",
+      "start_s": 0.0,
+      "end_s": 10.0,
+      "tags": [
+        "humming",
+        "soul",
+        "dreamy"
+      ],
+      "loopability": 0.35,
+      "rms": 0.04,
+      "density": 0.12
+    }
+  ],
+  "stems": [
+    {
+      "track_id": "jam_1532881",
+      "stem": "drums",
+      "url": "/fixtures/audio/drums.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    },
+    {
+      "track_id": "jam_1532881",
+      "stem": "bass",
+      "url": "/fixtures/audio/bass.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    },
+    {
+      "track_id": "jam_1532881",
+      "stem": "other",
+      "url": "/fixtures/audio/other.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    },
+    {
+      "track_id": "jam_1532881",
+      "stem": "vocals",
+      "url": "/fixtures/audio/vocals.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    }
+  ]
+}

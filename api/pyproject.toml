@@ -1,0 +1,47 @@
+[project]
+name = "beatopia-api"
+version = "0.1.0"
+description = "FastAPI search/AI service. Owned by WS2 (api/app/models is the shared contract)."
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "common",
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic>=2",
+    "python-multipart",
+    "httpx",
+    "google-genai",
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff", "jsonschema"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.uv.sources]
+common = { path = "../common", editable = true }
+torch = [{ index = "pytorch-cpu", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.ruff]
+extend = "../ruff.toml"
+
+[tool.ruff.format]
+# Keep the contract models byte-for-byte diffable against CONTRACT §5.
+exclude = ["app/models/*"]
+
+[tool.ruff.lint.per-file-ignores]
+# Contract models are copied verbatim from CONTRACT §5 (one-line op classes, contract imports).
+"app/models/*" = ["E301", "E302", "E305", "E701", "E702", "E501", "E261", "F401", "UP007", "I001"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

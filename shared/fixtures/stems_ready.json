@@ -1,0 +1,37 @@
+{
+  "job_id": null,
+  "stems": [
+    {
+      "track_id": "jam_1532881",
+      "stem": "drums",
+      "url": "/fixtures/audio/drums.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    },
+    {
+      "track_id": "jam_1532881",
+      "stem": "bass",
+      "url": "/fixtures/audio/bass.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    },
+    {
+      "track_id": "jam_1532881",
+      "stem": "other",
+      "url": "/fixtures/audio/other.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    },
+    {
+      "track_id": "jam_1532881",
+      "stem": "vocals",
+      "url": "/fixtures/audio/vocals.wav",
+      "range_start_s": 0.0,
+      "range_end_s": 16.0,
+      "model": "htdemucs"
+    }
+  ]
+}

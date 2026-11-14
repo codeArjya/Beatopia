@@ -1,0 +1,129 @@
+# Draft tag vocabulary (WS1). One tag per line, grouped by category header.
+# Feeds zero-shot tagging (common.analysis.zero_shot_tags, prompt "a recording of {tag}") and GET /chips.
+# Changing tags after H12 breaks WS3 chips: announce it.
+
+# instrument
+trumpet
+horns
+trombone
+saxophone
+flute
+clarinet
+strings
+violin
+cello
+harp
+piano
+rhodes
+wurlitzer
+organ
+clavinet
+harpsichord
+mellotron
+synth pad
+synth lead
+synth bass
+arpeggio
+bass guitar
+upright bass
+808
+electric guitar
+acoustic guitar
+wah guitar
+slide guitar
+banjo
+sitar
+koto
+kalimba
+marimba
+vibraphone
+glockenspiel
+music box
+bells
+steel drums
+accordion
+harmonica
+choir
+vocal chop
+female vocals
+male vocals
+humming
+spoken word
+breakbeat
+drum loop
+kick
+snare
+hi-hats
+claps
+shaker
+tambourine
+congas
+bongos
+tabla
+cymbals
+timpani
+vinyl crackle
+
+# genre
+soul
+funk
+jazz
+gospel
+r&b
+hip hop
+boom bap
+lo-fi
+trap
+drill
+house
+techno
+disco
+ambient
+downtempo
+trip hop
+dub
+reggae
+afrobeat
+bossa nova
+latin
+blues
+rock
+psychedelic
+folk
+classical
+cinematic
+electronic
+synthwave
+drum and bass
+
+# mood
+melancholy
+uplifting
+dark
+dreamy
+nostalgic
+warm
+dusty
+gritty
+eerie
+tense
+romantic
+peaceful
+energetic
+groovy
+playful
+epic
+mysterious
+sad
+hopeful
+aggressive
+chill
+smooth
+haunting
+triumphant
+lush
+sparse
+hypnotic
+soulful
+bittersweet
+raw
