@@ -25,3 +25,35 @@ uv run python -c "import torch; print(torch.__version__, torch.cuda.is_available
 `uv sync` puts the CPU build back, so run your scripts with `uv run --no-sync ...` after installing the CUDA build.
 For a permanent switch on a GPU box (e.g. the Vultr VM), change the `pytorch-cpu` index URL in that project's
 `pyproject.toml` to the CUDA one (don't commit that).
+
+## Audio and service preflight
+
+FFmpeg with `libmp3lame` must be on PATH. Helpers decode local files or HTTP(S)
+audio to float32 mono (channel average), and atomically publish 44.1 kHz stereo
+MP3s at 192 kbps. A failed transcode preserves an existing destination.
+
+Run from the repository root:
+
+```bash
+uv run --no-sync --project common python -m common.preflight
+uv run --no-sync --project common --env-file .env python -m common.preflight --live
+uv run --no-sync --project common pytest common/tests
+```
+
+The live check performs a 512-dimensional pgvector roundtrip and reads table
+counts. It uploads the same synthetic MP3 twice to a unique test path, verifies
+public bytes and decoding, then removes that object. It does not insert library
+tracks or apply migrations. Output includes package versions and safe error types,
+never credentials. The public `audio` bucket and contract migrations must exist.
+
+This Windows workspace has a checksum-verified FFmpeg 9.0.2 build in ignored
+`common/data/tools/ffmpeg/ffmpeg-9.0.2-essentials_build/bin`. For this shell only:
+
+```powershell
+$env:PATH = (Resolve-Path 'common/data/tools/ffmpeg/ffmpeg-9.0.2-essentials_build/bin').Path + ';' + $env:PATH
+```
+
+`connect()` registers pgvector on each connection and returns it outside a
+transaction. Callers own its lifetime and transaction scope (`with connect()`).
+With locked pgvector 0.5.1, selected vectors are `Vector` objects; use
+`.to_numpy()` when array operations are needed. Inserts accept NumPy arrays.
