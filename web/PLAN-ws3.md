@@ -75,7 +75,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* Vitest in fixture mode covers each query factory (search → 8, chips → 5 categories, job polling interval 1000 → false once done), typed `output` narrowing on both done fixtures, and `getSessionId` being stable across calls.
 - [x] **T1.3 Adapters + tokens skeleton** (1 h). `AppButton`, `AppCard`, `AppSheet`, `Pill`, `LicenseBadge`, `MonoStat`. `--chip-*` tints wired in `globals.css`.
   *Accept:* a temporary `/` demo row shows one pill per category in its color, and keyboard focus is visible.
-- [ ] **Gate H4:** open a PR `feat(ws3): app shell + lib/api hooks` and tell the human it's ready for WS4.
+- [x] **Gate H4:** open a PR `feat(ws3): app shell + lib/api hooks` and tell the human it's ready for WS4.
 
 ### Chip tray + search bar, H2 → H5
 - [ ] **T2.1 Search state** (1 h). `lib/search/state.ts` is a pure reducer (`add` dedupes, `remove`, `removeLast`, `reorder`, `setText`). `useSearchState` syncs with the URL (Suspense-wrapped) and returns a 300 ms debounced `SearchRequest` (or `null` when empty).
