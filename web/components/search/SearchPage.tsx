@@ -10,8 +10,8 @@ import { useSearchState } from "@/lib/search/useSearchState";
 
 import { ChipTray } from "./ChipTray";
 import { SearchBar } from "./SearchBar";
+import { ResultList } from "./ResultList";
 import { SearchDnd } from "./SearchDnd";
-import { SearchResults } from "./SearchResults";
 
 /** The search page body. Render inside <Suspense> (it reads the URL). */
 export function SearchPage() {
@@ -19,6 +19,9 @@ export function SearchPage() {
   useStopPreviewOnHide();
   const chips = useChips();
   const index = useMemo(() => indexChips(chips.data?.categories ?? []), [chips.data]);
+
+  const lastChipId = state.chips.at(-1);
+  const lastChipLabel = lastChipId ? (index.get(lastChipId)?.label ?? lastChipId) : null;
 
   const toggle = (id: string) =>
     dispatch(state.chips.includes(id) ? { type: "remove", id } : { type: "add", id });
@@ -35,7 +38,11 @@ export function SearchPage() {
           <SearchBar state={state} index={index} dispatch={dispatch} />
 
           {request ? (
-            <SearchResults request={request} />
+            <ResultList
+              request={request}
+              lastChipLabel={lastChipLabel}
+              onRemoveLastChip={() => dispatch({ type: "removeLast" })}
+            />
           ) : (
             <div className="space-y-2 py-12 text-center">
               <p className="text-lg font-medium">Find your next sample</p>

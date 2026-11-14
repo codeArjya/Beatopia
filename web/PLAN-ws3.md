@@ -90,7 +90,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 ### Results, H5 → **Gate H8** (full search flow on fixtures)
 - [x] **T3.1 PreviewProvider** (1.5 h). Shared `<audio>`, `play/stop/toggle`, loop at `end_s` checked with rAF, state exposed with `useSyncExternalStore`, warm-up on hover.
   *Accept:* unit test for the pure loop-boundary helper. Manually: sound within 1 s of a click, only one preview at a time, loops cleanly at the window end.
-- [ ] **T3.2 ResultCard + ResultList** (2 h). Meta row in monospace, top 3 tags, license badge + attribution caption, skeletons, the empty state with "Remove last chip", the fallback banner, error states, and the `aria-live` count.
+- [x] **T3.2 ResultCard + ResultList** (2 h). Meta row in monospace, top 3 tags, license badge + attribution caption, skeletons, the empty state with "Remove last chip", the fallback banner, error states, and the `aria-live` count.
   *Accept:* the 8 fixture cards render. `?fixture=empty` (`search_empty.json`) and `?fixture=fallback` (`search_fallback.json`) show their states. A null key or bpm shows "—". Long titles truncate.
 - [ ] **T3.3 MiniWaveform** (1.5 h). `lib/waveform/peaks.ts` (pure: buffer + range → 96 peaks), a decode cache, the concurrency limit of 2, an IntersectionObserver trigger, canvas drawing at the device pixel ratio, and a playhead overlay from the preview state.
   *Accept:* unit test for peaks (known sine, correct bucket count, values in [0,1]). On the page, 8 waveforms with `mix.wav` decoded once (network tab). A decode failure shows the placeholder.
