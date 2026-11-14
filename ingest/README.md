@@ -52,3 +52,53 @@ is implied. Hero/FMA CLI requests fail explicitly until implemented in later ses
 Source behavior follows the [Jamendo tracks API](https://developer.jamendo.com/v3.0/tracks)
 (BY/BY-SA URL validation, `audiodownload_allowed`, `audiodownload`, `ccnc=false`, `ccnd=false`) and
 [Freesound API](https://freesound.org/docs/api/overview.html) (licensed HQ previews, no original-download OAuth).
+# Hero selection and separation (session 3)
+
+Use `./ingest/launch-heroes.ps1 -Mode audit -Foreground` for a read-only DB ranking/coverage audit;
+`-Mode status -Foreground` prints read-only counts even while the batch holds its lock. The launcher
+sets the approved immutable CLAP checkpoint, workspace model caches, FFmpeg and two inference threads.
+It never changes `.env`. Demucs uses the content-checked legacy `htdemucs` checkpoint, seven-second
+segments, split=true, overlap=0.25, one shift and seed zero. CPU is supported; unavailable/failed
+accelerators fall back to CPU once. No substitute stem labels/models are published.
+
+```powershell
+./ingest/launch-heroes.ps1 -Mode benchmark -Track jam_1030276
+./ingest/launch-heroes.ps1 -Mode batch -Limit 1 -Track jam_1121408
+./ingest/launch-heroes.ps1 -Mode batch -Limit 80
+./ingest/launch-heroes.ps1 -Mode verify -Track jam_1121408 -Foreground
+```
+
+Background launches are hidden and return launcher PIDs plus stdout/stderr paths. Do not start a
+second hero process while the first is alive. The independent `heroes.lock` preserves concurrent
+mix ingest and releases on process death; never delete a live lock. Only after confirming the old
+hero process is dead, rerun the same batch command. `python -m ingest.run --hero 80` also dispatches
+to the hero pipeline; it requires the same environment as the launcher.
+
+Checkpoints live under ignored `ingest/data/heroes/`: `audit.json`, `queue.json`, `benchmarks.json`,
+`status.json`, append-only `heroes.log`, and `{track_id}/separated.json`, four MP3s, `features.npz`,
+`manifest.json`. Preserve them. Inference is reusable before embeddings/publication finish;
+matching cached files are checked by hash, format, coverage and fingerprint. Incomplete derived
+features are repaired; differing model/vocabulary/source fingerprints require an explicit migration.
+All uploads and public byte checks precede one DB transaction publishing four stem rows, stem
+windows and `is_hero=true`. Reruns verify DB values/vectors and public hashes rather than trusting
+the hero flag. `verify` only inspects existing artifacts/DB/storage and never repairs them.
+
+Ranking uses maximum mix-window loopability times distinct selected track tags divided by the
+120-entry vocabulary; ties use track ID. Reserve thirty tracks with exact existing horns/keys/strings
+tags, then fill by rank. Twenty ranked spares can replace failures without lowering the target.
+The queue freezes at batch start; new mix ingest does not reorder it. A failure remains logged and
+causes a nonzero final exit even if spares satisfy the count. Audit tags are candidate evidence;
+`listening=unreviewed` and `audibly_verified=0` must not be interpreted as human quality approval.
+
+Full stems use the contract paths and processed mix duration, including the recorded excerpt join.
+Stem windows never cross the join, drop silence at the unchanged -45 dBFS threshold, and use actual
+CLAP embeddings. A candidate lacking audible windows for any of the four stems fails the hero gate.
+Stem-window density uses spectral flatness plus the fraction of stems above -30 dBFS. Mix-window
+density remains the original onset proxy so concurrent mix verification stays compatible; updating
+all hero mix-window densities remains part of the later density-completion task.
+
+Benchmark timings are **local decoded stereo inference**, excluding download, MP3 encoding,
+embedding, upload and DB work. They do not establish the on-demand worker's end-to-end <60 s gate.
+Batch ETA uses the last ten newly published hero wall times, excluding fast cached verifications;
+duration/source changes and future failures can invalidate the projection. See `HERO_SESSION3.md`
+and `docs/codex-handoff.md` for measured results and remaining acceptance checks.

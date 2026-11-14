@@ -40,8 +40,13 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
     if not 1 <= args.limit <= 400:
         parser.error("--limit must be between 1 and 400")
-    if args.hero is not None or args.source == "fma":
-        parser.error("Hero separation and FMA ingest are not implemented")
+    if args.hero is not None:
+        from ingest.heroes import main as heroes_main
+
+        heroes_main(["--limit", str(args.hero), "--data-dir", str(args.data_dir)])
+        return
+    if args.source == "fma":
+        parser.error("FMA ingest is not implemented")
     if clap.CLAP_MODEL == "laion/larger_clap_music":
         parser.error("Default checkpoint fails semantic acceptance; coordinate CLAP_MODEL/REVISION first")
     if clap.CLAP_REVISION == "main":

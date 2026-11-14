@@ -1,4 +1,130 @@
-# Codex handoff — session 2 of 7
+# Codex handoff — session 3 of 7
+
+## Current handoff — session 3 (supersedes the session-2 next steps below)
+
+Human approved the implementation plan before code. Scope was the hero batch (original WS1 handoff
+task #5), despite the session prompt's different numbering. Worker job claiming/import analysis is
+not implemented. Branch `ws1-data`, starting commit `8c2ee8f`. No schema/API/ID/storage/vocab/dependency
+changes. The pre-existing `shared/schema/api.schema.json` modification is untouched and excluded.
+
+### Verified results
+
+- Real CPU benchmark on `jam_1030276`: **30 s -> 33.183462 s inference**; **180 s -> 207.197166 s**.
+  Loaded model once in **1.254834 s**; no fallback/inference errors. These exclude decode, encode,
+  embedding, upload and DB. No end-to-end worker <60 s pass is claimed. CUDA/MPS unavailable.
+- Demucs 4.1.0, Torch 2.15.0+cpu, `htdemucs`, two OMP/MKL threads, split=true, 7 s segments,
+  overlap=.25, one shift, seed=0. Weight SHA256:
+  `8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4`.
+  Cache `common/data/torch/hub/checkpoints/955717e8-8726e21a.th`, preserved.
+- Complete technical hero `jam_1121408`, **Jazzi Girl / Marco Margna / CC-BY-SA-3.0**, 180 s processed
+  excerpt. **Four public stereo 44.1 kHz/192k MP3 stems, 93 embedded stem windows**: bass=25,
+  drums=33, other=34, vocals=1. All ranges stay within the mix and avoid its artificial join.
+  Inference **169.594342 s**; full prepare/encode/embed/upload/DB/verify **276.137103 s**; failures=0.
+  An independent `-Mode verify -Track jam_1121408 -Foreground` subsequently passed all expected DB
+  values/vectors/public hashes without recomputation or DB mutation.
+- Audition artifact: `ingest/data/heroes/jam_1121408/listen.html`, with attributed public mix/stem players.
+  **Listening has not been verified**; do not interpret playable/decoded/hash checks as a quality verdict.
+- Batch-start audit: **129** published candidates, **126** with selected horns/keys/strings tags,
+  **30 reserved**, tag shortfall=0. Frozen ranked queue has **100 distinct IDs**, target=80 plus 20
+  spares. Exact thirty IDs, scores and tags: `ingest/HERO_CANDIDATES_SESSION3.md`.
+  **Audibly verified required-timbre tracks=0**; hero task checkbox remains open.
+- Read-only DB snapshot **16:31:43 EST**: **129 tracks / 3,570 windows / 4 stems / 1 hero**, no jobs.
+  Windows: mix=3,477, bass=25, drums=33, other=34, vocals=1. Sources/licenses: Freesound BY-4.0=20,
+  Jamendo BY-3.0=32, BY-SA-3.0=77. One hero has qualifying mix tags; prominent timbre is unreviewed.
+
+### Running work — preserve both processes
+
+**Final checkpoint 16:36:41 EST:** read-only SQL **142 tracks / 4,071 windows / 8 stems / 2 heroes**,
+no jobs. Windows: mix=3,884, bass=46, drums=67, other=65, vocals=9. Sources/licenses: Freesound
+BY-4.0=20; Jamendo BY-3.0=34, BY-SA-3.0=88. Both heroes have qualifying tags; listening count stays zero.
+New batch hero `jam_1439805` published/verified with **94** windows in **303.476473 s**, inference
+**194.708918 s**. Then `jam_1121408` verified-existing in **1.724493 s** with no inference/publication.
+Batch progress=**2/80 verified**, no failure events; next candidate `jam_1436572` separating.
+Latest hero ETA **22,604.929 s (~6 h 17 m)** from 16:36:29 -> **~22:53 EST**, based on two newly
+published full-pipeline timings; fast verification is excluded. Original ingest progress=122 completed,
+zero failures, aggregate ETA **11,653.345 s (~3 h 14 m)**, still biased by the wall-time outlier below.
+All four documented live PIDs were confirmed alive. These supersede the earlier snapshots/projection.
+
+- Original ingest: **uv PID 29584 / Python PID 7980**, launched 14:52:43 EST;
+  `uv run --project ingest --env-file .env python -m ingest.run --source auto --limit 350`.
+  Logs remain `ingest/data/launch-20261114-145243.{stdout,stderr}.log` and `ingest/data/ingest.log`.
+  At 16:31:45, completed=110, failed=0 in this full run, aggregate ETA=12,963.34 s (~3.60 h).
+  A successful `jam_1009065` took **2,332.047 s**; preceding progress/observed host-tool pauses show
+  a long wall-time gap, but its cause is **unverified**. It did not log an exception. Later track
+  `jam_1009346` took 28.25 s. Aggregate ETA is distorted; do not present it as a reliable finish time.
+- New hero batch: launched **16:31:16 EST**, **uv PID 32252 / Python PID 30820**;
+  `./ingest/launch-heroes.ps1 -Mode batch -Limit 80`, which runs
+  `uv run --no-sync --project ingest --env-file .env python -m ingest.heroes --mode batch --limit 80`.
+  Logs `ingest/data/heroes-batch-20261114-163116.{stdout,stderr}.log` and
+  append-only `ingest/data/heroes/heroes.log`. First new candidate `jam_1439805` began separation;
+  no completed new batch hero or batch failure was observed at 16:34:26. One earlier hero exists.
+- Earlier single-hero PIDs 22144/24408 and benchmark PIDs 26444/31496 finished normally. Logs retained:
+  `heroes-batch-20261114-152725.*.log`, `heroes-benchmark-20261114-152209.*.log` under ingest/data.
+  Failed sandbox-only benchmark `heroes-benchmark-20261114-152053.*.log` is also retained.
+- Preserve `ingest/data/heroes/{audit,queue,benchmarks,status}.json`, `heroes.lock`, each track's
+  `separated.json`, four MP3s, `features.npz`, `manifest.json`; preserve every original ingest cache,
+  fingerprint, queue, request budget and manifest. Raw separation resumes without repeating inference.
+  Locks are independent. Never delete live locks, restart live processes, or change fingerprints.
+- Initial estimate using one full hero: 79 × 276.137 s = **~6.06 h**, projected finish **~22:35 EST**
+  from batch startup. This is a one-sample projection, excluding future stalls/failures/source changes;
+  live ETA uses last ten newly published wall times, excluding cached verifications. **H0 was not
+  provided**, so H12 completion cannot be asserted. Current library and hero targets remain incomplete.
+
+### Checks / changes / remaining acceptance
+
+- Focused hero tests: **19 passed in 23.32 s**. Final ingest rerun after read-only verification lock
+  bypass: **44 passed in 46.21 s** (previous final pass 35.58 s). Final worker **1 passed in 0.02 s**.
+- `make lint` attempted repeatedly: Make unavailable. Direct Python Ruff check and format-check pass
+  across common/ingest/worker/api/scripts, final output **45 files already formatted**. No global web
+  lint pass claimed. Common unchanged; no common rerun needed. `report.py` remains deferred; counts
+  are read-only SQL through the hero status mode.
+- Initial worker test from repo root mistakenly collected unrelated projects: four import/collection
+  errors (`fastapi`, `ingest` missing from worker env). Corrected project cwd tests pass; no dependency
+  installs, suppression, or cross-stream repairs. Tests use fresh workspace basetemps, workspace UV
+  caches and FFmpeg PATH. See session-2 environment setup below.
+- Runtime sandbox denied model download/DB/cache reads; reran those operations with requested
+  escalation. One tool-host timeout lost its response before the proposed verify/batch launch;
+  inspected logs/PIDs to confirm neither had started, then launched once. No duplicate batch.
+- New files: `ingest/heroes.py`, `separation.py`, `launch-heroes.ps1`, `tests/test_heroes.py`,
+  `HERO_SESSION3.md`, `HERO_CANDIDATES_SESSION3.md`. Updated `ingest/run.py`, `README.md`, `PLAN.md`,
+  and this handoff (explicit user-authorized documentation exception).
+- Contract paths/full processed timelines preserved. Hero flag is transactional with all four stem
+  rows/windows after uploads, followed by public/DB verification. Silence thresholds unchanged;
+  a stem with no audible windows fails rather than publishing fictional windows. Stem-window density
+  uses measured activity. Mix density remains the original onset proxy to preserve concurrent mix
+  verification; later density completion is still required. Worker main remains a stub.
+- Mixed-fixture CLAP >.2 acceptance still fails; keep task 2 open. WS2 must match general CLAP revision
+  `ada0c23a36c4e8582805bb38fec3905903f18b41`. No API config was edited. Thirty prominent/useful timbres,
+  80 completed heroes, 300–500 completed playable mixes, global lint and H12 are not verified.
+
+### Exact next-session instructions
+
+1. Read this current section, `ingest/PLAN.md`, `ingest/HERO_SESSION3.md`, contract and WS1 guide.
+   Inspect git status/current commit; preserve the unrelated schema modification.
+2. Inspect PIDs 29584/7980 and 32252/30820 and both log tails before touching anything. Do not restart
+   live jobs. For counts run `./ingest/launch-heroes.ps1 -Mode status -Foreground` (read-only DB).
+3. If and only if the old hero process is confirmed dead, resume
+   `./ingest/launch-heroes.ps1 -Mode batch -Limit 80`. It reuses the frozen queue and verifies completed
+   heroes; logged failures remain failures even if spares fill the target. Preserve raw stems on errors.
+   For mix recovery, only after its old process is dead use `./ingest/launch.ps1 -Source auto -Limit 350`.
+4. Verify the first hero with
+   `./ingest/launch-heroes.ps1 -Mode verify -Track jam_1121408 -Foreground`; this is read-only and can
+   run during the batch. Audit/listen to reserved candidates via `HERO_CANDIDATES_SESSION3.md` and
+   the audition artifact. Record actual listening decisions; do not promote tag matches to prominence.
+5. Investigate repeated error ID/type/location/status using `heroes.log` and per-track checkpoints.
+   A quiet stem without windows is an honest candidate failure; use ranked spares, never lower RMS
+   gates. Report completed counts, failures and measured ETA separately from intended target 80.
+6. Present the next session's assigned scope for review before code. Pending implementation is worker
+   claiming/progress/stem jobs and import analysis/range caching; do not claim those work from the
+   hero helper. Preserve current jobs/processes; implement contract job shapes with focused tests.
+7. After implementation run focused checks, make lint, ingest/worker suites from their project cwd
+   (`uv run --project . pytest`, equivalently repo-root commands with explicit test paths); common if
+   shared helpers change. Run `ingest/report.py` once assigned/implemented, otherwise read-only counts.
+   Update this handoff with exact snapshots/PIDs/logs and evidence; commit only authorized work.
+
+---
+
+## Historical session-2 record (next steps below are superseded above)
 
 Date: 2026-11-14, EST. Branch `ws1-data`; starting commit `5d86d69`.
 This file was absent at session start; user approved its creation as an ownership exception.

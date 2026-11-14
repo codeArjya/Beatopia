@@ -112,6 +112,47 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 
 ## Execution record
 
+### Session 3 — hero pipeline and running batch (2026-11-14)
+
+Human approved the session plan before implementation. Explicit session scope overrides the differing
+task numbers: implemented the hero-selection/separation batch, not worker job claiming/import handling.
+Added `heroes.py`, `separation.py`, hidden launcher, `--hero` dispatch, recovery tests and evidence docs.
+No dependency, schema, API, ID, storage-path, vocabulary or shared-default changes.
+
+- CPU benchmark on real `jam_1030276`: 30 s inference **33.183462 s**, 180 s **207.197166 s**;
+  model load **1.254834 s**. These exclude download/encode/embedding/upload/DB; <60 s end-to-end
+  worker acceptance remains unverified. Demucs 4.1.0 `htdemucs`, Torch 2.15.0+cpu, two threads,
+  segment=7 s, overlap=.25, split=true, one shift, seed=0; full checkpoint hash in `HERO_SESSION3.md`.
+- Verified `jam_1121408` (Jazzi Girl, Marco Margna, CC-BY-SA-3.0): 180 s processed mix,
+  four public 44.1 kHz stereo MP3 stems, **93** stem windows (bass 25, drums 33, other 34, vocals 1),
+  real normalized embeddings, valid processed ranges/no join crossing. Public hashes and every DB
+  value/vector passed independent read-only verification. Inference **169.594342 s**; full hero
+  pipeline **276.137103 s**, zero failures. Repeat verification did not rerun separation or publish.
+- Batch started 16:31:16 EST, target 80 plus 20 ranked spares, independent lock/checkpoints;
+  uv PID **32252**, Python PID **30820**. Existing ingest PIDs **29584/7980** preserved.
+  Batch-start audit: **129** candidates, **126** tag qualifying, thirty reserved, zero tag shortfall.
+  Exact thirty/real scores are recorded in `HERO_CANDIDATES_SESSION3.md`.
+- **Audibly verified qualifying tracks: zero**. Listening and thirty prominent/useful timbres remain
+  unverified, so the hero task checkbox stays open. Stem-window density is measured; updating mix
+  density remains the later density-completion task. The mixed-fixture CLAP gate also remains failed.
+- At 16:31:43 EST read-only DB counts: **129 tracks / 3,570 windows / 4 stems / 1 hero**, no jobs.
+  One-hero throughput projects ~6.06 h for 79 additional heroes (~22:35 EST from batch startup).
+  H0 was not supplied, so an absolute H12 pass cannot be asserted. Full-library ingest is unfinished;
+  an observed 2,332.047 s outlier makes its aggregate rolling ETA unreliable. No exception was logged
+  for that track; its stall cause is unverified. Do not discard checkpoints or reduce targets.
+- Focused tests **19 passed (23.32 s)**; ingest **44 passed (35.58 s)**; worker **1 passed (0.01 s)**.
+  Python Ruff lint/format passed, 43 files. Make absent; global web lint unverified. Initial worker
+  command from repository root collected other projects and had four import errors; corrected cwd
+  worker run passed. Common unchanged; no common rerun required. `report.py` remains deferred;
+  all interim counts use read-only SQL. Final rerun details/current logs are in the session handoff.
+
+Full measured results, limitations, running commands and recovery are in `HERO_SESSION3.md` and
+`docs/codex-handoff.md`. Pre-existing `shared/schema/api.schema.json` modification remains untouched.
+Final checkpoint 16:36:41 EST: **142 tracks / 4,071 windows / 8 stems / 2 heroes**; batch verified 2/80,
+no failure events, next candidate separating. Second hero full pipeline 303.476473 s; latest projected
+finish ~22:53 EST (~6 h 17 m remaining). Final reruns: ingest 44 passed/46.21 s, worker 1 passed/0.02 s;
+Python Ruff pass, 45 formatted files. All required listening/H12/whole-library gates remain open.
+
 ### Task 1 — common I/O, database, storage and IDs
 
 - Implemented local/HTTP(S) decoding to finite float32 mono with explicit channel averaging; atomic 44.1 kHz stereo 192k MP3 encoding; pgvector registration with clean transaction state and cleanup on registration failure; storage upsert with explicit content type and closed file/storage clients; rejection of nonfinite window times.
