@@ -105,6 +105,7 @@ contract and no longer assumptions:
 | C4b | WS4 finds Freesound preview URLs don't decode in the browser (CORS) | Copy the preview to `tracks/fs_{id}/mix.mp3` on first `GET /tracks/fs_*` |
 | C6 | After the hackathon | `tracks.owner_session text` so imports can be listed per session |
 | C7 | **Proposed** (needed now, can land at H12) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
+| C9 | **Proposed** (`gemini-3.8-flash` was overloaded and slower; local `.env` has a non-existent model) | `GEMINI_MODEL=gemini-3.6-flash` in `.env.example` / §8; `docs/proposals/WS2-gemini-model.md`. Meanwhile set it in the local `.env` and the deploy env |
 | C8 | **Proposed** (needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
 
 ---
@@ -167,11 +168,16 @@ against WS1's seed once it is in the DB (the DB was empty this session).
       v1 plan = raw text (or chip labels + " music"), chips merged by `core/planner.py` (T4.1 adds Gemini in front).
       Empty text with no chips, or an unknown chip id → 400 `bad_request`; CLAP not loaded → 502 `upstream_error`.
       Snap: when nothing fits (sound shorter than 1 bar) the raw bounds stay with `bars=1`.
-- [ ] **T4.1 Gemini client + planner + cache** (2 h). `core/gemini.py` (singleton, retries, degraded switch),
+- [x] **T4.1 Gemini client + planner + cache** (2 h). `core/gemini.py` (singleton, retries, degraded switch),
       `core/planner.py` (P1, flat schema → `SearchPlan`, chip merge, `plan_cache`).
       *Accept:* recorded-response unit tests (mock client) for merge rules; live: "sad trumpet around 90 bpm,
       no drums" → must_tags ⊇ {trumpet}, exclude ⊇ {drum loop|kick|snare...}, bpm ≈ [85, 95]; 2nd call hits cache (< 50 ms).
-      *Left:* `core/gemini.py`, P1 call + flat schema → `SearchPlan`, `plan_cache`; chip merge is already done (T3.2).
+      *Done:* live on `gemini-3.6-flash` (see C9): the trumpet query → `must [trumpet]`, exclude the 6 drum tags,
+      bpm (85, 95), 1.5 s; 2nd call 0.1 ms (in-process LRU), fresh process 100 ms (`plan_cache` row).
+      `scripts/plan_check.py` is the live check. Changes from §1: tags are plain strings in the Gemini schema (two
+      126-value enums → `400 INVALID_ARGUMENT`), filtered to the vocab server-side; thinking `MINIMAL` (LOW took
+      3–11 s; sent as LOW to 3.8 Flash, which rejects MINIMAL); budgets are wall-clock (the API rejects HTTP
+      deadlines < 10 s); auto-degrade (3 failures / 60 s → 5 min) landed now instead of T11.2.
 - [ ] **T4.2 Rerank + notes** (1.5 h). `core/rerank.py` (P2), notes cache read/write, skip rules.
       *Accept:* mock test: hallucinated ids dropped, missing ids appended; live: top 8 get `why`, rerank_ms logged.
 - [ ] **T4.3 `/why` with audio** (1.5 h). Excerpt via ffmpeg, P3 / P3b fallback, cache.

@@ -1,6 +1,6 @@
 """POST /search pipeline (CONTRACT §7): plan → CLAP → SQL → score → snap → Result.
 
-v1 (T3.2): no Gemini planner or rerank yet (T4.1/T4.2), no Freesound fallback yet (T8.1).
+Gemini planner + plan_cache (T4.1). No rerank yet (T4.2), no Freesound fallback yet (T8.1).
 """
 
 from __future__ import annotations
@@ -11,6 +11,7 @@ from psycopg_pool import ConnectionPool
 
 from app.core import embed, planner, search_sql
 from app.core.errors import bad_request
+from app.core.gemini import Gemini
 from app.core.scoring import Scored, rank
 from app.core.settings import Settings
 from app.core.snap import snap_window
@@ -49,18 +50,29 @@ def to_result(s: Scored) -> Result:
     )
 
 
-def run_search(req: SearchRequest, pool: ConnectionPool, settings: Settings) -> SearchResponse:
+def run_search(
+    req: SearchRequest, pool: ConnectionPool, settings: Settings, gemini: Gemini | None = None
+) -> SearchResponse:
     text = planner.normalize_text(req.text)
     chips = planner.resolve_chips(req.chips, settings.vocab_path)
     if text is None and not chips:
         raise bad_request("send search text or at least one chip")
 
-    plan = planner.merge_chips(planner.base_plan(text, chips), chips)
+    with stage("plan"):
+        outcome = planner.make_plan(text, chips, req.chips, pool=pool, gemini=gemini, vocab_path=settings.vocab_path)
+    plan = outcome.plan
     with stage("embed"):
         q = embed.embed_query(plan.clap_text)
     with stage("sql"), pool.connection() as conn:
         candidates, relaxed = search_sql.fetch_candidates(conn, plan, q)
     with stage("score"):
         results = [to_result(s) for s in rank(candidates, plan)[: req.limit]]
-    note(plan_cached=False, relaxed=relaxed, candidates=len(candidates), n=len(results), fallback=False)
+    note(
+        plan_source=outcome.source,
+        plan_cached=outcome.cached,
+        relaxed=relaxed,
+        candidates=len(candidates),
+        n=len(results),
+        fallback=False,
+    )
     return SearchResponse(query_id=new_query_id(), plan=plan, results=results, fallback_used=False)
