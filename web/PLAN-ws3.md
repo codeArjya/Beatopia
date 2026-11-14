@@ -80,7 +80,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 ### Chip tray + search bar, H2 → H5
 - [x] **T2.1 Search state** (1 h). `lib/search/state.ts` is a pure reducer (`add` dedupes, `remove`, `removeLast`, `reorder`, `setText`). `useSearchState` syncs with the URL (Suspense-wrapped) and returns a 300 ms debounced `SearchRequest` (or `null` when empty).
   *Accept:* unit tests for the reducer, URL parsing/serializing, and unknown chip ids being dropped. Back/forward restores the search.
-- [ ] **T2.2 ChipTray** (1.5 h). Grouped and collapsible categories, a filter box, click to add. Chips already in the search look selected.
+- [x] **T2.2 ChipTray** (1.5 h). Grouped and collapsible categories, a filter box, click to add. Chips already in the search look selected.
   *Accept:* all 5 fixture categories render, clicking adds a pill, Tab reaches every chip, and Enter adds it.
 - [ ] **T2.3 SearchBar + drag-and-drop** (2 h). Pills before the text input, Backspace removes the last pill, `DndContext` covers drag from tray to bar, sortable pills, and `DragOverlay`, plus announcements.
   *Accept (manual):* drag Soul, Keys, then Melancholy into the bar, reorder them, and see the URL `chips=` order change. A click still adds a chip without starting a drag. Keyboard drag works (Space, arrows, Space).

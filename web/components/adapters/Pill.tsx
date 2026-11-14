@@ -37,7 +37,7 @@ export function Pill({
   ...props
 }: PillProps) {
   const Comp = asChild ? Slot.Root : "span";
-  const tint = tone === "solid" || selected ? "22%" : "10%";
+  const tint = selected ? "40%" : tone === "solid" ? "22%" : "10%";
   return (
     <Comp
       data-slot="pill"
