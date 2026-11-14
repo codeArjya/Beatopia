@@ -137,5 +137,42 @@ Commits this session: `5693789` (T3.1) and `43c0e22` (T3.2).
 - T4.1 Gemini client + planner + `plan_cache`, then T4.2 rerank + notes.
 - Human actions:
   1. Add the two `CLAP_*` lines to the local `.env`, and land C8 with WS1 (`.env.example` / CONTRACT §8).
-  2. Push `ws2-api`: the rebase onto main rewrote session 1's commits, so a plain push is rejected. Run
+  2. (Done in the wrap-up below.) Push `ws2-api`: the rebase onto main rewrote session 1's commits, so a plain push is rejected. Run
      `git push --force-with-lease origin ws2-api` if you want the remote to match.
+
+
+## 2026-11-14 · session 2 wrap-up (remote sync)
+
+The full results of this session are in the session 2 entry above. This entry records the branch sync after it.
+
+### Done
+- **T3.1: pass** and **T3.2: pass** (details above): "dusty soul keys" returns 8 results, at most 3 per track, scores
+  0.54–0.58. All 20 eval queries validate; **p50 297–328 ms, p95 ≈ 400 ms** uncached, p50 160 ms cached;
+  fallback needed 0/20.
+- **Remote sync:** GitHub showed `ws2-api` one commit behind main, because `origin/ws2-api` was still the copy of
+  session 1 from before the rebase. All 6 of its commits were already on the local branch as rebased copies
+  (checked with `git cherry`). With the human's OK, I pushed with `--force-with-lease` pinned to `2d207cc`, so
+  `origin/ws2-api` now contains `origin/main` `0877d84` (0 behind).
+- PLAN.md: T3.1 and T3.2 are ticked; one-line *Left:* notes added to T4.1 and T8.1.
+
+### Deviations
+- None beyond those listed in the session 2 entry. The force push was explicitly approved by the human.
+
+### Gotchas
+- **Before starting the API**, set `CLAP_MODEL=laion/larger_clap_general` and
+  `CLAP_REVISION=ada0c23a36c4e8582805bb38fec3905903f18b41` (proposal C8). The local `.env` still lacks them.
+- After every `make schema` on Windows, `shared/schema/api.schema.json` and `web/lib/types/api.ts` show CRLF-only diffs.
+  Leave them unstaged; `git checkout -- <file>` resets them when a clean tree is needed (for example, to rebase).
+- Background jobs can't use Write/Edit in the main checkout. Write to the job scratch dir and copy, or set
+  `"worktree": {"bgIsolation": "none"}` in `.claude/settings.json`.
+- No failing tests. The DB tests are opt-in (`BEATOPIA_DB_TESTS=1`, `--env-file ../.env`).
+
+### State
+- No production URL or VM yet (T6.x). Flags: `USE_FIXTURES=0` (real mode); `GEMINI_DEGRADED` isn't read yet.
+- Real endpoints: `/health`, `/chips`, `/tracks/{id}` and `/search` v1. The rest are still fixture stand-ins.
+- Fixtures: unchanged. Branch: `ws2-api` = `origin/ws2-api`, on top of `origin/main` `0877d84`.
+
+### Next
+- **First task: T4.1** Gemini client + planner + `plan_cache` (the chip merge already exists in `core/planner.py`).
+- Human actions first: add the two `CLAP_*` lines to the local `.env`, and land C8 with WS1. C7 (`internal_error`)
+  can wait until the H12 sync.
