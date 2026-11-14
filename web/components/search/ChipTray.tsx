@@ -1,5 +1,6 @@
 "use client";
 
+import { useDraggable } from "@dnd-kit/core";
 import { cn } from "cn";
 import { ChevronDownIcon } from "lucide-react";
 import { useId, useMemo, useState, type KeyboardEvent } from "react";
@@ -7,6 +8,7 @@ import { useId, useMemo, useState, type KeyboardEvent } from "react";
 import { AppButton, AppInput, Pill, pillColorVar } from "@/components/adapters";
 import { useChips } from "@/lib/api";
 import { filterCategories } from "@/lib/search/chips";
+import { trayDragId } from "@/lib/search/dnd";
 import type { Chip, ChipCategory } from "@/lib/types/api";
 
 type ChipTrayProps = {
@@ -144,15 +146,21 @@ function ChipGroup({ category, open, canCollapse, onToggleOpen, selected, onTogg
 
 type TrayChipProps = { chip: Chip; color: string; selected: boolean; onToggle: (id: string) => void };
 
-/** One tray chip. T2.3 adds useDraggable here (click stays the non-drag path). */
+/**
+ * One tray chip. Click/Enter/Space toggles it; dragging it onto the search bar adds it (pointer only, so dnd-kit's
+ * keyboard listeners and ARIA attributes would conflict with the button's own). Stacked chips can't be dragged again.
+ */
 function TrayChip({ chip, color, selected, onToggle }: TrayChipProps) {
+  const { setNodeRef, listeners, isDragging } = useDraggable({ id: trayDragId(chip.id), disabled: selected });
   return (
-    <Pill asChild tone="soft" color={color} selected={selected}>
+    <Pill asChild tone="soft" color={color} selected={selected} className={cn(isDragging && "opacity-40")}>
       <button
+        ref={setNodeRef}
         type="button"
         aria-pressed={selected}
-        title={selected ? `Remove ${chip.label} from search` : `Add ${chip.label} to search`}
+        title={selected ? `Remove ${chip.label} from search` : `Add ${chip.label} to search (or drag it to the bar)`}
         onClick={() => onToggle(chip.id)}
+        onPointerDown={(e) => listeners?.onPointerDown?.(e)}
       >
         {chip.label}
       </button>
