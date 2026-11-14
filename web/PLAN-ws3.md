@@ -325,3 +325,29 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - If you click Open in editor within 300 ms of typing and the search page has been evicted or reloaded, Back loses that last edit (see Decisions).
   - Carried over: the error UI and real-MP3 latency are unchecked until T6.1. Touch drag from the tray is unreliable (click works).
 - **Blocked:** nothing. PR #3 (shell) and PR #4 (search flow, stacked) need review. Merge #3 first. Next is T4.1 (why notes).
+
+### Session 6 (2026-11-14): T4.1 + T5.1 + T5.2
+- **Done:** T4.1 WhyNote, T5.1 `useStemsFlow`, T5.2 StemsDrawer UI. `git fetch && git rebase origin/main` was a no-op (`origin/main` is still cb05f68). Fixtures only; no env or deploy changes. lint/typecheck are clean and tests pass 87/87 (4 new in `lib/search/why.test.ts`, 11 in `lib/stems/flow.test.ts`). I checked these by hand in Chrome on fixtures, with no console errors:
+  - T4.1: the 6 cached notes show with no fetch. "More" appears only when a note overflows 2 lines. The 2 `why: null` cards (Velvet Static, Dusty Rhodes) show a "Why this works as a sample" button. Clicking it shows the shimmer, then the note expanded with "Less". Playing the other card shows the shimmer, then the note collapsed.
+  - T5.2: Stems on the first card (`jam_1532881`, 0–10.667) shows "Asking for stems…", then 4 rows (Drums, Bass, Vocals, Other). Drums plays solo (its button turns to Stop). Esc closes, stops the stem, and focus returns to the Stems button. "Use in editor" opens `/editor?track=jam_1532881&start=0&end=10.667&stem=drums`.
+- **Decisions:**
+  - **WhyNote:** "requested" is latched during render on the first expand or the first play/loading status of that card (`usePreviewStatus(window_id)`), never on scroll. `useWhy` gets `enabled: requested`, and the cached note seeds it, so cached notes never fetch. Overflow is measured with a ResizeObserver only while collapsed. The container is `aria-live="polite"`. An error shows "Couldn't load the note" with a Retry button (`refetch`).
+  - **`useStemsFlow(trackId, start, end, enabled)`** lives in `lib/stems/useStemsFlow.ts`. The pure state machine is in `lib/stems/flow.ts` (`stemsFlowState` → `idle | requesting | queued | running | ready | error`, plus progress, stems and error). `queued` means a `job_id` came back but there's no poll yet. Ranges are clamped to 60 s (`clampStemsRange`). When the job finishes, `["track", id]` is invalidated. `retry` **resets** (not refetches) both the job query and the stems query, because a finished job has stopped polling and a re-request can return the same job id. `enabled` is the drawer's `open`, so a closed drawer sends nothing. Closing mid-job pauses polling (no observer), and reopening resumes it.
+  - **Stem preview offset:** `stemPreviewItem(stem, start, end)` maps the window into file time (`start - range_start_s`), clamped to what the file covers. Stem preview ids start with `stem:`. Closing the drawer stops a `stem:` preview but leaves a card's mix preview playing.
+  - **StemsDrawer API** (`components/stems/StemsDrawer.tsx`): `<StemsDrawer trackId startS endS open onOpenChange trackTitle? onPick? />`. `trackTitle` is new (sheet header). With `onPick`, "Use in editor" calls it and stops the preview. Without it, the button is a Link to `editorHref(... stem)` and closes the sheet. Stems are sorted drums, bass, vocals, piano, guitar, other, mix. The progress bar is indeterminate while requesting, then shows the job's `progress`.
+  - **AppSheet focus return:** Radix only refocuses a `DialogTrigger`, and our sheets are controlled without one, so focus fell to `<body>`. `AppSheet` now records `document.activeElement` in `onOpenAutoFocus` and refocuses it in `onCloseAutoFocus`. WS4 gets this for free.
+  - `PlayButton` moved out of `ResultCard.tsx` into `components/search/PlayButton.tsx` (new optional `className`), and both the card and the drawer rows use it.
+  - The card's Stems button (icon only below `sm`) sits first in the action group, before "Open in editor" and Play. Each card holds its own closed `StemsDrawer`, which renders nothing until opened.
+- **Files for next session:**
+  - `components/search/WhyNote.tsx`, `lib/search/why.ts`
+  - `lib/stems/{flow,useStemsFlow}.ts`
+  - `components/stems/StemsDrawer.tsx` (tell WS4 about the props above, including `trackTitle`)
+  - `components/adapters/AppSheet.tsx` (focus return)
+  - `components/search/{ResultCard,PlayButton}.tsx`
+- **Known bugs / gotchas:**
+  - **The job path (queued → running → done) is only unit-tested** (`flow.test.ts`, through the fixture client: running, running, ready). Every fixture window is inside 0–16 s, so in the browser the drawer always takes the ready path. Check the progress bar and Retry against the live worker in T6.1.
+  - The fixture client always returns `jam_1532881` stems whatever the track id, so every card's drawer shows the same 4 stems in fixture mode. That's expected.
+  - The fixture `/why` reply is the same note for every window.
+  - React synthetic events from the portaled drawer bubble to the card's `<article>` handlers (`onFocus` warms the card's audio, which does nothing while a preview is active). Space/Enter are safe because the card checks `e.target === e.currentTarget`.
+  - Carried over: error UI, real-MP3 latency and waveform CORS are unchecked until T6.1. Touch drag from the tray is unreliable (click works).
+- **Blocked:** nothing. PR #3 (shell) and PR #4 (search flow, stacked) still need review, and this session's commits are local on `ws3-web` (not pushed). Next are T6.1/T6.2 (live API and deploy), which need WS2's API URL and Vercel access (§2).
