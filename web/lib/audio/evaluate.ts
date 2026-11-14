@@ -4,6 +4,7 @@ import { allocationBytes, duration, secondsToFrame, validatePcm } from "./pcm";
 import { concatenate } from "./render";
 import { mapBeatTimes, resolveCuts } from "./slice";
 import { AudioEngineError, SAMPLE_RATE, type PcmBuffer } from "./types";
+import { planOfflineFrames } from "./offline";
 
 export interface SourceAsset {
   readonly pcm: PcmBuffer;
@@ -21,6 +22,8 @@ export interface EvaluatedClip {
   readonly pcm: PcmBuffer;
   readonly beatTimes: readonly number[];
   readonly bpm: number | null;
+  /** Display tempo follows rate changes; bpm remains the original fit reference. */
+  readonly tempoBpm: number | null;
 }
 export interface Evaluation {
   readonly clips: ReadonlyMap<string, EvaluatedClip>;
@@ -53,7 +56,7 @@ export async function evaluate(
     const start = secondsToFrame(root.source.start_s - origin) / SAMPLE_RATE;
     const end = secondsToFrame(root.source.end_s - origin) / SAMPLE_RATE;
     clips.set(root.id, {
-      pcm: ops.trim(pcm, start, end), bpm,
+      pcm: ops.trim(pcm, start, end), bpm, tempoBpm: bpm,
       beatTimes: mapBeatTimes(beatTimes, root.source.start_s, root.source.end_s).map((time) => secondsToFrame(time) / SAMPLE_RATE),
     });
     leaves.push(root.id);
@@ -62,9 +65,9 @@ export async function evaluate(
     if (sliced.has(id)) throw new AudioEngineError("clip_is_sliced", `${id} has been sliced; select a child clip.`);
     return clips.get(id) ?? fail(`Clip ${id} does not exist.`);
   };
-  const checkOrder = () => {
+  const checkOrder = (replacement?: { id: string; frames: number }) => {
     let frames = 0;
-    for (const id of order.length ? order : leaves) frames += requireLeaf(id).pcm.channels[0].length;
+    for (const id of order.length ? order : leaves) frames += id === replacement?.id ? replacement.frames : requireLeaf(id).pcm.channels[0].length;
     allocationBytes(frames, minimumChannels);
   };
   // A baseline may name a root that a later slice expands in place.
@@ -81,6 +84,7 @@ export async function evaluate(
     const { pcm, bpm } = current;
     const length = duration(pcm);
     let beatTimes = [...current.beatTimes];
+    let tempoBpm = current.tempoBpm;
     let result: PcmBuffer;
     switch (op.op) {
       case "slice": {
@@ -90,7 +94,7 @@ export async function evaluate(
           if (clips.has(id)) fail(`Slice ID ${id} already exists.`);
           const start = first / SAMPLE_RATE;
           const end = cuts[index + 1] / SAMPLE_RATE;
-          clips.set(id, { pcm: ops.trim(pcm, start, end), bpm,
+          clips.set(id, { pcm: ops.trim(pcm, start, end), bpm, tempoBpm,
             beatTimes: mapBeatTimes(beatTimes, start, end) });
           return id;
         });
@@ -121,11 +125,18 @@ export async function evaluate(
         break;
       default:
         if (!offline) fail(`${op.op} is unavailable in this session.`);
+        const plan = planOfflineFrames(pcm, op, bpm);
+        checkOrder({ id: op.clip, frames: plan.frames });
         result = await offline!(pcm, op, bpm);
         validatePcm(result);
-        beatTimes = beatTimes.map((time) => time * duration(result) / length);
+        if (result.channels[0].length !== plan.frames || result.channels.length !== pcm.channels.length) {
+          fail("Offline renderer returned unexpected frames or channels.");
+        }
+        beatTimes = beatTimes.map((time) => Math.round(time * duration(result) / length * SAMPLE_RATE) / SAMPLE_RATE)
+          .filter((time) => time < duration(result));
+        if (tempoBpm != null) tempoBpm *= plan.rate;
     }
-    clips.set(op.clip, { pcm: result, bpm, beatTimes });
+    clips.set(op.clip, { pcm: result, bpm, tempoBpm, beatTimes });
     checkOrder();
   }
   const finalOrder = order.length ? order : leaves;

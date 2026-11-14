@@ -53,7 +53,7 @@ describe("non-destructive replay", () => {
     expect(result.clips.get("c1.2")!.beatTimes).toEqual([0]);
   });
   it("rejects unavailable DSP and supports injected renderer", async () => {
-    const state = wire([{ op: "repitch", clip: "c1", semitones: -3 }]);
+    const state = wire([{ op: "repitch", clip: "c1", semitones: 0 }]);
     await expect(evaluate(registry, state)).rejects.toThrow("unavailable");
     expect(samples(await evaluate(registry, state, async (pcm) => pcm))).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
   });

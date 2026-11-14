@@ -1,6 +1,6 @@
 import { createStore } from "zustand/vanilla";
 import type { EditorState, Op } from "@/lib/types/api";
-import { evaluate, type Evaluation, type SourceRegistry } from "@/lib/audio/evaluate";
+import { evaluate, type Evaluation, type SourceRegistry, type OfflineRenderer } from "@/lib/audio/evaluate";
 import { duration } from "@/lib/audio/pcm";
 
 interface Checkpoint {
@@ -30,7 +30,7 @@ const initial = {
   current: null, past: [], future: [], active: null, selection: null,
   revision: 0, pending: false, error: null,
 };
-export function createEditorStore() {
+export function createEditorStore(offline?: OfflineRenderer) {
   return createStore<EditorStore>((set, get) => {
     const publish = (checkpoint: Checkpoint, extra: Partial<EditorStore> = {}) => {
       const previous = get().active;
@@ -46,7 +46,7 @@ export function createEditorStore() {
       const before = get().current;
       set({ revision, pending: true, error: null });
       try {
-        const evaluation = await evaluate(registry, wire);
+        const evaluation = await evaluate(registry, wire, offline);
         if (get().revision !== revision) return;
         publish({ wire, registry, evaluation }, {
           past: initialize || !before ? [] : [...get().past, before], future: [],

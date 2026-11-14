@@ -1,6 +1,7 @@
 import type { Slice } from "../types/api";
 import { duration, requireRange, secondsToFrame, validatePcm } from "./pcm";
 import { AudioEngineError, SAMPLE_RATE, type PcmBuffer } from "./types";
+import { detectOnsets } from "./onsets";
 
 export interface SliceContext {
   /** Beats already mapped into the current clip's time coordinates. */
@@ -33,9 +34,6 @@ export function resolveCuts(pcm: PcmBuffer, options: SliceOptions, context: Slic
     requireRange(count, 2, 32, "Slice count");
     if (!Number.isInteger(count)) throw new AudioEngineError("bad_request", "Slice count must be an integer.");
     const snap = options.snap ?? "beat";
-    if (snap !== "none" && snap !== "beat") {
-      throw new AudioEngineError("bad_request", "Transient snapping requires onset detection.");
-    }
     let beats: number[] = [];
     if (snap === "beat") {
       if (context.bpm == null || !Number.isFinite(context.bpm) || context.bpm <= 0) {
@@ -44,6 +42,10 @@ export function resolveCuts(pcm: PcmBuffer, options: SliceOptions, context: Slic
       beats = (context.beatTimes ?? []).map(secondsToFrame).filter((frame) => frame > 0 && frame < frames);
       beats = [...new Set(beats)].sort((a, b) => a - b);
       if (beats.length === 0) throw new AudioEngineError("bad_request", "No interior beats are available for snapping.");
+    }
+    if (snap === "transient") {
+      beats = detectOnsets(pcm).map(secondsToFrame);
+      if (!beats.length) throw new AudioEngineError("bad_request", "No interior transients are available for snapping. Try equal parts.");
     }
     cuts = Array.from({ length: count - 1 }, (_, index) => {
       const target = frames * (index + 1) / count;
