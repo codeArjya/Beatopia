@@ -1,4 +1,152 @@
-# Codex handoff — session 4 of 7
+# Codex handoff — session 5 of 7
+
+## Current handoff — Session 5 (supersedes all next steps below)
+
+2026-11-14. Human approved the implementation plan before code. Started **437f86e** on `ws1-data`.
+Session scope: refined plan rows **9–10**, original WS1 handoff quality task #7: reporting, technical
+coverage audit, cached tag calibration and mapping freeze. Tooling is implemented; both task checkboxes
+remain open for unfinished hero/listening acceptance. No common/worker runtime, API/schema, dependency,
+ID, storage layout, model default or `.env` change. The existing schema edit is untouched and excluded.
+
+### Verified results and partial acceptance
+
+- `ingest/report.py` reports every source/license/tag count, top examples, ten reproducibly random
+  windows, queued missing stages, invalid windows, cache/DB/public object failures and historical errors.
+  It releases a read-only repeatable-read DB snapshot before downloads/decode. Public bytes are fully
+  decoded and probed for stereo 44.1 kHz / 192k MP3; at most four HTTP callers. No publication/repair.
+- Final full independent audit at **18:31:41 EST**, finished **18:33:11**, **90.938 s**: **350 library tracks
+  + one excluded acceptance import; 24 complete heroes; 7,777 windows; 100 stem rows**. All **450 public
+  objects** pass decode/stream checks; **446** match local expected hashes, four on-demand range objects
+  have public hashes without local anchors in this reporter. Zero invalid windows/cache-DB/public
+  failures. Exact audit/evidence in `ingest/SESSION5.md` and `ingest/REPORT_SESSION5.json`.
+- Explicit session verification cut: **24/80 heroes independently audited, 56 short** at that snapshot.
+  The existing batch target stays 80. No lower silence gate, fictional windows or altered acceptance.
+  Latest separate read-only count at **18:26:11 EST**: **351 tracks / 7,649 windows / 96 stems / 23 heroes**.
+  This earlier count was superseded by the final full report above.
+- Library licenses: Freesound BY-3.0=28, BY-4.0=98, CC0=74; Jamendo BY-3.0=34, BY-SA-3.0=116.
+  Exactly 200 Freesound + 150 Jamendo tracks. Import `imp_16158261` is excluded from corpus targets.
+  Jobs done=5/error=7; no queued/running jobs. All seven exact Session-4 intentional error IDs remain
+  classified via `ingest/expected_errors.json`; unknown errors are never exempted.
+- Replayed zero-shot tags from **7,249 cached embeddings** (350 mixes + initial 19 heroes). Selected
+  tags unchanged; maximum score delta **4.6193599700927734e-7**. No DB/cache rewrite or audio inference.
+  Kept the original prompt, top-three and strict population-mean+std threshold. Existing mixed-fixture
+  CLAP >0.2 failure remains open; deterministic replay is not a semantic-quality pass.
+- **48 attributed auditions**, including the initial audit's ten random windows, low/high density
+  proxies, horns/keys/strings and 19 hero-timbre candidates. JSON measurements and HTML player are in
+  `ingest/data/session5/calibration.{json,html}`; committed compact evidence is
+  `ingest/CALIBRATION_SESSION5.json`. Near-zero mix density despite four active stems is recorded as a
+  proxy limitation, not labeled perceptually sparse. Hero mix activity-density completion remains later
+  required work; existing mix checkpoints were preserved while the live hero process continued.
+- Human identified listening feedback for **`jam_1282782/stems/other.mp3`**: horns/low tones, strings,
+  piano, electric guitar, saxophone, basic synth; uncertain trumpet/bongos; denser but mostly separable
+  instruments; would sample beginning/guitar section. Exact notes in `ingest/listening-session5.json`.
+  One identified track/stem review; exact ten-second window/formal prominence rating unspecified.
+  The reporter matches reviews to verified hero audio and deduplicates tracks. **30 prominent timbres
+  remain unverified**, with no invented per-window labels. H0 unknown; no absolute H12 pass claimed.
+- **Mapping freeze agreed:** all 120 existing raw strings/chip IDs (60 instrument/30 genre/30 mood),
+  hashes, prompt/rule and model identity are in `ingest/vocab-freeze.json`. The human explicitly confirmed
+  **both WS2 and WS3 agreed**, recorded 18:15:54 EST. No external messages were sent. Calibration refuses
+  drift before replay. `vocab.txt` bytes remain unchanged; no rename of `saxophone` or `bass guitar`.
+
+### Checks, changed files and execution evidence
+
+- Initial focused report **15 passed/8.96 s**; task 9 ingest **59 passed/40.51 s**, worker **23 passed,
+  5 skipped/32.35 s**. Combined calibration/report **23 passed/5.53 s**; freeze-focused **24 passed/7.90 s**.
+- Pre-listening final suites: ingest **68 passed/64.68 s**, worker **23 passed, 5 skipped/51.88 s**.
+  Five skips are existing opt-in live DB tests, not rerun this session. Common unchanged, no common rerun.
+  A final focused/full rerun and fresh report include the subsequently identified human listening record;
+  see the final checkpoint below and `ingest/SESSION5.md` for those exact results.
+- `make lint` attempted after tasks/freeze/listening update: Make absent. Direct Python Ruff check and
+  format-check pass; web lint/typecheck cannot bootstrap pinned **@pnpm/exe@12.14.0** (no matching
+  version), so no global lint pass. No web/API repair or dependency swap. The new 8 KiB pnpm cache DB
+  was removed after path/creation checks; existing empty cache directories were preserved.
+- Full commands: `uv run --project ingest pytest ingest/tests` and `uv run --project worker pytest
+  worker/tests`, `-q --tb=short -p no:cacheprovider`, OMP/MKL=2, cached FFmpeg PATH, workspace UV cache.
+  Basetemps `*/data/pytest-session5-release`; post-listening reruns use `*/data/pytest-session5-reviewed`.
+  Focused tests are `ingest/tests/test_{report,calibrate}.py`; review basetemp `ingest/data/pytest-listening-final`.
+- Reporter network access and calibration/rejection protected-cache access initially failed, then approved
+  reruns worked. A redirected foreground run exposed PowerShell 5 native-stderr ErrorRecords; the audit
+  launcher now preserves the native exit instead of treating progress as failure. Nested PowerShell
+  `-Command` can map child nonzero status to host 1; the final reviewed command explicitly propagates
+  `$LASTEXITCODE`. Count-shortfall exit 2 is not an all-quality pass. Failed logs remain preserved.
+- Finished background launchers: report **2400** blocked / **16468** initial / **30528** intermediate;
+  calibration **33100** blocked / **30324** successful / **2484** freeze-enforced replay. Logs under
+  `ingest/data/report-20261114-{175715,175920,180530}.*.log` and
+  `calibrate-20261114-{180445,180827,181645}.*.log`. Final foreground output/logs:
+  `ingest/data/session5/report-{confirmation,confirmed,reviewed}.*`; `confirmation` was the redirected
+  warning failure, not acceptance evidence. Authoritative UTF-8 report JSON is written via `--output`.
+- Changed: `ingest/{report,calibrate}.py`, `launch-audit.ps1`, two focused test files,
+  `expected_errors.json`, `vocab-freeze.json`, `listening-session5.json`, `REPORT_SESSION5.json`,
+  `CALIBRATION_SESSION5.json`, `SESSION5.md`, README/PLAN and this explicitly authorized handoff.
+  No shared/default/runtime contracts changed. Existing schema SHA256 remains
+  **BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5**.
+
+### Preserved running work
+
+Hero **uv PID 32252 / Python PID 30820** remain alive, original start **16:31:16/17 EST**. Command:
+`uv run --no-sync --project ingest --env-file .env python -m ingest.heroes --mode batch --limit 80`.
+Logs `ingest/data/heroes-batch-20261114-163116.{stdout,stderr}.log`, `ingest/data/heroes/heroes.log`.
+At **18:26:04 EST**: **23/80 completed, nine failed**, next `jam_1222581` separating. Rolling ETA
+**12,600.887 s (~3 h 30 m)**, projected ~21:56 EST, contingent on future failures/stalls. Do not restart.
+Original ingest PIDs 29584/7980 remain dead; it completed 350 itself. No worker daemon was started.
+
+Read-only diagnostics decoded **39 files: three rejected mixes and four stems for nine rejected heroes**.
+Every failed hero has at least one stem with zero eligible nominal audible windows. For
+`jam_1544396` vocals, sliding-four-second RMS reaches 0.0068258657, but the loudest eligible nominal
+window is only **0.0043206365 < 0.0056234133**. This is an investigated rejection, not a reason to lower
+the gate. New measurements and exact nominal/join rules are in `ingest/CALIBRATION_SESSION5.json`;
+ignored diagnostic `ingest/data/session5/diagnose_rejections.py`. Preserve all raw caches/queues/locks.
+
+### Final Session 5 checkpoint (includes identified listening feedback)
+
+- Focused checks **25 passed/7.74 s**; ingest **69 passed/48.87 s**; worker **23 passed, 5 skipped/36.92 s**.
+  Python Ruff check/format-check **pass, 59 files**. `make lint` remains unavailable; pnpm bootstrap
+  failure and the five unrun opt-in live tests remain limitations. No common helper changed.
+- Final report **exit 2 observed**, explicitly propagated through the automated PowerShell command:
+  `./ingest/launch-audit.ps1 -Mode report -Output ingest/data/session5/report-reviewed.json -Foreground`
+  with stdout/stderr to `report-reviewed.stdout.json` / `report-reviewed.stderr.log`, followed by
+  `exit $LASTEXITCODE`. It verifies 350 library tracks / 24 heroes / 450 objects and **one identified
+  human-reviewed hero track**. Zero corrupt windows/objects or unexplained worker job errors.
+  Full artifact SHA256 **40a44567512aec9046ea4b93ab0bff3ec0b15024cbd56b81e740a3876ec658c7**;
+  committed summary `ingest/REPORT_SESSION5.json`. Exit 2 is the 56-hero shortfall, not a technical file
+  failure. Formal 30-track prominence and exact-window listening acceptance remain incomplete.
+- Later live batch log at **18:32:53 EST**: **24/80 completed, ten failed**, next `jam_1207327` separating;
+  ETA **12,728.689 s (~3 h 32 m)**, projected ~22:05 EST. The tenth rejection **jam_1342553** was logged
+  after the report's failure-log snapshot and after the nine-candidate audio diagnostic. Its location is
+  `heroes.py:164:features`; its individual stem levels are **not yet measured**. Inspect them read-only
+  next session; do not assume its quiet stem or change the gate. Preserve PIDs **32252/30820** and caches.
+
+### Exact Session 6 instructions
+
+1. Read this section, `ingest/{PLAN,SESSION5}.md`, the contract and WS1 guide. Inspect commit/status,
+   preserve the schema edit. Present the assigned next-session plan and wait for human approval.
+2. Check hero **32252/30820** and log tails before any resume. While alive, only inspect/status/audit.
+   If confirmed dead and below 80, resume `./ingest/launch-heroes.ps1 -Mode batch -Limit 80`. Keep failed
+   candidates and spares; never lower the silence gate, delete locks or bulk-reset jobs.
+3. Refresh with `./ingest/launch-audit.ps1 -Mode report -Output ingest/data/session6/report.json -Foreground`.
+   Launcher supplies approved general CLAP revision/caches/FFmpeg and `.env`; underlying command is
+   `uv run --project ingest --env-file .env python ingest/report.py --output <path>`. Exclude imports and
+   label intentional audit job errors. Record counts vs independently verified counts vs listening.
+4. Keep the WS2/WS3-agreed **120-tag mapping frozen**. Use `ingest/listening-session5.json` as track-level
+   human evidence, not a fabricated window grade. Collect more attributed listening reviews to cover
+   30 prominent horns/keys/strings heroes and sparse/dense cases. Replay tags through calibration with
+   `--report <fresh report>`; only change prompts/thresholds when actual examples justify a coordinated
+   resumable cache/DB migration. Do not change a live batch's fingerprints/checkpoints underneath it.
+5. Assigned next original work is the **20-query eval dataset and actual `/search` runner**, then targeted
+   fixes/integration, subject to the human's Session 6 scope. Cover instrument/mood/genre/tempo/sparse/stem
+   cases; print actual top five IDs/tags/licenses and failures. Two humans grade relevance; never invent
+   grades or silently replace a failed live endpoint with fixtures. Inspect current API readiness; this
+   checkout previously served fixtures. WS2 must use the exact general CLAP revision and exclude imports.
+6. Keep failed mixed-fixture semantic acceptance, 80 heroes, 30 prominent timbres, hero mix stem-activity
+   density completion and live API/browser polling/playback open until measured. No optional two-model
+   comparison before core gates. Do not edit API/web/shared paths to repair another stream.
+7. After every task: focused tests, make lint, explicit ingest/worker suites, common if shared helpers
+   changed, reporter. Record unavailable checks, exact outputs, snapshots, PIDs, commands/logs and cuts;
+   update handoff/PLAN and commit only authorized paths. No checkbox without acceptance evidence.
+
+---
+
+# Historical Session 4 handoff
 
 ## Current handoff — Session 4 (supersedes all next steps below)
 

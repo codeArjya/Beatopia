@@ -102,3 +102,49 @@ embedding, upload and DB work. They do not establish the on-demand worker's end-
 Batch ETA uses the last ten newly published hero wall times, excluding fast cached verifications;
 duration/source changes and future failures can invalidate the projection. See `HERO_SESSION3.md`
 and `docs/codex-handoff.md` for measured results and remaining acceptance checks.
+
+## Reporting and calibration (Session 5)
+
+From the repository root, with `.env` loaded and the same pinned CLAP environment as the corpus:
+
+```powershell
+./ingest/launch-audit.ps1 -Mode report -Foreground
+./ingest/launch-audit.ps1 -Mode calibrate -Output ingest/data/session5/calibration.json -Foreground
+```
+
+Without `-Foreground`, launches are hidden and return the launcher PID plus stdout/stderr paths.
+The launcher's success only means the process started. Inspect its output JSON and logs for the result.
+The underlying report command is `uv run --project ingest --env-file .env python ingest/report.py`;
+the launcher supplies the immutable general CLAP revision and cached FFmpeg PATH. `report.py` does not
+load CLAP weights, run inference, publish objects or change DB/checkpoints. It takes one repeatable-read,
+read-only DB snapshot and closes that connection before checking local artifacts and public audio.
+Four bounded HTTP callers hash and fully decode all public library mix/stem objects, then probe the
+actual bytes for one stereo 44.1 kHz, 192k MP3 stream. Import rows are counted separately and excluded
+from corpus targets. Objects without a local expected hash are explicitly marked `hash_anchored=false`.
+
+The report contains counts for every vocabulary tag, top examples, ten seed-controlled random windows,
+missing queued stages, invalid windows, local/DB mismatch checks, public object failures and historical
+ingest/hero failures. Queue spares are not missing required library tracks. Seven exact intentional
+Session-4 error job IDs are classified using `expected_errors.json`; unfamiliar errors remain unexplained.
+No raw DB/provider exception text is printed. Exit 1 means corruption/unexplained job errors or a command
+failure; exit 2 means technical count targets remain short. Exit 0, when technical targets are met, still
+does not certify listening quality: read `acceptance.full_quality_gate`. PowerShell's outer `-Command`
+can map a nested nonzero script exit to host code 1; preserve `$LASTEXITCODE` when automating it.
+
+`calibrate.py` defaults to the initial saved audit `ingest/data/session5/report-task9.json`; pass
+`--report <path>` directly to use another audit. It replays zero-shot tagging from cached embeddings,
+reports changed selections/scores, and writes a bounded-playback HTML audition beside its JSON output.
+It never changes DB rows, manifests, embeddings or audio. A changed selection or score difference
+greater than 1e-5 exits 1 for investigation; that tolerance is for replay comparison, not tag selection.
+Selected low/high density examples are proxy extremes, not reviewed sparse/dense judgments.
+
+`vocab-freeze.json` records all 120 raw tags and the existing fixture chip IDs, vocabulary/fixture hashes,
+prompts, category selection rule and CLAP identity. The human confirmed both WS2 and WS3 agreement in
+Session 5. Calibration refuses mapping/model drift before replay. Keep `saxophone` and `bass guitar`
+unchanged; do not even edit the vocab header casually because its bytes enter resumability fingerprints.
+Future tuning needs actual listening evidence and a coordinated cache/DB migration; bypassing fingerprints
+or modifying a live hero's artifacts is not a migration. No such tuning was justified in Session 5.
+
+Recorded evidence: `SESSION5.md`, `REPORT_SESSION5.json`, `CALIBRATION_SESSION5.json`. Full local artifacts
+and the audition page remain under ignored `ingest/data/session5/`. Both plan rows remain open for the
+unfinished hero-count and listening acceptance; mapping agreement alone does not complete calibration.
