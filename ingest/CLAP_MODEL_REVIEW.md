@@ -1,5 +1,10 @@
 # CLAP checkpoint decision needed before seed ingest
 
+Session-2 update: the human approved the proposed plan including per-process use of the general
+checkpoint below. `ingest/launch.ps1` sets that model/revision without editing `.env` or the shared
+default. Seed ingest and live verification succeeded. WS2/API configuration still needs human/owner
+coordination; the mixed-fixture >0.2 failure below remains unresolved and is not marked passed.
+
 The implemented shared wrapper preserves the contract default. Do not start a real
 embedding corpus with that default: the downloaded music checkpoint fails semantic
 acceptance. No library rows have been ingested. Both comparison checkpoints were

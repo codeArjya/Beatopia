@@ -82,3 +82,36 @@ def test_tagging_empty_and_invalid_embeddings() -> None:
     for vectors in (np.zeros((1, 512)), np.zeros((1, 511)), np.full((1, 512), np.nan)):
         with pytest.raises(ValueError):
             zero_shot_tags(vectors)
+
+
+@pytest.mark.parametrize(
+    "tempo,beats",
+    [
+        (np.array([]), []),
+        (np.array([np.nan]), list(np.arange(10))),
+        (np.array([90]), [0, 0.5, 1, 1.5, 2, 2.5, 3, 8]),
+        (np.array([90]), [0, 1, 2]),
+    ],
+)
+def test_low_confidence_tempo_is_null(monkeypatch, tempo, beats):
+    monkeypatch.setattr(analysis.librosa.beat, "beat_track", lambda **_: (tempo, np.asarray(beats)))
+    monkeypatch.setattr(analysis, "_key", lambda *_: None)
+    features = analyze_track(np.ones(44100 * 10) * 0.1, 44100)
+    assert features.bpm is None
+    assert np.isfinite(features.beat_times).all()
+
+
+@pytest.mark.parametrize(
+    "duration,expected",
+    [
+        (4, [(0, 4)]),
+        (10, [(0, 10)]),
+        (14, [(0, 10), (5, 14)]),
+        (15, [(0, 10), (5, 15)]),
+        (16, [(0, 10), (5, 15), (10, 16)]),
+    ],
+)
+def test_terminal_window_boundaries(duration, expected):
+    y = np.ones(44100 * duration, dtype=np.float32) * 0.1
+    windows = make_windows(y, 44100, TrackFeatures(duration, None, None, []))
+    assert [(w.start_s, w.end_s) for w in windows] == expected

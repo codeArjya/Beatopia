@@ -69,8 +69,9 @@ def analyze_track(y: np.ndarray, sr: int) -> TrackFeatures:
         return TrackFeatures(duration, None, None, [])
     tempo, beats = librosa.beat.beat_track(y=y, sr=sr, units="time")
     beat_times = np.asarray(beats, dtype=np.float64)
-    beat_times = beat_times[(beat_times >= 0) & (beat_times < duration)]
-    bpm = float(np.asarray(tempo).reshape(-1)[0])
+    beat_times = np.unique(beat_times[np.isfinite(beat_times) & (beat_times >= 0) & (beat_times < duration)])
+    tempo_values = np.asarray(tempo).reshape(-1)
+    bpm = float(tempo_values[0]) if tempo_values.size else float("nan")
     intervals = np.diff(beat_times)
     if (
         len(beat_times) < 8

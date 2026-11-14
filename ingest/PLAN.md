@@ -84,9 +84,9 @@ Each checkbox is a 1–2 hour active work unit; unattended downloads/inference a
 | --- | --- | --- | --- |
 | [x] | H3 / 1 h | Runtime preflight + common I/O/DB/storage/IDs (#1) | Completed: see execution record below. Record actual versions, ffmpeg encode/decode and available device; pgvector roundtrip; upload twice to same path, public playback 44.1 kHz stereo; existing common tests pass. Start model downloads early. |
 | [ ] | H3 / 1 h | Shared lazy CLAP + initial analysis/tagging (#1–2) | Implementation and offline tests complete; default checkpoint fails semantic acceptance. See `CLAP_MODEL_REVIEW.md` and execution record. Fixture and drum-loop text finite normalized `(1,512)`, cosine >0.2; 90 BPM ±2, three bounded windows from 16 s; silence/short input safe; vocab scores complete. Failure is investigated, never patched with a magic score. |
-| [ ] | H3 / 1 h | Freesound source + minimal resumable seed pipeline (#3) | `uv run --project ingest python -m ingest.run --source freesound --limit 20`: 20 real licensed tracks with playable storage, nonempty searchable windows and normalized embeddings; repeat adds no duplicates; notify human seed is ready for WS2. |
-| [ ] | H8 / 1 h | Harden analysis/ingest recovery (#2–3) | Tests cover join boundary, low-confidence BPM, terminal windows, corrupt download, partial upload/DB failure and resume; no invalid ranges/vectors or missing attribution. |
-| [ ] | H8 / 1 h | Jamendo adapter and full run kickoff (#4) | BY/BY-SA and download-permission filtering checked; long excerpt duration/offsets agree with playback; absent key switches to Freesound; queue target ~350 (CLI limit 400 ceiling), bounded requests and ETA logged. FMA stays excluded unless small subset verified. |
+| [x] | H3 / 1 h | Freesound source + minimal resumable seed pipeline (#3) | `uv run --project ingest python -m ingest.run --source freesound --limit 20`: 20 real licensed tracks with playable storage, nonempty searchable windows and normalized embeddings; repeat adds no duplicates; notify human seed is ready for WS2. |
+| [x] | H8 / 1 h | Harden analysis/ingest recovery (#2–3) | Tests cover join boundary, low-confidence BPM, terminal windows, corrupt download, partial upload/DB failure and resume; no invalid ranges/vectors or missing attribution. |
+| [x] | H8 / 1 h | Jamendo adapter and full run kickoff (#4) | BY/BY-SA and download-permission filtering checked; long excerpt duration/offsets agree with playback; absent key switches to Freesound; queue target ~350 (CLI limit 400 ceiling), bounded requests and ETA logged. FMA stays excluded unless small subset verified. |
 | [ ] | H8 / 2 h | Hero selection and resumable batch (#5) | Candidate ranking/30-track coverage audit, 30 s and 180 s benchmark, one complete hero with four playable stems and windows; start 80-track batch, record ETA and failures. H8 checkpoint reports actual mix/hero counts and projected H12 finish; no false completion if batch runs longer. |
 | [ ] | H12 / 1 h | Worker claiming/status/progress + stem jobs (#6) | Competing DB claim test selects a job once; valid range succeeds with contract output; invalid/>60 s rejected; failure terminates as error; no long-held claim transaction; progress visible to separate connection. |
 | [ ] | H12 / 1 h | Worker import analysis + range caching (#6) | Hand-insert analyze job on valid original -> updated placeholder, playable normalized mix, windows, TrackDetail output; malformed input errors; stem range paths/absolute metadata/local offsets agree; reuse covering stems; time end-to-end 30 s job on CPU and available GPU, report whether <60 s. |
@@ -135,4 +135,47 @@ Task 1 commit: `01ea00b` (`feat(ws1): implement shared audio and service helpers
 - Investigated against publisher discussion and a matching independent reproduction. Tested `larger_clap_general` using per-command environment overrides only: unrelated-text mean cosine 0.293701; dedicated drum fixture cosine 0.277668, all semantic smoke checks pass. Mixed fixture cosine 0.186066 still misses 0.2 and is recorded as a failure, not hidden. Both checkpoint revisions and exact reproduction commands are in `CLAP_MODEL_REVIEW.md`.
 - The proposed configuration is concrete and tested. Root `.env` and WS2 settings are outside WS1 ownership; coordinate the same model/revision in all processes before real ingest. Checked-in contract default, shared files and project environment were not changed. Task 2 stays unchecked pending that decision; implementation and diagnostics are committed as a reviewable checkpoint.
 
-Next action: agree the model setting with the human/WS2, rerun semantic acceptance, then start the Freesound seed task. Real library ingest has not started.
+Superseded by session 2 below: seed ingest is verified and the full run is active. Mixed-fixture semantic
+acceptance and WS2's matching model configuration remain open.
+
+### Session 2 — recovery, sources and full-library kickoff (2026-11-14)
+
+Human approved the reviewed plan, including the missing Freesound prerequisite, per-process general CLAP
+revision and the `docs/codex-handoff.md` exception. No shared default, `.env`, schema, public signature, ID or
+storage contract changed. Original scope explicitly covers recovery/Jamendo/full-run kickoff; hero separation
+remains for the next session, despite differing original/refined task numbering.
+
+- Added `ingest/sources.py`, `pipeline.py`, CLI implementation, hidden Windows launcher, read-only interim
+  `verify.py`, and 24 additional ingest tests (25 including smoke). Added nine analysis cases and fixed empty
+  tempo arrays plus finite/sorted/deduplicated beats. DB/storage helpers' public signatures are unchanged.
+- Recovery evidence: tests exercise invalid licenses/download permissions, corrupt downloads, excerpt joins,
+  terminal boundaries, uncertain BPM, partial upload/DB failure, resume, missing DB vectors/tags/objects,
+  normalized vectors, missing attribution, API cache/budgets/durable cooldown, key fallback and CLI ceiling.
+  Long-audio test uses actual stereo FFmpeg encode/decode (400 s original -> 180 s processed), with mocked
+  CLAP solely for that offline test. Real ingest uses the actual pinned model, never synthetic embeddings.
+- Initial DB counts verified zero. Seed PID 26284: 20 real CC-BY-4.0 Freesound tracks and 20 windows in 110.875 s;
+  first successful track 33.829 s including model load, warm short tracks ~3.6–4.7 s. One quiet source rejected:
+  fs_507355 duration 6.48535 s, RMS 0.0049312245 < 10**(-45/20). Threshold unchanged. Exit 1 retains this failure.
+- Repeat PID 14356: all 20 outcomes `verified_existing`, 16.828 s; count remains 20/20/0. `ingest.verify
+  --minimum 20` exit 0: all 20 public MP3 hashes and DB vectors/tags/features match; invalid windows=0,
+  failures=[], no jobs. Seed is available to WS2 once its model/revision matches the ingest launcher.
+- Full run launched 14:52:43 EST: uv PID 29584, Python PID 7980, target 350, queue ceiling 400. Queue sources:
+  Jamendo 150, Freesound 250. Licenses: BY-SA-3.0 116, BY-3.0 64, CC0 95, BY-4.0 125.
+- Live Jamendo example jam_1030276: public bytes/DB verified true; duration=180.0, 34 windows; source ranges
+  [0,120] and [122.2208843537415,182.2208843537415] map to processed [0,120] and [120,180]. No crossing join.
+  First two Jamendo tracks 52.453 s cold / 23.640 s warm. At 14:54 EST read-only counts: 22 tracks, 88 windows,
+  0 stems. Rolling ETA after two tracks=14621.394 s (~4.06 h), heavily startup/source-biased; not a guarantee.
+  Request budget then Freesound=8 (includes sandbox failures), Jamendo=4; bounded below 600/source.
+- Final tests: ingest 25 passed (21.22 s), common 54 passed (22.70 s), worker 1 passed (0.01 s).
+  Final rerun after derived-cache corruption coverage: ingest 25 passed in 23.20 s, worker 1 passed in 0.02 s.
+  Python Ruff check/format over common/ingest/worker/api/scripts passed (40 files). `git diff --check` passed.
+  `make lint` attempted three times, unavailable (Make missing). Both `pnpm lint` and `pnpm typecheck` fail before
+  checking code because pinned @pnpm/exe@12.14.0 cannot be fetched; web dependencies are absent. No web repairs.
+  Initial escalated combined test attempt: 55 passed/19 setup errors due pytest temp-directory ACLs; fixed run
+  configuration using fresh workspace temp directories, then combined suite passed 74/74 before final additions.
+  Initial uv cache lock denial fixed by workspace UV_CACHE_DIR. No tests/criteria were weakened.
+- `ingest/report.py` is not implemented; read-only SQL/verify used as required. Full library completion, hero
+  count, listening quality, 30-instrument hero coverage and the mixed-fixture CLAP >0.2 gate are NOT verified.
+  Full PID/log status and exact next steps are in `docs/codex-handoff.md`. Leave running work/checkpoints intact.
+  Final DB snapshot approximately 14:58 EST: 36 tracks / 463 windows / 0 stems, adapter roundtrip passed.
+  Last observed full-run progress before this snapshot: 14 completions, 0 failures, ETA 7505.256 s (~2.08 h).
