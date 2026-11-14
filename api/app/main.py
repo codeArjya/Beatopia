@@ -120,7 +120,7 @@ async def create_import(file: Annotated[UploadFile, File()], session_id: Annotat
 
 @app.post("/why", response_model=WhyResponse)
 def why(req: WhyRequest) -> Any:
-    return fixture("why")
+    return {**fixture("why"), "window_id": req.window_id}
 
 
 @app.post("/events", status_code=204)

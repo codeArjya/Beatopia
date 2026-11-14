@@ -77,7 +77,9 @@ def test_import() -> None:
 
 
 def test_why() -> None:
-    WhyResponse.model_validate(client.post("/why", json={"window_id": "fs_482913:mix:5000"}).json())
+    body = WhyResponse.model_validate(client.post("/why", json={"window_id": "fs_482913:mix:5000"}).json())
+    assert body.window_id == "fs_482913:mix:5000"
+    assert body.note == fixture("why")["note"]
 
 
 def test_events() -> None:

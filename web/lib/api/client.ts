@@ -9,6 +9,7 @@ import jobDoneAnalyzeFixture from "@fixtures/job_done_analyze.json";
 import jobDoneStemsFixture from "@fixtures/job_done_stems.json";
 import jobRunningFixture from "@fixtures/job_running.json";
 import searchFixture from "@fixtures/search.json";
+import stemsQueuedFixture from "@fixtures/stems_queued.json";
 import stemsReadyFixture from "@fixtures/stems_ready.json";
 import trackDetailFixture from "@fixtures/track_detail.json";
 import whyFixture from "@fixtures/why.json";
@@ -76,9 +77,19 @@ function fixture<T>(data: unknown, delayMs = 150): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(structuredClone(data) as T), delayMs));
 }
 
-// Fixture-mode job polling: a stems job reports "running" for the first poll(s), then "done".
+// Fixture-mode job polling: a stems job reports "running" for the first 2 polls, then "done".
 const fixturePolls = new Map<string, number>();
 const FIXTURE_RUNNING_POLLS = 2;
+
+// Fixture-mode stems: ready if every fixture stem covers the requested range, else queue the fixture job.
+function fixtureStems(req: StemsRequest): Promise<StemsResponse> {
+  const covered = stemsReadyFixture.stems.every(
+    (s) => s.range_start_s <= req.start_s && req.end_s <= s.range_end_s,
+  );
+  if (covered) return fixture<StemsResponse>(stemsReadyFixture);
+  fixturePolls.set(stemsQueuedFixture.job_id, 0); // each queued request starts a fresh "job"
+  return fixture<StemsResponse>(stemsQueuedFixture);
+}
 
 function fixtureJob(id: string): Promise<Job> {
   if (id === jobDoneAnalyzeFixture.id) return fixture<Job>(jobDoneAnalyzeFixture);
@@ -106,7 +117,7 @@ export const api = {
 
   requestStems: (trackId: string, req: StemsRequest): Promise<StemsResponse> =>
     USE_FIXTURES
-      ? fixture<StemsResponse>(stemsReadyFixture)
+      ? fixtureStems(req)
       : request(`/tracks/${encodeURIComponent(trackId)}/stems`, json("POST", req)),
 
   getJob: (jobId: string): Promise<Job> =>
