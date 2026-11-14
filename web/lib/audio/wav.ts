@@ -1,6 +1,11 @@
 import { validatePcm } from "./pcm";
 import { SAMPLE_RATE, type PcmBuffer } from "./types";
 
+export function exportFilename(metadata: { title: string; bpm?: number | null; key?: string | null }): string {
+  const safe = (value: string) => value.replace(/[<>:"/\\|?*\x00-\x1f]/g, "-").replace(/[. ]+$/g, "").slice(0, 100) || "unknown";
+  return `${safe(metadata.title)}-${metadata.bpm ?? "unknown"}bpm-${safe(metadata.key ?? "unknown")}.wav`;
+}
+
 /** 44.1 kHz, signed 16-bit little-endian, interleaved PCM RIFF/WAVE. */
 export function encodeWav(pcm: PcmBuffer): ArrayBuffer {
   validatePcm(pcm);
