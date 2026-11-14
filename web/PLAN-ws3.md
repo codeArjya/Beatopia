@@ -99,7 +99,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 - [x] **Gate H8:** walk through stack chips → hear a window → open in editor on fixtures, then open a PR `feat(ws3): search flow` (PR #4, stacked on #3).
 
 ### Why notes, H8 → H9
-- [ ] **T4.1 WhyNote** (1 h). `useWhy(windowId, { initialData: result.why, enabled })`. Collapsed to 2 lines and expandable. When `why` is null, the fetch happens on first expand **or** first play (no fetch-on-scroll, to save Gemini calls). Loading shimmer, inline retry on error.
+- [x] **T4.1 WhyNote** (1 h). `useWhy(windowId, { initialData: result.why, enabled })`. Collapsed to 2 lines and expandable. When `why` is null, the fetch happens on first expand **or** first play (no fetch-on-scroll, to save Gemini calls). Loading shimmer, inline retry on error.
   *Accept:* on fixtures, the 2 results with `why: null` show a shimmer and then the note. Cached notes show with no request.
 
 ### Stems drawer, H9 → H12

@@ -12,6 +12,7 @@ import { formatWindow, topTags } from "@/lib/search/results";
 import type { Result } from "@/lib/types/api";
 
 import { MiniWaveform } from "./MiniWaveform";
+import { WhyNote } from "./WhyNote";
 
 export function previewItemOf(r: Result): PreviewItem {
   return { id: r.window_id, url: r.audio_url, start: r.start_s, end: r.end_s };
@@ -98,8 +99,7 @@ export function ResultCard({ result: r }: { result: Result }) {
         )}
       </div>
 
-      {/* T4.1 replaces this with the collapsible, lazily fetched WhyNote. */}
-      {r.why && <p className="line-clamp-2 text-sm text-foreground/85">{r.why}</p>}
+      <WhyNote windowId={r.window_id} cachedNote={r.why} />
 
       <div className="mt-auto flex min-w-0 items-center gap-2 pt-1">
         <LicenseBadge license={r.track.license} attribution={r.track.attribution} />
