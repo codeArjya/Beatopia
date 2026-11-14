@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 
 from app import fixture_routes
-from app.core import db, embed
+from app.core import db, embed, gemini
 from app.core.chips import load_chips
 from app.core.errors import install_error_handlers
 from app.core.settings import Settings, get_settings
@@ -42,6 +42,7 @@ def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextMan
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         app.state.pool = None
         app.state.clap_ready = False
+        app.state.gemini = None
         if not settings.use_fixtures:
             # Fail loudly: a real-mode API without a database, storage URL or vocab is a broken deploy.
             missing = settings.missing("supabase_url")
@@ -50,6 +51,7 @@ def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextMan
             load_chips(settings.vocab_path)
             app.state.pool = await asyncio.to_thread(db.open_pool, settings)
             app.state.clap_ready = await asyncio.to_thread(embed.warm)
+            app.state.gemini = gemini.from_settings(settings)
         try:
             yield
         finally:
