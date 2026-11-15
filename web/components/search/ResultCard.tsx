@@ -52,7 +52,7 @@ export function ResultCard({ result: r }: { result: Result }) {
       onPointerEnter={warm}
       onFocus={warm}
       onKeyDown={onKeyDown}
-      className="min-w-0 flex-1 gap-2.5"
+      className="@container min-w-0 flex-1 gap-2.5"
     >
       <MiniWaveform item={item} />
 
@@ -77,7 +77,7 @@ export function ResultCard({ result: r }: { result: Result }) {
             onClick={() => setStemsOpen(true)}
           >
             <LayersIcon className="size-4" aria-hidden />
-            <span className="hidden sm:inline">Stems</span>
+            <span className="hidden @lg:inline">Stems</span>
           </AppButton>
           <AppButton asChild size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
             <Link
@@ -87,7 +87,7 @@ export function ResultCard({ result: r }: { result: Result }) {
               onClick={() => player.stop()}
             >
               <ExternalLinkIcon className="size-4" aria-hidden />
-              <span className="hidden sm:inline">Open in editor</span>
+              <span className="hidden @lg:inline">Open in editor</span>
             </Link>
           </AppButton>
           <PlayButton item={item} title={r.track.title} />
@@ -114,7 +114,7 @@ export function ResultCard({ result: r }: { result: Result }) {
         {tags.length > 0 && (
           <ul aria-label="Tags" className="flex min-w-0 flex-wrap gap-1">
             {tags.map((t) => (
-              <li key={t} className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+              <li key={t} title={t} className="max-w-48 truncate rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                 {t}
               </li>
             ))}

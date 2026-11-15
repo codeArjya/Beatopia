@@ -5,7 +5,7 @@ import type { Result } from "@/lib/types/api";
 /**
  * How a failed search is shown:
  * - "network": the API is unreachable → banner (later links to the ?offline=1 backup).
- * - "retryable": rate_limited / upstream_error → inline retry + a toast.
+ * - "retryable": rate_limited / upstream_error / timeout → inline retry + a toast.
  * - "other": anything else → inline message + retry.
  */
 export type SearchErrorKind = "network" | "retryable" | "other";
@@ -13,7 +13,9 @@ export type SearchErrorKind = "network" | "retryable" | "other";
 export function searchErrorKind(error: unknown): SearchErrorKind {
   if (!(error instanceof ApiError)) return "other";
   if (error.code === "network_error") return "network";
-  if (error.code === "rate_limited" || error.code === "upstream_error") return "retryable";
+  if (error.code === "rate_limited" || error.code === "upstream_error" || error.code === "timeout") {
+    return "retryable";
+  }
   return "other";
 }
 
@@ -22,26 +24,30 @@ export function searchErrorMessage(error: unknown): string {
     case "network":
       return "Can't reach the Beatopia server. Check your connection.";
     case "retryable":
-      return error instanceof ApiError && error.code === "rate_limited"
-        ? "Too many searches at once. Give it a second."
-        : "The search service hiccuped.";
+      if (error instanceof ApiError && error.code === "rate_limited") return "Too many searches at once. Give it a second.";
+      if (error instanceof ApiError && error.code === "timeout") return "The search took too long. Try again.";
+      return "The search service hiccuped.";
     default:
       return error instanceof Error && error.message ? error.message : "Something went wrong.";
   }
 }
 
-/** The polite live-region text under the search bar. */
+/** After this long without an answer, the status says so (real searches embed the query on a CPU VM). */
+export const SLOW_SEARCH_MS = 3000;
+
+/** The polite live-region text under the search bar. `slow` = the current request has run past SLOW_SEARCH_MS. */
 export function resultsStatusText(opts: {
   pending: boolean;
   count: number | null;
   refreshing: boolean;
   failed: boolean;
   fallback: boolean;
+  slow?: boolean;
 }): string {
-  if (opts.pending) return "Searching…";
+  if (opts.pending) return opts.slow ? "Still searching… the first search can take a few seconds." : "Searching…";
   if (opts.count === null) return opts.failed ? "Search failed." : "";
   const n = `${opts.count} ${opts.count === 1 ? "result" : "results"}`;
-  const extra = [opts.count > 0 && opts.fallback ? "expanded to Freesound" : null, opts.refreshing ? "updating…" : null];
+  const extra = [opts.count > 0 && opts.fallback ? "expanded to Freesound" : null, opts.refreshing ? (opts.slow ? "still updating…" : "updating…") : null];
   return [n, ...extra.filter(Boolean)].join(", ");
 }
 

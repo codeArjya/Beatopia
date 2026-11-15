@@ -4,7 +4,7 @@ import { keepPreviousData, queryOptions, skipToken } from "@tanstack/react-query
 import { getSessionId } from "@/lib/session";
 import type { Job, Stem, StemsRequest, TrackDetail } from "@/lib/types/api";
 
-import { api } from "./client";
+import { api, ApiError } from "./client";
 import { keys, type SearchParams } from "./keys";
 
 export const JOB_POLL_MS = 1000;
@@ -13,6 +13,15 @@ export const healthQuery = () => queryOptions({ queryKey: keys.health, queryFn: 
 
 export const chipsQuery = () =>
   queryOptions({ queryKey: keys.chips, queryFn: api.getChips, staleTime: Infinity });
+
+/**
+ * Default query retry (set in app/providers.tsx, and on search): retry once, but not after a timeout. A timeout
+ * already waited REQUEST_TIMEOUT_MS and every error UI has a Retry button; without this, a dead API shows
+ * skeletons for ~40 s before saying so.
+ */
+export function retryOnceUnlessTimeout(failureCount: number, error: unknown): boolean {
+  return failureCount < 1 && !(error instanceof ApiError && error.code === "timeout");
+}
 
 /** `null` params = idle (no text, no chips): the query is disabled via skipToken. */
 export const searchQuery = (params: SearchParams | null) =>
@@ -27,6 +36,7 @@ export const searchQuery = (params: SearchParams | null) =>
       : skipToken,
     placeholderData: keepPreviousData,
     staleTime: 5 * 60_000,
+    retry: retryOnceUnlessTimeout,
   });
 
 export const trackQuery = (id: string | null) =>

@@ -48,11 +48,19 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+/** Default per-request timeout. Search embeds the query with CLAP on a CPU VM, so leave room; uploads get more. */
+export const REQUEST_TIMEOUT_MS = 20_000;
+const UPLOAD_TIMEOUT_MS = 120_000;
+
+async function request<T>(path: string, init?: RequestInit, timeoutMs = REQUEST_TIMEOUT_MS): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}`, init);
+    res = await fetch(`${API_URL}${path}`, { ...init, signal: AbortSignal.timeout(timeoutMs) });
   } catch (e) {
+    // AbortSignal.timeout rejects with a DOMException named "TimeoutError"; anything else is the network.
+    if (e instanceof Error && e.name === "TimeoutError") {
+      throw new ApiError(0, "timeout", `no answer after ${Math.round(timeoutMs / 1000)} s`);
+    }
     throw new ApiError(0, "network_error", e instanceof Error ? e.message : "network error");
   }
   if (!res.ok) {
@@ -146,7 +154,7 @@ export const api = {
     const form = new FormData();
     form.append("file", file);
     form.append("session_id", sessionId);
-    return request("/imports", { method: "POST", body: form });
+    return request("/imports", { method: "POST", body: form }, UPLOAD_TIMEOUT_MS);
   },
 
   why: (req: WhyRequest): Promise<WhyResponse> =>

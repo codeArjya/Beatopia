@@ -15,6 +15,13 @@ describe("lib/api query factories (fixture mode)", async () => {
 
   afterEach(() => vi.unstubAllGlobals());
 
+  it("retryOnceUnlessTimeout retries once, never after a timeout", async () => {
+    const { ApiError } = await import("./client");
+    expect(q.retryOnceUnlessTimeout(0, new ApiError(0, "network_error", "x"))).toBe(true);
+    expect(q.retryOnceUnlessTimeout(1, new ApiError(0, "network_error", "x"))).toBe(false);
+    expect(q.retryOnceUnlessTimeout(0, new ApiError(0, "timeout", "x"))).toBe(false);
+  });
+
   it("chips → 5 categories", async () => {
     const res = await client().fetchQuery(q.chipsQuery());
     expect(res.categories).toHaveLength(5);

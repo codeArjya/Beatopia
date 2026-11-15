@@ -26,7 +26,7 @@ export function WhyNote({ windowId, cachedNote }: { windowId: string; cachedNote
   const view = whyView({ note, requested, isError: why.isError });
 
   return (
-    <div className="min-w-0 text-sm" aria-live="polite" aria-busy={view === "loading"}>
+    <div className="min-w-0 text-sm break-words" aria-live="polite" aria-busy={view === "loading"}>
       {view === "prompt" && (
         <button
           type="button"

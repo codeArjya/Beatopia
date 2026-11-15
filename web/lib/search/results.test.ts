@@ -9,6 +9,7 @@ describe("searchErrorKind", () => {
     expect(searchErrorKind(new ApiError(0, "network_error", "x"))).toBe("network");
     expect(searchErrorKind(new ApiError(429, "rate_limited", "x"))).toBe("retryable");
     expect(searchErrorKind(new ApiError(502, "upstream_error", "x"))).toBe("retryable");
+    expect(searchErrorKind(new ApiError(0, "timeout", "x"))).toBe("retryable");
     expect(searchErrorKind(new ApiError(422, "validation_error", "x"))).toBe("other");
     expect(searchErrorKind(new Error("boom"))).toBe("other");
     expect(searchErrorKind(undefined)).toBe("other");
@@ -17,6 +18,7 @@ describe("searchErrorKind", () => {
   it("has a readable message for each kind", () => {
     expect(searchErrorMessage(new ApiError(0, "network_error", "Failed to fetch"))).toMatch(/reach/);
     expect(searchErrorMessage(new ApiError(429, "rate_limited", "x"))).toMatch(/Too many/);
+    expect(searchErrorMessage(new ApiError(0, "timeout", "x"))).toMatch(/too long/);
     expect(searchErrorMessage(new ApiError(400, "bad_request", "chips must be known"))).toBe("chips must be known");
     expect(searchErrorMessage(null)).toBe("Something went wrong.");
   });
@@ -34,6 +36,8 @@ describe("resultsStatusText", () => {
   });
   it("covers loading and failure without data", () => {
     expect(resultsStatusText({ ...base, pending: true, count: null })).toBe("Searching…");
+    expect(resultsStatusText({ ...base, pending: true, count: null, slow: true })).toMatch(/^Still searching/);
+    expect(resultsStatusText({ ...base, refreshing: true, slow: true })).toBe("8 results, still updating…");
     expect(resultsStatusText({ ...base, count: null, failed: true })).toBe("Search failed.");
     expect(resultsStatusText({ ...base, count: null })).toBe("");
   });

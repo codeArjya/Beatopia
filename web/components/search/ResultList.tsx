@@ -7,7 +7,8 @@ import { toast } from "sonner";
 
 import { AppButton } from "@/components/adapters";
 import { useSearch, type SearchParams } from "@/lib/api";
-import { resultsStatusText, searchErrorKind, searchErrorMessage } from "@/lib/search/results";
+import { resultsStatusText, searchErrorKind, searchErrorMessage, SLOW_SEARCH_MS } from "@/lib/search/results";
+import { useSlow } from "@/lib/search/useSlow";
 
 import { ResultCard, ResultCardSkeleton } from "./ResultCard";
 
@@ -30,6 +31,7 @@ export function ResultList({ request, lastChipLabel, onRemoveLastChip }: ResultL
   const refreshing = search.isPlaceholderData || (search.isFetching && !search.isPending);
   const errorKind = search.isError ? searchErrorKind(search.error) : null;
   const retry = () => void search.refetch();
+  const slow = useSlow(search.isFetching, JSON.stringify(request), SLOW_SEARCH_MS);
 
   // rate_limited / upstream_error also get a toast, once per failure (errorUpdatedAt changes per failure).
   const { errorUpdatedAt, error } = search;
@@ -45,6 +47,7 @@ export function ResultList({ request, lastChipLabel, onRemoveLastChip }: ResultL
     refreshing,
     failed: search.isError,
     fallback: data?.fallback_used === true,
+    slow,
   });
 
   return (

@@ -38,7 +38,7 @@ export function AppSheet({ open, onOpenChange, title, description, side = "right
         }}
       >
         <SheetHeader className="border-b">
-          <SheetTitle>{title}</SheetTitle>
+          <SheetTitle className="line-clamp-2 break-words pr-6">{title}</SheetTitle>
           {description ? (
             <SheetDescription>{description}</SheetDescription>
           ) : (
