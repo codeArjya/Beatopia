@@ -1,0 +1,15 @@
+# BuildKit reads <Dockerfile>.dockerignore next to the Dockerfile (context = repo root).
+**
+!worker/
+!common/
+!ingest/vocab.txt
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.ruff_cache
+**/*.egg-info
+**/.env
+**/.env.*
+worker/tests/
+common/tests/
