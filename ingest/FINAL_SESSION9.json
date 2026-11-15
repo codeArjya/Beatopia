@@ -219,11 +219,12 @@
         "/c",
         "pnpm lint"
       ],
-      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration\\web",
       "started_at": "2026-11-15T06:55:25.411570+00:00",
       "finished_at": "2026-11-15T06:55:33.990994+00:00",
       "elapsed_s": 8.578000000001339,
-      "exit_code": 1
+      "exit_code": 1,
+      "metadata_note": "Corrected recorded cwd: raw runner summary stored tree root, but subprocess cwd was tree/web as shown in retained run_check.py; raw records preserved."
     },
     "web-typecheck": {
       "mode": "web-typecheck",
@@ -233,11 +234,12 @@
         "/c",
         "pnpm typecheck"
       ],
-      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration\\web",
       "started_at": "2026-11-15T06:55:34.175285+00:00",
       "finished_at": "2026-11-15T06:55:35.008985+00:00",
       "elapsed_s": 0.8280000000013388,
-      "exit_code": 1
+      "exit_code": 1,
+      "metadata_note": "Corrected recorded cwd: raw runner summary stored tree root, but subprocess cwd was tree/web as shown in retained run_check.py; raw records preserved."
     },
     "worker": {
       "mode": "worker",
@@ -613,5 +615,11 @@
     "fallback-recheck.json": "db3d73cc9fd48e02eb08dfbcd80929252bb6738ccc456f107fac26136799f680"
   },
   "safe_to_deploy": "Ingest tooling/source staging only; no service rollout required",
-  "launch_ready": false
+  "launch_ready": false,
+  "source_merge_sha": "5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc",
+  "source_merged_at": "2026-11-15T07:10:34Z",
+  "source_merge_pr": 14,
+  "premerge_head": "f93f4f8cd40c533b0ccdd935279b943c3e539ef9",
+  "premerge_vercel_checks": "Vercel and Vercel Preview Comments passed",
+  "runtime_shared_tree_parity_with_main_before_merge": true
 }

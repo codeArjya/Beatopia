@@ -1,6 +1,6 @@
 # Session 9: completed WS1 integration and deployment readiness
 
-2026-11-15. Primary checkout preserved on `ws1-data` at `b7639a8`; its seven outstanding commits were pushed normally. Fetched main `bd4ab02eedd88eaa2eea3a97d8a89c5996227e1f` and merged it without conflicts in isolated branch `ws1-session9-integration`, worktree `ingest/data/session9/integration`. Integration merge: `2e678a697bbc7e270e288b69207ab77000674478`. PR: https://github.com/codeArjya/Beatopia/pull/14. Final main merge identity is recorded in the current handoff after merge.
+2026-11-15. Primary checkout preserved on `ws1-data` at `b7639a8`; its seven outstanding commits were pushed normally. Fetched main `bd4ab02eedd88eaa2eea3a97d8a89c5996227e1f` and merged it without conflicts in isolated branch `ws1-session9-integration`, worktree `ingest/data/session9/integration`. Integration merge: `2e678a697bbc7e270e288b69207ab77000674478`. PR: https://github.com/codeArjya/Beatopia/pull/14. Final main merge: `5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc`, PR #14, merged 2026-11-15T07:10:34Z; both Vercel checks passed for head f93f4f8 before merge.
 
 Relative to main, completed work adds ingest reporting, cached calibration, evaluation, density recovery and historical evidence. Main's existing worker loop is retained exactly: no `common/` or `worker/` tree diff, no duplicated worker implementation. No runtime integration fix was necessary. Teammate API, editor, web, deployment and contract changes are preserved. No force-push or primary checkout switch.
 
@@ -51,17 +51,17 @@ Unresolved failures and deployment coordination were reported in https://github.
 
 This WS1 merge needs **no runtime rollout, migration, service restart or worker recreation**. Ingest tooling/documentation does not justify restarting API/Caddy/worker. The live deployment revision is distinct from the source merge SHA. No VM session, service mutation, checkpoint reset or model change occurred here.
 
-If WS2 wants the resulting source available on the VM, use the final merge SHA recorded in the current handoff and stage it separately. Run these in Git Bash from the repository, substituting that exact SHA for `MERGE_SHA`:
+If WS2 wants the resulting source available on the VM, use the final merge SHA recorded in the current handoff and stage it separately. Run these in Git Bash from the repository; the source merge SHA is pinned exactly:
 
 ```bash
 git fetch origin
-git merge-base --is-ancestor MERGE_SHA origin/main
-git archive --format=tar MERGE_SHA | ssh root@45.77.216.35 \
-  'set -eu; test ! -e /opt/beatopia-ws1-MERGE_SHA; mkdir /opt/beatopia-ws1-MERGE_SHA; tar -xf - -C /opt/beatopia-ws1-MERGE_SHA'
-ssh root@45.77.216.35 'test -f /opt/beatopia-ws1-MERGE_SHA/ingest/report.py; docker inspect beatopia-worker-1 --format "{{.Id}} {{.State.StartedAt}}"'
+git merge-base --is-ancestor 5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc origin/main
+git archive --format=tar 5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc | ssh root@45.77.216.35 \
+  'set -eu; test ! -e /opt/beatopia-ws1-5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc; mkdir /opt/beatopia-ws1-5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc; tar -xf - -C /opt/beatopia-ws1-5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc'
+ssh root@45.77.216.35 'test -f /opt/beatopia-ws1-5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc/ingest/report.py; docker inspect beatopia-worker-1 --format "{{.Id}} {{.State.StartedAt}}"'
 ```
 
-Replace every `MERGE_SHA` literal, including the quoted remote directory names. Stage into that new directory only; do not swap `/opt/beatopia`, copy/reset caches or run `deploy/deploy.sh`. The latter swaps directories and uses `--remove-orphans`, requiring WS2 review for the profiled worker.
+Stage into that new directory only; do not swap `/opt/beatopia`, copy/reset caches or run `deploy/deploy.sh`. The latter swaps directories and uses `--remove-orphans`, requiring WS2 review for the profiled worker.
 
 Before **any future** worker recreation, WS2 must inspect `docker inspect beatopia-worker-1 --format '{{json .Mounts}}'` and determine the effective `WORKER_DATA_DIR` (default `/app/worker/data`). Confirm that directory and separation/import receipts are on durable storage, or copy and verify them into durable storage while leaving the worker alive; preserve HF/Torch caches as well. Checked-in compose mounts model caches but omits worker/data durability. Align image label/process revision stamps at the next justified rollout. No recreation is authorized by this tooling merge.
 

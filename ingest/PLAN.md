@@ -120,7 +120,7 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 - [x] Run fresh independent corpus/density/public-object audit and propagate actual exit 1: original 350 curated tracks/67 heroes pass; newly materialized fallback fs_754932 lacks a local manifest and fails exact 192k probe. Report failure is retained/reported; target remains 80 (13 short), independently of this failure. Full quality gate stays open.
 - [x] Recheck live real search/cache/browser playback and previous failures; current editor offsets and fallback pass; strict duration/snapping remain reported to WS2 issue #13.
 - [x] Reuse actual Session 8 inference evidence with unchanged worker/common runtime; leave VM worker and checkpoints running/intact.
-- [x] Prepare reviewed PR #14, exact no-restart deployment instructions and current handoff/evidence. Final merge identity is recorded in the handoff after repository merge.
+- [x] Prepare reviewed PR #14, exact no-restart deployment instructions and current handoff/evidence. PR #14 merged as `5b91f76c9a8cd3d88434152ad1e3f886abb4f5fc` after Vercel passed; final merge identity/deployment commands recorded in handoff.
 - [ ] Launch acceptance remains incomplete: target 80, deferred timbre/density listening and historical semantic gate; global lint/TS and WS2 range/snapping unresolved. Completed joint review remains accepted. No new production, listening, model/data experimentation or optional features.
 
 
