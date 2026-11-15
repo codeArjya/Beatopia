@@ -1,6 +1,7 @@
 param(
-    [ValidateSet('report', 'calibrate')][string]$Mode = 'report',
+    [ValidateSet('report', 'calibrate', 'density')][string]$Mode = 'report',
     [string]$Output,
+    [switch]$Follow,
     [switch]$Foreground
 )
 $ErrorActionPreference = 'Stop'
@@ -17,8 +18,10 @@ $env:CLAP_MODEL = 'laion/larger_clap_general'
 $env:CLAP_REVISION = 'ada0c23a36c4e8582805bb38fec3905903f18b41'
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 if (-not $Output) { $Output = "ingest/data/session5/$Mode-$stamp.json" }
+if ($Follow -and $Mode -ne 'density') { throw '-Follow is only supported for density' }
 $arguments = @('run', '--no-sync', '--project', 'ingest', '--env-file', '.env',
     'python', "ingest/$Mode.py", '--output', $Output)
+if ($Follow) { $arguments += '--follow' }
 if ($Foreground) {
     Push-Location $repo
     try {

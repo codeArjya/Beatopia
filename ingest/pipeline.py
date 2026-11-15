@@ -185,6 +185,9 @@ def validate(manifest: dict, directory: Path) -> np.ndarray:
         ):
             raise ValueError("Invalid cached window")
         ids.add(w["id"])
+    from ingest.density import validate_mix
+
+    validate_mix(manifest, directory)
     return vectors
 
 

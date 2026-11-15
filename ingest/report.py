@@ -20,7 +20,7 @@ from psycopg.rows import dict_row
 
 from common import analysis, db, storage
 from common.ids import window_id
-from ingest import heroes, pipeline
+from ingest import density, heroes, pipeline
 from ingest.sources import cc_license, write_json
 
 STEMS = set(heroes.STEMS)
@@ -34,7 +34,7 @@ def snapshot() -> dict:
     """Release the consistent read-only snapshot before any HTTP or decoding work."""
     with db.connect() as conn:
         conn.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY")
-        with conn.cursor(row_factory=dict_row) as cursor:
+        with conn.cursor(row_factory=dict_row, binary=True) as cursor:
             result = {"snapshot_at": datetime.now(UTC).isoformat()}
             for table, columns in (
                 ("tracks", "*"),
@@ -253,7 +253,13 @@ def build_report(data: dict, root: Path, seed: int = 5) -> tuple[dict, list[dict
     report["tags"] = tag_examples
     specs = {}
     for tid, t in sorted(library.items()):
-        record = {"id": tid, "mix_verified": False, "hero_cache_verified": False, "issues": []}
+        record = {
+            "id": tid,
+            "mix_verified": False,
+            "hero_cache_verified": False,
+            "density_verified": False,
+            "issues": [],
+        }
         for w in windows[tid]:
             problems = window_issues(w, t, vocab)
             if problems:
@@ -288,7 +294,9 @@ def build_report(data: dict, root: Path, seed: int = 5) -> tuple[dict, list[dict
                 or not np.allclose(mix["beat_times"], t["beat_times"], atol=1e-4)
             ):
                 raise ValueError("Track metadata mismatch")
-            compare_windows(mix["windows"], vectors, [w for w in windows[tid] if w["stem"] == "mix"])
+            expected_mix, migrated_later = density.snapshot_mix_windows(mix, directory, is_hero=t["is_hero"])
+            compare_windows(expected_mix, vectors, [w for w in windows[tid] if w["stem"] == "mix"])
+            record["density_migrated_after_snapshot"] = migrated_later
             record["mix_verified"] = True
             specs[path].update(sha256=mix["audio_sha256"], local=str(directory / "mix.mp3"))
             if t["is_hero"]:
@@ -312,6 +320,9 @@ def build_report(data: dict, root: Path, seed: int = 5) -> tuple[dict, list[dict
                         sha256=manifest["hashes"][stem],
                         local=str(hdir / f"{stem}.mp3"),
                     )
+                stage = "hero_activity_density"
+                record["density_audit"] = density.audit(root, mix, manifest, windows[tid])
+                record["density_verified"] = record["density_audit"]["verified"]
         except Exception as error:
             record["issues"].append(f"{stage}:{type(error).__name__}")
         for s in stems[tid]:
@@ -367,6 +378,16 @@ def finish_report(report: dict, objects: list[dict], reviews: list[dict] | None 
     bad_tracks = {o["track_id"] for o in objects if not o["verified"]}
     verified = [r for r in report["track_audit"] if r["mix_verified"] and not r["issues"] and r["id"] not in bad_tracks]
     heroes_ok = [r["id"] for r in verified if r["hero_cache_verified"]]
+    density_ok = [r for r in verified if r["hero_cache_verified"] and r.get("density_verified")]
+    report["hero_density"] = {
+        "verified_heroes": len(density_ok),
+        "verified_windows": sum(r.get("density_audit", {}).get("windows", 0) for r in density_ok),
+        "missing_hero_ids": [
+            r["id"] for r in report["track_audit"] if r["hero_cache_verified"] and not r.get("density_verified")
+        ],
+        "method": density.METHOD,
+        "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+    }
     review_rows = []
     for review in reviews or []:
         tid, stem = review.get("track_id"), review.get("stem")
@@ -387,6 +408,8 @@ def finish_report(report: dict, objects: list[dict], reviews: list[dict] | None 
         "library_300_500": 300 <= len(verified) <= 500,
         "heroes_80": len(heroes_ok) >= 80,
         "hero_shortfall": max(0, 80 - len(heroes_ok)),
+        "all_completed_hero_density": bool(heroes_ok)
+        and len(density_ok) == report.get("counts", {}).get("hero_flags", len(heroes_ok)),
         "audibly_verified_prominent_timbres": 0,
         "human_reviewed_hero_tracks": len({r["track_id"] for r in review_rows if r["matched_verified_hero"]}),
         "prominent_timbres_30": "unverified",
@@ -428,7 +451,11 @@ def main() -> None:
     ):
         raise SystemExit(1)
     # A target shortfall stays machine-visible even when there is no corrupt object.
-    if not report["acceptance"]["library_300_500"] or not report["acceptance"]["heroes_80"]:
+    if (
+        not report["acceptance"]["library_300_500"]
+        or not report["acceptance"]["heroes_80"]
+        or not report["acceptance"]["all_completed_hero_density"]
+    ):
         raise SystemExit(2)
 
 

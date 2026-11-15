@@ -93,9 +93,10 @@ causes a nonzero final exit even if spares satisfy the count. Audit tags are can
 Full stems use the contract paths and processed mix duration, including the recorded excerpt join.
 Stem windows never cross the join, drop silence at the unchanged -45 dBFS threshold, and use actual
 CLAP embeddings. A candidate lacking audible windows for any of the four stems fails the hero gate.
-Stem-window density uses spectral flatness plus the fraction of stems above -30 dBFS. Mix-window
-density remains the original onset proxy so concurrent mix verification stays compatible; updating
-all hero mix-window densities remains part of the later density-completion task.
+Stem-window density uses spectral flatness plus the fraction of stems above -30 dBFS. Session 7's
+resumable density migration applies that formula to completed heroes' mix windows too. Nonhero mixes
+keep their onset proxy. Completion is independently audited; the running batch needs the follower
+below because its already-loaded code still publishes the original mix density.
 
 Benchmark timings are **local decoded stereo inference**, excluding download, MP3 encoding,
 embedding, upload and DB work. They do not establish the on-demand worker's end-to-end <60 s gate.
@@ -210,3 +211,49 @@ reviews were supplied. Exit 0 is not an automatic relevance or live-integration 
 Session 6 evidence is in `SESSION6.md` and `EVAL_SESSION6.json`. The human confirmed the live API is
 not ready; both twenty-query HTTP attempts timed out. No live results, human grades, evidence-backed
 relevance fix, before/after relevance improvement or WS2/WS4 integration pass is claimed.
+
+## Hero density migration and final audit (Session 7)
+
+Use the existing approved launcher environment (offline pinned models, FFmpeg and `.env`):
+
+```powershell
+./ingest/launch-audit.ps1 -Mode density -Output ingest/data/session7/density-once.json -Foreground
+./ingest/launch-audit.ps1 -Mode density -Output ingest/data/session7/density-follow.json -Follow
+./ingest/launch-audit.ps1 -Mode report -Output ingest/data/session7/report-final.json -Foreground
+```
+
+Run only one density writer; it holds the separate `ingest/data/density.lock`. `-Follow` launches a
+hidden process, sweeps every 30 seconds after each completed sweep, and checks the existing hero lock
+without modifying it. After the hero producer releases its lock it performs a final snapshot/sweep
+and exits. It never restarts the batch, resets jobs, deletes locks, or changes the frozen queue.
+Every sweep records counts, exact IDs, changed rows, failures and elapsed time. Any failure exits 1
+with evidence; inspect it and confirm that density writer is dead before resuming the same command.
+Do not delete its receipt/lock or restart a still-running follower. New heroes can appear between
+sweeps; coverage claims apply to the explicit report snapshot, not to future batch output.
+
+The formula is `clip((mean spectral flatness + active stems / 4) / 2, 0, 1)`. Activity uses stereo RMS
+strictly above `10**(-30/20)` over the exact existing window. The unchanged -45 dBFS audible-window
+gate and excerpt joins still apply. This is a proxy for activity, not a human instrument-count grade.
+
+`tracks/<id>/stem-activity-density.json` is a local write-ahead receipt containing the original mix
+densities, measured densities for all five streams, exact mix inputs and full-stem hashes. Only DB
+`windows.density` and mix-manifest densities/provenance change; audio, tags, vectors, windows, hero
+flags, model identities and fingerprints are preserved. Transactions lock only the current hero's
+track/windows, validate all other fields/vectors and full stem rows, then commit the density updates.
+Atomic mix-manifest replacement follows commit. A crash between these steps causes a visible cache/DB
+mismatch; rerunning uses the same receipt and repairs it without inference. Stale inputs are rejected.
+Normal ingest validation checks migrated values against the receipt, so resumable mix publication
+retains them. The reporter additionally re-decodes all five files with the canonical FFmpeg decoder and recomputes every
+completed hero window, rather than trusting a receipt or marking an onset proxy as activity-based.
+Separate public-object checks retain libsndfile decode and FFprobe validation. MP3 decoders can produce
+slightly different samples/flatness; density uses the same decoder as existing feature generation.
+If a nonhero DB snapshot predates a later hero promotion, the reporter compares its mix windows
+against the receipt's exact original densities and explicitly records `density_migrated_after_snapshot`.
+It still compares every window/vector and other feature. Hero snapshots cannot use that fallback.
+
+`hero_density` and `acceptance.all_completed_hero_density` report independently verified coverage.
+Missing migration is an explicit incomplete gate (exit 2); measurement/cache/DB damage exits 1.
+Other gates remain separate: report exit 2 can also mean the unchanged 80-hero target is short.
+The optional two-model comparison is cut while core semantic, hero, listening and live-eval gates
+remain open. No correlation/residual/CLAP comparison, model winner or automatic per-job selector is
+claimed. Session 7 evidence and recovery steps are in `SESSION7.md` and `docs/codex-handoff.md`.

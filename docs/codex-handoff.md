@@ -1,4 +1,120 @@
-# Codex handoff — session 6 of 7
+# Codex handoff — session 7 of 7
+
+## Current handoff — Session 7 (supersedes all next steps below)
+
+2026-11-14. Human approved the Session 7 plan before implementation. Started **d2b86f3** on
+`ws1-data`. Scope: refined original tasks **13–14**. Optional two-model comparison is **cut because
+core gates remain open**; no model comparison, winner or automatic per-job selector is claimed.
+Required density migration, follower, independent measurement and recovery tooling are implemented.
+Task checkboxes remain open where global/full-quality acceptance is unverified. Full evidence and
+exact operational follow-up: `ingest/SESSION7.md`, `ingest/FINAL_SESSION7.json`, `ingest/PLAN.md`.
+
+### Verified final evidence
+
+- Corrected independent report `ingest/data/session7/report-canonical.json`, snapshot **19:58:57 EST**,
+  finished **20:07:15**, **498.266 s**, observed propagated **exit 2**: **350 library + 1 excluded import,
+  40 heroes, 9,492 windows, 164 stem rows, 514 public objects**. All **40 completed heroes / 5,576
+  mix-and-stem windows** independently re-decoded/measured, density gate **true**, zero invalid windows,
+  cache/DB/density/public failures. Max DB delta **2.9802322387695313e-8**, receipt delta **0**.
+  **510 local object hash anchors**, four range objects without local anchors. Target 80 remains
+  **40 short**; no full quality gate pass. Raw report SHA256:
+  `ff8e837edc8b04f1ac7330308a9ef030e8abc021f318ab6a59ec472e86f6a327`.
+- **Final independent audit** snapshot **20:33:31 EST**, finished **20:43:26**, **595.562 s**, observed
+  propagated **exit 2**: **350 library + 1 excluded import, 48 complete heroes, 10,365 total windows,
+  196 stem rows; all 48 heroes / 6,701 mix-and-stem windows independently measured**, density gate
+  **true**. All **546 public objects** decode/probe correctly; **542 local hash anchors**, four range
+  objects without local anchors. Zero invalid windows, cache/DB/density/public failures. Max DB delta
+  **2.9802322387695313e-8**, receipt delta **0**. Target stays **80**, **32 short** at this snapshot.
+  JSON `ingest/data/session7/report-final.json`, SHA256
+  `00bce91f047a5b7e77564b9aaf1942bd3339c8fafa3c1fc8dac3c843870d6d51`.
+  Command `./ingest/launch-audit.ps1 -Mode report -Output ingest/data/session7/report-final.json
+  -Foreground`, explicit child-exit propagation. Logs `ingest/data/session7-report-final.*.log`.
+  Report tool session 45579 finished; it was not an OS PID. Later producer/follower counts are separate.
+- First density sweep committed updates/receipts but failed all 32 post-write checks, exit 1. Read-only
+  diagnosis proved PostgreSQL `extra_float_digits=0` rounds text results. Binary reads verified actual
+  float32 values (max **2.96277e-8**) without relaxing **1e-7** tolerance. Resume reuses receipts and
+  repeated sweeps produce zero updates. Do not mistake zero verified in that failed run for zero writes.
+- First independent report failed three decoder-sensitive drum-flatness comparisons plus a live
+  promotion race. Canonical FFmpeg remeasurement fixed decoder consistency; separate libsndfile public
+  decode/FFprobe remain. Nonhero snapshots compare exact recorded original densities if cache migration
+  happened later, and record that fact; hero snapshots cannot use the fallback. No comparison skipped.
+  Failed report, diagnostics, exact differences and fixes remain in SESSION7.md and ignored raw logs.
+- Final focused **64 passed/45.74 s**, ingest **134 passed/62.69 s**, worker **23 passed, 5 skipped/
+  39.21 s**, all exit 0. Python Ruff check/format pass, **65 files**. `make lint` repeatedly attempted:
+  Make absent, no global lint pass. Five opt-in live DB tests not rerun; common unchanged/no common rerun.
+  All earlier failed/corrected checks are recorded, including fixture alias, float text precision,
+  decoder audit, snapshot race, a test-line formatting issue and UTF-16 evidence-log decoding.
+- At **20:41:07 EST**, **28 files / seven new rejected heroes** were decoded read-only. Every one has a
+  zero-eligible-window stem below the unchanged **0.005623413251903491 (-45 dBFS)** gate. Includes
+  jam_1131022, jam_1149162, jam_1364453, jam_1378557, jam_1432368, jam_1432420, jam_1501360. Preserve raw files and
+  failures; no lower gate or fabricated windows. Exact RMS values in `ingest/data/session7/rejections.json`.
+- Unchanged source/license counts: 200 Freesound/150 Jamendo. Jobs remain five done/seven intentional
+  Session-4 errors in the corrected snapshot, none queued/running. No worker daemon started. Semantic
+  mixed-fixture >0.2, target 80, 30 prominent timbres, perceptual density calibration and live relevance/
+  API/browser integration remain open. No new grades/listening/GPU/30 s benchmark is claimed; historical
+  CPU enqueue-to-terminal 30 s observation **47.608574 s** is labeled Session 4 evidence.
+- **Queue capacity limitation verified 20:40:43 EST:** frozen queue has **100 distinct IDs**; progress
+  **49 complete / 21 rejected** means at most **79** can succeed even if every remaining candidate
+  passes. Later rejections reduce that ceiling. Target stays **80**. Preserve this run and original
+  ranking/queue; additional genuinely eligible candidates are needed afterward. ETA is not proof of
+  target completion, and known quiet failures must not be converted to fake successful heroes.
+
+### Preserved processes and recovery
+
+Original hero **uv 32252 / Python 30820**, started **16:31:16/17 EST**, remains running unchanged:
+`uv run --no-sync --project ingest --env-file .env python -m ingest.heroes --mode batch --limit 80`.
+Logs `ingest/data/heroes-batch-20261114-163116.{stdout,stderr}.log`, `heroes/heroes.log`.
+Density follower **uv 28192 / Python 21740**, started **19:38:27 EST**, remains running:
+`uv run --no-sync --project ingest --env-file .env python ingest/density.py --output
+ingest/data/session7/density-follow.json --follow`. Logs
+`ingest/data/density-20261114-193827.{stdout,stderr}.log`. Latest atomic sweep snapshot:
+`ingest/data/session7/density-follow.json`; first successful sweep preserved as `density-first-success.json`.
+Follower has a separate lock, does not modify the producer lock and performs a final sweep after producer
+shutdown. Do not start duplicates, restart live processes, reset jobs, or delete receipts/locks/caches.
+
+Independent process checkpoint **20:43:31 EST** found all four alive at their original start times.
+Separate latest producer progress: **49 complete / 21 rejected**, target 80; logged ETA **6522.885 s**
+is only the existing rolling formula and cannot overcome the frozen-queue capacity limit. Latest
+completed follower sweep **20:42:55 EST** verified **49 heroes / 6,870 windows**, **zero updated rows,
+zero failures**, **71.297 s**. This extends migration verification, not the independent 48-hero public
+audit snapshot. `FINAL_SESSION7.json` retains both evidence types and exact process metadata.
+All audit/test/diagnostic commands are finished; only original producer and new density follower remain.
+Later evidence-release checkpoint **20:46:18 EST**: producer progress **50 complete / 21 rejected**;
+follower sweep **20:46:13** verified **50 heroes / 7,037 windows**, **34 updated rows**, zero failures.
+These later values are retained in FINAL_SESSION7.json; independent audit remains the 48-hero snapshot.
+User subsequently asked for a **100-hero estimate**, not a runtime target change. At **20:48:34 EST**,
+logs showed **51 complete/21 rejected**, last-ten successful pipeline mean **226.145 s**. Estimate
+**4–5 more processing hours plus discovery/indexing**, requiring about **70 attempts / 42 additional
+candidates beyond the remaining 28** if the observed 70.8% acceptance rate holds. This is untested
+forecasting, not a guarantee. SESSION7.md records screening suggestions and assumptions. Existing
+target/cap remains 80; a 100-hero extension/new candidate selection needs separate review.
+
+For the continuation/follow-up:
+1. Inspect all four PIDs/start times and both log tails; read SESSION7/PLAN and preserve the schema edit.
+2. Read final report/evidence and distinguish the independent 48-hero snapshot from later log/follower
+   counts. After later work use a new report output path and regenerate evidence as a new snapshot,
+   preserving the committed Session 7 record. No automatic Session 8 work was launched.
+3. If density writer is confirmed dead, inspect errors then resume
+   `./ingest/launch-audit.ps1 -Mode density -Output ingest/data/session7/density-recovery.json -Follow`.
+   If producer is finished, use `-Foreground` without `-Follow` for a one-shot sweep.
+4. Only if original hero producer is confirmed dead, inspect its frozen queue/failures and resume
+   interrupted stages with `./ingest/launch-heroes.ps1 -Mode batch -Limit 80`. Quiet failures remain
+   failures; an exhausted queue needs genuinely eligible candidates, not a relaxed gate. Never alter
+   the live queue. Start a new follower only after the old one is finished.
+5. Fresh report: `./ingest/launch-audit.ps1 -Mode report -Output ingest/data/session7/report-followup.json
+   -Foreground`; append `exit $LASTEXITCODE` in automation. No bulk worker recovery: confirm worker
+   death, inspect the specific job, then explicitly requeue only that ID per worker/README.md.
+6. Actual WS2 URL/revision/matching general CLAP/import exclusion, two user/teammate relevance grades,
+   formal listening and actual WS2/WS4 HTTP polling/range playback are still needed. README/SESSION7
+   provide exact eval commands. Optional two-model comparison stays behind all core gates.
+
+Changed: `ingest/{density.py,pipeline.py,report.py,launch-audit.ps1,tests/test_density.py,README.md,
+PLAN.md,SESSION7.md,FINAL_SESSION7.json}` and this explicitly authorized handoff. No common/worker
+runtime/API/web/schema/ID/storage/dependency/default/frozen-vocab change. Pre-existing shared schema
+edit remains untouched/excluded, SHA256
+`BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5`.
+
+---
 
 ## Current handoff — Session 6 (supersedes all next steps below)
 

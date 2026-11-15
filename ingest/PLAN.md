@@ -94,8 +94,8 @@ Each checkbox is a 1–2 hour active work unit; unattended downloads/inference a
 | [ ] | H12 / 1 h | Tag calibration and vocab freeze (#7) | Session 5: replayed tags for 7,249 cached windows, zero selected-tag changes; 48 attributed auditions and measured proxy examples published. Existing 120-tag mapping frozen; human confirmed WS2/WS3 agreement. Listening calibration remains open; no evidence-backed threshold/prompt change or DB rewrite claimed. |
 | [ ] | H20 (H12–H14) / 2 h | Twenty-query eval dataset and runner (#8) | Dataset/runner implemented in Session 6; 36 focused tests pass. Both actual twenty-query HTTP attempts timed out; human confirms live API not ready. Reviewers designated as user and teammate; no relevance grades yet. Original acceptance remains: representative queries, actual top-five IDs/tags/licenses/errors and two human reviews. See SESSION6.md/EVAL_SESSION6.json. |
 | [ ] | H20 (H14–H16) / 2 h | Address eval failures and integration (#8) | Session 6 records WS2/WS4 fixture/search/polling/playback dependencies. No live results justify a data/tag fix; no human before/after grades exist. Re-run after justified fixes, record actual grades without an invented threshold, validate live polling/playback or retain the explicit dependency. |
-| [ ] | H20 (after H16) / 2 h | Optional two-model quality comparison (#9) | Only if core gates passed: on a small held-out set report cross-correlation, residual energy and CLAP label similarity plus listening; use supported models, log actual model chosen; do not double all jobs without latency evidence. |
-| [ ] | H20 (after H16) / 1 h | Complete hero density + final handoff (#9) | All completed hero windows have stem-activity density; repeated report/checks clean; final counts, failed jobs, 30 s timings, eval grades, recovery commands and any cuts documented. Density completion remains required even if optional quality comparison is cut. |
+| [ ] | H20 (after H16) / 2 h | Optional two-model quality comparison (#9) | Only if core gates passed: on a small held-out set report cross-correlation, residual energy and CLAP label similarity plus listening; use supported models, log actual model chosen; do not double all jobs without latency evidence. **Session 7: explicitly cut because core semantic, hero, listening and live-eval gates remain open; no comparison or model winner claimed.** |
+| [ ] | H20 (after H16) / 1 h | Complete hero density + final handoff (#9) | All completed hero windows have stem-activity density; repeated report/checks clean; final counts, failed jobs, 30 s timings, eval grades, recovery commands and any cuts documented. Density completion remains required even if optional quality comparison is cut. **Session 7: resumable density migration/follower and independent audits implemented; all 48 completed heroes/6,701 windows verified at the final snapshot, counts/cuts/recovery recorded in SESSION7.md/FINAL_SESSION7.json and handoff. Global lint/full report acceptance remains open; no unchecked gate is waived.** |
 
 After every implementation task: run relevant focused tests, `make lint`, `uv run --project ingest pytest`, `uv run --project worker pytest`, and `uv run --project ingest python ingest/report.py` once the reporter exists; include common tests for shared-helper changes. Mark a checkbox only with recorded acceptance evidence. Until report.py exists, report counts with read-only DB checks. If global lint fails outside ownership, record it and notify owner, do not edit their files. This documentation-only kickoff is verified by diff/path review; runtime checks are deliberately not represented as passed.
 
@@ -111,6 +111,51 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 - **Storage/DB divergence and stale fingerprints.** Upload before transactional publish; resume validates all stages, preserve source provenance; changed model requires re-embedding with the same revision for query and corpus. No automatic incompatible model swap.
 
 ## Execution record
+
+### Session 7 — required hero activity density, conditional comparison cut, final evidence (2026-11-14)
+
+Human approved the plan before implementation. Started `d2b86f3` on `ws1-data`. Refined tasks **13–14**.
+Implemented resumable density backfill of hero mix windows using actual full-stem activity; original
+stem-window values are checked against decoded measurements. Nonhero density, model/vocab identities,
+audio, vectors/tags, window ranges/IDs, storage paths, queues and existing jobs are preserved. A write-ahead
+receipt and atomic manifest replacement allow recovery after DB commit without inference or uploads.
+Normal ingest validation keeps migrated values on resume. A separate follower handles new completions
+without restarting the original producer; it performs a final sweep after producer shutdown.
+
+- Original producer **32252/30820** preserved. New density follower **28192/21740**. Exact commands,
+  start times, logs, later counts and recovery protocol are in SESSION7.md and the current handoff.
+- First density run failed all 32 post-write checks, honestly exit 1: server text output rounded real
+  values with `extra_float_digits=0`. Read-only binary retrieval proved correct stored values with max
+  delta **2.96277e-8**. Binary reads fixed verification without relaxing **1e-7** tolerance; receipt reuse
+  verified existing writes and repeated sweeps showed zero updates/no failures.
+- First independent density audit exposed three MP3-decoder flatness differences and a live nonhero
+  promotion race, exit 1. Investigated actual decoded samples/features. Final audit re-decodes with the
+  canonical FFmpeg feature decoder; independent libsndfile/FFprobe public checks remain. Nonhero
+  snapshots compare exact original receipt densities and record later migration; hero snapshots do not
+  get that fallback. No density comparison is skipped or fabricated.
+- Corrected independent snapshot **19:58:57 EST**: **350 library + 1 excluded import, 40 heroes,
+  9,492 windows, 164 stems, 514 public objects**, zero integrity failures. **All 40 heroes/5,576 windows**
+  independently measured, max DB delta **2.9802322387695313e-8**, receipt delta **0**. Exit **2** for the
+  unchanged 80-hero target (40 short). Fresh final report/counts are recorded in SESSION7.md and
+  FINAL_SESSION7.json; later log/follower counts remain separate from independent audit snapshots.
+- Final independent snapshot **20:33:31 EST**, finished **20:43:26**, **595.562 s**, observed **exit 2**:
+  **350 library + 1 import, 48 complete heroes, 10,365 windows, 196 stems, 546 public objects**. All
+  **48 heroes/6,701 windows** independently measured, zero integrity failures; 32 heroes short of 80.
+  Later follower verified **49 heroes/6,870 windows**, zero changes/failures. Frozen queue **100 distinct**
+  with **21 rejected** can yield at most **79**; additional genuinely eligible candidates are required
+  afterward. No target reduction or mutation of the live queue. Exact final hashes/counts/PIDs retained.
+- Final focused **64 passed/45.74 s**, ingest **134 passed/62.69 s**, worker **23 passed, 5 skipped/
+  39.21 s**. Python Ruff check/format pass, **65 files**. Make absent; global lint is unverified. Five
+  opt-in live worker tests not rerun; common unchanged/no common rerun. Failures and corrected runs
+  are retained, including the fixture-alias failure and canonical test-line formatting correction.
+- Optional two-model comparison **cut**, with no per-job selector or doubled inference. No new
+  relevance/listening grades or GPU/30 s benchmark are invented; historical timings are clearly labeled.
+  Formal 30-track timbre/sparse/dense listening, mixed-fixture cosine >0.2, actual WS2/WS4 HTTP/browser
+  integration and target 80 remain open. Both task checkboxes remain unchecked where acceptance is
+  unverified. The exact final counts, failure diagnoses, exclusions and recovery steps are retained.
+- Only WS1 ingest code/tests/docs plus explicitly authorized handoff changed. No shared/API/web/common/
+  worker runtime/schema/dependency/default changes. Pre-existing schema hash remains
+  `BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5` and is excluded.
 
 ### Session 6 — actual HTTP eval tooling; live relevance/integration dependencies (2026-11-14)
 
