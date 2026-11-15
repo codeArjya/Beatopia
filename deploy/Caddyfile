@@ -1,0 +1,15 @@
+# Automatic HTTPS (Let's Encrypt) for API_DOMAIN, e.g. 45-77-216-35.sslip.io or api.example.com.
+# CORS is handled by the API itself (WEB_ORIGIN), so Caddy only proxies.
+{$API_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy api:8000 {
+		health_uri /health
+		# Short interval: after a redeploy the API is back in ~20 s; a 30 s probe kept answering 503 longer.
+		health_interval 5s
+		health_timeout 3s
+	}
+	log {
+		output stdout
+		format json
+	}
+}
