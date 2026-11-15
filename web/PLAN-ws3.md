@@ -112,7 +112,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 - [x] **T6.1 Live API** (1.5 h). `NEXT_PUBLIC_USE_FIXTURES=0` and fix what real data breaks: long titles, missing bpm or key, no results, slow searches (> 3 s spinner text), CORS on the waveform fetch.
   *Accept:* 5 real queries render without layout breaks. Fixture mode still passes the H8 walkthrough.
   *Status (session 7):* hardening done and H8 re-passed. Later in the session the API came up, and 5 real queries rendered with no layout breaks (see the session 7 addendum).
-- [ ] **T6.2 Vercel deploy** (1 h). Project rooted at `web/`, env vars set, production URL sent to the human, CORS confirmed with WS2.
+- [x] **T6.2 Vercel deploy** (1 h). Project rooted at `web/`, env vars set, production URL sent to the human, CORS confirmed with WS2.
   *Accept:* the production URL runs a live search with no CORS errors in the console.
 
 ### Import, H14 → **Gate H16** (Tier 0 in production)
@@ -387,3 +387,8 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - **Production still shows `main`'s bootstrap placeholder,** because the WS3 UI wasn't on `main`. With the human's OK, I force-pushed (with lease, pinned to `cc18bc3`; I checked nothing would be lost) local `ws3-web` to `ws3-search-flow` and retargeted **PR #4 to `main`**. It now has all 27 WS3 commits and **supersedes PR #3**: merge #4, close #3. Don't merge #3 first, because #4 is rebased and would conflict.
   - Push from now on with `git push origin ws3-web:ws3-search-flow`.
   - Left for T6.2 after the merge: confirm a live search on the production URL with no CORS errors in the console, then tick T6.2. `NEXT_PUBLIC_API_URL` isn't set for Preview, so preview builds fall back to `http://localhost:8000`. Add it if previews should hit the live API.
+- **Addendum 3 (T6.2 done):** PR #4 was squash-merged (`32bc7f8`) and #3 closed. Production first came up **in fixture mode**: `NEXT_PUBLIC_USE_FIXTURES` was evidently `1`, and the variable is "sensitive", so its value can't be read back. With the human's OK I set `NEXT_PUBLIC_USE_FIXTURES=0` (Production + Preview) and added `NEXT_PUBLIC_API_URL=https://45-77-216-35.sslip.io/` for **Preview** (plain; it's the official API URL). Both went in through `vercel api /v9|v10/projects/beatopia/env`, with no local `.vercel` link. Then I ran `vercel redeploy … --target production`.
+  - **Production check on https://beatopia-liart.vercel.app/?q=dusty+soul+keys:** `GET /chips` 200 and `POST /search` 200 against the live API; 8 real results with waveforms and the notes from search; playback with a moving playhead; **no console errors**. T6.2 ticked.
+  - `NEXT_PUBLIC_*` values are inlined at build time, so any env change needs a redeploy.
+  - **Git:** because #4 was squash-merged, local `ws3-web` was reset to `origin/main` (same files; I checked with `git diff`). Start new WS3 work from `main`. Rebasing the old per-commit history onto `main` conflicts.
+  - Still open (WS2): `/why` 502 for notes that aren't cached.
