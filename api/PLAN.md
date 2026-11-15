@@ -114,8 +114,7 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-15 (session 5):** T1.1–T5.1, T7.1, T7.2, T9.1, T10.1–T10.3 done; T6.1–T6.3 files done, VM steps
-blocked on SSH access; T8.1, T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
+**Status 2026-11-15 (session 5):** T1.1–T5.1, T7.1, T7.2, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io); T8.1, T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
 needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
 
 ### → Gate H3: real DB wired, chips and tracks real
@@ -211,25 +210,36 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       Error bodies must be `{"error": ApiError}` (404 route/job/track/window, 400 body, `range_too_long`).
       Live, stems/imports/events only run with `CONTRACT_WRITES=1` (they create jobs/rows once T7.x/T9.1 land).
       Re-run against production at T6.2.
-- [ ] **T6.1 Docker images** (1.5 h). `deploy/api.Dockerfile`, `deploy/worker.Dockerfile`, `.dockerignore`.
+- [x] **T6.1 Docker images** (1.5 h). `deploy/api.Dockerfile`, `deploy/worker.Dockerfile`, `.dockerignore`.
       *Accept:* both build locally (or on the VM); `docker run api` → `/health` ok with HF cache volume.
       *Done (files, session 5):* both Dockerfiles (python 3.11 slim, ffmpeg, uv `sync --frozen --no-dev`, CPU torch
       from each lock), per-Dockerfile `.dockerignore`s, OCI revision label + `BEATOPIA_REVISION` from the
-      `REVISION` build arg. *Left:* the build itself (no Docker on L2; it runs on the VM in T6.2). The worker image
-      runs WS1's `python -m worker.main`, which is still a stub on main, so compose keeps it behind a `worker` profile.
-- [ ] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). SSH: install Docker, clone repo to `/opt/beatopia`,
+      `REVISION` build arg. Built on the VM (Ubuntu 26.10, 4 vCPU / 15 GB, no GPU); `/health` healthy with the
+      `hf_cache` volume. The worker image is defined but not built yet: WS1's `worker/main.py` is still a stub on
+      main, so compose keeps it behind the `worker` profile (`WORKER=1 deploy/deploy.sh` once WS1 lands it).
+- [x] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). SSH: install Docker, clone repo to `/opt/beatopia`,
       copy `.env`, `docker compose up -d`, Caddy HTTPS on `<ip>.sslip.io`, CORS origins.
       *Accept:* `curl https://<host>/health` ok; `/search` from the Vercel origin passes CORS; contract test green
       against production. **Gate H12: post the URL to the human for `NEXT_PUBLIC_API_URL`.**
       *Done (files):* `docker-compose.yml` (api, worker profile, caddy; hf/torch/caddy volumes), `Caddyfile`,
       `vm_setup.sh`, `deploy.sh` (git archive over SSH, no GitHub access on the VM), `vm.env.template` (C8/C9 values,
       `WEB_ORIGIN` incl. `https://beatopia-*.vercel.app`, which the API turns into an origin regex).
-      *Left:* everything on the VM. **Blocked:** the key `~/.ssh/vultr_hack` named by the human isn't on L2 (port 22
-      answers since ~02:30 UTC). Steps once in: `vm_setup.sh` → `.env` → `deploy.sh` → `curl /health` → contract test.
-- [ ] **T6.3 `api/scripts/bench.py`** (0.5 h). 20 eval queries (mix of text-only, chips-only, text+chips), prints
+      *Done:* live at **https://45-77-216-35.sslip.io** (SSH with `id_ed25519`, human-approved). `vm_setup.sh`
+      (Docker 29.9 + compose v5.7 from Docker's repo, 4 GB swap, ufw 22/80/443; ufw had been dropping 80/443),
+      `/opt/beatopia/.env` from `vm.env.template` values, `deploy.sh`. Identity line: `revision=<sha> mode=real
+      clap=laion/larger_clap_general@ada0c23… clap_ready=True gemini=gemini-3.6-flash`; every response carries
+      `X-Beatopia-Revision`. CORS: prod Vercel, `beatopia-*.vercel.app` previews and localhost allowed, others not.
+      Contract test against production (`CONTRACT_WRITES=1`): 16 passed, 2 skipped. Fixes found in production:
+      rerank timeouts tripped auto-degrade (→ /assist, /why 502) — fixed by a 4-note cap + budget timeouts no longer
+      degrading; Caddy probe 5 s; `deploy.sh` recreates caddy (bind mount follows the swapped tree).
+- [x] **T6.3 `api/scripts/bench.py`** (0.5 h). 20 eval queries (mix of text-only, chips-only, text+chips), prints
       p50/p95 per stage from the timing headers (`Server-Timing`). *Accept:* prod p50 < 3 s, or slowest stage noted.
       *Done (script):* local real mode, pass 1 p50 560 ms / p95 4.8 s (rerank at its 4 s budget on 4 text queries),
-      warm pass p50 273 ms (slowest: sql 267 ms via the session pooler). *Left:* the production run (after T6.2).
+      warm pass p50 273 ms (slowest: sql 267 ms via the session pooler).
+      *Production (`2fa509d`):* pass 1 server p50 **3218 ms** / p95 3923 ms, **slowest stage rerank (p50 3.0 s)**,
+      0 errors, every result set has ≥ 4 notes; plans came mostly from `plan_cache`, so a never-seen query adds the
+      planner (≈ 1.3–1.5 s). Warm pass p50 **73 ms** / p95 164 ms (sql 71 ms; VM ↔ Supabase is faster than L2).
+      Over 3 s on cold queries → T11.1 (rerank output size / parallel planner + embed).
 
 ### → Gate H16: Tier 0 end to end in production
 - [x] **T7.1 `/tracks/{id}/stems` + `/jobs/{id}`** (1.5 h). Covering stems = same track, `range_start ≤ start` and
