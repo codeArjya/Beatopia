@@ -445,9 +445,13 @@ Error codes in use: `not_found`, `bad_request`, `range_too_long`, `clip_is_slice
      to 0 at 10 bpm outside; 0.5 when the track bpm is null.
 5. Keep at most 3 windows per track; snap to 1/2/4/8/16 bars using beat_times.
 6. Gemini rerank of the top 20 → final `limit`; fill `why` from `notes` cache.
-7. If fewer than 3 results have score > 0.25 → Freesound fallback, normalized into `Result` (`track.source = "freesound"`,
+7. Freesound fallback when fewer than 3 candidates have `sim ≥ 0.30`, or when the planner finds that the request names
+   an instrument/sound outside the tag vocabulary (Freesound is then queried with those names, else with the request
+   text; CC0 and CC BY only, 1–30 s). Freesound results are normalized into `Result` (`track.source = "freesound"`,
    id `fs_{id}`, window id `fs_{id}:mix:0`, `audio_url` = Freesound `preview-hq-mp3`, window `0..min(duration, 16)` s,
-   `fallback_used = true`). Fallback tracks are **not stored** in v1 (not even when picked): `GET /tracks/{id}` and
+   `score = 0.5 − 0.02·rank`), listed **before** the library results that fill the rest of `limit` (so a fallback
+   response is not sorted by `score`), and `fallback_used = true` whenever Freesound was queried (even with 0 hits).
+   Fallback tracks are **not stored** in v1 (not even when picked): `GET /tracks/{id}` and
    `POST /why` serve them live, and a `pick` event only records the event. Exception: `POST /tracks/{id}/stems` on one
    first stores a minimal `tracks` row (preview copied to `tracks/{id}/mix.mp3`, `bpm`/`key` null, no windows) so
    the worker can separate it.
