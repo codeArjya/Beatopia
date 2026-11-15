@@ -45,6 +45,8 @@ def main() -> int:
     ap.add_argument("--apply", action="store_true", help="re-encode and overwrite (default: report only)")
     ap.add_argument("--backup-dir", default="fallback-mix-backup", help="where the old bytes are kept")
     args = ap.parse_args()
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")  # Windows consoles default to cp1252
 
     import os
 
@@ -81,7 +83,7 @@ def main() -> int:
                 storage.upload(str(new), path, "audio/mpeg")
                 if abs(measured - float(duration)) > DURATION_SLACK_S:
                     conn.execute("update tracks set duration_s = %s where id = %s", (measured, track_id))
-                print(f"  re-encoded and uploaded ({after}); duration {duration} → {measured} s; old bytes in {backup}")
+                print(f"  re-encoded and uploaded ({after}); duration {duration} -> {measured} s; old bytes in {backup}")
         conn.commit()
     print(f"{bad} not in contract format{'' if args.apply else ' (dry run; --apply to fix)'}")
     return 0
