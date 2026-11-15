@@ -106,7 +106,7 @@ contract and no longer assumptions:
 | C6 | After the hackathon | `tracks.owner_session text` so imports can be listed per session |
 | C7 | **Landed** (PR #6, `b7485cf`) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
 | C9 | **Landed** (PR #6, `b7485cf`; `gemini-3.8-flash` was overloaded and slower; local `.env` has a non-existent model) | `GEMINI_MODEL=gemini-3.6-flash` in `.env.example` / §8; `docs/proposals/WS2-gemini-model.md`. Meanwhile set it in the local `.env` and the deploy env |
-| C10 | **In PR #9** (`contract-ws2-c10`, WS3 agreed; T8.1: the §7.7 score trigger never fires) | §7.7 trigger = < 3 candidates with sim ≥ 0.30, or the planner names a sound outside the vocab; Freesound results first; `docs/proposals/WS2-fallback-trigger.md`. Built against it meanwhile |
+| C10 | **Landed** (PR #9, merged; WS3 agreed; T8.1: the §7.7 score trigger never fired) | §7.7 trigger = < 3 candidates with sim ≥ 0.30, or the planner names a sound outside the vocab; Freesound results first; `docs/proposals/WS2-fallback-trigger.md`. Built against it meanwhile |
 | C8 | **Landed** (PR #6, `b7485cf`; needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
 
 ---
@@ -115,7 +115,7 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-15 (session 6):** T1.1–T5.1, T7.1, T7.2, T8.1, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io, still on `567279d`: the T8.1 deploy is waiting for the human); T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
+**Status 2026-11-15 (session 6):** T1.1–T5.1, T7.1, T7.2, T8.1, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io on `53e3df3`, T8.1 live); T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
 needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
 
 ### → Gate H3: real DB wired, chips and tracks real
