@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 import { useChips } from "@/lib/api";
+import { useDataMode } from "@/lib/api/useOffline";
 import { useStopPreviewOnHide } from "@/lib/preview/PreviewProvider";
 import { indexChips } from "@/lib/search/chips";
 import { useSearchState } from "@/lib/search/useSearchState";
@@ -18,6 +19,7 @@ export function SearchPage() {
   const { state, dispatch, request } = useSearchState();
   useStopPreviewOnHide();
   const chips = useChips();
+  const { fixtures } = useDataMode();
   const index = useMemo(() => indexChips(chips.data?.categories ?? []), [chips.data]);
 
   const lastChipId = state.chips.at(-1);
@@ -47,11 +49,14 @@ export function SearchPage() {
             <div className="space-y-3 py-16 text-center">
               <p className="text-title">Find your next sample</p>
               <p className="text-text-secondary">Type a sound, or stack chips from the tray.</p>
-              <p className="text-caption text-text-tertiary">
-                <Link className="underline underline-offset-4 hover:text-foreground" href="/editor?track=jam_1532881&start=0&end=10.667&stem=mix">
-                  Open the editor on a fixture
-                </Link>
-              </p>
+              {/* The fixture track only exists in fixture mode (build-time or ?offline=1). */}
+              {fixtures && (
+                <p className="text-caption text-text-tertiary">
+                  <Link className="underline underline-offset-4 hover:text-foreground" href="/editor?track=jam_1532881&start=0&end=10.667&stem=mix">
+                    Open the editor on a fixture
+                  </Link>
+                </p>
+              )}
             </div>
           )}
         </section>

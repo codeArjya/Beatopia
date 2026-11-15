@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Figtree, Geist_Mono } from "next/font/google";
 
 import { AppHeader } from "@/components/shell/AppHeader";
+import { StatusBanner } from "@/components/shell/StatusBanner";
 
 import { Providers } from "./providers";
 import "./globals.css";
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         <Providers>
           <AppHeader />
+          <StatusBanner />
           {children}
         </Providers>
       </body>
