@@ -2,7 +2,9 @@
 
 import json
 import shutil
+import threading
 from collections.abc import Iterator
+from concurrent.futures import Future
 from typing import Any
 
 import jsonschema
@@ -10,7 +12,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app import main
-from app.core import excerpt, why
+from app.core import excerpt, rerank, why
 from app.core.gemini import Gemini
 from app.core.settings import REPO_ROOT, Settings
 from tests.test_planner import FakeClient, api_error
@@ -191,3 +193,23 @@ def test_cut_excerpt_errors() -> None:
         excerpt.cut_excerpt(str(FIXTURE_MIX.with_name("missing.wav")), 0.0, 5.0)
     with pytest.raises(excerpt.ExcerptError):
         excerpt.cut_excerpt(str(FIXTURE_MIX), 0.0, 0.0)
+
+
+def test_pending_rerank_note_is_awaited_instead_of_generated(env: Env) -> None:
+    """T11.1: a search's background notes call (P2b) is writing this window's note; /why waits for it."""
+    rerank.pending.clear()
+    batch: Future[dict[str, str]] = Future()
+    rerank.pending.claim([WID], lambda ids: batch)
+    threading.Timer(0.1, lambda: batch.set_result({WID: "Loop the first two bars."})).start()
+    fake = FakeClient({"note": "should not be used"})
+    r = post(client_with(Gemini(fake, "gm")))
+    assert r.status_code == 200 and r.json() == {"window_id": WID, "note": "Loop the first two bars."}
+    assert fake.models.calls == [] and env.excerpts == [] and env.stored == []
+
+    # A failed batch falls through to the normal audio note.
+    failed: Future[dict[str, str]] = Future()
+    rerank.pending.claim([WID], lambda ids: failed)
+    failed.set_exception(RuntimeError("gemini notes: HTTP 503"))
+    r = post(client_with(Gemini(FakeClient({"note": "Own note."}), "gm")))
+    assert r.status_code == 200 and r.json()["note"] == "Own note."
+    rerank.pending.clear()

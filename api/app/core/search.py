@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import logging
 import secrets
+import time
 
 from psycopg_pool import ConnectionPool
 
@@ -25,6 +26,9 @@ from common.storage import public_url
 log = logging.getLogger("app.search")
 
 SCORE_DECIMALS = 3
+# How long after the request started a search waits for background rerank notes (P2b) before answering without
+# them (T11.1: keeps the cold path under the 3 s p50 target; late notes land in the cache for /why).
+NOTES_DEADLINE_S = 2.6
 
 
 def new_query_id() -> str:
@@ -61,6 +65,7 @@ def run_search(
     gemini: Gemini | None = None,
     freesound: Freesound | None = None,
 ) -> SearchResponse:
+    started = time.monotonic()
     text = planner.normalize_text(req.text)
     chips = planner.resolve_chips(req.chips, settings.vocab_path)
     if text is None and not chips:
@@ -87,9 +92,18 @@ def run_search(
         status, new_notes = "skipped:fallback", 0
     else:
         with stage("rerank"):
-            rr = rerank.rerank(text or planner.chip_caption(chips), chips, ranked, req.limit, gemini=gemini, pool=pool)
+            rr = rerank.rerank(
+                text or planner.chip_caption(chips),
+                chips,
+                ranked,
+                req.limit,
+                gemini=gemini,
+                pool=pool,
+                notes_until=started + NOTES_DEADLINE_S,
+            )
         results = [to_result(s, rr.notes.get(s.candidate.window_id)) for s in rr.ordered]
         status, new_notes = rr.status, len(rr.new_notes)
+        note(notes_pending=rr.notes_pending)
     note(
         plan_source=outcome.source,
         plan_cached=outcome.cached,

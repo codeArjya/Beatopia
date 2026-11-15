@@ -392,6 +392,15 @@ which I'll confirm at H3.
 
 ### P2. Rerank + notes
 
+**T11.1 split this prompt in two** (the text in `api/app/core/rerank.py` is authoritative):
+- **P2a order** (blocking, `ORDER_SCHEMA = {order: string[]}`, 3 s / 1 attempt, thinking MINIMAL): step 1 below,
+  with candidates sent under numeric aliases `"1".."20"` instead of window ids.
+- **P2b notes** (background, `NOTES_SCHEMA = {notes: [{id, note}]}`, 10 s / 2 attempts): step 2 below, sent only
+  the ≤ 4 top-of-order windows without a cached note (aliases `"1".."4"`, no scores). The search waits for it
+  until 2.6 s after the request started; `/why` waits on a pending P2b note instead of generating its own.
+
+Original single-call draft:
+
 Config: JSON schema `RERANK_SCHEMA`, `temperature=0.2`, `thinking_level=LOW`, timeout 4 s, 1 attempt.
 
 System instruction:

@@ -2,10 +2,11 @@
 
 1. A cached note (from an earlier /why, or a ":meta" note from the search rerank) is returned as is, so a window
    costs at most one Gemini call.
-2. Otherwise the window is snapped exactly like in /search (so the excerpt is what the user hears), a ≤ 15 s MP3
+2. A note a search is still writing in the background (rerank P2b) is waited for (≤ 8 s) and returned.
+3. Otherwise the window is snapped exactly like in /search (so the excerpt is what the user hears), a ≤ 15 s MP3
    excerpt is cut (`core/excerpt.py`) and sent inline with P3. The note is stored with model "<model>:audio".
-3. If the excerpt can't be cut, the text-only P3b runs on the metadata ("<model>:text").
-4. Gemini degraded or failing with no cached note → 502 upstream_error (the client keeps showing no note).
+4. If the excerpt can't be cut, the text-only P3b runs on the metadata ("<model>:text").
+5. Gemini degraded or failing with no cached note → 502 upstream_error (the client keeps showing no note).
 
 Freesound fallback windows (`fs_*:mix:0`, not in `windows`) are built live from Freesound, the excerpt comes from
 the Freesound preview, and the note is cached in process only (`notes.window_id` is a foreign key; T8.1).
@@ -22,7 +23,7 @@ from google.genai import types
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 
-from app.core import excerpt, fallback
+from app.core import excerpt, fallback, rerank
 from app.core.errors import not_found, upstream_error
 from app.core.freesound import Freesound, FreesoundError, Sound
 from app.core.gemini import CallBudget, Gemini, GeminiUnavailable
@@ -39,6 +40,8 @@ NOTE_MAX_WORDS = 45
 WHY_TEMPERATURE = 0.4
 # Not on the search path, so it gets more room than planner/rerank: 12 s wall clock, one retry.
 WHY_BUDGET = CallBudget(timeout_ms=12_000, attempts=2)
+# Longest wait for a note a search is still writing in the background (rerank P2b, typically ≈ 1–2 s left).
+PENDING_WAIT_S = 8.0
 
 _SYSTEM_TAIL = """\
 Write one note of at most 45 words that covers three things, in this order:
@@ -237,6 +240,11 @@ def run_why(
     if row["note"]:
         note(why_source="cache")
         return WhyResponse(window_id=window_id, note=row["note"])
+    with stage("pending"):  # a search's background notes call (P2b) may be writing this one right now
+        waited = rerank.pending.wait(window_id, PENDING_WAIT_S)
+    if waited:
+        note(why_source="rerank")
+        return WhyResponse(window_id=window_id, note=waited)
 
     text, source = _generate(row, _require_gemini(gemini))
 

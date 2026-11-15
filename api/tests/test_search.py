@@ -116,6 +116,7 @@ def client(monkeypatch: pytest.MonkeyPatch) -> Iterator[tuple[TestClient, list[S
 
     planner.memory_cache.clear()
     rerank.order_memo.clear()
+    rerank.pending.clear()
     monkeypatch.setattr(planner, "db_get", lambda pool, key: None)
     monkeypatch.setattr(planner, "db_put", lambda pool, key, plan: None)
     monkeypatch.setattr(embed, "embed_query", lambda text: np.ones(512, dtype=np.float32) / np.sqrt(512))
@@ -208,13 +209,19 @@ def test_search_reranks_and_fills_why(
 
     written: list[dict[str, str]] = []
     monkeypatch.setattr(rerank, "write_notes", lambda pool, notes, model: written.append(notes))
-    order = ["jam_5:mix:0", "jam_2:drums:15200", "made_up:mix:0"]
+    asked: list[list[str]] = []
 
     class Models:
         def generate_content(self, *, model: str, contents: Any, config: Any) -> FakeResponse:
-            if "order" in config.response_json_schema["properties"]:
-                notes = [{"id": "jam_5:mix:0", "note": "Loop it."}]
-                return FakeResponse(json.dumps({"order": order, "notes": notes}))
+            props = config.response_json_schema["properties"]
+            if "order" in props:  # P2a: aliases are 1-based positions in the candidate list
+                cands = json.loads(contents.split("Candidates:\n")[1])
+                pos = {(c["title"], c["stem"]): c["id"] for c in reversed(cands)}
+                return FakeResponse(json.dumps({"order": [pos["JAM_5", "mix"], pos["JAM_2", "drums"], "99"]}))
+            if "notes" in props:  # P2b: the top uncached windows of that order
+                windows = json.loads(contents.split("Windows:\n")[1])
+                asked.append([w["title"] for w in windows])
+                return FakeResponse(json.dumps({"notes": [{"id": "1", "note": "Loop it."}]}))
             return FakeResponse(json.dumps(TRUMPET_RAW))
 
     class Client:
@@ -229,6 +236,7 @@ def test_search_reranks_and_fills_why(
     assert [x.window_id for x in res[:3]] == ["jam_5:mix:0", "jam_2:drums:15200", "jam_1:mix:0"]
     assert len(res) == 8 and res[0].why == "Loop it." and res[2].why == "cached note"
     assert written == [{"jam_5:mix:0": "Loop it."}]
+    assert asked == [["JAM_5", "JAM_2", "JAM_1", "JAM_1"]]  # jam_1:mix:0 has a cached note, so it isn't asked
     assert "rerank;dur=" in r.headers["server-timing"]
 
 
