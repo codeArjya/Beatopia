@@ -115,9 +115,9 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-15 (session 7):** every task is done except T11.1's production bench. T6.1–T6.3: production at
-https://45-77-216-35.sslip.io, still on `53e3df3` (T8.1); T11.1 + T11.2 (`f419cbb`, `cfb811f`) are not deployed
-yet. No fixture stand-ins are left in real mode. T2.2 re-checked against seed tracks in session 7.
+**Status 2026-11-15 (session 7, after issue #13):** every task is done. Production https://45-77-216-35.sslip.io
+runs `5ee478a` (API; worker `7431e35`, Caddy untouched): T11.1 + T11.2 and the issue #13 fixes (PR #16). Cold
+`/search` p50 2601 ms. No fixture stand-ins are left in real mode. T2.2 re-checked against seed tracks in session 7.
 
 ### → Gate H3: real DB wired, chips and tracks real
 - [x] **T1.1 Settings, errors, fixture mode** (1 h). *Done:* `create_app(settings)` factory; real mode mounts
@@ -302,7 +302,7 @@ yet. No fixture stand-ins are left in real mode. T2.2 re-checked against seed tr
       and only the valid chain is returned (not all-or-nothing); `search_library` runs without Gemini (fast).
 
 ### H24–H30: hardening
-- [ ] **T11.1 Latency pass** (1.5 h): speculatively `embed_text(raw text)` in parallel with the planner, use it if
+- [x] **T11.1 Latency pass** (1.5 h): speculatively `embed_text(raw text)` in parallel with the planner, use it if
       `plan.clap_text` == raw text; parallel rerank + notes fetch; bench before/after.
       *Before (prod `53e3df3`, `bench.py --bust`, every cache missing):* p50 **3923 ms** / p95 5438 ms; planner p50
       1434 ms, rerank 2500 ms, embed + sql + score ≈ 130 ms; warm pass p50 86 ms.
@@ -316,7 +316,9 @@ yet. No fixture stand-ins are left in real mode. T2.2 re-checked against seed tr
       registry lets concurrent searches share P2b and `/why` wait for it. Local live (8 cold queries, real stack):
       rerank p50 **1212 ms**, 2–3 notes per cold search land after the response, `/why` on one right after 130 ms
       (cache), repeat 320 ms (`skipped:memo`, 8/8 notes). Expected prod ≈ 1.4 + 0.15 + 0.95 ≈ 2.5 s.
-      *Left:* deploy (blocked by the agent's permission check) and `bench.py --bust` against production.
+      *After (prod `5ee478a`, `bench.py --bust`, every cache missing):* p50 **2601 ms** (target 3000 ms) / p95
+      3726 ms; planner p50 1288 ms (now the slowest stage), rerank **1080 ms** (was 2500), 0 errors. Warm pass p50
+      82 ms, with notes on 8/8 results for 18 of 20 queries (background P2b notes landed in the cache).
 - [x] **T11.2 Timeouts, degraded mode, rate limits** (1.5 h): token bucket, auto-degrade, `GEMINI_DEGRADED` toggle
       documented in `api/README.md`. *Accept:* tests with mocked Gemini 503s → `/search` still 200 with cached notes.
       *Done (`cfb811f`):* `core/ratelimit.py` token buckets → 429 `rate_limited` + `Retry-After`: `/search` per
