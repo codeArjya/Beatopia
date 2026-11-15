@@ -106,3 +106,24 @@ def test_cors_uses_configured_origins() -> None:
     assert client.options("/search", headers=preflight).headers["access-control-allow-origin"] == "https://app.example"
     evil = {"Origin": "https://evil.example", "Access-Control-Request-Method": "POST"}
     assert "access-control-allow-origin" not in client.options("/search", headers=evil).headers
+
+
+def test_cors_wildcard_origins_for_vercel_previews() -> None:
+    origins = "http://localhost:3000,https://beatopia-liart.vercel.app,https://beatopia-*.vercel.app"
+    client = TestClient(create_app(Settings.from_env({"WEB_ORIGIN": origins})))
+
+    def allowed(origin: str) -> bool:
+        headers = {"Origin": origin, "Access-Control-Request-Method": "POST"}
+        return client.options("/search", headers=headers).headers.get("access-control-allow-origin") == origin
+
+    assert allowed("http://localhost:3000")
+    assert allowed("https://beatopia-liart.vercel.app")
+    assert allowed("https://beatopia-git-ws3-web-team.vercel.app")
+    assert allowed("https://beatopia-k2j9x8a1b-team.vercel.app")
+    assert not allowed("https://beatopia.vercel.app.evil.com")
+    assert not allowed("https://beatopia-x.evil.com")
+    assert not allowed("https://beatopia-a.b.vercel.app")
+    assert not allowed("https://other-app.vercel.app")
+    assert not allowed("http://beatopia-x.vercel.app")
+    r = client.get("/health", headers={"Origin": "https://beatopia-liart.vercel.app"})
+    assert "server-timing" in r.headers["access-control-expose-headers"].lower()
