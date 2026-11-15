@@ -118,7 +118,14 @@ function fixtureStems(req: StemsRequest): Promise<StemsResponse> {
 }
 
 function fixtureJob(id: string): Promise<Job> {
-  if (id === jobDoneAnalyzeFixture.id) return fixture<Job>(jobDoneAnalyzeFixture);
+  if (id === jobDoneAnalyzeFixture.id) {
+    // Analyze (import) job: "running" with rising progress for the first 2 polls after an import, then done.
+    const n = (fixturePolls.get(id) ?? FIXTURE_RUNNING_POLLS) + 1;
+    fixturePolls.set(id, n);
+    return n <= FIXTURE_RUNNING_POLLS
+      ? fixture<Job>({ ...jobDoneAnalyzeFixture, status: "running", progress: n / (FIXTURE_RUNNING_POLLS + 1), output: null })
+      : fixture<Job>(jobDoneAnalyzeFixture);
+  }
   if (id === jobDoneStemsFixture.id) {
     const n = (fixturePolls.get(id) ?? 0) + 1;
     fixturePolls.set(id, n);
@@ -150,7 +157,10 @@ export const api = {
     USE_FIXTURES ? fixtureJob(jobId) : request(`/jobs/${encodeURIComponent(jobId)}`),
 
   createImport: (file: File, sessionId: string): Promise<ImportResponse> => {
-    if (USE_FIXTURES) return fixture<ImportResponse>(importFixture, 500);
+    if (USE_FIXTURES) {
+      fixturePolls.set(importFixture.job_id, 0); // each import starts a fresh analyze "job"
+      return fixture<ImportResponse>(importFixture, 500);
+    }
     const form = new FormData();
     form.append("file", file);
     form.append("session_id", sessionId);

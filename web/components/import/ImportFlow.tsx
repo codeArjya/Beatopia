@@ -1,46 +1,111 @@
 "use client";
 
-import { LoaderCircleIcon } from "lucide-react";
+import { LoaderCircleIcon, RotateCwIcon, TriangleAlertIcon } from "lucide-react";
 import { useState } from "react";
 
-import { useImport } from "@/lib/api";
-import { importErrorMessage } from "@/lib/import/flow";
+import { AppButton } from "@/components/adapters";
+import { useStopPreviewOnHide } from "@/lib/preview/PreviewProvider";
+import { useImportFlow } from "@/lib/import/useImportFlow";
 import { validateImportFile } from "@/lib/import/validate";
 
 import { ImportDropzone } from "./ImportDropzone";
+import { ImportSummary } from "./ImportSummary";
 
-/** /import body: drop or pick a file → client checks → POST /imports. */
+/** /import body: drop or pick a file → client checks → upload → poll analysis → summary + editor hand-off. */
 export function ImportFlow() {
-  const upload = useImport();
+  const flow = useImportFlow();
+  useStopPreviewOnHide();
   const [checkError, setCheckError] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
-  const onFile = async (file: File) => {
-    setFileName(file.name);
-    upload.reset();
-    const check = await validateImportFile(file);
+  const onFile = async (f: File) => {
+    const check = await validateImportFile(f);
     if (!check.ok) {
+      flow.reset();
+      setFile(null);
       setCheckError(check.message);
       return;
     }
     setCheckError(null);
-    upload.mutate(file);
+    setFile(f);
+    flow.start(f);
   };
 
-  const error = checkError ?? (upload.isError ? importErrorMessage(upload.error) : null);
+  const again = () => {
+    flow.reset();
+    setFile(null);
+    setCheckError(null);
+  };
+
+  if (flow.status === "done" && flow.track) return <ImportSummary detail={flow.track} onAnother={again} />;
+
+  const busy = flow.status === "uploading" || flow.status === "queued" || flow.status === "analyzing";
+  if (busy) {
+    const text =
+      flow.status === "uploading"
+        ? `Uploading ${file?.name ?? "your file"}…`
+        : flow.status === "queued"
+          ? "Uploaded. Waiting for the analyzer…"
+          : "Finding tempo, key and loop windows…";
+    return (
+      <div role="status" aria-live="polite" className="space-y-3 rounded-xl border p-6">
+        <p className="flex items-center gap-2 font-medium">
+          <LoaderCircleIcon className="size-4 animate-spin" aria-hidden />
+          {text}
+        </p>
+        <ProgressBar value={flow.status === "uploading" ? null : flow.progress} />
+        <p className="text-xs text-muted-foreground">
+          {file?.name} · analysis usually takes 10–30 seconds. Keep this tab open.
+        </p>
+      </div>
+    );
+  }
+
+  const uploadError = flow.status === "error" && flow.failedAt === "upload" ? flow.error : null;
 
   return (
     <div className="space-y-4">
-      <ImportDropzone onFile={onFile} disabled={upload.isPending} error={error} />
-      <div role="status" aria-live="polite" className="min-h-6 text-sm text-muted-foreground">
-        {upload.isPending && (
-          <p className="flex items-center gap-2">
-            <LoaderCircleIcon className="size-4 animate-spin" aria-hidden />
-            Uploading {fileName}…
+      <ImportDropzone onFile={onFile} error={checkError ?? uploadError} />
+      {uploadError && file && (
+        <AppButton variant="outline" size="sm" onClick={() => flow.start(file)}>
+          <RotateCwIcon aria-hidden />
+          Retry upload of {file.name}
+        </AppButton>
+      )}
+      {flow.status === "error" && flow.failedAt === "analyze" && (
+        <div role="alert" className="space-y-3 rounded-lg border border-destructive/40 p-3 text-sm">
+          <p className="flex items-start gap-2">
+            <TriangleAlertIcon className="mt-0.5 size-4 shrink-0 text-destructive" aria-hidden />
+            <span>Couldn&apos;t analyze {file?.name ?? "that file"}. {flow.error}</span>
           </p>
-        )}
-        {upload.isSuccess && <p>Uploaded {fileName}. Analyzing… (track {upload.data.track_id})</p>}
-      </div>
+          {file && (
+            <AppButton size="sm" variant="outline" onClick={() => flow.start(file)}>
+              <RotateCwIcon aria-hidden />
+              Try again
+            </AppButton>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/** `value` null = indeterminate (upload in flight). */
+function ProgressBar({ value }: { value: number | null }) {
+  const pct = value == null ? null : Math.round(value * 100);
+  return (
+    <div
+      role="progressbar"
+      aria-label="Import progress"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={pct ?? undefined}
+      className="h-1.5 w-full overflow-hidden rounded-full bg-muted"
+    >
+      <div
+        className={pct == null ? "h-full w-1/3 animate-pulse rounded-full bg-primary/60" : "h-full rounded-full bg-primary transition-[width] duration-300"}
+        style={pct == null ? undefined : { width: `${Math.max(pct, 3)}%` }}
+      />
     </div>
   );
 }
