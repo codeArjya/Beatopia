@@ -88,14 +88,14 @@ Each checkbox is a 1–2 hour active work unit; unattended downloads/inference a
 | [x] | H8 / 1 h | Harden analysis/ingest recovery (#2–3) | Tests cover join boundary, low-confidence BPM, terminal windows, corrupt download, partial upload/DB failure and resume; no invalid ranges/vectors or missing attribution. |
 | [x] | H8 / 1 h | Jamendo adapter and full run kickoff (#4) | BY/BY-SA and download-permission filtering checked; long excerpt duration/offsets agree with playback; absent key switches to Freesound; queue target ~350 (CLI limit 400 ceiling), bounded requests and ETA logged. FMA stays excluded unless small subset verified. |
 | [ ] | H8 / 2 h | Hero selection and resumable batch (#5) | Candidate ranking/30-track coverage audit, 30 s and 180 s benchmark, one complete hero with four playable stems and windows; start 80-track batch, record ETA and failures. H8 checkpoint reports actual mix/hero counts and projected H12 finish; no false completion if batch runs longer. |
-| [ ] | H12 / 1 h | Worker claiming/status/progress + stem jobs (#6) | Competing DB claim test selects a job once; valid range succeeds with contract output; invalid/>60 s rejected; failure terminates as error; no long-held claim transaction; progress visible to separate connection. |
-| [ ] | H12 / 1 h | Worker import analysis + range caching (#6) | Hand-insert analyze job on valid original -> updated placeholder, playable normalized mix, windows, TrackDetail output; malformed input errors; stem range paths/absolute metadata/local offsets agree; reuse covering stems; time end-to-end 30 s job on CPU and available GPU, report whether <60 s. |
-| [ ] | H12 / 1 h | Reporting + coverage/quality audit (#7) | report prints counts by source/tag/license, top-tag examples, ten random windows, missing objects/stages and errors; 300–500 playable licensed tracks and 80 complete heroes (or explicitly reported cut), at least 30 required hero timbres; inspect random audio and run stream checks. Notify human full-library status. |
-| [ ] | H12 / 1 h | Tag calibration and vocab freeze (#7) | Sparse/dense and horns/keys/strings examples inspected; tune thresholds/prompts only with evidence, re-tag affected windows from cached embeddings; publish tag examples and freeze mapping with WS2/WS3. |
-| [ ] | H20 (H12–H14) / 2 h | Twenty-query eval dataset and runner (#8) | `ingest/eval_queries.yaml` covers instruments, mood/genre, tempo, sparse/stem cases; runner calls actual `/search`, prints top five with IDs/tags/license and handles errors; two humans grade relevance and record failures. |
-| [ ] | H20 (H14–H16) / 2 h | Address eval failures and integration (#8) | Re-run failed queries after targeted data/tag fixes; record before/after human grades, no invented pass threshold; validate actual job polling/playback with WS2/WS4 or retain explicit unresolved dependency. |
-| [ ] | H20 (after H16) / 2 h | Optional two-model quality comparison (#9) | Only if core gates passed: on a small held-out set report cross-correlation, residual energy and CLAP label similarity plus listening; use supported models, log actual model chosen; do not double all jobs without latency evidence. |
-| [ ] | H20 (after H16) / 1 h | Complete hero density + final handoff (#9) | All completed hero windows have stem-activity density; repeated report/checks clean; final counts, failed jobs, 30 s timings, eval grades, recovery commands and any cuts documented. Density completion remains required even if optional quality comparison is cut. |
+| [x] | H12 / 1 h | Worker claiming/status/progress + stem jobs (#6) | Session 4: real competing claims, skip-locked, separate-connection progress, NOWAIT during processing and transaction-free session lock passed; valid four-stem output verified; real invalid/>60 s jobs ended error. See `worker/SESSION4.md`. H12 elapsed-time gate not asserted. |
+| [x] | H12 / 1 h | Worker import analysis + range caching (#6) | Session 4: real import/TrackDetail/3 normalized vectors/public MP3 verified; repeat has no duplicates; range offsets and covering reuse verified. CPU 30 s job 47.608574 s enqueue-to-terminal-poll (<60); CUDA/MPS unavailable, no GPU timing claimed. API/browser and actual six-source inference remain unverified. See `worker/SESSION4.md`. |
+| [ ] | H12 / 1 h | Reporting + coverage/quality audit (#7) | Session 5 reporter implemented: 350 library tracks, 24 complete heroes and 450 public objects technically verified; exact cuts/shortfalls and errors recorded in SESSION5.md. Target remains 80; 30 prominent timbres/listening incomplete. One identified human track/stem review. No full quality/H12 pass. |
+| [ ] | H12 / 1 h | Tag calibration and vocab freeze (#7) | Session 5: replayed tags for 7,249 cached windows, zero selected-tag changes; 48 attributed auditions and measured proxy examples published. Existing 120-tag mapping frozen; human confirmed WS2/WS3 agreement. Listening calibration remains open; no evidence-backed threshold/prompt change or DB rewrite claimed. |
+| [ ] | H20 (H12–H14) / 2 h | Twenty-query eval dataset and runner (#8) | Dataset/runner implemented in Session 6; 36 focused tests pass. Both actual twenty-query HTTP attempts timed out; human confirms live API not ready. Reviewers designated as user and teammate; no relevance grades yet. Original acceptance remains: representative queries, actual top-five IDs/tags/licenses/errors and two human reviews. See SESSION6.md/EVAL_SESSION6.json. |
+| [ ] | H20 (H14–H16) / 2 h | Address eval failures and integration (#8) | Session 6 records WS2/WS4 fixture/search/polling/playback dependencies. No live results justify a data/tag fix; no human before/after grades exist. Re-run after justified fixes, record actual grades without an invented threshold, validate live polling/playback or retain the explicit dependency. |
+| [ ] | H20 (after H16) / 2 h | Optional two-model quality comparison (#9) | Only if core gates passed: on a small held-out set report cross-correlation, residual energy and CLAP label similarity plus listening; use supported models, log actual model chosen; do not double all jobs without latency evidence. **Session 7: explicitly cut because core semantic, hero, listening and live-eval gates remain open; no comparison or model winner claimed.** |
+| [ ] | H20 (after H16) / 1 h | Complete hero density + final handoff (#9) | All completed hero windows have stem-activity density; repeated report/checks clean; final counts, failed jobs, 30 s timings, eval grades, recovery commands and any cuts documented. Density completion remains required even if optional quality comparison is cut. **Session 7: resumable density migration/follower and independent audits implemented; all 48 completed heroes/6,701 windows verified at the final snapshot, counts/cuts/recovery recorded in SESSION7.md/FINAL_SESSION7.json and handoff. Global lint/full report acceptance remains open; no unchecked gate is waived.** |
 
 After every implementation task: run relevant focused tests, `make lint`, `uv run --project ingest pytest`, `uv run --project worker pytest`, and `uv run --project ingest python ingest/report.py` once the reporter exists; include common tests for shared-helper changes. Mark a checkbox only with recorded acceptance evidence. Until report.py exists, report counts with read-only DB checks. If global lint fails outside ownership, record it and notify owner, do not edit their files. This documentation-only kickoff is verified by diff/path review; runtime checks are deliberately not represented as passed.
 
@@ -111,6 +111,230 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 - **Storage/DB divergence and stale fingerprints.** Upload before transactional publish; resume validates all stages, preserve source provenance; changed model requires re-embedding with the same revision for query and corpus. No automatic incompatible model swap.
 
 ## Execution record
+
+### Session 9 — merge and deployment readiness only (2026-11-15)
+
+- [x] Preserve primary ws1-data/b7639a8, original schema edit and every raw Session 8 artifact; verify 44 raw hashes and frozen queue/schema hashes.
+- [x] Push outstanding commits normally; combine completed work with current main in an isolated worktree without conflicts, duplicate worker code, teammate overwrites or force-push.
+- [x] Validate combined source: focused 90, ingest 134, worker 23/5 skips, API integration 49/4 skips; Python lint/format pass; isolated JSON schema and 13 fixtures pass. Make/pnpm/TS limitations are recorded, not passed.
+- [x] Run fresh independent corpus/density/public-object audit and propagate actual exit 1: original 350 curated tracks/67 heroes pass; newly materialized fallback fs_754932 lacks a local manifest and fails exact 192k probe. Report failure is retained/reported; target remains 80 (13 short), independently of this failure. Full quality gate stays open.
+- [x] Recheck live real search/cache/browser playback and previous failures; current editor offsets and fallback pass; strict duration/snapping remain reported to WS2 issue #13.
+- [x] Reuse actual Session 8 inference evidence with unchanged worker/common runtime; leave VM worker and checkpoints running/intact.
+- [x] Prepare reviewed PR #14, exact no-restart deployment instructions and current handoff/evidence. Final merge identity is recorded in the handoff after repository merge.
+- [ ] Launch acceptance remains incomplete: target 80, deferred timbre/density listening and historical semantic gate; global lint/TS and WS2 range/snapping unresolved. Completed joint review remains accepted. No new production, listening, model/data experimentation or optional features.
+
+
+### Session 8 — approved live evaluation and worker integration (2026-11-14–15 EST)
+
+The human approved the six-step plan. Execution began after the supplied HTTPS API first worked.
+Full evidence and exact operator instructions: SESSION8.md / FINAL_SESSION8.json; raw data/session8/.
+Original task/gate checkboxes below remain open where combined acceptance is incomplete.
+
+- [x] Inspect contract/handoffs/baseline, protected PIDs/commands/start times, schema and frozen queue.
+- [x] Retain bounded API monitoring and endpoint outcomes. Initial seven probes timed out; extension
+  worked at 02:49:16 UTC, revision 43ea7a6, later 56838ae. Extended cadence had a recorded unobserved gap.
+- [x] Confirm selected general CLAP pins through WS2/user, inspect matching normalization/real SQL/import
+  exclusion, and verify all 95 returned window IDs/embeddings/tags/credits/public paths against DB.
+- [x] Run unchanged actual twenty-query eval; all HTTP 200, 95 results, q14 empty/runner exit 1.
+  Generate auditions and original ungraded review files; add three explicit snapping technical holds.
+- [x] Joint mixed-feedback review completed by Santiago & Arjya: all 95 supplied grades/notes saved,
+  identities/provenance validated, three technical holds excluded from statistics, original timestamp
+  preserved and UTC submission time approved. Completed work is retained as one joint review.
+- [x] Revised review acceptance: user explicitly replaced the original two-independent-reviewer
+  requirement with this completed joint review. No additional review round required for this baseline.
+  Scores are mixed query/tag feedback, not a separately measured pure query-relevance metric. Actual
+  scores combine query match and tag accuracy. All 95 supplied grades/notes are retained once in A;
+  92 valid rows average 1.0435/2 (2=32, 1=32, 0=28), excluding three technical holds. B stays blank.
+  Three technical holds stay excluded from statistics. No fabricated independent scores or eval-after.
+- [x] Verify full-hero cached reuse, real uncached htdemucs [5,35] job b8b7cb59-e316-4abc-b154-cf92fa4bdfbf,
+  approximately one-second polling, actual CPU inference, four public outputs, and narrower local [5,15]
+  reuse. Enqueue-to-terminal poll 22.750 s; handler 20.892 s; inference 11.088 s; no fallback.
+- [x] Dedicated real import acceptance: 631df075-73d8-42c8-936b-819ef25c45e7 / imp_430eb4b6, 5.891 s,
+  normalized 8 s audio, one unit 512-d window, preserved metadata, live public-search exclusion.
+- [x] User-requested main worker merge 018e0c7 in isolated worktree; preserve current checkout/schema.
+  Existing VM worker image 0694113/process stamp 567279d verified by operator; matching CLAP settings and
+  source parity. Avoided duplicate/name-conflicting worker; no container deletion/rename or job reset.
+- [x] Actual local Playwright live search and real hero preview/loop verified.
+- [ ] Browser editor integration: actual other [10,20] editor route plays mix from zero. Owner WS4.
+- [ ] WS2 API failures: three result snaps cross artificial joins; 60.005-second range accepted; q14
+  house/tempo coverage is absent and Freesound fallback is unimplemented. No other-stream repairs.
+- [x] Frozen hero run finished naturally 67 complete/33 rejected; 100 candidates exhausted. Original
+  producer preserved through completion. Target remains 80, short by 13; no extra hero production.
+- [x] Old density follower DB failure preserved; verified dead before receipt-based recovery. Recovery
+  verified all 67 heroes/9,562 windows, 68 updates, zero failures. No live lock/queue/cache deletion.
+- [x] Independent final pre-test-object report: 350 library + six imports, 67 heroes, 12,618 DB windows,
+  272 stems, all 622 public objects and all completed-hero density pass, zero integrity issues; exit 2.
+  Post-integration snapshot: 350 library + 11 imports, 67 heroes, 12,642 total DB / 12,615 library
+  windows, 284 stems, all 634 public objects and 67/9,562 density windows pass, zero integrity issues.
+  Jobs 18 done/seven intentional historical errors, none queued/running. Exit 2; target 80 unchanged.
+- [x] Decode/measure 12 new rejected candidates / 48 files with unchanged window/join/silence rules.
+  Every new rejection has a measured zero-eligible-window stem; all raw failures retained.
+- [x] Prepare 58 attributed calibration auditions (30 hero timbre candidates), frozen replay 12,239
+  windows/zero changed tags; propose 20 licensed candidates from 50 eligible mixes outside original queue.
+- [ ] Thirty prominent useful timbres / perceptual sparse-dense calibration / target 80 remain open.
+  Candidate tags and scores are numerical screening evidence; no audible prominence inferred.
+- [x] Focused eval 36, ingest 134, worker 23 pass; five live opt-in skips. Isolated main worker 23 pass/
+  five skips. Python Ruff check/format pass, 55 files; Make unavailable, no global lint pass.
+- [x] Retain scoped evidence/handoff, all raw artifacts and actual joint grades. Mixed-fixture 0.186066
+  remains failed/unreproduced this session; optional two-model comparison/automatic selection stay cut.
+
+
+### Session 7 — required hero activity density, conditional comparison cut, final evidence (2026-11-14)
+
+Human approved the plan before implementation. Started `d2b86f3` on `ws1-data`. Refined tasks **13–14**.
+Implemented resumable density backfill of hero mix windows using actual full-stem activity; original
+stem-window values are checked against decoded measurements. Nonhero density, model/vocab identities,
+audio, vectors/tags, window ranges/IDs, storage paths, queues and existing jobs are preserved. A write-ahead
+receipt and atomic manifest replacement allow recovery after DB commit without inference or uploads.
+Normal ingest validation keeps migrated values on resume. A separate follower handles new completions
+without restarting the original producer; it performs a final sweep after producer shutdown.
+
+- Original producer **32252/30820** preserved. New density follower **28192/21740**. Exact commands,
+  start times, logs, later counts and recovery protocol are in SESSION7.md and the current handoff.
+- First density run failed all 32 post-write checks, honestly exit 1: server text output rounded real
+  values with `extra_float_digits=0`. Read-only binary retrieval proved correct stored values with max
+  delta **2.96277e-8**. Binary reads fixed verification without relaxing **1e-7** tolerance; receipt reuse
+  verified existing writes and repeated sweeps showed zero updates/no failures.
+- First independent density audit exposed three MP3-decoder flatness differences and a live nonhero
+  promotion race, exit 1. Investigated actual decoded samples/features. Final audit re-decodes with the
+  canonical FFmpeg feature decoder; independent libsndfile/FFprobe public checks remain. Nonhero
+  snapshots compare exact original receipt densities and record later migration; hero snapshots do not
+  get that fallback. No density comparison is skipped or fabricated.
+- Corrected independent snapshot **19:58:57 EST**: **350 library + 1 excluded import, 40 heroes,
+  9,492 windows, 164 stems, 514 public objects**, zero integrity failures. **All 40 heroes/5,576 windows**
+  independently measured, max DB delta **2.9802322387695313e-8**, receipt delta **0**. Exit **2** for the
+  unchanged 80-hero target (40 short). Fresh final report/counts are recorded in SESSION7.md and
+  FINAL_SESSION7.json; later log/follower counts remain separate from independent audit snapshots.
+- Final independent snapshot **20:33:31 EST**, finished **20:43:26**, **595.562 s**, observed **exit 2**:
+  **350 library + 1 import, 48 complete heroes, 10,365 windows, 196 stems, 546 public objects**. All
+  **48 heroes/6,701 windows** independently measured, zero integrity failures; 32 heroes short of 80.
+  Later follower verified **49 heroes/6,870 windows**, zero changes/failures. Frozen queue **100 distinct**
+  with **21 rejected** can yield at most **79**; additional genuinely eligible candidates are required
+  afterward. No target reduction or mutation of the live queue. Exact final hashes/counts/PIDs retained.
+- Final focused **64 passed/45.74 s**, ingest **134 passed/62.69 s**, worker **23 passed, 5 skipped/
+  39.21 s**. Python Ruff check/format pass, **65 files**. Make absent; global lint is unverified. Five
+  opt-in live worker tests not rerun; common unchanged/no common rerun. Failures and corrected runs
+  are retained, including the fixture-alias failure and canonical test-line formatting correction.
+- Optional two-model comparison **cut**, with no per-job selector or doubled inference. No new
+  relevance/listening grades or GPU/30 s benchmark are invented; historical timings are clearly labeled.
+  Formal 30-track timbre/sparse/dense listening, mixed-fixture cosine >0.2, actual WS2/WS4 HTTP/browser
+  integration and target 80 remain open. Both task checkboxes remain unchecked where acceptance is
+  unverified. The exact final counts, failure diagnoses, exclusions and recovery steps are retained.
+- Only WS1 ingest code/tests/docs plus explicitly authorized handoff changed. No shared/API/web/common/
+  worker runtime/schema/dependency/default changes. Pre-existing schema hash remains
+  `BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5` and is excluded.
+
+### Session 6 — actual HTTP eval tooling; live relevance/integration dependencies (2026-11-14)
+
+Human approved the plan before code. Started `5feb19b` on `ws1-data`. Implemented twenty representative
+queries and the actual `/search` runner, retained response/error evidence, bounded audition HTML,
+independent ungraded review templates, provenance validation and saved before/after comparisons.
+No dependency, API/schema, ID, storage, vocabulary, common/worker helper or model-default change.
+
+- Actual `http://127.0.0.1:8000/search`: two twenty-query runs, **20/20 timeouts each**, including
+  an unrestricted network retry. No fixture substitute, fabricated results, relevance zeros or grades.
+  User confirms **live API is not ready**, and designates **the user and their teammate** as reviewers.
+  Both task rows stay unchecked. No relevance fix or before/after improvement can be claimed.
+- Local API source unconditionally returns fixtures; job polling source and editor placeholder do not
+  verify the actual WS2/WS4 flow. Integration requirements and range-file offset formula are retained
+  in SESSION6.md. No API/web repair or external messages were sent.
+- Final independent report snapshot **18:59:57 EST**, finished **19:01:21**, **83.953 s**, **exit 2**:
+  **350 library + 1 import, 27 heroes, 8,117 windows, 112 stem rows; 462 public objects** decoded/probed,
+  **458 local hash anchors**, zero invalid-window/cache-DB/public failures. **53 heroes short** of 80.
+  Formal 30-track timbre listening, existing mixed-fixture semantic failure and hero mix density stay open.
+- Read-only decode of **20 files from five new rejected heroes** confirms each has at least one stem
+  with zero eligible nominal audible windows. Includes both jam_1342553 and jam_1207327 carried from
+  Session 5. Exact RMS measurements in EVAL_SESSION6.json; unchanged -45 dBFS gate, no cache repair.
+- Focused eval **36 passed/2.43 s**; task-11 ingest **100 passed/46.36 s**, worker **23 passed,
+  5 skipped/33.63 s**; final ingest **105 passed/41.37 s**, worker **23 passed, 5 skipped/31.19 s**.
+  Python Ruff check/format pass (**61 files**); Make absent; web lint/typecheck fail on pinned
+  @pnpm/exe@12.14.0 bootstrap. Five opt-in live DB tests not rerun; common unchanged, no common rerun.
+- Original hero PIDs **32252/30820** remain alive, unrestarted. Separate later log checkpoint:
+  **29/80 complete, 14 rejected**, ETA ~3 h 16 m (not an independent DB/object audit).
+  Full commands, logs, artifact hashes, schema preservation and exact Session 7 instructions are in
+  SESSION6.md and docs/codex-handoff.md. H gates are not weakened or claimed met by tooling tests.
+
+### Session 5 — reporting, cached tag replay and agreed mapping freeze (2026-11-14)
+
+Plan reviewed and approved before implementation. Started `437f86e` on `ws1-data`. Implemented rows
+9–10's tooling without changing common helpers, schemas, APIs, dependencies, IDs, storage paths, silence
+gates or running-job state. Full acceptance remains open and both checkboxes deliberately stay unchecked.
+
+- Read-only full report: **350 licensed library tracks + one excluded acceptance import**; **21 heroes**,
+  **7,489 windows**, **88 stems** at the recorded snapshot. All **438 public objects** decode as stereo
+  44.1 kHz, 192k MP3; **434** match expected local hashes, four on-demand files have public hashes but
+  no local hash anchor in this reporter. Zero invalid windows, cache/DB mismatches or public failures.
+- Explicit session verification cut: only 21/80 heroes available for full audit, **59 short**. Original
+  batch target remains 80 and runs uninterrupted. **0 audibly verified prominent-timbre tracks**; 30-track
+  prominence, usefulness and sparse/dense listening acceptance remain unverified, not waived.
+- Recomputed tags from cached embeddings for **7,249 windows** in the earlier 19-hero snapshot; selections
+  unchanged, maximum score delta **4.6193599700927734e-7**. No DB/cache rewrite or audio inference.
+  Current prompt/top-three/mean+std rule retained. Forty-eight audition examples include all ten random
+  windows from that earlier audit, proxy extremes, instrument examples and 19 hero-timbre candidates.
+- Frozen **60 instruments / 30 genres / 30 moods**, existing chip IDs and exact fingerprints in
+  `vocab-freeze.json`. Human explicitly confirmed WS2 and WS3 agreement. Numerical stability is verified;
+  listening quality is not. Near-zero mix density with four active stems is recorded as a proxy limitation.
+- Three rejected mixes and nine subsequently diagnosed hero rejections have real decoded RMS evidence
+  in `CALIBRATION_SESSION5.json`; later log failures must be checked independently. Failed candidates,
+  raw audio, caches, locks, queue, budget and seven intentional worker error rows are preserved.
+- Focused report **15 passed/8.96 s**; combined report/calibration **23 passed/5.53 s**, final freeze
+  checks **24 passed/7.90 s**. Task 9 suites: ingest **59 passed/40.51 s**, worker **23 passed, 5 skipped/
+  32.35 s**. Task 10 preliminary: ingest **67 passed/48.37 s**, worker **23 passed, 5 skipped/34.16 s**.
+  Final suites: ingest **68 passed/64.68 s**, worker **23 passed, 5 skipped/51.88 s**. Skips are the same
+  five opt-in live DB tests; they were not rerun this session. Common unchanged, no common rerun required.
+- `make lint` attempted after each task/final freeze; Make absent. Direct Python Ruff check and format
+  check pass, **58 files**. Web lint/typecheck cannot bootstrap pinned `@pnpm/exe@12.14.0`; no global lint
+  pass or unrelated web repair. Reporter was run after both tasks; exact snapshots/logs/host-exit caveat
+  and next steps are in `SESSION5.md` and `docs/codex-handoff.md`.
+
+The initial report network attempt, initial protected-cache replay/diagnosis and PowerShell redirected
+stderr handling failed visibly, then were investigated and rerun with the required access/correct exit
+handling. No acceptance assertion was removed. Schema SHA256 remains the pre-existing
+`BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5` and is excluded from commits.
+
+After the human identified `jam_1282782/stems/other.mp3`, attached the exact track-level notes in
+`listening-session5.json` and taught the reporter to match/deduplicate identifiable verified-hero reviews
+without inventing ten-second or formal-prominence grades. Final post-feedback report **exit 2 observed**:
+**350 library tracks, 24 heroes, 7,777 windows, 100 stem rows, 450 decoded/probed objects, 446 local hash
+anchors**, no integrity failures, one identified human listening review, **56 heroes short**. Source snapshot
+18:31:41 EST and source hash are in SESSION5.md/REPORT_SESSION5.json. Final focused **25 passed/7.74 s**,
+ingest **69 passed/48.87 s**, worker **23 passed, 5 skipped/36.92 s**, Python Ruff pass (**59 files**).
+Make/global-web and formal listening gates remain open. Later tenth hero rejection jam_1342553 has its
+failure location recorded but has not yet had stem RMS measured; retain its cache for Session 6.
+
+### Session 4 — worker claims, stems and import analysis (2026-11-14)
+
+Human approved the session plan before code. Implemented refined rows 7–8 (original handoff task #6)
+under `worker/`; no common/API/schema/dependency/ID/storage changes. The user-authorized handoff is
+also updated. Claims commit before inference, progress is independently committed, duplicate jobs use
+a transaction-free session advisory lock, and crashes require explicit recovery after confirming death.
+Raw separation and import features are fingerprinted/checkpointed; partial publication can resume.
+
+- Real competing-claim/progress/no-held-transaction tests: initial 2 passed/10.83 s; final live suite
+  5 passed/22.69 s including invalid-range/import error termination. Successful contract outputs were
+  validated against original Pydantic models. No API endpoint/browser integration is claimed.
+- `fs_166649` [5,35]: four public playable 44.1 kHz stereo stems, valid absolute coverage/local offsets.
+  CPU enqueue→claim→process→terminal-poll **47.608574 s**, including model load/upload/DB; handler
+  46.208013 s, inference 29.384854 s. CUDA/MPS unavailable. Cached weights; process startup/backlog
+  excluded. Covering repeat 5.282667 s; post-review fractional request reuse 5.731500 s, no inference.
+- Import `imp_16158261`: real normalized 16 s mix, 3 audible windows/unit-length 512-D vectors,
+  preserved supplied metadata; 77.591679 s initial / 7.516235 s cached repeat; exactly 3 windows.
+  Synthetic acceptance import is not counted as a licensed corpus track and remains source=import.
+- Final worker **23 passed, 5 skipped/31.03 s** (live tests separately passed); ingest **44 passed/41.04 s**.
+  Make absent; direct Python Ruff check/format pass, final **54 files** including local diagnostic.
+  Global web lint not run. Common unchanged; common tests not rerun. report.py remains deferred.
+- Read-only snapshot **17:38:19 EST**: **351 tracks (350 library + 1 acceptance import), 6,838 windows,
+  64 stem rows (60 hero + 4 range), 15 heroes**; jobs done=5, error=7, no queued/running jobs.
+  All 7 errors are labeled acceptance failures; actual malformed jobs were intentionally inserted.
+- Original ingest finished itself: 350 completed, 3 rejected in 8,310.891 s; old PIDs 29584/7980 dead.
+  Hero batch PIDs 32252/30820 remain live, 15/80 verified, 3 failures, current `jam_1475806`.
+  No processes restarted/killed; no caches/fingerprints/locks removed. Real quiet stems were decoded
+  read-only and confirmed below the unchanged silence gate; detailed measurements in SESSION4.md.
+
+Evidence, job IDs, runtime configuration and limits: `worker/SESSION4.md`. Exact running commands,
+logs, process recovery and next-session instructions: `docs/codex-handoff.md`. Real six-source/GPU
+inference, listening/30 prominent timbres, hero target 80, mixed-fixture CLAP semantic gate,
+full-library quality report and live API/browser integration remain separate unfinished acceptance.
 
 ### Session 3 — hero pipeline and running batch (2026-11-14)
 

@@ -1,0 +1,18 @@
+{
+  "reviewer": "human in Codex Session 5",
+  "recorded_at": "2026-11-14T23:27:14+00:00",
+  "status": "identified_track_level_human_review",
+  "track_id": "jam_1282782",
+  "stem": "other",
+  "supplied_audio_reference": "jam_1282782/stems/other.mp3",
+  "audio_path": "tracks/jam_1282782/stems/other.mp3",
+  "window_id": null,
+  "playback_range": null,
+  "verbatim": "horns (particularly bass tones), strings, piano, i think trumpet, electric guitar, saxophone, drums(bongos) aren't very clear but i think we heard some, basic synth, more on the denser side but can dinstinguish instruments for most part, and we would probably sample beginning, and guitar part but song is pretty good for a part of a beat",
+  "reported_instruments": ["horns, particularly bass tones", "strings", "piano", "electric guitar", "saxophone", "basic synth"],
+  "reported_uncertain_instruments": ["trumpet", "drums/bongos"],
+  "reported_density": "denser side, but instruments distinguishable for most part",
+  "reported_usefulness": "would probably sample beginning and guitar part; useful as part of a beat",
+  "required_timbres_reported": ["horns", "strings", "piano"],
+  "acceptance_credit": "one identified hero track/stem human listening review; exact window and a formal prominence judgment remain unspecified; no 30-track pass or threshold/prompt change"
+}

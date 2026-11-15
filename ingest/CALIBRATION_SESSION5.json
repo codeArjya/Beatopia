@@ -1,0 +1,2540 @@
+{
+  "audibly_verified_prominent_timbres": 0,
+  "audit_sha256": "a6ea94155e626143b715779649f72130d8b4de74fe5adbb4051222e67d7a07cb",
+  "audit_snapshot_at": "2026-11-14T22:59:32.130296+00:00",
+  "changed_windows": 0,
+  "changes": [],
+  "decision": "Keep current prompts/thresholds/vocabulary. No reviewed listening labels justify tuning. No DB/cache mutation.",
+  "density_quantiles_by_stem": {
+    "bass": [
+      0.0024616695009171963,
+      0.2500045109562052,
+      0.37502839823537215,
+      0.500164602897712,
+      0.5032556115183979
+    ],
+    "drums": [
+      6.813492655055597e-05,
+      0.12698807299602777,
+      0.3752919437829405,
+      0.5006562697351911,
+      0.5071245688013732
+    ],
+    "mix": [
+      7.365675452376819e-13,
+      0.07000139425990255,
+      0.2052220233582193,
+      0.3150004259831584,
+      0.5158420130610466
+    ],
+    "other": [
+      3.067837496928405e-06,
+      0.12500976872397587,
+      0.3750220450519919,
+      0.5000435905272752,
+      0.5013374699046835
+    ],
+    "vocals": [
+      0.0004355014825705439,
+      0.2500777417648351,
+      0.3752026950896834,
+      0.5008394803502597,
+      0.5059734061360359
+    ]
+  },
+  "examples": [
+    {
+      "artist": "Rostislavfilmcomposer",
+      "attribution": "You sure you want to know? by Rostislavfilmcomposer; https://www.jamendo.com/track/1149160; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1149160/mix.mp3",
+      "density": 7.365675452376819e-13,
+      "end_s": 155.0,
+      "id": "jam_1149160:mix:145000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.1405508304010396,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 1.0,
+        "decoded_rms": 0.8646927730389267,
+        "onsets_per_second": 0.7,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 3.921900770365028e-06,
+        "stem_rms": {
+          "bass": 0.4824209291257777,
+          "drums": 0.4908161493779254,
+          "other": 0.4373628019639995,
+          "vocals": 0.5300419018718264
+        }
+      },
+      "rms": 0.8646929079763284,
+      "selection_reasons": [
+        "mix: low density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 145.0,
+      "stem": "mix",
+      "tags": [
+        "mellotron",
+        "glockenspiel",
+        "clavinet",
+        "electronic",
+        "psychedelic",
+        "drill",
+        "uplifting",
+        "eerie",
+        "melancholy"
+      ],
+      "title": "You sure you want to know?",
+      "track_id": "jam_1149160"
+    },
+    {
+      "artist": "Howl Jordan",
+      "attribution": "Brezza pt.1 by Howl Jordan; https://www.jamendo.com/track/1485349; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1485349/mix.mp3",
+      "density": 1.6914508682575047e-09,
+      "end_s": 40.0,
+      "id": "jam_1485349:mix:30000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "decoded_rms": 0.11335384142773473,
+        "onsets_per_second": 14.4,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 3.4700967717071762e-06
+      },
+      "rms": 0.11335386338609363,
+      "selection_reasons": [
+        "mix: low density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 30.0,
+      "stem": "mix",
+      "tags": [
+        "synth pad",
+        "arpeggio",
+        "organ",
+        "cinematic",
+        "psychedelic",
+        "synthwave",
+        "eerie",
+        "mysterious",
+        "smooth"
+      ],
+      "title": "Brezza pt.1",
+      "track_id": "jam_1485349"
+    },
+    {
+      "artist": "Voytek Pavlik",
+      "attribution": "The Space Joy by Voytek Pavlik; https://www.jamendo.com/track/1024479; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1024479/mix.mp3",
+      "density": 3.80915077258237e-09,
+      "end_s": 15.0,
+      "id": "jam_1024479:mix:5000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "decoded_rms": 0.0824507639594458,
+        "onsets_per_second": 16.9,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 7.527300454057695e-07
+      },
+      "rms": 0.08245077839611997,
+      "selection_reasons": [
+        "mix: low density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 5.0,
+      "stem": "mix",
+      "tags": [
+        "synth bass",
+        "synth pad",
+        "808",
+        "cinematic",
+        "psychedelic",
+        "techno",
+        "eerie",
+        "dark",
+        "haunting"
+      ],
+      "title": "The Space Joy",
+      "track_id": "jam_1024479"
+    },
+    {
+      "artist": "Rostislavfilmcomposer",
+      "attribution": "Independence by Rostislavfilmcomposer; https://www.jamendo.com/track/1149163; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1149163/mix.mp3",
+      "density": 8.394867734295985e-08,
+      "end_s": 20.0,
+      "id": "jam_1149163:mix:10000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "decoded_rms": 0.08007181349190794,
+        "onsets_per_second": 12.2,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 3.8265952184701746e-07
+      },
+      "rms": 0.08007183549354732,
+      "selection_reasons": [
+        "mix: low density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 10.0,
+      "stem": "mix",
+      "tags": [
+        "trumpet",
+        "saxophone",
+        "clavinet",
+        "classical",
+        "cinematic",
+        "jazz",
+        "epic",
+        "sad",
+        "triumphant"
+      ],
+      "title": "Independence",
+      "track_id": "jam_1149163"
+    },
+    {
+      "artist": "deleted_user_8713024",
+      "attribution": "piano_future_rym.wav by deleted_user_8713024; https://freesound.org/people/deleted_user_8713024/sounds/431549/; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/fs_431549/mix.mp3",
+      "density": 0.5158420130610466,
+      "end_s": 10.0,
+      "id": "fs_431549:mix:0",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.9037455161665002,
+      "measurements": {
+        "decoded_rms": 0.02605606564102596,
+        "onsets_per_second": 11.1,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.031691018491983414
+      },
+      "rms": 0.02605607427378299,
+      "selection_reasons": [
+        "mix: high density proxy; listening unreviewed"
+      ],
+      "source": "freesound",
+      "start_s": 0.0,
+      "stem": "mix",
+      "tags": [
+        "synth lead",
+        "synth bass",
+        "arpeggio",
+        "dub",
+        "psychedelic",
+        "electronic",
+        "energetic",
+        "eerie"
+      ],
+      "title": "piano_future_rym.wav",
+      "track_id": "fs_431549"
+    },
+    {
+      "artist": "Muldjord",
+      "attribution": "A Sweaty Nightmare by Muldjord; https://www.jamendo.com/track/1096663; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1096663/mix.mp3",
+      "density": 0.5007371514802799,
+      "end_s": 130.0,
+      "id": "jam_1096663:mix:120000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.9008336246148305,
+      "measurements": {
+        "decoded_rms": 0.29452988431111665,
+        "onsets_per_second": 11.0,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.001495142700150609
+      },
+      "rms": 0.29452994918499453,
+      "selection_reasons": [
+        "mix: high density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 120.0,
+      "stem": "mix",
+      "tags": [
+        "upright bass",
+        "bass guitar",
+        "koto",
+        "drum and bass",
+        "cinematic",
+        "r&b",
+        "aggressive",
+        "energetic",
+        "dark"
+      ],
+      "title": "A Sweaty Nightmare",
+      "track_id": "jam_1096663"
+    },
+    {
+      "artist": "deleted_user_8713024",
+      "attribution": "piano_future_rym2.wav by deleted_user_8713024; https://freesound.org/people/deleted_user_8713024/sounds/431548/; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/fs_431548/mix.mp3",
+      "density": 0.5004921709187329,
+      "end_s": 10.0,
+      "id": "fs_431548:mix:0",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8149540978430362,
+      "measurements": {
+        "decoded_rms": 0.03108185539337483,
+        "onsets_per_second": 12.0,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0010382081381976604
+      },
+      "rms": 0.031081854283308428,
+      "selection_reasons": [
+        "mix: high density proxy; listening unreviewed"
+      ],
+      "source": "freesound",
+      "start_s": 0.0,
+      "stem": "mix",
+      "tags": [
+        "synth lead",
+        "arpeggio",
+        "synth bass",
+        "psychedelic",
+        "electronic",
+        "trap",
+        "playful",
+        "uplifting",
+        "eerie"
+      ],
+      "title": "piano_future_rym2.wav",
+      "track_id": "fs_431548"
+    },
+    {
+      "artist": "RutgerMuller",
+      "attribution": "Detuned_Piano_Simple_1_Shakey_Thrilling.wav by RutgerMuller; https://freesound.org/people/RutgerMuller/sounds/449758/; CC0 (http://creativecommons.org/publicdomain/zero/1.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/fs_449758/mix.mp3",
+      "density": 0.5000935643111006,
+      "end_s": 10.0,
+      "id": "fs_449758:mix:0",
+      "license": "CC0",
+      "listening": "unreviewed",
+      "loopability": 0.582497696677714,
+      "measurements": {
+        "decoded_rms": 0.05418744748219935,
+        "onsets_per_second": 12.8,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00018864723097067326
+      },
+      "rms": 0.05418746512072397,
+      "selection_reasons": [
+        "mix: high density proxy; listening unreviewed"
+      ],
+      "source": "freesound",
+      "start_s": 0.0,
+      "stem": "mix",
+      "tags": [
+        "sitar",
+        "wurlitzer",
+        "harp",
+        "psychedelic",
+        "classical",
+        "folk",
+        "uplifting",
+        "smooth",
+        "eerie"
+      ],
+      "title": "Detuned_Piano_Simple_1_Shakey_Thrilling.wav",
+      "track_id": "fs_449758"
+    },
+    {
+      "artist": "Oscar Avila",
+      "attribution": "km 1 - Escena III by Oscar Avila; https://www.jamendo.com/track/1047157; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1047157/stems/other.mp3",
+      "density": 3.067837496928405e-06,
+      "end_s": 80.0,
+      "id": "jam_1047157:other:70000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8953647476780099,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.0,
+        "decoded_rms": 0.02042513129179522,
+        "onsets_per_second": 2.1,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 6.136180672910996e-06,
+        "stem_rms": {
+          "bass": 0.006476052063575843,
+          "drums": 0.008126124056159647,
+          "other": 0.026091065860801562,
+          "vocals": 0.007759724421798953
+        }
+      },
+      "rms": 0.02042513667679488,
+      "selection_reasons": [
+        "other: low density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 70.0,
+      "stem": "other",
+      "tags": [
+        "strings",
+        "arpeggio",
+        "vibraphone",
+        "trip hop",
+        "downtempo",
+        "cinematic",
+        "dreamy",
+        "epic",
+        "tense"
+      ],
+      "title": "km 1 - Escena III",
+      "track_id": "jam_1047157"
+    },
+    {
+      "artist": "Rostislavfilmcomposer",
+      "attribution": "In Search of the Trojan War by Rostislavfilmcomposer; https://www.jamendo.com/track/1149166; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1149166/stems/other.mp3",
+      "density": 1.4417421880352776e-05,
+      "end_s": 45.0,
+      "id": "jam_1149166:other:35000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7544122398953261,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.0,
+        "decoded_rms": 0.028471257302695355,
+        "onsets_per_second": 1.8,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 2.8834961995016783e-05,
+        "stem_rms": {
+          "bass": 6.717096364349444e-05,
+          "drums": 0.022729679706388593,
+          "other": 0.031096249271652273,
+          "vocals": 3.3967197932622266e-05
+        }
+      },
+      "rms": 0.028471262733584943,
+      "selection_reasons": [
+        "other: low density proxy; listening unreviewed",
+        "strings: selected-tag score example; audible prominence unverified",
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 35.0,
+      "stem": "other",
+      "tags": [
+        "harp",
+        "kalimba",
+        "music box",
+        "classical",
+        "cinematic",
+        "folk",
+        "dreamy",
+        "bittersweet",
+        "romantic"
+      ],
+      "title": "In Search of the Trojan War",
+      "track_id": "jam_1149166"
+    },
+    {
+      "artist": "Pope Troy",
+      "attribution": "A movie named real shit by Pope Troy; https://www.jamendo.com/track/1270293; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1270293/stems/other.mp3",
+      "density": 3.191579526173882e-05,
+      "end_s": 170.0,
+      "id": "jam_1270293:other:160000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.0,
+        "decoded_rms": 0.005949015642788493,
+        "onsets_per_second": 5.9,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 6.383164873113856e-05,
+        "stem_rms": {
+          "bass": 0.0011167084167122375,
+          "drums": 0.01984410107048626,
+          "other": 0.006557692286229285,
+          "vocals": 0.0033119424751611435
+        }
+      },
+      "rms": 0.005949017096872272,
+      "selection_reasons": [
+        "other: low density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 160.0,
+      "stem": "other",
+      "tags": [
+        "arpeggio",
+        "organ",
+        "rhodes",
+        "trip hop",
+        "rock",
+        "downtempo",
+        "epic",
+        "tense",
+        "melancholy"
+      ],
+      "title": "A movie named real shit",
+      "track_id": "jam_1270293"
+    },
+    {
+      "artist": "Nito Ferri",
+      "attribution": "Something Is Going To Happen by Nito Ferri; https://www.jamendo.com/track/1282782; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1282782/stems/other.mp3",
+      "density": 3.406416726647876e-05,
+      "end_s": 140.0,
+      "id": "jam_1282782:other:130000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.0,
+        "decoded_rms": 0.015343993123527092,
+        "onsets_per_second": 3.4,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 6.812782521592453e-05,
+        "stem_rms": {
+          "bass": 1.481814662635017e-05,
+          "drums": 3.1228777168197574e-05,
+          "other": 0.017015166647379083,
+          "vocals": 0.006801351256472567
+        }
+      },
+      "rms": 0.015343998636917187,
+      "selection_reasons": [
+        "other: low density proxy; listening unreviewed",
+        "horns: selected-tag score example; audible prominence unverified",
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 130.0,
+      "stem": "other",
+      "tags": [
+        "saxophone",
+        "clarinet",
+        "clavinet",
+        "classical",
+        "soul",
+        "disco",
+        "triumphant",
+        "soulful",
+        "epic"
+      ],
+      "title": "Something Is Going To Happen",
+      "track_id": "jam_1282782"
+    },
+    {
+      "artist": "Beatman FU",
+      "attribution": "Beatman FU - Dick am Start by Beatman FU; https://www.jamendo.com/track/1464239; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1464239/stems/other.mp3",
+      "density": 0.5013374699046835,
+      "end_s": 140.0,
+      "id": "jam_1464239:other:130000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8601007789321025,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 1.0,
+        "decoded_rms": 0.031282107491792874,
+        "onsets_per_second": 6.4,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.002674934221431613,
+        "stem_rms": {
+          "bass": 0.1094749397800987,
+          "drums": 0.17394966153578922,
+          "other": 0.03322712339014926,
+          "vocals": 0.10874559709086097
+        }
+      },
+      "rms": 0.031282117738249945,
+      "selection_reasons": [
+        "other: high density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 130.0,
+      "stem": "other",
+      "tags": [
+        "organ",
+        "accordion",
+        "saxophone",
+        "classical",
+        "latin",
+        "jazz",
+        "triumphant",
+        "romantic",
+        "tense"
+      ],
+      "title": "Beatman FU - Dick am Start",
+      "track_id": "jam_1464239"
+    },
+    {
+      "artist": "4AM JAM",
+      "attribution": "SKINAW_2 by 4AM JAM; https://www.jamendo.com/track/1432367; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1432367/stems/other.mp3",
+      "density": 0.5011557071702555,
+      "end_s": 120.0,
+      "id": "jam_1432367:other:110000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 1.0,
+        "decoded_rms": 0.04132034059154971,
+        "onsets_per_second": 4.8,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0023114162031561136,
+        "stem_rms": {
+          "bass": 0.13148735301524106,
+          "drums": 0.10097157116687897,
+          "other": 0.05486191134016128,
+          "vocals": 0.041479417130419784
+        }
+      },
+      "rms": 0.04132035794272527,
+      "selection_reasons": [
+        "other: high density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 110.0,
+      "stem": "other",
+      "tags": [
+        "harmonica",
+        "saxophone",
+        "violin",
+        "dub",
+        "latin",
+        "psychedelic",
+        "gritty",
+        "groovy",
+        "soulful"
+      ],
+      "title": "SKINAW_2",
+      "track_id": "jam_1432367"
+    },
+    {
+      "artist": "Julian Rhine",
+      "attribution": "Julian Rhine - White Rhino Wednesdays - 02 GhostRhiter -ft. RJD2- by Julian Rhine; https://www.jamendo.com/track/1179114; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1179114/stems/other.mp3",
+      "density": 0.5005193684482947,
+      "end_s": 170.0,
+      "id": "jam_1179114:other:160000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8900811189270523,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 1.0,
+        "decoded_rms": 0.03311271275100612,
+        "onsets_per_second": 5.6,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0010387293295934796,
+        "stem_rms": {
+          "bass": 0.08250597918546028,
+          "drums": 0.05532194060903071,
+          "other": 0.0369309053638686,
+          "vocals": 0.12043776130986705
+        }
+      },
+      "rms": 0.03311272705942645,
+      "selection_reasons": [
+        "other: high density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 160.0,
+      "stem": "other",
+      "tags": [
+        "organ",
+        "kalimba",
+        "marimba",
+        "latin",
+        "psychedelic",
+        "downtempo"
+      ],
+      "title": "Julian Rhine - White Rhino Wednesdays - 02 GhostRhiter -ft. RJD2-",
+      "track_id": "jam_1179114"
+    },
+    {
+      "artist": "John Alexander",
+      "attribution": "Irreplaceable by John Alexander; https://www.jamendo.com/track/1367270; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1367270/stems/other.mp3",
+      "density": 0.500453814631328,
+      "end_s": 145.0,
+      "id": "jam_1367270:other:135000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 1.0,
+        "decoded_rms": 0.02083189856871098,
+        "onsets_per_second": 6.1,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0009076354908756912,
+        "stem_rms": {
+          "bass": 0.04157845162667823,
+          "drums": 0.1388511910381522,
+          "other": 0.03199716559664759,
+          "vocals": 0.05264482266839824
+        }
+      },
+      "rms": 0.02083190720594426,
+      "selection_reasons": [
+        "other: high density proxy; listening unreviewed"
+      ],
+      "source": "jamendo",
+      "start_s": 135.0,
+      "stem": "other",
+      "tags": [
+        "mellotron",
+        "violin",
+        "harmonica",
+        "disco",
+        "latin",
+        "bossa nova",
+        "tense",
+        "groovy",
+        "triumphant"
+      ],
+      "title": "Irreplaceable",
+      "track_id": "jam_1367270"
+    },
+    {
+      "artist": "Beatman FU",
+      "attribution": "Beatman FU - Dick am Start by Beatman FU; https://www.jamendo.com/track/1464239; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1464239/stems/other.mp3",
+      "density": 0.12505107045944897,
+      "end_s": 10.0,
+      "id": "jam_1464239:other:0",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7199912157630056,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.25,
+        "decoded_rms": 0.045546220558650305,
+        "onsets_per_second": 3.0,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00010213945643045008,
+        "stem_rms": {
+          "bass": 0.0001803109201137306,
+          "drums": 0.00019118066936932185,
+          "other": 0.04812322321525664,
+          "vocals": 0.009121962231496465
+        }
+      },
+      "rms": 0.045546234161786145,
+      "selection_reasons": [
+        "horns: selected-tag score example; audible prominence unverified",
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 0.0,
+      "stem": "other",
+      "tags": [
+        "saxophone",
+        "trumpet",
+        "trombone",
+        "jazz",
+        "classical",
+        "soul",
+        "triumphant",
+        "soulful"
+      ],
+      "title": "Beatman FU - Dick am Start",
+      "track_id": "jam_1464239"
+    },
+    {
+      "artist": "Angelo Meini",
+      "attribution": "Final Trumpet by Angelo Meini; https://www.jamendo.com/track/1063979; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1063979/mix.mp3",
+      "density": 0.14000087192358932,
+      "end_s": 80.0,
+      "id": "jam_1063979:mix:70000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8176645625368328,
+      "measurements": {
+        "decoded_rms": 0.12315280623906587,
+        "onsets_per_second": 2.9,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 2.4118808141793124e-06
+      },
+      "rms": 0.12315285853181515,
+      "selection_reasons": [
+        "horns: selected-tag score example; audible prominence unverified"
+      ],
+      "source": "jamendo",
+      "start_s": 70.0,
+      "stem": "mix",
+      "tags": [
+        "trumpet",
+        "trombone",
+        "clavinet",
+        "classical",
+        "folk",
+        "synthwave",
+        "triumphant",
+        "epic",
+        "hopeful"
+      ],
+      "title": "Final Trumpet",
+      "track_id": "jam_1063979"
+    },
+    {
+      "artist": "Simon Sillz",
+      "attribution": "Simon Sillz - Instru Over The Top by Simon Sillz; https://www.jamendo.com/track/1360689; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1360689/mix.mp3",
+      "density": 0.06065677374368533,
+      "end_s": 10.0,
+      "id": "jam_1360689:mix:0",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7370543902084474,
+      "measurements": {
+        "decoded_rms": 0.16413893083219566,
+        "onsets_per_second": 1.4,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0013183839619159698
+      },
+      "rms": 0.1641389848746671,
+      "selection_reasons": [
+        "keys: selected-tag score example; audible prominence unverified"
+      ],
+      "source": "jamendo",
+      "start_s": 0.0,
+      "stem": "mix",
+      "tags": [
+        "wurlitzer",
+        "koto",
+        "trombone",
+        "classical",
+        "cinematic",
+        "dub",
+        "epic",
+        "triumphant"
+      ],
+      "title": "Simon Sillz - Instru Over The Top",
+      "track_id": "jam_1360689"
+    },
+    {
+      "artist": "Rostislavfilmcomposer",
+      "attribution": "You sure you want to know? by Rostislavfilmcomposer; https://www.jamendo.com/track/1149160; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1149160/mix.mp3",
+      "density": 0.1399943495541811,
+      "end_s": 20.0,
+      "id": "jam_1149160:mix:10000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.759732558835179,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.006136395978463997,
+        "onsets_per_second": 2.1,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.009974478743970394,
+        "stem_rms": {
+          "bass": 0.09576859265835085,
+          "drums": 0.11016858437610363,
+          "other": 0.13443433666960317,
+          "vocals": 0.03121746917811448
+        }
+      },
+      "rms": 0.006136397945392418,
+      "selection_reasons": [
+        "keys: selected-tag score example; audible prominence unverified",
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 10.0,
+      "stem": "mix",
+      "tags": [
+        "clarinet",
+        "clavinet",
+        "saxophone",
+        "classical",
+        "jazz",
+        "cinematic",
+        "tense",
+        "epic",
+        "sad"
+      ],
+      "title": "You sure you want to know?",
+      "track_id": "jam_1149160"
+    },
+    {
+      "artist": "The Fish Who Saved the Planet",
+      "attribution": "The Spontaneous Elk Reunion by The Fish Who Saved the Planet; https://www.jamendo.com/track/1307441; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1307441/mix.mp3",
+      "density": 0.370198075606022,
+      "end_s": 130.0,
+      "id": "jam_1307441:mix:120000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "decoded_rms": 0.13389163628264233,
+        "onsets_per_second": 8.5,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0004164111742284149
+      },
+      "rms": 0.13389167014993553,
+      "selection_reasons": [
+        "keys: selected-tag score example; audible prominence unverified"
+      ],
+      "source": "jamendo",
+      "start_s": 120.0,
+      "stem": "mix",
+      "tags": [
+        "harpsichord",
+        "harp",
+        "organ",
+        "synthwave",
+        "techno",
+        "disco",
+        "energetic",
+        "tense",
+        "uplifting"
+      ],
+      "title": "The Spontaneous Elk Reunion",
+      "track_id": "jam_1307441"
+    },
+    {
+      "artist": "Oscar Avila",
+      "attribution": "km 1 - Final by Oscar Avila; https://www.jamendo.com/track/1047158; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1047158/mix.mp3",
+      "density": 0.06500406131493947,
+      "end_s": 65.0,
+      "id": "jam_1047158:mix:55000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "decoded_rms": 0.020759048692038738,
+        "onsets_per_second": 1.3,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 1.2400822924973909e-05
+      },
+      "rms": 0.020759052764522664,
+      "selection_reasons": [
+        "strings: selected-tag score example; audible prominence unverified"
+      ],
+      "source": "jamendo",
+      "start_s": 55.0,
+      "stem": "mix",
+      "tags": [
+        "harp",
+        "arpeggio",
+        "timpani",
+        "classical",
+        "cinematic",
+        "latin",
+        "tense",
+        "bittersweet",
+        "romantic"
+      ],
+      "title": "km 1 - Final",
+      "track_id": "jam_1047158"
+    },
+    {
+      "artist": "soo.su",
+      "attribution": "Maxim Kornyshev - Sappfire Wind by soo.su; https://www.jamendo.com/track/1378003; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1378003/mix.mp3",
+      "density": 0.12339775858446955,
+      "end_s": 10.0,
+      "id": "jam_1378003:mix:0",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7955853761095972,
+      "measurements": {
+        "decoded_rms": 0.19764640639986691,
+        "onsets_per_second": 2.4,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.006797709036618471
+      },
+      "rms": 0.19764644381116295,
+      "selection_reasons": [
+        "strings: selected-tag score example; audible prominence unverified"
+      ],
+      "source": "jamendo",
+      "start_s": 0.0,
+      "stem": "mix",
+      "tags": [
+        "harp",
+        "sitar",
+        "arpeggio",
+        "classical",
+        "cinematic",
+        "downtempo",
+        "bittersweet",
+        "romantic",
+        "dreamy"
+      ],
+      "title": "Maxim Kornyshev - Sappfire Wind",
+      "track_id": "jam_1378003"
+    },
+    {
+      "artist": "Noin",
+      "attribution": "Noin - Summer Time by Noin; https://www.jamendo.com/track/1436572; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1436572/stems/bass.mp3",
+      "density": 0.37500057695717715,
+      "end_s": 85.0,
+      "id": "jam_1436572:bass:75000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.45179025947969453,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.15838947595585934,
+        "onsets_per_second": 5.5,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 1.1539117394931964e-06,
+        "stem_rms": {
+          "bass": 0.15839061600287008,
+          "drums": 0.21363449029431578,
+          "other": 0.07814513955121076,
+          "vocals": 0.01128735936213881
+        }
+      },
+      "rms": 0.1583895025883926,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 75.0,
+      "stem": "bass",
+      "tags": [
+        "trombone",
+        "upright bass",
+        "trumpet",
+        "cinematic",
+        "jazz",
+        "boom bap",
+        "epic",
+        "tense",
+        "smooth"
+      ],
+      "title": "Noin - Summer Time",
+      "track_id": "jam_1436572"
+    },
+    {
+      "artist": "John Alexander",
+      "attribution": "Irreplaceable by John Alexander; https://www.jamendo.com/track/1367270; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1367270/stems/other.mp3",
+      "density": 0.25287023442797363,
+      "end_s": 10.0,
+      "id": "jam_1367270:other:0",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.5971455685329214,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.5,
+        "decoded_rms": 0.09457128357413715,
+        "onsets_per_second": 6.0,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00574042834341526,
+        "stem_rms": {
+          "bass": 0.0004416300786350112,
+          "drums": 0.15379943138206287,
+          "other": 0.09470750582602429,
+          "vocals": 0.0019689600854855805
+        }
+      },
+      "rms": 0.09457130829458431,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 0.0,
+      "stem": "other",
+      "tags": [
+        "saxophone",
+        "clarinet",
+        "harmonica",
+        "soul",
+        "jazz",
+        "classical",
+        "soulful",
+        "smooth",
+        "raw"
+      ],
+      "title": "Irreplaceable",
+      "track_id": "jam_1367270"
+    },
+    {
+      "artist": "Oscar Avila",
+      "attribution": "km 1 - Escena III by Oscar Avila; https://www.jamendo.com/track/1047157; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1047157/stems/other.mp3",
+      "density": 1.268666164833121e-05,
+      "end_s": 135.0,
+      "id": "jam_1047157:other:125000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7030498495413462,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.0,
+        "decoded_rms": 0.02044436352982221,
+        "onsets_per_second": 4.4,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 2.5375711629749276e-05,
+        "stem_rms": {
+          "bass": 5.195681187052931e-05,
+          "drums": 0.007618719613126715,
+          "other": 0.028239425405227614,
+          "vocals": 4.324398532887253e-05
+        }
+      },
+      "rms": 0.020444368416381784,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 125.0,
+      "stem": "other",
+      "tags": [
+        "harp",
+        "vibraphone",
+        "marimba",
+        "classical",
+        "latin",
+        "trip hop",
+        "bittersweet",
+        "tense",
+        "romantic"
+      ],
+      "title": "km 1 - Escena III",
+      "track_id": "jam_1047157"
+    },
+    {
+      "artist": "K-19",
+      "attribution": "K-19 - \u0414\u043e\u0436\u0434\u0438 by K-19; https://www.jamendo.com/track/1039379; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1039379/stems/bass.mp3",
+      "density": 0.3754353646072559,
+      "end_s": 75.0,
+      "id": "jam_1039379:bass:65000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8405659877813777,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.11179603766939447,
+        "onsets_per_second": 2.7,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0008707288652658463,
+        "stem_rms": {
+          "bass": 0.11179641482718417,
+          "drums": 0.12492926857675676,
+          "other": 0.1635810897635293,
+          "vocals": 0.0001667817069138576
+        }
+      },
+      "rms": 0.11179605692319877,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 65.0,
+      "stem": "bass",
+      "tags": [
+        "mellotron",
+        "rhodes",
+        "trombone",
+        "dub",
+        "r&b",
+        "soul",
+        "chill",
+        "groovy",
+        "smooth"
+      ],
+      "title": "K-19 - \u0414\u043e\u0436\u0434\u0438",
+      "track_id": "jam_1039379"
+    },
+    {
+      "artist": "4AM JAM",
+      "attribution": "SKINAW_2 by 4AM JAM; https://www.jamendo.com/track/1432367; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1432367/stems/bass.mp3",
+      "density": 0.3754511043080129,
+      "end_s": 145.0,
+      "id": "jam_1432367:bass:135000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.627890881296634,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.04369835200747977,
+        "onsets_per_second": 4.7,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0009022090234793723,
+        "stem_rms": {
+          "bass": 0.05798043467239635,
+          "drums": 0.07827286696522666,
+          "other": 0.09973567400340323,
+          "vocals": 0.021626936830976978
+        }
+      },
+      "rms": 0.04369835873190394,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 135.0,
+      "stem": "bass",
+      "tags": [
+        "trombone",
+        "trumpet",
+        "saxophone",
+        "soul",
+        "jazz",
+        "dub",
+        "tense",
+        "sad"
+      ],
+      "title": "SKINAW_2",
+      "track_id": "jam_1432367"
+    },
+    {
+      "artist": "t\u00e9l\u00e9type2000",
+      "attribution": "Achievement in Existential Emptiness by t\u00e9l\u00e9type2000; https://www.jamendo.com/track/1475806; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1475806/stems/bass.mp3",
+      "density": 0.25463133631274104,
+      "end_s": 80.0,
+      "id": "jam_1475806:bass:70000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.5,
+        "decoded_rms": 0.04784638708640563,
+        "onsets_per_second": 2.0,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00926268007606268,
+        "stem_rms": {
+          "bass": 0.04784642830064298,
+          "drums": 0.009447611953819397,
+          "other": 0.19114928090385339,
+          "vocals": 0.0020362932724501616
+        }
+      },
+      "rms": 0.04784639528690942,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 70.0,
+      "stem": "bass",
+      "tags": [
+        "trombone",
+        "wurlitzer",
+        "trumpet",
+        "dub",
+        "downtempo",
+        "boom bap",
+        "tense",
+        "epic",
+        "dark"
+      ],
+      "title": "Achievement in Existential Emptiness",
+      "track_id": "jam_1475806"
+    },
+    {
+      "artist": "Teleskope Funk",
+      "attribution": "Teleskope Funk - Summer Sun by Teleskope Funk; https://www.jamendo.com/track/1096249; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1096249/stems/other.mp3",
+      "density": 0.2501821138721425,
+      "end_s": 145.0,
+      "id": "jam_1096249:other:135000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8393049174987908,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.5,
+        "decoded_rms": 0.014084248907507759,
+        "onsets_per_second": 4.1,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0003642270457930863,
+        "stem_rms": {
+          "bass": 0.07874682597426576,
+          "drums": 0.05856422702042757,
+          "other": 0.01559809569950874,
+          "vocals": 0.027694849652550948
+        }
+      },
+      "rms": 0.014084254240058913,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 135.0,
+      "stem": "other",
+      "tags": [
+        "trombone",
+        "trumpet",
+        "saxophone",
+        "jazz",
+        "latin",
+        "classical",
+        "epic",
+        "triumphant",
+        "tense"
+      ],
+      "title": "Teleskope Funk - Summer Sun",
+      "track_id": "jam_1096249"
+    },
+    {
+      "artist": "Julian Rhine",
+      "attribution": "Julian Rhine - White Rhino Wednesdays - 02 GhostRhiter -ft. RJD2- by Julian Rhine; https://www.jamendo.com/track/1179114; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1179114/stems/bass.mp3",
+      "density": 0.5008163896854967,
+      "end_s": 150.0,
+      "id": "jam_1179114:bass:140000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.6997807694604787,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 1.0,
+        "decoded_rms": 0.03397512039678888,
+        "onsets_per_second": 7.4,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0016327789053320885,
+        "stem_rms": {
+          "bass": 0.03397533847142758,
+          "drums": 0.12719324171014565,
+          "other": 0.1294828528100755,
+          "vocals": 0.17384854831586333
+        }
+      },
+      "rms": 0.03397512601637915,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 140.0,
+      "stem": "bass",
+      "tags": [
+        "trombone",
+        "trumpet",
+        "saxophone",
+        "jazz",
+        "cinematic",
+        "boom bap",
+        "dark",
+        "tense",
+        "triumphant"
+      ],
+      "title": "Julian Rhine - White Rhino Wednesdays - 02 GhostRhiter -ft. RJD2-",
+      "track_id": "jam_1179114"
+    },
+    {
+      "artist": "Marco Margna",
+      "attribution": "Jazzi Girl by Marco Margna; https://www.jamendo.com/track/1121408; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1121408/stems/other.mp3",
+      "density": 0.3751826678198995,
+      "end_s": 70.0,
+      "id": "jam_1121408:other:60000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7068384009484123,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.03606862208479408,
+        "onsets_per_second": 6.1,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0003653358144219965,
+        "stem_rms": {
+          "bass": 0.18523724646337844,
+          "drums": 0.10239647345199313,
+          "other": 0.03739679312716636,
+          "vocals": 0.0004908028847934563
+        }
+      },
+      "rms": 0.03606863225757879,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 60.0,
+      "stem": "other",
+      "tags": [
+        "saxophone",
+        "trombone",
+        "rhodes",
+        "jazz",
+        "soul",
+        "disco",
+        "soulful",
+        "groovy",
+        "tense"
+      ],
+      "title": "Jazzi Girl",
+      "track_id": "jam_1121408"
+    },
+    {
+      "artist": "vibraverse",
+      "attribution": "La Trompeta (Original Mix) by vibraverse; https://www.jamendo.com/track/1439805; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1439805/stems/bass.mp3",
+      "density": 0.37619831459596753,
+      "end_s": 140.0,
+      "id": "jam_1439805:bass:130000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.33782261767096056,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.15160740214713433,
+        "onsets_per_second": 3.2,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0023966296575963497,
+        "stem_rms": {
+          "bass": 0.15163890994751272,
+          "drums": 0.2293927428528442,
+          "other": 0.08542582747927074,
+          "vocals": 0.0002132436590366574
+        }
+      },
+      "rms": 0.151607427836136,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 130.0,
+      "stem": "bass",
+      "tags": [
+        "trombone",
+        "bass guitar",
+        "trumpet",
+        "dub",
+        "jazz",
+        "funk",
+        "playful",
+        "groovy",
+        "raw"
+      ],
+      "title": "La Trompeta (Original Mix)",
+      "track_id": "jam_1439805"
+    },
+    {
+      "artist": "4AM JAM",
+      "attribution": "Bolero by 4AM JAM; https://www.jamendo.com/track/1432369; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1432369/stems/other.mp3",
+      "density": 0.37510978760838043,
+      "end_s": 40.0,
+      "id": "jam_1432369:other:30000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8201591587520545,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.14715424423199905,
+        "onsets_per_second": 8.9,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00021944793115835637,
+        "stem_rms": {
+          "bass": 0.20658305755443154,
+          "drums": 0.21612535353960338,
+          "other": 0.16037973341832704,
+          "vocals": 0.02127273712522293
+        }
+      },
+      "rms": 0.1471542867630249,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 30.0,
+      "stem": "other",
+      "tags": [
+        "saxophone",
+        "mellotron",
+        "trumpet",
+        "psychedelic",
+        "dub",
+        "latin",
+        "gritty",
+        "raw"
+      ],
+      "title": "Bolero",
+      "track_id": "jam_1432369"
+    },
+    {
+      "artist": "Adam Gordon",
+      "attribution": "Crawling by Adam Gordon; https://www.jamendo.com/track/1126354; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1126354/stems/other.mp3",
+      "density": 0.3750119812284538,
+      "end_s": 140.0,
+      "id": "jam_1126354:other:130000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.9361842099056795,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.08472011272070586,
+        "onsets_per_second": 10.5,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 2.3959657482919283e-05,
+        "stem_rms": {
+          "bass": 0.16907561262530124,
+          "drums": 0.09279131322836708,
+          "other": 0.10183800256951821,
+          "vocals": 0.00011039238180942256
+        }
+      },
+      "rms": 0.08472013772612039,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 130.0,
+      "stem": "other",
+      "tags": [
+        "organ",
+        "wurlitzer",
+        "arpeggio",
+        "latin",
+        "classical",
+        "cinematic",
+        "lush",
+        "dreamy",
+        "romantic"
+      ],
+      "title": "Crawling",
+      "track_id": "jam_1126354"
+    },
+    {
+      "artist": "Pope Troy",
+      "attribution": "A movie named real shit by Pope Troy; https://www.jamendo.com/track/1270293; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1270293/stems/bass.mp3",
+      "density": 0.12852399377152324,
+      "end_s": 20.0,
+      "id": "jam_1270293:bass:10000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.25,
+        "decoded_rms": 0.009545627785436986,
+        "onsets_per_second": 4.1,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.007047989405691624,
+        "stem_rms": {
+          "bass": 0.009979165367424237,
+          "drums": 0.016124823031715252,
+          "other": 0.032738889626209106,
+          "vocals": 0.0008367489375130962
+        }
+      },
+      "rms": 0.009545629401100018,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 10.0,
+      "stem": "bass",
+      "tags": [
+        "trombone",
+        "trumpet",
+        "horns",
+        "boom bap",
+        "cinematic",
+        "trip hop",
+        "epic",
+        "tense",
+        "melancholy"
+      ],
+      "title": "A movie named real shit",
+      "track_id": "jam_1270293"
+    },
+    {
+      "artist": "LW\u00a7LH",
+      "attribution": "Expo by LW\u00a7LH; https://www.jamendo.com/track/1223964; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1223964/stems/other.mp3",
+      "density": 0.3750364838160749,
+      "end_s": 115.0,
+      "id": "jam_1223964:other:105000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.9260809688021847,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.08733696375277183,
+        "onsets_per_second": 12.5,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 7.295703835552558e-05,
+        "stem_rms": {
+          "bass": 0.07710528260696606,
+          "drums": 0.14836772860509123,
+          "other": 0.1274190818750616,
+          "vocals": 0.0014680111402796544
+        }
+      },
+      "rms": 0.08733698727743422,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 105.0,
+      "stem": "other",
+      "tags": [
+        "organ",
+        "mellotron",
+        "violin",
+        "psychedelic",
+        "classical",
+        "synthwave",
+        "epic",
+        "triumphant",
+        "eerie"
+      ],
+      "title": "Expo",
+      "track_id": "jam_1223964"
+    },
+    {
+      "artist": "Isidan",
+      "attribution": "Orion - by Isidan; https://www.jamendo.com/track/1229099; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1229099/stems/bass.mp3",
+      "density": 0.1250017082758177,
+      "end_s": 10.0,
+      "id": "jam_1229099:bass:0",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.0,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.25,
+        "decoded_rms": 0.0432992780241832,
+        "onsets_per_second": 9.2,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 3.416573918002541e-06,
+        "stem_rms": {
+          "bass": 0.04748327393161352,
+          "drums": 0.0011679810403344936,
+          "other": 0.013775688348326784,
+          "vocals": 0.0008633513780067041
+        }
+      },
+      "rms": 0.04329928524332579,
+      "selection_reasons": [
+        "hero prominent-timbre review candidate; numerical evidence only"
+      ],
+      "source": "jamendo",
+      "start_s": 0.0,
+      "stem": "bass",
+      "tags": [
+        "humming",
+        "synth bass",
+        "cello",
+        "psychedelic",
+        "boom bap",
+        "cinematic",
+        "haunting",
+        "tense",
+        "eerie"
+      ],
+      "title": "Orion -",
+      "track_id": "jam_1229099"
+    },
+    {
+      "artist": "Bayard Russell",
+      "attribution": "Crazy For You by Bayard Russell; https://www.jamendo.com/track/1033260; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1033260/mix.mp3",
+      "density": 0.18502084065454255,
+      "end_s": 65.0,
+      "id": "jam_1033260:mix:55000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8986403149421941,
+      "measurements": {
+        "decoded_rms": 0.15598976456440458,
+        "onsets_per_second": 3.7,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 6.650595605606213e-05
+      },
+      "rms": 0.15598980141927557,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 55.0,
+      "stem": "mix",
+      "tags": [
+        "wah guitar",
+        "acoustic guitar",
+        "slide guitar",
+        "soul",
+        "r&b",
+        "latin",
+        "soulful",
+        "nostalgic",
+        "romantic"
+      ],
+      "title": "Crazy For You",
+      "track_id": "jam_1033260"
+    },
+    {
+      "artist": "Marco Margna",
+      "attribution": "Funky Feeling by Marco Margna; https://www.jamendo.com/track/1121423; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1121423/mix.mp3",
+      "density": 0.325057728124375,
+      "end_s": 85.0,
+      "id": "jam_1121423:mix:75000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.9681291252894847,
+      "measurements": {
+        "decoded_rms": 0.19196031033541677,
+        "onsets_per_second": 6.7,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00012245216930750757
+      },
+      "rms": 0.19196034841964107,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 75.0,
+      "stem": "mix",
+      "tags": [
+        "congas",
+        "organ",
+        "saxophone",
+        "funk",
+        "disco",
+        "latin",
+        "groovy",
+        "soulful",
+        "energetic"
+      ],
+      "title": "Funky Feeling",
+      "track_id": "jam_1121423"
+    },
+    {
+      "artist": "Se\u00f1or B",
+      "attribution": "Eternal Love by Se\u00f1or B; https://www.jamendo.com/track/1238674; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1238674/mix.mp3",
+      "density": 0.10502748680708465,
+      "end_s": 95.0,
+      "id": "jam_1238674:mix:85000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.6308200688062224,
+      "measurements": {
+        "decoded_rms": 0.12181406651439024,
+        "onsets_per_second": 2.3,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 6.742522236891091e-05
+      },
+      "rms": 0.12181409495833766,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 85.0,
+      "stem": "mix",
+      "tags": [
+        "saxophone",
+        "mellotron",
+        "trumpet",
+        "synthwave",
+        "trip hop",
+        "disco",
+        "chill",
+        "groovy",
+        "tense"
+      ],
+      "title": "Eternal Love",
+      "track_id": "jam_1238674"
+    },
+    {
+      "artist": "Hardcore Scm",
+      "attribution": "On The Wing [Classical] by Hardcore Scm; https://www.jamendo.com/track/1348228; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1348228/mix.mp3",
+      "density": 0.25000036609543486,
+      "end_s": 140.0,
+      "id": "jam_1348228:mix:130000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.878130869886585,
+      "measurements": {
+        "decoded_rms": 0.2640664134643737,
+        "onsets_per_second": 4.0,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 1.2413572221703362e-05
+      },
+      "rms": 0.2640664589957023,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 130.0,
+      "stem": "mix",
+      "tags": [
+        "saxophone",
+        "cello",
+        "harp",
+        "downtempo",
+        "cinematic",
+        "jazz",
+        "bittersweet",
+        "sad",
+        "tense"
+      ],
+      "title": "On The Wing [Classical]",
+      "track_id": "jam_1348228"
+    },
+    {
+      "artist": "John Alexander",
+      "attribution": "Irreplaceable by John Alexander; https://www.jamendo.com/track/1367270; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1367270/mix.mp3",
+      "density": 0.13504905866080663,
+      "end_s": 110.0,
+      "id": "jam_1367270:mix:100000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7835814581249488,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.2736320070891873,
+        "onsets_per_second": 8.5,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00015464746684301645,
+        "stem_rms": {
+          "bass": 0.015078820032534008,
+          "drums": 0.07447841250152094,
+          "other": 0.04928910256467331,
+          "vocals": 0.24276304449298605
+        }
+      },
+      "rms": 0.27363207147566354,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 100.0,
+      "stem": "mix",
+      "tags": [
+        "wah guitar",
+        "vocal chop",
+        "congas",
+        "disco",
+        "dub",
+        "tense",
+        "energetic",
+        "groovy"
+      ],
+      "title": "Irreplaceable",
+      "track_id": "jam_1367270"
+    },
+    {
+      "artist": "Moacir Lima",
+      "attribution": "Moacir Lima - Corrupc&atilde;o by Moacir Lima; https://www.jamendo.com/track/1413777; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1413777/mix.mp3",
+      "density": 0.32017629683134147,
+      "end_s": 170.0,
+      "id": "jam_1413777:mix:160000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.7508293519318671,
+      "measurements": {
+        "decoded_rms": 0.39404250527482565,
+        "onsets_per_second": 6.6,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.00037185827386565506
+      },
+      "rms": 0.394042592966429,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 160.0,
+      "stem": "mix",
+      "tags": [
+        "congas",
+        "koto",
+        "upright bass",
+        "reggae",
+        "latin",
+        "afrobeat",
+        "soulful",
+        "triumphant",
+        "groovy"
+      ],
+      "title": "Moacir Lima - Corrupc&atilde;o",
+      "track_id": "jam_1413777"
+    },
+    {
+      "artist": "4AM JAM",
+      "attribution": "D4_pole by 4AM JAM; https://www.jamendo.com/track/1432420; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1432420/mix.mp3",
+      "density": 0.40423855939880016,
+      "end_s": 45.0,
+      "id": "jam_1432420:mix:35000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.9834468642941493,
+      "measurements": {
+        "decoded_rms": 0.1437151579460783,
+        "onsets_per_second": 8.0,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.008466511033475399
+      },
+      "rms": 0.14371519462770221,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 35.0,
+      "stem": "mix",
+      "tags": [
+        "arpeggio",
+        "breakbeat",
+        "synth bass",
+        "techno",
+        "synthwave",
+        "drum and bass",
+        "energetic",
+        "lush",
+        "uplifting"
+      ],
+      "title": "D4_pole",
+      "track_id": "jam_1432420"
+    },
+    {
+      "artist": "Funk Off",
+      "attribution": "jazzy swing bul by Funk Off; https://www.jamendo.com/track/1432847; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1432847/mix.mp3",
+      "density": 0.22001313387747362,
+      "end_s": 20.0,
+      "id": "jam_1432847:mix:10000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.867517918962951,
+      "measurements": {
+        "decoded_rms": 0.35570329789200483,
+        "onsets_per_second": 4.3,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 3.2212490623351187e-05
+      },
+      "rms": 0.35570336150190884,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 10.0,
+      "stem": "mix",
+      "tags": [
+        "breakbeat",
+        "koto",
+        "slide guitar",
+        "techno",
+        "dub",
+        "disco",
+        "energetic",
+        "groovy",
+        "playful"
+      ],
+      "title": "jazzy swing bul",
+      "track_id": "jam_1432847"
+    },
+    {
+      "artist": "vibraverse",
+      "attribution": "La Trompeta (Original Mix) by vibraverse; https://www.jamendo.com/track/1439805; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1439805/stems/other.mp3",
+      "density": 0.3750341006561939,
+      "end_s": 160.0,
+      "id": "jam_1439805:other:150000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.8961579313234603,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.75,
+        "decoded_rms": 0.11653938476888194,
+        "onsets_per_second": 5.8,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 6.818361725891009e-05,
+        "stem_rms": {
+          "bass": 0.15880497620430142,
+          "drums": 0.2486795037892672,
+          "other": 0.1321117986816136,
+          "vocals": 0.0030971382416771632
+        }
+      },
+      "rms": 0.11653941673802538,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 150.0,
+      "stem": "other",
+      "tags": [
+        "accordion",
+        "organ",
+        "harmonica",
+        "latin",
+        "bossa nova",
+        "folk",
+        "triumphant",
+        "groovy",
+        "hopeful"
+      ],
+      "title": "La Trompeta (Original Mix)",
+      "track_id": "jam_1439805"
+    },
+    {
+      "artist": "t\u00e9l\u00e9type2000",
+      "attribution": "Achievement in Existential Emptiness by t\u00e9l\u00e9type2000; https://www.jamendo.com/track/1475806; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "audio_url": "https://gitelipfjiywmqqhoqdp.supabase.co/storage/v1/object/public/audio/tracks/jam_1475806/mix.mp3",
+      "density": 0.17524893193040042,
+      "end_s": 100.0,
+      "id": "jam_1475806:mix:90000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "loopability": 0.9651183833417871,
+      "measurements": {
+        "active_stem_fraction_above_minus30_dbfs": 0.5,
+        "decoded_rms": 0.16272223972073582,
+        "onsets_per_second": 3.6,
+        "scope": "chunk-local measurements; onset boundary context differs from full-excerpt analysis",
+        "spectral_flatness": 0.0006019003340043128,
+        "stem_rms": {
+          "bass": 0.00040200227433485804,
+          "drums": 0.052009743353993096,
+          "other": 0.18686625046704042,
+          "vocals": 0.030022489305466072
+        }
+      },
+      "rms": 0.16272226918202057,
+      "selection_reasons": [
+        "seed-5 random audit window"
+      ],
+      "source": "jamendo",
+      "start_s": 90.0,
+      "stem": "mix",
+      "tags": [
+        "organ",
+        "mellotron",
+        "synth pad",
+        "synthwave",
+        "trip hop",
+        "downtempo",
+        "eerie",
+        "tense",
+        "lush"
+      ],
+      "title": "Achievement in Existential Emptiness",
+      "track_id": "jam_1475806"
+    }
+  ],
+  "human_review": "pending; supply window ID, reviewer, date, audible instruments, sparse/dense judgment and usefulness",
+  "mapping_artifact": "ingest/vocab-freeze.json",
+  "max_score_delta": 4.6193599700927734e-07,
+  "rejections": [
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 51.378367346938774,
+      "id": "fs_498604",
+      "max_any_4s_rms": 0.005052959491824787,
+      "max_nominal_window_rms": 0.0035212439702427805,
+      "rms": 0.0021100358418636826,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "mix",
+      "stem": "mix"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 58.60419501133787,
+      "id": "fs_498606",
+      "max_any_4s_rms": 0.0050121026919784034,
+      "max_nominal_window_rms": 0.0031767420172056663,
+      "rms": 0.001383581214507307,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "mix",
+      "stem": "mix"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 6.485351473922902,
+      "id": "fs_507355",
+      "max_any_4s_rms": 0.005113196651103438,
+      "max_nominal_window_rms": 0.004931223255988352,
+      "rms": 0.004931223255988261,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "mix",
+      "stem": "mix"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 170.0,
+      "id": "jam_1149159",
+      "max_any_4s_rms": 0.007254943367196658,
+      "max_nominal_window_rms": 0.00478693041523717,
+      "rms": 0.0011683847617908623,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 18,
+      "channels": 2,
+      "duration_s": 170.0,
+      "id": "jam_1149159",
+      "max_any_4s_rms": 0.028091579754153807,
+      "max_nominal_window_rms": 0.023923881145140213,
+      "rms": 0.010561049482932421,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 33,
+      "channels": 2,
+      "duration_s": 170.0,
+      "id": "jam_1149159",
+      "max_any_4s_rms": 0.18407006218866545,
+      "max_nominal_window_rms": 0.15487018692321639,
+      "rms": 0.10174381790784257,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 170.0,
+      "id": "jam_1149159",
+      "max_any_4s_rms": 0.0002304711382194877,
+      "max_nominal_window_rms": 0.0001665573412359021,
+      "rms": 0.00010551634897683796,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 7,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149161",
+      "max_any_4s_rms": 0.07619460948597134,
+      "max_nominal_window_rms": 0.07333220423600739,
+      "rms": 0.0299495908005324,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 26,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149161",
+      "max_any_4s_rms": 0.08143837641821271,
+      "max_nominal_window_rms": 0.07771731239588446,
+      "rms": 0.0614808526823342,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149161",
+      "max_any_4s_rms": 0.07001193138963357,
+      "max_nominal_window_rms": 0.06313876914483632,
+      "rms": 0.047066129240498016,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149161",
+      "max_any_4s_rms": 0.0007518566686047418,
+      "max_nominal_window_rms": 0.0007258188319818763,
+      "rms": 0.0005939131124781365,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149164",
+      "max_any_4s_rms": 0.00022423166550256975,
+      "max_nominal_window_rms": 0.0002004889288120142,
+      "rms": 0.00013167912915504397,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 18,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149164",
+      "max_any_4s_rms": 0.027994681276892246,
+      "max_nominal_window_rms": 0.025465270840334026,
+      "rms": 0.015350001126674067,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149164",
+      "max_any_4s_rms": 0.17142797038308094,
+      "max_nominal_window_rms": 0.1499809907916457,
+      "rms": 0.1058527883696207,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1149164",
+      "max_any_4s_rms": 0.00017738183639323698,
+      "max_nominal_window_rms": 0.00013737020696866578,
+      "rms": 8.941289800086548e-05,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 133.9975283446712,
+      "id": "jam_1149165",
+      "max_any_4s_rms": 0.0015662979146379588,
+      "max_nominal_window_rms": 0.0009953067476692438,
+      "rms": 0.00030189896095980347,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 23,
+      "channels": 2,
+      "duration_s": 133.9975283446712,
+      "id": "jam_1149165",
+      "max_any_4s_rms": 0.049862273908362766,
+      "max_nominal_window_rms": 0.04855069572765015,
+      "rms": 0.029609862017322484,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 26,
+      "channels": 2,
+      "duration_s": 133.9975283446712,
+      "id": "jam_1149165",
+      "max_any_4s_rms": 0.13470908244766006,
+      "max_nominal_window_rms": 0.12960626012797696,
+      "rms": 0.08116924961000706,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 133.9975283446712,
+      "id": "jam_1149165",
+      "max_any_4s_rms": 0.0018476190061120549,
+      "max_nominal_window_rms": 0.0012104162316731923,
+      "rms": 0.0003465995099281438,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 16,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1238674",
+      "max_any_4s_rms": 0.015992385194568515,
+      "max_nominal_window_rms": 0.01365695412109739,
+      "rms": 0.007189550955287269,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 29,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1238674",
+      "max_any_4s_rms": 0.13231114452581672,
+      "max_nominal_window_rms": 0.1283179392312669,
+      "rms": 0.1090448156096767,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 33,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1238674",
+      "max_any_4s_rms": 0.1340463594325981,
+      "max_nominal_window_rms": 0.10099608079135217,
+      "rms": 0.0769697901275632,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1238674",
+      "max_any_4s_rms": 0.0051187798371255975,
+      "max_nominal_window_rms": 0.0032423502548974536,
+      "rms": 0.0012578999354057228,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1307441",
+      "max_any_4s_rms": 0.1196275021569826,
+      "max_nominal_window_rms": 0.11499446205725089,
+      "rms": 0.08284962504905986,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 29,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1307441",
+      "max_any_4s_rms": 0.15731472445113792,
+      "max_nominal_window_rms": 0.15133651978316365,
+      "rms": 0.0869191309190638,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1307441",
+      "max_any_4s_rms": 0.11316736920695226,
+      "max_nominal_window_rms": 0.1034417292203492,
+      "rms": 0.07621580410440382,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1307441",
+      "max_any_4s_rms": 0.00419346085390067,
+      "max_nominal_window_rms": 0.002665856446127375,
+      "rms": 0.0006500622227039461,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1348228",
+      "max_any_4s_rms": 0.2951880415905129,
+      "max_nominal_window_rms": 0.26426709936763504,
+      "rms": 0.24863558530763769,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1348228",
+      "max_any_4s_rms": 0.0005550785522989796,
+      "max_nominal_window_rms": 0.00046299811519482905,
+      "rms": 0.0003855423181069052,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 31,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1348228",
+      "max_any_4s_rms": 0.09999402873751136,
+      "max_nominal_window_rms": 0.08959397107403397,
+      "rms": 0.06387024984418348,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1348228",
+      "max_any_4s_rms": 0.00019136158351393417,
+      "max_nominal_window_rms": 0.00016492436362277249,
+      "rms": 0.00012593513550910552,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1359980",
+      "max_any_4s_rms": 0.2639976743701839,
+      "max_nominal_window_rms": 0.21160694843541053,
+      "rms": 0.17839859622782092,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 29,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1359980",
+      "max_any_4s_rms": 0.24157091693998106,
+      "max_nominal_window_rms": 0.1792008291997831,
+      "rms": 0.11643719272030233,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1359980",
+      "max_any_4s_rms": 0.24123188509218652,
+      "max_nominal_window_rms": 0.21833010316672757,
+      "rms": 0.12919376613941336,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1359980",
+      "max_any_4s_rms": 0.0018207307182285428,
+      "max_nominal_window_rms": 0.0013661815922889657,
+      "rms": 0.000996257464037671,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1544396",
+      "max_any_4s_rms": 0.05872633921851575,
+      "max_nominal_window_rms": 0.05158619143157415,
+      "rms": 0.043668571842732797,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "bass"
+    },
+    {
+      "audible_nominal_windows": 32,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1544396",
+      "max_any_4s_rms": 0.08992494263228974,
+      "max_nominal_window_rms": 0.08318884916384832,
+      "rms": 0.062468136925448954,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "drums"
+    },
+    {
+      "audible_nominal_windows": 34,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1544396",
+      "max_any_4s_rms": 0.06923780662008006,
+      "max_nominal_window_rms": 0.06239057436717872,
+      "rms": 0.04845924068388963,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "other"
+    },
+    {
+      "audible_nominal_windows": 0,
+      "channels": 2,
+      "duration_s": 180.0,
+      "id": "jam_1544396",
+      "max_any_4s_rms": 0.006825865736004979,
+      "max_nominal_window_rms": 0.004320636520561344,
+      "rms": 0.0014485611537704548,
+      "sample_rate": 44100,
+      "silence_threshold": 0.005623413251903491,
+      "stage": "hero",
+      "stem": "vocals"
+    }
+  ],
+  "replayed_tracks": 350,
+  "replayed_windows": 7249,
+  "source_artifact": "ingest/data/session5/calibration.json",
+  "source_sha256": "a410fe07fdcebb777019fafea4f8041aec0e9a96bdd1594086d7a33d8faf4cde",
+  "time": "2026-11-14T23:17:38.181430+00:00"
+}

@@ -1,0 +1,617 @@
+{
+  "starting_commit": "b7639a8",
+  "integrated_main": "bd4ab02eedd88eaa2eea3a97d8a89c5996227e1f",
+  "integration_merge": "2e678a697bbc7e270e288b69207ab77000674478",
+  "pr": "https://github.com/codeArjya/Beatopia/pull/14",
+  "ws2_report": "https://github.com/codeArjya/Beatopia/issues/13",
+  "checks": {
+    "api-integration": {
+      "mode": "api-integration",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\api\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "api/tests/test_jobs.py",
+        "api/tests/test_snap.py",
+        "api/tests/test_tracks.py",
+        "api/tests/test_search.py",
+        "api/tests/test_contract.py",
+        "--basetemp=C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\tmp-api-integration-1794725704425177200"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:04.425177+00:00",
+      "finished_at": "2026-11-15T06:55:26.511525+00:00",
+      "elapsed_s": 22.07800000000134,
+      "exit_code": 0
+    },
+    "fixtures": {
+      "mode": "fixtures",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\api\\.venv\\Scripts\\python.exe",
+        "scripts/check_fixtures.py"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:08.104125+00:00",
+      "finished_at": "2026-11-15T06:55:09.080962+00:00",
+      "elapsed_s": 0.9839999999967404,
+      "exit_code": 0
+    },
+    "focused": {
+      "mode": "focused",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "ingest/tests/test_eval.py",
+        "ingest/tests/test_density.py",
+        "ingest/tests/test_report.py",
+        "ingest/tests/test_calibrate.py",
+        "--basetemp=C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\tmp-focused-1794725675955402600"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:54:35.955402+00:00",
+      "finished_at": "2026-11-15T06:55:01.851043+00:00",
+      "elapsed_s": 25.89100000000326,
+      "exit_code": 0
+    },
+    "format": {
+      "mode": "format",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\api\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "common",
+        "ingest",
+        "worker",
+        "api",
+        "scripts"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:05.330404+00:00",
+      "finished_at": "2026-11-15T06:55:05.933520+00:00",
+      "elapsed_s": 0.5939999999973224,
+      "exit_code": 0
+    },
+    "ingest": {
+      "mode": "ingest",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "ingest/tests",
+        "--basetemp=C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\tmp-ingest-1794725704364920700"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:04.364920+00:00",
+      "finished_at": "2026-11-15T06:55:59.001636+00:00",
+      "elapsed_s": 54.640999999995984,
+      "exit_code": 0
+    },
+    "make-fixtures": {
+      "mode": "make-fixtures",
+      "command": [
+        "make",
+        "check-fixtures"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:06.685453+00:00",
+      "finished_at": "2026-11-15T06:55:06.696677+00:00",
+      "elapsed_s": 0.01600000000325963,
+      "exit_code": 127
+    },
+    "make-lint": {
+      "mode": "make-lint",
+      "command": [
+        "make",
+        "lint"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:06.143857+00:00",
+      "finished_at": "2026-11-15T06:55:06.156750+00:00",
+      "elapsed_s": 0.014999999999417923,
+      "exit_code": 127
+    },
+    "make-schema": {
+      "mode": "make-schema",
+      "command": [
+        "make",
+        "schema"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:06.401270+00:00",
+      "finished_at": "2026-11-15T06:55:06.411889+00:00",
+      "elapsed_s": 0.014999999999417923,
+      "exit_code": 127
+    },
+    "report-fresh": {
+      "mode": "report-fresh",
+      "command": [
+        "C:/Users/santi/.local/bin/uv.exe",
+        "run",
+        "--no-sync",
+        "--project",
+        "C:/Users/santi/Downloads/Beatopia/Beatopia/ingest",
+        "--env-file",
+        "C:/Users/santi/Downloads/Beatopia/Beatopia/.env",
+        "python",
+        "C:/Users/santi/Downloads/Beatopia/Beatopia/ingest/data/session9/integration/ingest/report.py",
+        "--data-dir",
+        "C:/Users/santi/Downloads/Beatopia/Beatopia/ingest/data",
+        "--output",
+        "C:/Users/santi/Downloads/Beatopia/Beatopia/ingest/data/session9/report.json"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:25.518747+00:00",
+      "finished_at": "2026-11-15T07:06:53.502142+00:00",
+      "elapsed_s": 687.9680000000008,
+      "exit_code": 1
+    },
+    "report": {
+      "mode": "report",
+      "command": [
+        "C:\\Users\\santi\\.local\\bin\\uv.exe",
+        "run",
+        "--no-sync",
+        "--project",
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest",
+        "--env-file",
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\.env",
+        "python",
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration\\ingest\\report.py",
+        "--data-dir",
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data",
+        "--output",
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\report.json"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:54:35.504844+00:00",
+      "finished_at": "2026-11-15T06:54:35.611361+00:00",
+      "elapsed_s": 0.10900000000401633,
+      "exit_code": 2
+    },
+    "ruff": {
+      "mode": "ruff",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\api\\.venv\\Scripts\\python.exe",
+        "-m",
+        "ruff",
+        "check",
+        "common",
+        "ingest",
+        "worker",
+        "api",
+        "scripts"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:04.286494+00:00",
+      "finished_at": "2026-11-15T06:55:05.080413+00:00",
+      "elapsed_s": 0.7969999999986612,
+      "exit_code": 0
+    },
+    "schema": {
+      "mode": "schema",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\api\\.venv\\Scripts\\python.exe",
+        "scripts/export_schema.py"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:07.075693+00:00",
+      "finished_at": "2026-11-15T06:55:07.854613+00:00",
+      "elapsed_s": 0.7810000000026776,
+      "exit_code": 0
+    },
+    "web-lint": {
+      "mode": "web-lint",
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "pnpm lint"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:25.411570+00:00",
+      "finished_at": "2026-11-15T06:55:33.990994+00:00",
+      "elapsed_s": 8.578000000001339,
+      "exit_code": 1
+    },
+    "web-typecheck": {
+      "mode": "web-typecheck",
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "pnpm typecheck"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:55:34.175285+00:00",
+      "finished_at": "2026-11-15T06:55:35.008985+00:00",
+      "elapsed_s": 0.8280000000013388,
+      "exit_code": 1
+    },
+    "worker": {
+      "mode": "worker",
+      "command": [
+        "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\worker\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "worker/tests",
+        "--basetemp=C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\tmp-worker-1794725686219951300"
+      ],
+      "cwd": "C:\\Users\\santi\\Downloads\\Beatopia\\Beatopia\\ingest\\data\\session9\\integration",
+      "started_at": "2026-11-15T06:54:46.219951+00:00",
+      "finished_at": "2026-11-15T06:55:16.230353+00:00",
+      "elapsed_s": 30.0,
+      "exit_code": 0
+    }
+  },
+  "report": {
+    "snapshot_at": "2026-11-15T06:55:32.568087+00:00",
+    "finished_at": "2026-11-15T07:06:52.463132+00:00",
+    "elapsed_s": 680.4369999999981,
+    "counts": {
+      "hero_flags": 67,
+      "imports": 15,
+      "library_tracks": 351,
+      "stems": 304,
+      "windows": 12646
+    },
+    "acceptance": {
+      "all_completed_hero_density": true,
+      "audibly_verified_prominent_timbres": 0,
+      "full_quality_gate": "open",
+      "hero_shortfall": 13,
+      "heroes_80": false,
+      "human_reviewed_hero_tracks": 1,
+      "library_300_500": true,
+      "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+      "prominent_timbres_30": "unverified",
+      "technically_verified_heroes": 67,
+      "technically_verified_library": 350,
+      "verified_hero_ids": [
+        "jam_1030276",
+        "jam_1030277",
+        "jam_1030279",
+        "jam_1030282",
+        "jam_1030283",
+        "jam_1030284",
+        "jam_1039379",
+        "jam_1047155",
+        "jam_1047157",
+        "jam_1096249",
+        "jam_1096663",
+        "jam_1101338",
+        "jam_1101341",
+        "jam_1101342",
+        "jam_1101344",
+        "jam_1111809",
+        "jam_1121408",
+        "jam_1121423",
+        "jam_1126354",
+        "jam_1149160",
+        "jam_1149166",
+        "jam_1179114",
+        "jam_1222516",
+        "jam_1222537",
+        "jam_1222552",
+        "jam_1222581",
+        "jam_1222826",
+        "jam_1222876",
+        "jam_1223964",
+        "jam_1229099",
+        "jam_1270293",
+        "jam_1271467",
+        "jam_1275400",
+        "jam_1277123",
+        "jam_1282782",
+        "jam_1283863",
+        "jam_1289101",
+        "jam_1304261",
+        "jam_1306282",
+        "jam_1311439",
+        "jam_1331951",
+        "jam_1331954",
+        "jam_1332140",
+        "jam_1363092",
+        "jam_1367270",
+        "jam_1390854",
+        "jam_1407055",
+        "jam_1413777",
+        "jam_1432367",
+        "jam_1432369",
+        "jam_1432847",
+        "jam_1432851",
+        "jam_1433063",
+        "jam_1433892",
+        "jam_1433978",
+        "jam_1436572",
+        "jam_1439805",
+        "jam_1442142",
+        "jam_1445903",
+        "jam_1464239",
+        "jam_1466603",
+        "jam_1475806",
+        "jam_1492151",
+        "jam_1544389",
+        "jam_1544392",
+        "jam_1544393",
+        "jam_1544394"
+      ]
+    },
+    "hero_density": {
+      "method": "spectral-flatness+four-stem-rms-above-minus30dbfs-v1",
+      "missing_hero_ids": [],
+      "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+      "verified_heroes": 67,
+      "verified_windows": 9562
+    }
+  },
+  "report_exit": 1,
+  "public_objects": 651,
+  "public_failures": 1,
+  "track_issues": [
+    {
+      "density_verified": false,
+      "hero_cache_verified": false,
+      "id": "fs_754932",
+      "issues": [
+        "mix_cache_db_metadata:FileNotFoundError"
+      ],
+      "mix_verified": false
+    }
+  ],
+  "public_object_failures": [
+    {
+      "bytes": 237402,
+      "channels": 2,
+      "decoded_duration_s": 11.0,
+      "decoded_rms": 0.05615143917862431,
+      "duration_s": 11.0,
+      "error_type": "ValueError",
+      "hash_anchored": false,
+      "http_status": 200,
+      "path": "tracks/fs_754932/mix.mp3",
+      "sample_rate": 44100,
+      "sha256": "9e807736b94319c64c21385e2abc259b16a73d3d7101feaf3c4212f6446d1803",
+      "streams": [
+        {
+          "bit_rate": "193894",
+          "channels": 2,
+          "codec_name": "mp3",
+          "codec_type": "audio",
+          "sample_rate": "44100"
+        }
+      ],
+      "track_id": "fs_754932",
+      "verified": false
+    }
+  ],
+  "invalid_windows": [],
+  "fallback_recheck": {
+    "status": 200,
+    "revision": "7431e3576ef10d842a5dfd058186a900480d5566",
+    "track": {
+      "id": "fs_754932",
+      "title": "only if there is one Kazoo",
+      "artist": "msLineOn",
+      "source": "freesound",
+      "source_url": "https://freesound.org/people/msLineOn/sounds/754932/",
+      "license": "CC0",
+      "attribution": "only if there is one Kazoo by msLineOn; https://freesound.org/people/msLineOn/sounds/754932/; CC0 (http://creativecommons.org/publicdomain/zero/1.0/)",
+      "duration_s": 11.0,
+      "bpm": null,
+      "key": null,
+      "is_hero": false
+    },
+    "windows": 0,
+    "stems": [
+      {
+        "stem": "bass",
+        "coverage": [
+          0.0,
+          11.0
+        ],
+        "model": "htdemucs"
+      },
+      {
+        "stem": "drums",
+        "coverage": [
+          0.0,
+          11.0
+        ],
+        "model": "htdemucs"
+      },
+      {
+        "stem": "other",
+        "coverage": [
+          0.0,
+          11.0
+        ],
+        "model": "htdemucs"
+      },
+      {
+        "stem": "vocals",
+        "coverage": [
+          0.0,
+          11.0
+        ],
+        "model": "htdemucs"
+      }
+    ]
+  },
+  "jobs": {
+    "counts": {
+      "done": 27,
+      "error": 7
+    },
+    "errors": [
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+        "kind": "stems",
+        "progress": 0.4000000059604645,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+        "kind": "stems",
+        "progress": 0.4000000059604645,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+        "kind": "analyze",
+        "progress": 0.0,
+        "status": "error"
+      }
+    ]
+  },
+  "browser_preview_samples": [
+    [
+      {
+        "path": "/storage/v1/object/public/audio/tracks/jam_1030279/stems/other.mp3",
+        "time": 24.764,
+        "paused": false,
+        "readyState": 4,
+        "error": null
+      }
+    ],
+    [
+      {
+        "path": "/storage/v1/object/public/audio/tracks/jam_1030279/stems/other.mp3",
+        "time": 24.822786,
+        "paused": false,
+        "readyState": 4,
+        "error": null
+      }
+    ],
+    [
+      {
+        "path": "/storage/v1/object/public/audio/tracks/jam_1030279/stems/other.mp3",
+        "time": 25.429911,
+        "paused": false,
+        "readyState": 4,
+        "error": null
+      }
+    ],
+    [
+      {
+        "path": "/storage/v1/object/public/audio/tracks/jam_1030279/stems/other.mp3",
+        "time": 26.037631,
+        "paused": false,
+        "readyState": 4,
+        "error": null
+      }
+    ]
+  ],
+  "browser_editor": {
+    "at": "2026-11-15T07:00:01.456Z",
+    "clocks": [
+      [
+        "0.01 / 10.00 s"
+      ],
+      [
+        "0.46 / 10.00 s"
+      ],
+      [
+        "1.08 / 10.00 s"
+      ]
+    ],
+    "comparison": {
+      "requestedStem": "other",
+      "absolute": [
+        10,
+        20
+      ],
+      "coverage": [
+        5,
+        35
+      ],
+      "local": [
+        5,
+        15
+      ],
+      "path": "/storage/v1/object/public/audio/tracks/fs_166649/stems/other_5000_35000.mp3",
+      "frames": 441000,
+      "sampleRate": 44100,
+      "channels": 2,
+      "maxSampleError": 0,
+      "rmsError": 0,
+      "contextState": "running"
+    },
+    "errors": []
+  },
+  "api_revision": "7431e3576ef10d842a5dfd058186a900480d5566",
+  "session8_raw_hashes_verified": 44,
+  "schema_sha256": "bb8f20c0ba862279a7b89b12c3e2946af087e43f10e1ae184132ac2e181f6df5",
+  "deferred": [
+    "80 heroes (67 verified)",
+    "30 prominent useful timbres listening",
+    "perceptual density listening calibration",
+    "historical mixed fixture cosine 0.186066 < 0.2",
+    "global lint",
+    "Fresh full audit exit 1: materialized fallback fs_754932 lacks local manifest and exact 192k probe"
+  ],
+  "accepted_joint_review": "Session 8 remains accepted; no new listening round",
+  "runtime_deployment_required": false,
+  "raw_sha256": {
+    "report.json": "e39d9f8f28bf2abcefc8f8d96c50b24d2580f99339abb11920bea236413f3076",
+    "live-api.json": "4eaab0a024b4ecd736e56ccc6c8c891b331aaf74b9eed8066c713b81e71ae5f6",
+    "join-recheck.json": "501421bc5a9009a55119254014613fcbb2e2b0a847ce36de78d9f9eece6614c3",
+    "browser-preview.json": "5d13e127208019517e64f6ae2a5b18ee3514be4e4a11dc52239356cd56ce4e16",
+    "browser-editor-playback.json": "d6df2b0d0ea9f903bcb787ff7159ae593a3717c89928c6640ea4844e075e4bff",
+    "fallback-recheck.json": "db3d73cc9fd48e02eb08dfbcd80929252bb6738ccc456f107fac26136799f680"
+  },
+  "safe_to_deploy": "Ingest tooling/source staging only; no service rollout required",
+  "launch_ready": false
+}

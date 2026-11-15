@@ -1,0 +1,3102 @@
+{
+  "recorded_at": "2026-11-15T01:46:16.147894+00:00",
+  "starting_commit": "d2b86f3498138e3eb8c8d5b037043faf696ad9f0",
+  "reports": {
+    "initial-confirmed": {
+      "path": "ingest\\data\\session7\\report-initial-confirmed.json",
+      "sha256": "393efd99f90a3be34535a6d50da5e3e758e0ca68e8516498398dee1b22f591e5",
+      "snapshot_at": "2026-11-15T00:19:54.683157+00:00",
+      "finished_at": "2026-11-15T00:21:10.754877+00:00",
+      "elapsed_s": 76.59400000000096,
+      "counts": {
+        "hero_flags": 31,
+        "imports": 1,
+        "library_tracks": 350,
+        "stems": 128,
+        "windows": 8589
+      },
+      "acceptance": {
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 49,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 31,
+        "technically_verified_library": 350,
+        "verified_hero_ids": [
+          "jam_1030277",
+          "jam_1030279",
+          "jam_1030282",
+          "jam_1039379",
+          "jam_1047157",
+          "jam_1096249",
+          "jam_1101341",
+          "jam_1121408",
+          "jam_1121423",
+          "jam_1126354",
+          "jam_1149160",
+          "jam_1149166",
+          "jam_1179114",
+          "jam_1222581",
+          "jam_1223964",
+          "jam_1229099",
+          "jam_1270293",
+          "jam_1275400",
+          "jam_1277123",
+          "jam_1282782",
+          "jam_1367270",
+          "jam_1432367",
+          "jam_1432369",
+          "jam_1433063",
+          "jam_1433892",
+          "jam_1433978",
+          "jam_1436572",
+          "jam_1439805",
+          "jam_1464239",
+          "jam_1475806",
+          "jam_1492151"
+        ]
+      },
+      "source_license_counts": [
+        {
+          "count": 28,
+          "license": "CC-BY-3.0",
+          "source": "freesound"
+        },
+        {
+          "count": 98,
+          "license": "CC-BY-4.0",
+          "source": "freesound"
+        },
+        {
+          "count": 74,
+          "license": "CC0",
+          "source": "freesound"
+        },
+        {
+          "count": 34,
+          "license": "CC-BY-3.0",
+          "source": "jamendo"
+        },
+        {
+          "count": 116,
+          "license": "CC-BY-SA-3.0",
+          "source": "jamendo"
+        }
+      ],
+      "window_counts": {
+        "bass": 840,
+        "drums": 938,
+        "mix": 5219,
+        "other": 1020,
+        "vocals": 569
+      },
+      "hero_density": null,
+      "invalid_windows": [],
+      "track_issues": [],
+      "public_objects": 478,
+      "public_failures": [],
+      "locally_hash_anchored": 474,
+      "maximum_density_db_delta": null,
+      "maximum_density_receipt_delta": null,
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7
+        },
+        "errors": [
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+            "kind": "analyze",
+            "progress": 0.0,
+            "status": "error"
+          }
+        ]
+      },
+      "hero_failures": [
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1307441",
+          "location": "heroes.py:164:features",
+          "time": 1794693143.8375132
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149165",
+          "location": "heroes.py:164:features",
+          "time": 1794693548.3273082
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149164",
+          "location": "heroes.py:164:features",
+          "time": 1794694231.4245431
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1348228",
+          "location": "heroes.py:164:features",
+          "time": 1794696233.7174523
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1359980",
+          "location": "heroes.py:164:features",
+          "time": 1794696606.4292517
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149159",
+          "location": "heroes.py:164:features",
+          "time": 1794697561.830883
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1238674",
+          "location": "heroes.py:164:features",
+          "time": 1794697755.5595303
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149161",
+          "location": "heroes.py:164:features",
+          "time": 1794698187.877459
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1544396",
+          "location": "heroes.py:164:features",
+          "time": 1794698420.8642087
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1342553",
+          "location": "heroes.py:164:features",
+          "time": 1794699173.5350428
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1207327",
+          "location": "heroes.py:164:features",
+          "time": 1794699319.334318
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149158",
+          "location": "heroes.py:164:features",
+          "time": 1794699737.805141
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1485349",
+          "location": "heroes.py:164:features",
+          "time": 1794699921.1908216
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378003",
+          "location": "heroes.py:164:features",
+          "time": 1794700330.9619026
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1432420",
+          "location": "heroes.py:164:features",
+          "time": 1794701251.4852576
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378557",
+          "location": "heroes.py:164:features",
+          "time": 1794701425.6271265
+        }
+      ],
+      "latest_hero_progress": {
+        "completed": 31,
+        "eta_s": 10957.275490840066,
+        "event": "progress",
+        "failed": 16,
+        "target": 80,
+        "time": 1794701869.7080138
+      },
+      "observed_exit_code": 2
+    },
+    "task14": {
+      "path": "ingest\\data\\session7\\report-task14.json",
+      "sha256": "0d87bdba78eb5401cf6e3ad652e0c58c528dbac21863778fd51ca0be25d99ad3",
+      "snapshot_at": "2026-11-15T00:40:43.440367+00:00",
+      "finished_at": "2026-11-15T00:47:07.443277+00:00",
+      "elapsed_s": 384.4850000000006,
+      "counts": {
+        "hero_flags": 35,
+        "imports": 1,
+        "library_tracks": 350,
+        "stems": 144,
+        "windows": 8996
+      },
+      "acceptance": {
+        "all_completed_hero_density": false,
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 48,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 32,
+        "technically_verified_library": 346,
+        "verified_hero_ids": [
+          "jam_1030277",
+          "jam_1030279",
+          "jam_1030282",
+          "jam_1039379",
+          "jam_1047157",
+          "jam_1096249",
+          "jam_1101338",
+          "jam_1121408",
+          "jam_1121423",
+          "jam_1126354",
+          "jam_1149160",
+          "jam_1149166",
+          "jam_1179114",
+          "jam_1223964",
+          "jam_1229099",
+          "jam_1270293",
+          "jam_1275400",
+          "jam_1277123",
+          "jam_1282782",
+          "jam_1289101",
+          "jam_1367270",
+          "jam_1432367",
+          "jam_1432369",
+          "jam_1432851",
+          "jam_1433063",
+          "jam_1433892",
+          "jam_1436572",
+          "jam_1439805",
+          "jam_1464239",
+          "jam_1475806",
+          "jam_1492151",
+          "jam_1544394"
+        ]
+      },
+      "source_license_counts": [
+        {
+          "count": 28,
+          "license": "CC-BY-3.0",
+          "source": "freesound"
+        },
+        {
+          "count": 98,
+          "license": "CC-BY-4.0",
+          "source": "freesound"
+        },
+        {
+          "count": 74,
+          "license": "CC0",
+          "source": "freesound"
+        },
+        {
+          "count": 34,
+          "license": "CC-BY-3.0",
+          "source": "jamendo"
+        },
+        {
+          "count": 116,
+          "license": "CC-BY-SA-3.0",
+          "source": "jamendo"
+        }
+      ],
+      "window_counts": {
+        "bass": 956,
+        "drums": 1058,
+        "mix": 5219,
+        "other": 1146,
+        "vocals": 614
+      },
+      "hero_density": {
+        "method": "spectral-flatness+four-stem-rms-above-minus30dbfs-v1",
+        "missing_hero_ids": [
+          "jam_1101341",
+          "jam_1222581",
+          "jam_1433978"
+        ],
+        "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+        "verified_heroes": 32,
+        "verified_windows": 4576
+      },
+      "invalid_windows": [],
+      "track_issues": [
+        {
+          "density_verified": false,
+          "hero_cache_verified": true,
+          "id": "jam_1101341",
+          "issues": [
+            "hero_activity_density:ValueError"
+          ],
+          "mix_verified": true
+        },
+        {
+          "density_verified": false,
+          "hero_cache_verified": true,
+          "id": "jam_1222581",
+          "issues": [
+            "hero_activity_density:ValueError"
+          ],
+          "mix_verified": true
+        },
+        {
+          "density_verified": false,
+          "hero_cache_verified": true,
+          "id": "jam_1433978",
+          "issues": [
+            "hero_activity_density:ValueError"
+          ],
+          "mix_verified": true
+        },
+        {
+          "density_verified": false,
+          "hero_cache_verified": false,
+          "id": "jam_1544392",
+          "issues": [
+            "mix_cache_db_metadata:ValueError"
+          ],
+          "mix_verified": false
+        }
+      ],
+      "public_objects": 494,
+      "public_failures": [],
+      "locally_hash_anchored": 489,
+      "maximum_density_db_delta": 8.96630808711052e-06,
+      "maximum_density_receipt_delta": 8.966075256466866e-06,
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7
+        },
+        "errors": [
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+            "kind": "stems",
+            "progress": 0.4000000059604645,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+            "kind": "stems",
+            "progress": 0.4000000059604645,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+            "kind": "analyze",
+            "progress": 0.0,
+            "status": "error"
+          }
+        ]
+      },
+      "hero_failures": [
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1307441",
+          "location": "heroes.py:164:features",
+          "time": 1794693143.8375132
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149165",
+          "location": "heroes.py:164:features",
+          "time": 1794693548.3273082
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149164",
+          "location": "heroes.py:164:features",
+          "time": 1794694231.4245431
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1348228",
+          "location": "heroes.py:164:features",
+          "time": 1794696233.7174523
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1359980",
+          "location": "heroes.py:164:features",
+          "time": 1794696606.4292517
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149159",
+          "location": "heroes.py:164:features",
+          "time": 1794697561.830883
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1238674",
+          "location": "heroes.py:164:features",
+          "time": 1794697755.5595303
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149161",
+          "location": "heroes.py:164:features",
+          "time": 1794698187.877459
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1544396",
+          "location": "heroes.py:164:features",
+          "time": 1794698420.8642087
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1342553",
+          "location": "heroes.py:164:features",
+          "time": 1794699173.5350428
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1207327",
+          "location": "heroes.py:164:features",
+          "time": 1794699319.334318
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149158",
+          "location": "heroes.py:164:features",
+          "time": 1794699737.805141
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1485349",
+          "location": "heroes.py:164:features",
+          "time": 1794699921.1908216
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378003",
+          "location": "heroes.py:164:features",
+          "time": 1794700330.9619026
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1432420",
+          "location": "heroes.py:164:features",
+          "time": 1794701251.4852576
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378557",
+          "location": "heroes.py:164:features",
+          "time": 1794701425.6271265
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1131022",
+          "location": "heroes.py:164:features",
+          "time": 1794702049.5661318
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149162",
+          "location": "heroes.py:164:features",
+          "time": 1794703149.9832478
+        }
+      ],
+      "latest_hero_progress": {
+        "completed": 36,
+        "eta_s": 10373.148050320011,
+        "event": "progress",
+        "failed": 18,
+        "target": 80,
+        "time": 1794703392.2384706
+      },
+      "observed_exit_code": 1
+    },
+    "canonical": {
+      "path": "ingest\\data\\session7\\report-canonical.json",
+      "sha256": "ff8e837edc8b04f1ac7330308a9ef030e8abc021f318ab6a59ec472e86f6a327",
+      "snapshot_at": "2026-11-15T00:58:57.992846+00:00",
+      "finished_at": "2026-11-15T01:07:15.673451+00:00",
+      "elapsed_s": 498.2659999999996,
+      "counts": {
+        "hero_flags": 40,
+        "imports": 1,
+        "library_tracks": 350,
+        "stems": 164,
+        "windows": 9492
+      },
+      "acceptance": {
+        "all_completed_hero_density": true,
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 40,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 40,
+        "technically_verified_library": 350,
+        "verified_hero_ids": [
+          "jam_1030277",
+          "jam_1030279",
+          "jam_1030282",
+          "jam_1039379",
+          "jam_1047157",
+          "jam_1096249",
+          "jam_1101338",
+          "jam_1101341",
+          "jam_1101344",
+          "jam_1121408",
+          "jam_1121423",
+          "jam_1126354",
+          "jam_1149160",
+          "jam_1149166",
+          "jam_1179114",
+          "jam_1222581",
+          "jam_1223964",
+          "jam_1229099",
+          "jam_1270293",
+          "jam_1275400",
+          "jam_1277123",
+          "jam_1282782",
+          "jam_1283863",
+          "jam_1289101",
+          "jam_1331951",
+          "jam_1367270",
+          "jam_1390854",
+          "jam_1432367",
+          "jam_1432369",
+          "jam_1432851",
+          "jam_1433063",
+          "jam_1433892",
+          "jam_1433978",
+          "jam_1436572",
+          "jam_1439805",
+          "jam_1464239",
+          "jam_1475806",
+          "jam_1492151",
+          "jam_1544392",
+          "jam_1544394"
+        ]
+      },
+      "source_license_counts": [
+        {
+          "count": 28,
+          "license": "CC-BY-3.0",
+          "source": "freesound"
+        },
+        {
+          "count": 98,
+          "license": "CC-BY-4.0",
+          "source": "freesound"
+        },
+        {
+          "count": 74,
+          "license": "CC0",
+          "source": "freesound"
+        },
+        {
+          "count": 34,
+          "license": "CC-BY-3.0",
+          "source": "jamendo"
+        },
+        {
+          "count": 116,
+          "license": "CC-BY-SA-3.0",
+          "source": "jamendo"
+        }
+      ],
+      "window_counts": {
+        "bass": 1093,
+        "drums": 1191,
+        "mix": 5219,
+        "other": 1289,
+        "vocals": 697
+      },
+      "hero_density": {
+        "method": "spectral-flatness+four-stem-rms-above-minus30dbfs-v1",
+        "missing_hero_ids": [],
+        "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+        "verified_heroes": 40,
+        "verified_windows": 5576
+      },
+      "invalid_windows": [],
+      "track_issues": [],
+      "public_objects": 514,
+      "public_failures": [],
+      "locally_hash_anchored": 510,
+      "maximum_density_db_delta": 2.9802322387695312e-08,
+      "maximum_density_receipt_delta": 0.0,
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7
+        },
+        "errors": [
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+            "kind": "stems",
+            "progress": 0.4000000059604645,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+            "kind": "stems",
+            "progress": 0.4000000059604645,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+            "kind": "analyze",
+            "progress": 0.0,
+            "status": "error"
+          }
+        ]
+      },
+      "hero_failures": [
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1307441",
+          "location": "heroes.py:164:features",
+          "time": 1794693143.8375132
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149165",
+          "location": "heroes.py:164:features",
+          "time": 1794693548.3273082
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149164",
+          "location": "heroes.py:164:features",
+          "time": 1794694231.4245431
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1348228",
+          "location": "heroes.py:164:features",
+          "time": 1794696233.7174523
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1359980",
+          "location": "heroes.py:164:features",
+          "time": 1794696606.4292517
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149159",
+          "location": "heroes.py:164:features",
+          "time": 1794697561.830883
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1238674",
+          "location": "heroes.py:164:features",
+          "time": 1794697755.5595303
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149161",
+          "location": "heroes.py:164:features",
+          "time": 1794698187.877459
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1544396",
+          "location": "heroes.py:164:features",
+          "time": 1794698420.8642087
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1342553",
+          "location": "heroes.py:164:features",
+          "time": 1794699173.5350428
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1207327",
+          "location": "heroes.py:164:features",
+          "time": 1794699319.334318
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149158",
+          "location": "heroes.py:164:features",
+          "time": 1794699737.805141
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1485349",
+          "location": "heroes.py:164:features",
+          "time": 1794699921.1908216
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378003",
+          "location": "heroes.py:164:features",
+          "time": 1794700330.9619026
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1432420",
+          "location": "heroes.py:164:features",
+          "time": 1794701251.4852576
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378557",
+          "location": "heroes.py:164:features",
+          "time": 1794701425.6271265
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1131022",
+          "location": "heroes.py:164:features",
+          "time": 1794702049.5661318
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149162",
+          "location": "heroes.py:164:features",
+          "time": 1794703149.9832478
+        }
+      ],
+      "latest_hero_progress": {
+        "completed": 41,
+        "eta_s": 8947.022219849978,
+        "event": "progress",
+        "failed": 18,
+        "target": 80,
+        "time": 1794704508.5874536
+      },
+      "observed_exit_code": 2
+    },
+    "final": {
+      "path": "ingest\\data\\session7\\report-final.json",
+      "sha256": "00bce91f047a5b7e77564b9aaf1942bd3339c8fafa3c1fc8dac3c843870d6d51",
+      "snapshot_at": "2026-11-15T01:33:31.911930+00:00",
+      "finished_at": "2026-11-15T01:43:26.885169+00:00",
+      "elapsed_s": 595.5620000000017,
+      "counts": {
+        "hero_flags": 48,
+        "imports": 1,
+        "library_tracks": 350,
+        "stems": 196,
+        "windows": 10365
+      },
+      "acceptance": {
+        "all_completed_hero_density": true,
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 32,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 48,
+        "technically_verified_library": 350,
+        "verified_hero_ids": [
+          "jam_1030277",
+          "jam_1030279",
+          "jam_1030282",
+          "jam_1039379",
+          "jam_1047157",
+          "jam_1096249",
+          "jam_1096663",
+          "jam_1101338",
+          "jam_1101341",
+          "jam_1101344",
+          "jam_1111809",
+          "jam_1121408",
+          "jam_1121423",
+          "jam_1126354",
+          "jam_1149160",
+          "jam_1149166",
+          "jam_1179114",
+          "jam_1222581",
+          "jam_1223964",
+          "jam_1229099",
+          "jam_1270293",
+          "jam_1275400",
+          "jam_1277123",
+          "jam_1282782",
+          "jam_1283863",
+          "jam_1289101",
+          "jam_1311439",
+          "jam_1331951",
+          "jam_1332140",
+          "jam_1367270",
+          "jam_1390854",
+          "jam_1407055",
+          "jam_1432367",
+          "jam_1432369",
+          "jam_1432847",
+          "jam_1432851",
+          "jam_1433063",
+          "jam_1433892",
+          "jam_1433978",
+          "jam_1436572",
+          "jam_1439805",
+          "jam_1464239",
+          "jam_1466603",
+          "jam_1475806",
+          "jam_1492151",
+          "jam_1544389",
+          "jam_1544392",
+          "jam_1544394"
+        ]
+      },
+      "source_license_counts": [
+        {
+          "count": 28,
+          "license": "CC-BY-3.0",
+          "source": "freesound"
+        },
+        {
+          "count": 98,
+          "license": "CC-BY-4.0",
+          "source": "freesound"
+        },
+        {
+          "count": 74,
+          "license": "CC0",
+          "source": "freesound"
+        },
+        {
+          "count": 34,
+          "license": "CC-BY-3.0",
+          "source": "jamendo"
+        },
+        {
+          "count": 116,
+          "license": "CC-BY-SA-3.0",
+          "source": "jamendo"
+        }
+      ],
+      "window_counts": {
+        "bass": 1322,
+        "drums": 1441,
+        "mix": 5219,
+        "other": 1536,
+        "vocals": 844
+      },
+      "hero_density": {
+        "method": "spectral-flatness+four-stem-rms-above-minus30dbfs-v1",
+        "missing_hero_ids": [],
+        "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+        "verified_heroes": 48,
+        "verified_windows": 6701
+      },
+      "invalid_windows": [],
+      "track_issues": [],
+      "public_objects": 546,
+      "public_failures": [],
+      "locally_hash_anchored": 542,
+      "maximum_density_db_delta": 2.9802322387695312e-08,
+      "maximum_density_receipt_delta": 0.0,
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7
+        },
+        "errors": [
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+            "kind": "stems",
+            "progress": 0.4000000059604645,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+            "kind": "stems",
+            "progress": 0.4000000059604645,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+            "kind": "analyze",
+            "progress": 0.0,
+            "status": "error"
+          }
+        ]
+      },
+      "hero_failures": [
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1307441",
+          "location": "heroes.py:164:features",
+          "time": 1794693143.8375132
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149165",
+          "location": "heroes.py:164:features",
+          "time": 1794693548.3273082
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149164",
+          "location": "heroes.py:164:features",
+          "time": 1794694231.4245431
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1348228",
+          "location": "heroes.py:164:features",
+          "time": 1794696233.7174523
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1359980",
+          "location": "heroes.py:164:features",
+          "time": 1794696606.4292517
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149159",
+          "location": "heroes.py:164:features",
+          "time": 1794697561.830883
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1238674",
+          "location": "heroes.py:164:features",
+          "time": 1794697755.5595303
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149161",
+          "location": "heroes.py:164:features",
+          "time": 1794698187.877459
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1544396",
+          "location": "heroes.py:164:features",
+          "time": 1794698420.8642087
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1342553",
+          "location": "heroes.py:164:features",
+          "time": 1794699173.5350428
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1207327",
+          "location": "heroes.py:164:features",
+          "time": 1794699319.334318
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149158",
+          "location": "heroes.py:164:features",
+          "time": 1794699737.805141
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1485349",
+          "location": "heroes.py:164:features",
+          "time": 1794699921.1908216
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378003",
+          "location": "heroes.py:164:features",
+          "time": 1794700330.9619026
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1432420",
+          "location": "heroes.py:164:features",
+          "time": 1794701251.4852576
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1378557",
+          "location": "heroes.py:164:features",
+          "time": 1794701425.6271265
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1131022",
+          "location": "heroes.py:164:features",
+          "time": 1794702049.5661318
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1149162",
+          "location": "heroes.py:164:features",
+          "time": 1794703149.9832478
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1364453",
+          "location": "heroes.py:164:features",
+          "time": 1794705441.577915
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1501360",
+          "location": "heroes.py:164:features",
+          "time": 1794706033.4505599
+        },
+        {
+          "error_type": "ValueError",
+          "event": "failure",
+          "http_status": null,
+          "id": "jam_1432368",
+          "location": "heroes.py:164:features",
+          "time": 1794706736.6339378
+        }
+      ],
+      "latest_hero_progress": {
+        "completed": 49,
+        "eta_s": 6522.8852005299705,
+        "event": "progress",
+        "failed": 21,
+        "target": 80,
+        "time": 1794706736.6591914
+      },
+      "observed_exit_code": 2
+    }
+  },
+  "density_initial": {
+    "elapsed_s": 482.35899999999674,
+    "failures": [
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1030277",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1030279",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1030282",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1039379",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1047157",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1096249",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1101338",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1101341",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1121408",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1121423",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1126354",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1149160",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1149166",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1179114",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1222581",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1223964",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1229099",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1270293",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1275400",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1277123",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1282782",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1367270",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1432367",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1432369",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1433063",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1433892",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1433978",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1436572",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1439805",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1464239",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1475806",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      },
+      {
+        "error_type": "ValueError",
+        "http_status": null,
+        "id": "jam_1492151",
+        "location": "density.py:218:apply",
+        "message": "Post-migration density verification failed"
+      }
+    ],
+    "follow": false,
+    "heroes_in_snapshot": 32,
+    "pid": 30988,
+    "producer_running_before_snapshot": null,
+    "time": 1794702936.4722853,
+    "tracks": [],
+    "updated_rows": 0,
+    "verified_heroes": 0,
+    "verified_windows": 0
+  },
+  "density_first_success": {
+    "elapsed_s": 103.09400000000096,
+    "failures": [],
+    "follow": true,
+    "heroes_in_snapshot": 35,
+    "pid": 21740,
+    "producer_running_before_snapshot": true,
+    "time": 1794703211.253246,
+    "tracks": [
+      {
+        "id": "jam_1030277",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 163
+      },
+      {
+        "id": "jam_1030279",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 128
+      },
+      {
+        "id": "jam_1030282",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 155
+      },
+      {
+        "id": "jam_1039379",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 161
+      },
+      {
+        "id": "jam_1047157",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 109
+      },
+      {
+        "id": "jam_1096249",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 159
+      },
+      {
+        "id": "jam_1101338",
+        "mix_windows": 28,
+        "updated_rows": 0,
+        "windows": 115
+      },
+      {
+        "id": "jam_1101341",
+        "mix_windows": 17,
+        "updated_rows": 0,
+        "windows": 56
+      },
+      {
+        "id": "jam_1121408",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 127
+      },
+      {
+        "id": "jam_1121423",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 136
+      },
+      {
+        "id": "jam_1126354",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 130
+      },
+      {
+        "id": "jam_1149160",
+        "mix_windows": 32,
+        "updated_rows": 0,
+        "windows": 168
+      },
+      {
+        "id": "jam_1149166",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 103
+      },
+      {
+        "id": "jam_1179114",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 168
+      },
+      {
+        "id": "jam_1222581",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 162
+      },
+      {
+        "id": "jam_1223964",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 127
+      },
+      {
+        "id": "jam_1229099",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 138
+      },
+      {
+        "id": "jam_1270293",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 129
+      },
+      {
+        "id": "jam_1275400",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 167
+      },
+      {
+        "id": "jam_1277123",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 159
+      },
+      {
+        "id": "jam_1282782",
+        "mix_windows": 28,
+        "updated_rows": 0,
+        "windows": 97
+      },
+      {
+        "id": "jam_1289101",
+        "mix_windows": 34,
+        "updated_rows": 34,
+        "windows": 139
+      },
+      {
+        "id": "jam_1367270",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 146
+      },
+      {
+        "id": "jam_1432367",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 161
+      },
+      {
+        "id": "jam_1432369",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 170
+      },
+      {
+        "id": "jam_1432851",
+        "mix_windows": 34,
+        "updated_rows": 34,
+        "windows": 149
+      },
+      {
+        "id": "jam_1433063",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 167
+      },
+      {
+        "id": "jam_1433892",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 138
+      },
+      {
+        "id": "jam_1433978",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 139
+      },
+      {
+        "id": "jam_1436572",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 170
+      },
+      {
+        "id": "jam_1439805",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 128
+      },
+      {
+        "id": "jam_1464239",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 166
+      },
+      {
+        "id": "jam_1475806",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 111
+      },
+      {
+        "id": "jam_1492151",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 158
+      },
+      {
+        "id": "jam_1544394",
+        "mix_windows": 34,
+        "updated_rows": 34,
+        "windows": 134
+      }
+    ],
+    "updated_rows": 102,
+    "verified_heroes": 35,
+    "verified_windows": 4933
+  },
+  "density_latest": {
+    "elapsed_s": 74.0470000000023,
+    "failures": [],
+    "follow": true,
+    "heroes_in_snapshot": 50,
+    "pid": 21740,
+    "producer_running_before_snapshot": true,
+    "time": 1794707173.5060394,
+    "tracks": [
+      {
+        "id": "jam_1030277",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 163
+      },
+      {
+        "id": "jam_1030279",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 128
+      },
+      {
+        "id": "jam_1030282",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 155
+      },
+      {
+        "id": "jam_1039379",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 161
+      },
+      {
+        "id": "jam_1047157",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 109
+      },
+      {
+        "id": "jam_1096249",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 159
+      },
+      {
+        "id": "jam_1096663",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 165
+      },
+      {
+        "id": "jam_1101338",
+        "mix_windows": 28,
+        "updated_rows": 0,
+        "windows": 115
+      },
+      {
+        "id": "jam_1101341",
+        "mix_windows": 17,
+        "updated_rows": 0,
+        "windows": 56
+      },
+      {
+        "id": "jam_1101344",
+        "mix_windows": 11,
+        "updated_rows": 0,
+        "windows": 37
+      },
+      {
+        "id": "jam_1111809",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 148
+      },
+      {
+        "id": "jam_1121408",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 127
+      },
+      {
+        "id": "jam_1121423",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 136
+      },
+      {
+        "id": "jam_1126354",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 130
+      },
+      {
+        "id": "jam_1149160",
+        "mix_windows": 32,
+        "updated_rows": 0,
+        "windows": 168
+      },
+      {
+        "id": "jam_1149166",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 103
+      },
+      {
+        "id": "jam_1179114",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 168
+      },
+      {
+        "id": "jam_1222516",
+        "mix_windows": 34,
+        "updated_rows": 34,
+        "windows": 167
+      },
+      {
+        "id": "jam_1222581",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 162
+      },
+      {
+        "id": "jam_1222826",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 169
+      },
+      {
+        "id": "jam_1223964",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 127
+      },
+      {
+        "id": "jam_1229099",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 138
+      },
+      {
+        "id": "jam_1270293",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 129
+      },
+      {
+        "id": "jam_1275400",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 167
+      },
+      {
+        "id": "jam_1277123",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 159
+      },
+      {
+        "id": "jam_1282782",
+        "mix_windows": 28,
+        "updated_rows": 0,
+        "windows": 97
+      },
+      {
+        "id": "jam_1283863",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 159
+      },
+      {
+        "id": "jam_1289101",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 139
+      },
+      {
+        "id": "jam_1311439",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 161
+      },
+      {
+        "id": "jam_1331951",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 149
+      },
+      {
+        "id": "jam_1332140",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 153
+      },
+      {
+        "id": "jam_1367270",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 146
+      },
+      {
+        "id": "jam_1390854",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 167
+      },
+      {
+        "id": "jam_1407055",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 139
+      },
+      {
+        "id": "jam_1432367",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 161
+      },
+      {
+        "id": "jam_1432369",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 170
+      },
+      {
+        "id": "jam_1432847",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 152
+      },
+      {
+        "id": "jam_1432851",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 149
+      },
+      {
+        "id": "jam_1433063",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 167
+      },
+      {
+        "id": "jam_1433892",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 138
+      },
+      {
+        "id": "jam_1433978",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 139
+      },
+      {
+        "id": "jam_1436572",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 170
+      },
+      {
+        "id": "jam_1439805",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 128
+      },
+      {
+        "id": "jam_1464239",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 166
+      },
+      {
+        "id": "jam_1466603",
+        "mix_windows": 14,
+        "updated_rows": 0,
+        "windows": 70
+      },
+      {
+        "id": "jam_1475806",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 111
+      },
+      {
+        "id": "jam_1492151",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 158
+      },
+      {
+        "id": "jam_1544389",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 137
+      },
+      {
+        "id": "jam_1544392",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 131
+      },
+      {
+        "id": "jam_1544394",
+        "mix_windows": 34,
+        "updated_rows": 0,
+        "windows": 134
+      }
+    ],
+    "updated_rows": 34,
+    "verified_heroes": 50,
+    "verified_windows": 7037
+  },
+  "density_receipts": [
+    {
+      "id": "jam_1030277",
+      "path": "ingest\\data\\tracks\\jam_1030277\\stem-activity-density.json",
+      "sha256": "419db6f99ea2b93135a98a7659bd7b6955afad255a86caaf91c27ba95f7aa75b",
+      "windows": 163,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1030279",
+      "path": "ingest\\data\\tracks\\jam_1030279\\stem-activity-density.json",
+      "sha256": "96afbe520e74860b18b382e1b428feca99543ceb075e22d6d82b9ae17b80da7f",
+      "windows": 128,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1030282",
+      "path": "ingest\\data\\tracks\\jam_1030282\\stem-activity-density.json",
+      "sha256": "6437cf2f2875da9c5e03603ac9b77a93785c0fedf6cd0ed6840b445926d3ed99",
+      "windows": 155,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1039379",
+      "path": "ingest\\data\\tracks\\jam_1039379\\stem-activity-density.json",
+      "sha256": "f52185d11f3330fc62770a31b0f6a8f3987ed6f9d48d049307364ebf6238fda7",
+      "windows": 161,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1047157",
+      "path": "ingest\\data\\tracks\\jam_1047157\\stem-activity-density.json",
+      "sha256": "4cfe630e0ac8aa4c8bc3567821ede71218d28a0aa8615d0522b44259aa255300",
+      "windows": 109,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1096249",
+      "path": "ingest\\data\\tracks\\jam_1096249\\stem-activity-density.json",
+      "sha256": "5b930cef4f3e0cfce80b55cc25e992072ebd92867df28ba2115d12344bc69af2",
+      "windows": 159,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1096663",
+      "path": "ingest\\data\\tracks\\jam_1096663\\stem-activity-density.json",
+      "sha256": "2d1f3a9109d25378c8c9d03f97527da2c9a687cde1c88018bc18b468ac069b41",
+      "windows": 165,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1101338",
+      "path": "ingest\\data\\tracks\\jam_1101338\\stem-activity-density.json",
+      "sha256": "da370b077e6c7e89356abf744392105617769098e2568dc3ad6926bf1d79f728",
+      "windows": 115,
+      "mix_windows": 28
+    },
+    {
+      "id": "jam_1101341",
+      "path": "ingest\\data\\tracks\\jam_1101341\\stem-activity-density.json",
+      "sha256": "280085d6d25fe796a14f0b02fb9c909b68fe03045c88bab383d1a63098e0eff6",
+      "windows": 56,
+      "mix_windows": 17
+    },
+    {
+      "id": "jam_1101344",
+      "path": "ingest\\data\\tracks\\jam_1101344\\stem-activity-density.json",
+      "sha256": "0b00272fdd866234cf344224028475c9b5dd37904ca2c45cda2d50afab87d25f",
+      "windows": 37,
+      "mix_windows": 11
+    },
+    {
+      "id": "jam_1111809",
+      "path": "ingest\\data\\tracks\\jam_1111809\\stem-activity-density.json",
+      "sha256": "174ab1a1332183083bf6d1d6d1a96d496779896090efb314dc035a2beec04a0d",
+      "windows": 148,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1121408",
+      "path": "ingest\\data\\tracks\\jam_1121408\\stem-activity-density.json",
+      "sha256": "c53c18f1cc829eafd52a171f46751de94db00b30e4d8e62816cb7f4b14244871",
+      "windows": 127,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1121423",
+      "path": "ingest\\data\\tracks\\jam_1121423\\stem-activity-density.json",
+      "sha256": "974eb080dcfbbbdb66e5e45ad6ea322b66e6550b79336e54fd347be64f8a2431",
+      "windows": 136,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1126354",
+      "path": "ingest\\data\\tracks\\jam_1126354\\stem-activity-density.json",
+      "sha256": "2b1b943ea8a0b0c1690d4c751182ac0cae6e3157443cb3f061a1c455505c704a",
+      "windows": 130,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1149160",
+      "path": "ingest\\data\\tracks\\jam_1149160\\stem-activity-density.json",
+      "sha256": "6764055c83af5faa65e6c221fe2a8c3ece296be01f4fd396f696673d111f374d",
+      "windows": 168,
+      "mix_windows": 32
+    },
+    {
+      "id": "jam_1149166",
+      "path": "ingest\\data\\tracks\\jam_1149166\\stem-activity-density.json",
+      "sha256": "0bed1d3c21b737da0e562b46d0f0125154ff3991dad5ccee43f4a42a96b85a24",
+      "windows": 103,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1179114",
+      "path": "ingest\\data\\tracks\\jam_1179114\\stem-activity-density.json",
+      "sha256": "f91423994b40cec72d6f0c27a26f717aa3f223693de8d9397573c421e6d3a090",
+      "windows": 168,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1222581",
+      "path": "ingest\\data\\tracks\\jam_1222581\\stem-activity-density.json",
+      "sha256": "02abea68ee9853128e6e5b088696fd3a07ba3964e3ba2797192536691bfa4783",
+      "windows": 162,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1223964",
+      "path": "ingest\\data\\tracks\\jam_1223964\\stem-activity-density.json",
+      "sha256": "18dee905a6d7bf49a21191368bbad67778afec05040600226e1c383afd803422",
+      "windows": 127,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1229099",
+      "path": "ingest\\data\\tracks\\jam_1229099\\stem-activity-density.json",
+      "sha256": "066c2177ebbfce88f3f4240711376847bffafc2a6167801207cb08f262f83d09",
+      "windows": 138,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1270293",
+      "path": "ingest\\data\\tracks\\jam_1270293\\stem-activity-density.json",
+      "sha256": "ed92fc566db2e4d7970da27edc950384860b063f88066babde05d25ef4097f17",
+      "windows": 129,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1275400",
+      "path": "ingest\\data\\tracks\\jam_1275400\\stem-activity-density.json",
+      "sha256": "59a220f027244671b362ecac6a236d49ab402cb0d81e8e58a5b39cc00b35106d",
+      "windows": 167,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1277123",
+      "path": "ingest\\data\\tracks\\jam_1277123\\stem-activity-density.json",
+      "sha256": "196151c159e41f22da066ea9cbbb1239b0bfd7d7e9cde9dde8409a63852e23bc",
+      "windows": 159,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1282782",
+      "path": "ingest\\data\\tracks\\jam_1282782\\stem-activity-density.json",
+      "sha256": "8d6f43ba105d9ad6c332852a1a12f44cade5cae6733eb8f443bb7b173fd58f10",
+      "windows": 97,
+      "mix_windows": 28
+    },
+    {
+      "id": "jam_1283863",
+      "path": "ingest\\data\\tracks\\jam_1283863\\stem-activity-density.json",
+      "sha256": "9a1201d2aad1fdc53c128d92cc04117064a2575e87f48b5c861afb21daa5fbfc",
+      "windows": 159,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1289101",
+      "path": "ingest\\data\\tracks\\jam_1289101\\stem-activity-density.json",
+      "sha256": "e899c26aa4e525c935179bfcfa19049706ba1fc9795856aef2119a5bca0c027e",
+      "windows": 139,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1311439",
+      "path": "ingest\\data\\tracks\\jam_1311439\\stem-activity-density.json",
+      "sha256": "ad96bc7ff2465b7cb54e92e67467dc0ba1c08ea4815d906f3c421980c17ead55",
+      "windows": 161,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1331951",
+      "path": "ingest\\data\\tracks\\jam_1331951\\stem-activity-density.json",
+      "sha256": "73f12be3856be8980e5d67751c6ee07ca0383c99df9635932e1dcb73ffc73f7b",
+      "windows": 149,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1332140",
+      "path": "ingest\\data\\tracks\\jam_1332140\\stem-activity-density.json",
+      "sha256": "3b4d07572c2352aa4926337f53c3645bccbe2a5532315fa8b8516d88bd3376ce",
+      "windows": 153,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1367270",
+      "path": "ingest\\data\\tracks\\jam_1367270\\stem-activity-density.json",
+      "sha256": "c1deee3b72a59675267d088052b3c2c5ac8ac165c57efc6851cb9ee1d31b881d",
+      "windows": 146,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1390854",
+      "path": "ingest\\data\\tracks\\jam_1390854\\stem-activity-density.json",
+      "sha256": "08b51fbe644c824ca1949d0b9579ab1be5f4d2917ba7dfec251b71a38ad7bda5",
+      "windows": 167,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1407055",
+      "path": "ingest\\data\\tracks\\jam_1407055\\stem-activity-density.json",
+      "sha256": "3e3ded0e74f6a6b505719528f9ba4cb7079b28d476a653eda95bceafd2e144b8",
+      "windows": 139,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1432367",
+      "path": "ingest\\data\\tracks\\jam_1432367\\stem-activity-density.json",
+      "sha256": "1891a066e075973edcfc25d630ce13478b2d600658d47a8b280fabb2ec881457",
+      "windows": 161,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1432369",
+      "path": "ingest\\data\\tracks\\jam_1432369\\stem-activity-density.json",
+      "sha256": "b0d8052d351dc946f3f43b5f5392e0136ba9800ff24f7f05f18ac5c5ed9cf96e",
+      "windows": 170,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1432847",
+      "path": "ingest\\data\\tracks\\jam_1432847\\stem-activity-density.json",
+      "sha256": "31e9f3ccd9cd26f3b6d4091ff6a9c21867085ac497c27fd2b69b0b5b630763f3",
+      "windows": 152,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1432851",
+      "path": "ingest\\data\\tracks\\jam_1432851\\stem-activity-density.json",
+      "sha256": "82752e4d26e3adbe8fe2300ce42762161dea84950b0423c316d4ed6064bab5f5",
+      "windows": 149,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1433063",
+      "path": "ingest\\data\\tracks\\jam_1433063\\stem-activity-density.json",
+      "sha256": "417dec6e3d3005f86c634ca0b7c10cdedcf513a84cd9747a2b19a568213c3b9d",
+      "windows": 167,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1433892",
+      "path": "ingest\\data\\tracks\\jam_1433892\\stem-activity-density.json",
+      "sha256": "1a670bcfa596986e46144f33a2ea2e051afdd68f0aa7ed134e069897d337221f",
+      "windows": 138,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1433978",
+      "path": "ingest\\data\\tracks\\jam_1433978\\stem-activity-density.json",
+      "sha256": "8428049564197ec28535e9dff720f0419e7f3f5eb955a4dc8a16f09c67deb363",
+      "windows": 139,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1436572",
+      "path": "ingest\\data\\tracks\\jam_1436572\\stem-activity-density.json",
+      "sha256": "16518794beef1c84eb4e32d7a3a8b10ac8486ce7f760d0c11decbd31c25be5ea",
+      "windows": 170,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1439805",
+      "path": "ingest\\data\\tracks\\jam_1439805\\stem-activity-density.json",
+      "sha256": "1f572ba56b78f3dfe2747264a4deffe0e0b820803b003c404b4ef84ec260888c",
+      "windows": 128,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1464239",
+      "path": "ingest\\data\\tracks\\jam_1464239\\stem-activity-density.json",
+      "sha256": "e9c77bb705d0f336555e9b1aaaa031bef1c4d70c255f0cd21745df8e7ee0763e",
+      "windows": 166,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1466603",
+      "path": "ingest\\data\\tracks\\jam_1466603\\stem-activity-density.json",
+      "sha256": "b1f95c4416256ec2048f783981ccf1a4c6418ffcc288c772eac2b7c978a0e352",
+      "windows": 70,
+      "mix_windows": 14
+    },
+    {
+      "id": "jam_1475806",
+      "path": "ingest\\data\\tracks\\jam_1475806\\stem-activity-density.json",
+      "sha256": "43f125405e1a4b8cf8f079290ee1052de60207643cb6c44f6add42a8d4cc51ac",
+      "windows": 111,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1492151",
+      "path": "ingest\\data\\tracks\\jam_1492151\\stem-activity-density.json",
+      "sha256": "9932379f8ce298f29339dd5eacee2579ed54d2b9e0c9d267a97ccc6e7c79afc7",
+      "windows": 158,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1544389",
+      "path": "ingest\\data\\tracks\\jam_1544389\\stem-activity-density.json",
+      "sha256": "d0ef8869d58bbfbb660902e2e38551ccfc858c9f1d777630fb30dea23797cead",
+      "windows": 137,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1544392",
+      "path": "ingest\\data\\tracks\\jam_1544392\\stem-activity-density.json",
+      "sha256": "b7f80f22a2f854c2312089f71b09794eaf316c430b4d2d8282718974a998fa6b",
+      "windows": 131,
+      "mix_windows": 34
+    },
+    {
+      "id": "jam_1544394",
+      "path": "ingest\\data\\tracks\\jam_1544394\\stem-activity-density.json",
+      "sha256": "f896aa63a8dbace6b3d0b9d578c0c266cddd15094dfa82ae3cf251a9b3863e2f",
+      "windows": 134,
+      "mix_windows": 34
+    }
+  ],
+  "rejections": {
+    "recorded_at": "2026-11-15T01:41:07.383850+00:00",
+    "previous_measured_hero_ids": [
+      "jam_1149158",
+      "jam_1149159",
+      "jam_1149161",
+      "jam_1149164",
+      "jam_1149165",
+      "jam_1207327",
+      "jam_1238674",
+      "jam_1307441",
+      "jam_1342553",
+      "jam_1348228",
+      "jam_1359980",
+      "jam_1378003",
+      "jam_1485349",
+      "jam_1544396"
+    ],
+    "newly_measured_ids": [
+      "jam_1131022",
+      "jam_1149162",
+      "jam_1364453",
+      "jam_1378557",
+      "jam_1432368",
+      "jam_1432420",
+      "jam_1501360"
+    ],
+    "decoded_files": 28,
+    "silence_threshold": 0.005623413251903491,
+    "measurements": [
+      {
+        "id": "jam_1131022",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.0002364002362808554,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1131022",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.06587365645259076,
+        "audible_nominal_windows": 11
+      },
+      {
+        "id": "jam_1131022",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.17586355690345942,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1131022",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.00019153405575251297,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1149162",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 154.088231292517,
+        "max_nominal_window_rms": 0.008861069302361819,
+        "audible_nominal_windows": 2
+      },
+      {
+        "id": "jam_1149162",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 154.088231292517,
+        "max_nominal_window_rms": 0.05169625896695719,
+        "audible_nominal_windows": 10
+      },
+      {
+        "id": "jam_1149162",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 154.088231292517,
+        "max_nominal_window_rms": 0.19842424649910362,
+        "audible_nominal_windows": 30
+      },
+      {
+        "id": "jam_1149162",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 154.088231292517,
+        "max_nominal_window_rms": 0.0002283764726849405,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1364453",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 135.44596371882085,
+        "max_nominal_window_rms": 0.05554738571598437,
+        "audible_nominal_windows": 21
+      },
+      {
+        "id": "jam_1364453",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 135.44596371882085,
+        "max_nominal_window_rms": 0.06550608344578865,
+        "audible_nominal_windows": 23
+      },
+      {
+        "id": "jam_1364453",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 135.44596371882085,
+        "max_nominal_window_rms": 0.0723973362771131,
+        "audible_nominal_windows": 27
+      },
+      {
+        "id": "jam_1364453",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 135.44596371882085,
+        "max_nominal_window_rms": 9.037725697345867e-05,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1378557",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.17220172010877394,
+        "audible_nominal_windows": 32
+      },
+      {
+        "id": "jam_1378557",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.20032044188651985,
+        "audible_nominal_windows": 26
+      },
+      {
+        "id": "jam_1378557",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.05291183388114364,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1378557",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.0005746322850828993,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1432368",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.14670933590919547,
+        "audible_nominal_windows": 32
+      },
+      {
+        "id": "jam_1432368",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.12136580136371795,
+        "audible_nominal_windows": 32
+      },
+      {
+        "id": "jam_1432368",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.097103333871724,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1432368",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.00021213193478765186,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1432420",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.1830827243837259,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1432420",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.18063914009140963,
+        "audible_nominal_windows": 31
+      },
+      {
+        "id": "jam_1432420",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.18028314245821153,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1432420",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.0017265033491215768,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1501360",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.08643245855657468,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1501360",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.14711241793962027,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1501360",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.09458305083214548,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1501360",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_window_rms": 0.0016582880159251095,
+        "audible_nominal_windows": 0
+      }
+    ],
+    "observed_failure_events": [
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1307441",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794693143.8375132
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1149165",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794693548.3273082
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1149164",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794694231.4245431
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1348228",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794696233.7174523
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1359980",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794696606.4292517
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1149159",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794697561.830883
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1238674",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794697755.5595303
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1149161",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794698187.877459
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1544396",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794698420.8642087
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1342553",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794699173.5350428
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1207327",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794699319.334318
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1149158",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794699737.805141
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1485349",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794699921.1908216
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1378003",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794700330.9619026
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1432420",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794701251.4852576
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1378557",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794701425.6271265
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1131022",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794702049.5661318
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1149162",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794703149.9832478
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1364453",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794705441.577915
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1501360",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794706033.4505599
+      },
+      {
+        "error_type": "ValueError",
+        "event": "failure",
+        "http_status": null,
+        "id": "jam_1432368",
+        "location": "heroes.py:164:features",
+        "message": "At least one stem has no audible searchable windows; hero gate unmet",
+        "time": 1794706736.6339378
+      }
+    ],
+    "interpretation": "Apply unchanged nominal-window and join rules; no repair, threshold change or fabricated windows"
+  },
+  "checks": {
+    "focused_initial": {
+      "path": "ingest\\data\\session7-focused.stdout.log",
+      "sha256": "8d05419740c7143f63f0ddb2907083bc5ca77d52ef2b2179b1ff3d0a72fcb6ba",
+      "output": ".................F.........................................              [100%]\r\n================================== FAILURES ===================================\r\n_____ test_transaction_and_crash_recovery_preserve_unrelated_data[vector] _____\r\ningest\\tests\\test_density.py:216: in test_transaction_and_crash_recovery_preserve_unrelated_data\r\n    with pytest.raises(ValueError):\r\nE   Failed: DID NOT RAISE ValueError\r\n=========================== short test summary info ===========================\r\nFAILED ingest\\tests\\test_density.py::test_transaction_and_crash_recovery_preserve_unrelated_data[vector]\r\n1 failed, 58 passed in 32.28s"
+    },
+    "focused_fixed": {
+      "path": "ingest\\data\\session7-focused-fixed.stdout.log",
+      "sha256": "08278fef439b00418c084ce004e67ddca1be150b567866d50da6bcfcd632e3bc",
+      "output": ".............................................................            [100%]\r\n61 passed in 25.39s"
+    },
+    "focused_precision": {
+      "path": "ingest\\data\\session7-precision-focused.stdout.log",
+      "sha256": "8928a8b6db05d0eb595afedf00c1999c0cf592f89f9dd3f474ccf0d22af9dd3e",
+      "output": "...............................................................          [100%]\r\n63 passed in 35.58s"
+    },
+    "focused_final": {
+      "path": "ingest\\data\\session7-canonical-focused.stdout.log",
+      "sha256": "459ae59bbe0ea95c04f850fb32b514a4d2ce8f162faca0080a0a0e06f2539ed4",
+      "output": "................................................................         [100%]\r\n64 passed in 45.74s"
+    },
+    "ingest_initial": {
+      "path": "ingest\\data\\session7-ingest.stdout.log",
+      "sha256": "d3a1572931f96453647ab1aa85a025f21e20c16f93f0bb0fcd42ef63ce4addec",
+      "output": "........................................................................ [ 54%]\r\n...........................................................              [100%]\r\n131 passed in 58.85s"
+    },
+    "ingest_precision": {
+      "path": "ingest\\data\\session7-precision-ingest.stdout.log",
+      "sha256": "760c7f70bc9f961a5f9d6b24f2bb0bdccd390f6ab3e540328fe98d7119960f9f",
+      "output": "........................................................................ [ 54%]\r\n.............................................................            [100%]\r\n133 passed in 57.19s"
+    },
+    "ingest_final": {
+      "path": "ingest\\data\\session7-canonical-ingest.stdout.log",
+      "sha256": "e566fba8ebb2d22b0ca3c932610ae608a2f7513687e65bbbb3514a8d6645486b",
+      "output": "........................................................................ [ 53%]\r\n..............................................................           [100%]\r\n134 passed in 62.69s (0:01:02)"
+    },
+    "worker_initial": {
+      "path": "worker\\data\\session7-worker.stdout.log",
+      "sha256": "4fab8639a81224eea99de3b6b75dc6495c6d5d7a3bf564a2c25114784ddaf017",
+      "output": "........sssss...............                                             [100%]\r\n23 passed, 5 skipped in 35.41s"
+    },
+    "worker_precision": {
+      "path": "worker\\data\\session7-precision-worker.stdout.log",
+      "sha256": "797ac624811a9cb90e71b0c2aab2f541c6de201c769259b411868fbbd8edc30d",
+      "output": "........sssss...............                                             [100%]\r\n23 passed, 5 skipped in 35.39s"
+    },
+    "worker_final": {
+      "path": "worker\\data\\session7-canonical-worker.stdout.log",
+      "sha256": "c780e488ec066f0d9da856cb9ea3f6c4675695c1715dc5efcc5f5e6f21657560",
+      "output": "........sssss...............                                             [100%]\r\n23 passed, 5 skipped in 39.21s"
+    },
+    "ruff_final": {
+      "path": "ingest\\data\\session7-canonical-ruff-fixed.stdout.log",
+      "sha256": "af352a86840ad0af3d37ea0d9197f868363a6dac6b1c2ef5d2722f6b41d2d9af",
+      "output": "All checks passed!"
+    },
+    "format_final": {
+      "path": "ingest\\data\\session7-canonical-format-fixed.stdout.log",
+      "sha256": "861fbf7fef971b9e4a950279dcc50ff39eaece0d4820d9f5facd29347f93a863",
+      "output": "65 files already formatted"
+    }
+  },
+  "model_comparison": {
+    "status": "cut_core_gates_not_passed",
+    "cross_correlation": null,
+    "residual_energy": null,
+    "clap_label_similarity": null,
+    "two_model_listening": null,
+    "selected_model": "htdemucs unchanged"
+  },
+  "caveats": [
+    "No new human relevance/listening grades",
+    "No new 30-second benchmark",
+    "No global lint pass: Make missing",
+    "Five opt-in worker DB tests skipped",
+    "Coverage is the report snapshot; follower continues for later heroes"
+  ],
+  "preserved_schema_sha256": "bb8f20c0ba862279a7b89b12c3e2946af087e43f10e1ae184132ac2e181f6df5",
+  "live_processes": {
+    "checked_at": "2026-11-15T01:43:31.2608248Z",
+    "processes": [
+      {
+        "Id": 21740,
+        "ProcessName": "python",
+        "start_time": "2026-11-14T19:38:27.6731256-05:00"
+      },
+      {
+        "Id": 30820,
+        "ProcessName": "python",
+        "start_time": "2026-11-14T16:31:17.0161155-05:00"
+      },
+      {
+        "Id": 28192,
+        "ProcessName": "uv",
+        "start_time": "2026-11-14T19:38:27.5285085-05:00"
+      },
+      {
+        "Id": 32252,
+        "ProcessName": "uv",
+        "start_time": "2026-11-14T16:31:16.8657559-05:00"
+      }
+    ]
+  },
+  "latest_hero_log_progress": {
+    "completed": 50,
+    "elapsed_s": 15139.230746100002,
+    "eta_basis": "last ten newly published heroes; source-duration mix may change",
+    "eta_s": 6857.029650899985,
+    "event": "progress",
+    "failed": 21,
+    "target": 80,
+    "time": 1794707023.1678052
+  },
+  "latest_hero_log_event": {
+    "duration_s": 180.0,
+    "event": "separation_start",
+    "id": "jam_1442142",
+    "time": 1794707023.1808195
+  },
+  "unreadable_hero_log_lines": [],
+  "schema_preserved": true,
+  "queue_capacity": {
+    "sha256": "2bfe34247b61a8aeef5f746bb9b2a87588c843e8eaa72a1fd4ec643e759e22d6",
+    "total": 100,
+    "distinct": 100,
+    "latest_reported_rejections": 21,
+    "maximum_completions_from_current_queue": 79,
+    "unchanged_target": 80
+  }
+}
