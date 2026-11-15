@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 
 import { useChips } from "@/lib/api";
+import { useDataMode } from "@/lib/api/useOffline";
 import { useStopPreviewOnHide } from "@/lib/preview/PreviewProvider";
 import { indexChips } from "@/lib/search/chips";
 import { useSearchState } from "@/lib/search/useSearchState";
@@ -12,12 +13,14 @@ import { ChipTray } from "./ChipTray";
 import { SearchBar } from "./SearchBar";
 import { ResultList } from "./ResultList";
 import { SearchDnd } from "./SearchDnd";
+import { SearchShortcuts } from "./SearchShortcuts";
 
 /** The search page body. Render inside <Suspense> (it reads the URL). */
 export function SearchPage() {
   const { state, dispatch, request } = useSearchState();
   useStopPreviewOnHide();
   const chips = useChips();
+  const { fixtures } = useDataMode();
   const index = useMemo(() => indexChips(chips.data?.categories ?? []), [chips.data]);
 
   const lastChipId = state.chips.at(-1);
@@ -36,6 +39,9 @@ export function SearchPage() {
         <section aria-label="Search" className="min-w-0 space-y-4">
           <h1 className="sr-only">Search samples</h1>
           <SearchBar state={state} index={index} dispatch={dispatch} />
+          <div className="-mt-2 flex justify-end">
+            <SearchShortcuts />
+          </div>
 
           {request ? (
             <ResultList
@@ -44,14 +50,17 @@ export function SearchPage() {
               onRemoveLastChip={() => dispatch({ type: "removeLast" })}
             />
           ) : (
-            <div className="space-y-2 py-12 text-center">
-              <p className="text-lg font-medium">Find your next sample</p>
-              <p className="text-sm text-muted-foreground">Type a sound, or stack chips from the tray.</p>
-              <p className="text-xs text-muted-foreground">
-                <Link className="underline underline-offset-4 hover:text-foreground" href="/editor?track=jam_1532881&start=0&end=10.667&stem=mix">
-                  Open the editor on a fixture
-                </Link>
-              </p>
+            <div className="space-y-3 py-16 text-center">
+              <p className="text-title">Find your next sample</p>
+              <p className="text-text-secondary">Type a sound, or stack chips from the tray.</p>
+              {/* The fixture track only exists in fixture mode (build-time or ?offline=1). */}
+              {fixtures && (
+                <p className="text-caption text-text-tertiary">
+                  <Link className="underline underline-offset-4 hover:text-foreground" href="/editor?track=jam_1532881&start=0&end=10.667&stem=mix">
+                    Open the editor on a fixture
+                  </Link>
+                </p>
+              )}
             </div>
           )}
         </section>
@@ -63,8 +72,8 @@ export function SearchPage() {
 export function SearchPageSkeleton() {
   return (
     <div className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-4 py-6 sm:px-6 md:grid-cols-[16rem_1fr]">
-      <div className="h-96 animate-pulse rounded-lg bg-muted/50" />
-      <div className="h-11 animate-pulse rounded-lg bg-muted/50" />
+      <div className="h-96 animate-pulse rounded-lg bg-skeleton" />
+      <div className="h-11 animate-pulse rounded-lg bg-skeleton" />
     </div>
   );
 }

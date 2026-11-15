@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { AppButton } from "@/components/adapters";
 import { useSearch, type SearchParams } from "@/lib/api";
+import { SearchEvents } from "@/lib/events/SearchEvents";
 import { resultsStatusText, searchErrorKind, searchErrorMessage, SLOW_SEARCH_MS } from "@/lib/search/results";
 import { useSlow } from "@/lib/search/useSlow";
 
@@ -75,8 +76,8 @@ export function ResultList({ request, lastChipLabel, onRemoveLastChip }: ResultL
       )}
 
       {data?.fallback_used && results && results.length > 0 && (
-        <div className="flex items-start gap-2 rounded-lg border bg-muted/40 px-3 py-2 text-sm">
-          <GlobeIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
+        <div className="flex items-start gap-2 rounded-lg border bg-secondary px-3 py-2 text-sm">
+          <GlobeIcon className="mt-0.5 size-4 shrink-0 text-primary-strong" aria-hidden />
           <p>
             <span className="font-medium">Expanded to Freesound.</span>{" "}
             <span className="text-muted-foreground">Few matches in the library, so these include Freesound sounds.</span>
@@ -104,17 +105,20 @@ export function ResultList({ request, lastChipLabel, onRemoveLastChip }: ResultL
       )}
 
       {results && results.length > 0 && (
-        <ol
-          aria-label="Results"
-          aria-busy={refreshing}
-          className={cn("grid gap-3 transition-opacity xl:grid-cols-2", refreshing && "opacity-60")}
-        >
-          {results.map((r) => (
-            <li key={r.window_id} className="flex min-w-0">
-              <ResultCard result={r} />
-            </li>
-          ))}
-        </ol>
+        <SearchEvents queryId={data?.query_id ?? null} windowIds={results.map((r) => r.window_id)}>
+          <ol
+            aria-label="Results"
+            aria-busy={refreshing}
+            className={cn("grid gap-3 transition-opacity duration-(--dur-shuffle) xl:grid-cols-2", refreshing && "opacity-60")}
+          >
+            {results.map((r) => (
+              // New results rise in (180 ms, CSS only; off under reduced motion). Keyed by window, so kept cards don't re-run it.
+              <li key={r.window_id} className="flex min-w-0 motion-safe:animate-rise-in">
+                <ResultCard result={r} />
+              </li>
+            ))}
+          </ol>
+        </SearchEvents>
       )}
     </div>
   );

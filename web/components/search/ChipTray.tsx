@@ -52,7 +52,7 @@ export function ChipTray({ selected, onToggle, className }: ChipTrayProps) {
   return (
     <nav aria-label="Search chips" className={cn("flex min-h-0 flex-col gap-3", className)}>
       <div className="space-y-1.5">
-        <label htmlFor={filterId} className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        <label htmlFor={filterId} className="eyebrow">
           Chips
         </label>
         <AppInput
@@ -174,10 +174,10 @@ function TraySkeleton() {
       <span className="sr-only">Loading chips…</span>
       {[10, 6, 6, 4, 6].map((n, i) => (
         <div key={i} className="space-y-2">
-          <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+          <div className="h-4 w-24 animate-pulse rounded bg-skeleton" />
           <div className="flex flex-wrap gap-1.5">
             {Array.from({ length: n }, (_, j) => (
-              <div key={j} className="h-7 w-16 animate-pulse rounded-full bg-muted" />
+              <div key={j} className="h-7 w-16 animate-pulse rounded-[6px] bg-skeleton" />
             ))}
           </div>
         </div>

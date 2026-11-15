@@ -33,7 +33,15 @@ import type {
   WhyResponse,
 } from "@/lib/types/api";
 
+import { isOffline } from "./offline";
+
+/** Build-time fixture mode (NEXT_PUBLIC_USE_FIXTURES=1). */
 export const USE_FIXTURES = process.env.NEXT_PUBLIC_USE_FIXTURES === "1";
+
+/** Fixture answers for this page load: build-time fixture mode, or the runtime `?offline=1` backup demo. */
+export function fixturesActive(): boolean {
+  return USE_FIXTURES || isOffline();
+}
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
 
 /** Thrown for every non-2xx response; mirrors the `{"error": ApiError}` body. */
@@ -135,29 +143,29 @@ function fixtureJob(id: string): Promise<Job> {
 }
 
 export const api = {
-  health: (): Promise<{ ok: boolean }> => (USE_FIXTURES ? fixture({ ok: true }, 0) : request("/health")),
+  health: (): Promise<{ ok: boolean }> => (fixturesActive() ? fixture({ ok: true }, 0) : request("/health")),
 
   getChips: (): Promise<ChipsResponse> =>
-    USE_FIXTURES ? fixture<ChipsResponse>(chipsFixture) : request("/chips"),
+    fixturesActive() ? fixture<ChipsResponse>(chipsFixture) : request("/chips"),
 
   search: (req: SearchRequest): Promise<SearchResponse> =>
-    USE_FIXTURES ? fixtureSearch() : request("/search", json("POST", req)),
+    fixturesActive() ? fixtureSearch() : request("/search", json("POST", req)),
 
   getTrack: (trackId: string): Promise<TrackDetail> =>
-    USE_FIXTURES
+    fixturesActive()
       ? fixture<TrackDetail>(trackDetailFixture)
       : request(`/tracks/${encodeURIComponent(trackId)}`),
 
   requestStems: (trackId: string, req: StemsRequest): Promise<StemsResponse> =>
-    USE_FIXTURES
+    fixturesActive()
       ? fixtureStems(req)
       : request(`/tracks/${encodeURIComponent(trackId)}/stems`, json("POST", req)),
 
   getJob: (jobId: string): Promise<Job> =>
-    USE_FIXTURES ? fixtureJob(jobId) : request(`/jobs/${encodeURIComponent(jobId)}`),
+    fixturesActive() ? fixtureJob(jobId) : request(`/jobs/${encodeURIComponent(jobId)}`),
 
   createImport: (file: File, sessionId: string): Promise<ImportResponse> => {
-    if (USE_FIXTURES) {
+    if (fixturesActive()) {
       fixturePolls.set(importFixture.job_id, 0); // each import starts a fresh analyze "job"
       return fixture<ImportResponse>(importFixture, 500);
     }
@@ -168,15 +176,15 @@ export const api = {
   },
 
   why: (req: WhyRequest): Promise<WhyResponse> =>
-    USE_FIXTURES
+    fixturesActive()
       ? fixture<WhyResponse>({ ...whyFixture, window_id: req.window_id }, 400)
       : request("/why", json("POST", req)),
 
   postEvent: (req: EventRequest): Promise<void> =>
-    USE_FIXTURES ? fixture<void>(undefined, 0) : request("/events", json("POST", req)),
+    fixturesActive() ? fixture<void>(undefined, 0) : request("/events", json("POST", req)),
 
   assist: (req: AssistRequest): Promise<AssistResponse> =>
-    USE_FIXTURES ? fixture<AssistResponse>(assistFixture, 600) : request("/assist", json("POST", req)),
+    fixturesActive() ? fixture<AssistResponse>(assistFixture, 600) : request("/assist", json("POST", req)),
 };
 
 export type Api = typeof api;

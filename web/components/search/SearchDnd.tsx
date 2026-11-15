@@ -68,9 +68,10 @@ export function SearchDnd({ chips, index, dispatch, children }: SearchDndProps) 
       onDragCancel={() => setActive(null)}
     >
       {children}
-      <DragOverlay dropAnimation={{ duration: 150, easing: "ease-out" }}>
+      {/* Chip snap: 120 ms with a tiny overshoot (--dur-snap / --ease-snap in globals.css). */}
+      <DragOverlay dropAnimation={{ duration: 120, easing: "cubic-bezier(0.3, 1.4, 0.5, 1)" }}>
         {active && (
-          <Pill color={chip?.color} selected className="cursor-grabbing shadow-lg">
+          <Pill color={chip?.color} selected className="cursor-grabbing shadow-float">
             {chip?.label ?? active.chipId}
           </Pill>
         )}

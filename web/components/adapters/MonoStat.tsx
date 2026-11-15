@@ -1,6 +1,6 @@
 import { cn } from "cn";
 
-/** Monospace tabular number (BPM, key, bars). Null/undefined renders "—" with an accessible "unknown". */
+/** Hardware-style readout (`.readout`: Geist Mono, tabular-nums) (BPM, key, bars). Null/undefined renders "—" with an accessible "unknown". */
 export function MonoStat({
   label,
   value,
@@ -15,16 +15,16 @@ export function MonoStat({
   const missing = value === null || value === undefined || value === "";
   const shown = typeof value === "number" ? formatNumber(value) : value;
   return (
-    <span className={cn("inline-flex items-baseline gap-1 font-mono text-xs tabular-nums", className)}>
+    <span className={cn("readout inline-flex items-baseline gap-1 text-[13px]", className)}>
       <span className="sr-only">{label}: </span>
       {missing ? (
-        <span className="text-muted-foreground" aria-label="unknown">
+        <span className="text-text-tertiary" aria-label="unknown">
           —
         </span>
       ) : (
         <span>{shown}</span>
       )}
-      {unit && !missing && <span className="text-muted-foreground">{unit}</span>}
+      {unit && !missing && <span className="text-[12px] text-text-tertiary">{unit}</span>}
     </span>
   );
 }

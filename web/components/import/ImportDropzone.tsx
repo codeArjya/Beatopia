@@ -64,12 +64,12 @@ export function ImportDropzone({ onFile, disabled = false, error }: ImportDropzo
         className={cn(
           "flex min-h-56 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-8 text-center transition-colors",
           "focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50",
-          over ? "border-primary bg-primary/5" : "border-border hover:border-muted-foreground/60 hover:bg-muted/30",
+          over ? "border-primary bg-primary/5" : "border-input hover:border-text-secondary hover:bg-card",
           error && !over && "border-destructive/60",
           disabled && "pointer-events-none cursor-default opacity-60",
         )}
       >
-        <FileAudioIcon className={cn("size-10 text-muted-foreground", over && "text-primary")} aria-hidden />
+        <FileAudioIcon className={cn("size-10 text-muted-foreground", over && "text-primary-strong")} aria-hidden />
         <span className="text-base font-medium">{over ? "Drop to import" : "Drop an audio file here, or click to browse"}</span>
         <span id={hintId} className="text-sm text-muted-foreground">
           WAV, MP3, FLAC, M4A or OGG, up to {formatMB(MAX_IMPORT_BYTES)}

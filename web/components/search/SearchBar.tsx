@@ -6,6 +6,7 @@ import { cn } from "cn";
 import type { CSSProperties } from "react";
 
 import { AppInput, Pill } from "@/components/adapters";
+import { SEARCH_INPUT_ID } from "@/components/shell/SkipLink";
 import type { IndexedChip } from "@/lib/search/chips";
 import { parseDragId, SEARCH_BAR_ID } from "@/lib/search/dnd";
 import type { SearchAction, SearchState } from "@/lib/search/state";
@@ -27,9 +28,10 @@ export function SearchBar({ state, index, dispatch }: SearchBarProps) {
     <div
       ref={setNodeRef}
       className={cn(
-        "flex min-h-11 flex-wrap items-center gap-1.5 rounded-lg border bg-card px-2 py-1.5 transition-colors",
-        "focus-within:ring-[3px] focus-within:ring-ring/50",
-        receiving && "border-ring bg-accent/40 ring-[3px] ring-ring/50",
+        "flex min-h-12 flex-wrap items-center gap-2 rounded-[24px] border border-input bg-secondary py-1.5 pr-2 pl-2.5",
+        "transition-[border-color,background-color,box-shadow] duration-(--dur-hover) ease-(--ease-out)",
+        "focus-within:border-ring focus-within:ring-1 focus-within:ring-ring",
+        receiving && "border-ring bg-accent ring-1 ring-ring",
       )}
     >
       <SortableContext items={state.chips} strategy={horizontalListSortingStrategy}>
@@ -43,6 +45,7 @@ export function SearchBar({ state, index, dispatch }: SearchBarProps) {
         ))}
       </SortableContext>
       <AppInput
+        id={SEARCH_INPUT_ID}
         aria-label="Search text"
         placeholder={state.chips.length ? "Add words…" : "Describe a sound, or drag chips here…"}
         value={state.text}
