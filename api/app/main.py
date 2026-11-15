@@ -9,10 +9,10 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from collections.abc import AsyncIterator, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import AbstractAsyncContextManager, asynccontextmanager
 
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 
@@ -28,6 +28,15 @@ from app.routes import assist, chips, events, imports, jobs, search, tracks, why
 __all__ = ["app", "create_app", "fixture"]
 
 log = logging.getLogger("app")
+REVISION_HEADER = "X-Beatopia-Revision"
+
+
+def clap_identity() -> tuple[str, str]:
+    """(model, revision) that common.clap loads; read without importing torch-heavy code twice."""
+    from common import clap
+
+    return clap.CLAP_MODEL, getattr(clap, "CLAP_REVISION", "main")
+
 
 # Real routers, mounted in real mode. Each task adds its router here.
 REAL_ROUTERS: list[APIRouter] = [
@@ -61,6 +70,16 @@ def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextMan
             app.state.pool = await asyncio.to_thread(db.open_pool, settings)
             app.state.clap_ready = await asyncio.to_thread(embed.warm)
             app.state.gemini = gemini.from_settings(settings)
+        clap_model, clap_rev = clap_identity() if not settings.use_fixtures else ("-", "-")
+        log.info(
+            "identity: revision=%s mode=%s clap=%s@%s clap_ready=%s gemini=%s",
+            settings.revision,
+            "fixtures" if settings.use_fixtures else "real",
+            clap_model,
+            clap_rev,
+            app.state.clap_ready,
+            settings.gemini_model,
+        )
         try:
             yield
         finally:
@@ -84,9 +103,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_origin_regex=origin_regex(settings.web_origins),
         allow_methods=["*"],
         allow_headers=["*"],
-        expose_headers=["Server-Timing"],
+        expose_headers=["Server-Timing", REVISION_HEADER],
     )
     install_error_handlers(app)
+
+    @app.middleware("http")
+    async def _revision(request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+        response = await call_next(request)
+        response.headers[REVISION_HEADER] = settings.revision
+        return response
 
     @app.get("/health")
     def health() -> dict[str, bool]:

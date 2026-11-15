@@ -31,4 +31,9 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     cd worker && uv sync --frozen --no-dev
 
 ENV PATH="/app/worker/.venv/bin:$PATH"
+# Revision stamp (deploy.sh passes the git sha): readable via the OCI label, and the API returns it in
+# X-Beatopia-Revision. Kept last so changing it never invalidates the dependency layers.
+ARG REVISION=unknown
+LABEL org.opencontainers.image.revision=$REVISION org.opencontainers.image.title=beatopia-worker
+ENV BEATOPIA_REVISION=$REVISION
 CMD ["python", "-m", "worker.main"]
