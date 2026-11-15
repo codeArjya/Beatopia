@@ -559,3 +559,98 @@ This entry supersedes "Next" in wrap-up 2.
 2. Then T8.1 Freesound fallback (with the §7.7 `sim`-trigger proposal), T11.1 (cold search p50 3.2 s → < 3 s),
    T11.2 (token bucket, README toggle).
 3. Tell WS1 the VM runs a worker. Run the Gate H16 check with WS3/WS4 on the production URL.
+
+
+## 2026-11-15 · session 6 (Freesound fallback, contract C10)
+
+Worktree `.claude/worktrees/ws2-t8`, branch `ws2-t8`, branched from `ws2-api` `d1f2be2` and pushed. The human
+fast-forwarded `ws2-api` to `32f6e4a` (T8.1). This wrap-up is pushed to both. No sync was needed: `main` moved to
+`72773d0` (WS3 #7, `web/` only).
+
+The session was asked for "T7.1, T7.2, T8.2". T7.1/T7.2 were already done and there is no T8.2, so the human
+confirmed T8.1.
+
+### Done
+- **T8.1 Freesound fallback: pass, live** (`scripts/fallback_check.py --stems`: real DB, CLAP, Gemini, Freesound).
+  - **0 of 19 eval queries fall back.** "kazoo orchestra", the 20th, is marked nonsense and falls back as expected.
+  - **5 of 5 out-of-library queries fall back:** kazoo, bagpipes, didgeridoo, dog barking, rain. All were
+    triggered by the planner's vocabulary-gap signal.
+  - Fallback searches take 1.7–2.3 s (no rerank). Freesound answers in 0.2–0.5 s warm, 2 s on the first TLS
+    connection.
+  - Results validate against the schema; license (CC0) and attribution are present.
+  - `GET /tracks/fs_754932` is built live and validates `TrackDetail`.
+  - `/why` on `fs_754932:mix:0`: 4.8 s for the first note (preview download 2.5 s, excerpt 0.37 s, Gemini
+    1.8 s), 106 ms from the memory cache after that.
+  - A `pick` event stores no `tracks` row.
+  - Stems on `fs_754932`: preview copied (231 KB), minimal row inserted, job queued, and **done on the production
+    worker with 4 stems**. That confirms the WS1 "stems on a track with no windows" assumption.
+  - Unit tests: 31 new in `tests/test_fallback.py` (client via `httpx.MockTransport`, trigger, merge, all four
+    endpoints, planner cache).
+- **Proposal C10** (`docs/proposals/WS2-fallback-trigger.md`), **PR #9** `contract-ws2-c10` → `main`. It changes
+  only CONTRACT §7.7 and adds the proposal. No model, schema or fixture changes (`make check-fixtures`: 13, 0
+  problems). WS3 agreed, per the human.
+- Checks at the end: see the wrap-up commit (`make lint` and the api tests).
+
+### Deviations from PLAN.md
+- **Trigger** (now C10). The §7.7 score rule never fires, and `sim` alone can't separate an instrument the vocab
+  lacks. Measured 3rd-best `sim`:
+  - eval queries: 0.318–0.504
+  - sound effects: 0.158–0.302
+  - kazoo / didgeridoo / theremin / throat singing: 0.41–0.47
+
+  So the fallback fires on fewer than 3 candidates with `sim ≥ 0.30`, **or** on a non-empty P1 `missing_sounds`
+  (cleaned server-side: lower case, ≤ 3, never a vocab tag).
+- **P1 schema and prompt** gained `missing_sounds`. The prompt lists synonym families that are *not* missing
+  (keys → rhodes/piano, sax → saxophone, …). The live eval had no false gaps.
+- **`plan_cache` keys are versioned (`v2|…`)**, and rows store `missing_sounds` next to the `SearchPlan` fields.
+  Old rows never asked the question, so every text query is re-planned once (+1.1–1.5 s on its first search).
+- **Ordering:** Freesound results come first (score `0.5 − 0.02·rank`), and library results fill at least
+  `limit // 4` slots. The plan had said "append after the library with scores just below it". No rerank on a
+  fallback search.
+- **Freesound query = the first missing sound on a gap**, else the request text. Freesound ANDs the words:
+  "kazoo orchestra" gives 0 hits, "kazoo" gives 102.
+- **Licenses: CC0 and CC BY only** (as WS1's ingest); the plan had listed CC-BY-NC too. Attribution uses WS1's
+  format: `{name} by {user}; {url}; {license} ({license_url})`.
+- **`/why` on `fs_*` downloads the preview and cuts locally.** ffmpeg seeking over Freesound's CDN took 7.4 s,
+  close to its 10 s timeout. If the download fails, ffmpeg tries the URL, then P3b.
+- **`fallback_used`** is true whenever Freesound was queried, even with 0 hits. If Freesound is down or there is no
+  key, it's false and the library results are served.
+- Library `fs_*` tracks (WS1 ingested 200) are served from the DB as usual. A Freesound result that is already a
+  library track isn't listed twice.
+
+### Gotchas
+- **The deploy was blocked by the permission check (auto mode).** Both `deploy/deploy.sh` and a read-only SSH
+  `grep` of the VM's `.env` were refused, so **production still runs `567279d` (no fallback)**. The human has to run
+  the deploy (see Next) or allow it.
+- **Unverified: is `FREESOUND_API_KEY` set in `/opt/beatopia/.env` on the VM?** The template lists it. If it's empty,
+  the API logs `FREESOUND_API_KEY is not set: the search fallback is off` at startup, and searches never fall back.
+- **Shared DB writes from the live check:** track `fs_754932` (minimal row), `tracks/fs_754932/mix.mp3` and its 4
+  stems in the bucket, one stems job, `pick` events from session `fallback_check`, and about 25 `v2` `plan_cache`
+  rows. Fallback `/why` notes are in process memory only, so they disappear on restart.
+- `scripts/fallback_check.py` makes up to 1 Gemini call per uncached query plus 1 `/why`. With `--stems` it writes to
+  the shared DB and bucket, and the production worker processes the job.
+- New log fields: `fallback` (false|weak|gap), `fallback_skipped` (`<reason>:no_key|no_query|error`), `fs_n`,
+  `missing_sounds`, `freesound_ms`, `preview_ms`, `fallback_store_ms`; rerank status `skipped:fallback`.
+- The worktree guard rejects heredocs, `cd …/..` plus git, and multi-step Python edit scripts. Use Edit/Write and
+  plain one-step commands. This worktree has no `web/node_modules`, so the web half of `make lint` needs the main
+  checkout (or `pnpm install`).
+- No failing tests.
+
+### State
+- **Production:** https://45-77-216-35.sslip.io (VM 45.77.216.35) **on `567279d`**, with `api`, `worker` and
+  `caddy`. T8.1 isn't deployed.
+- Flags unchanged (`USE_FIXTURES=0`, `GEMINI_DEGRADED=0`, `GEMINI_MODEL=gemini-3.6-flash`, the C8 CLAP pair).
+  `FREESOUND_API_KEY` must be set for the fallback.
+- **Fixtures: unchanged. Shared paths: only through PR #9** (CONTRACT §7.7 + the proposal).
+- Branches: `ws2-api` = `ws2-t8` (+ this wrap-up). `contract-ws2-c10` is PR #9, open.
+
+### Next
+1. **Human first:** deploy T8.1. From a laptop checkout of `ws2-api`:
+   `WORKER=1 VM=root@45.77.216.35 SSH_KEY=~/.ssh/id_ed25519 deploy/deploy.sh ws2-api`.
+   - Check the image labels and the startup identity line, and that there's no "search fallback is off" warning.
+   - Then `curl -s -X POST https://45-77-216-35.sslip.io/search -H 'content-type: application/json'
+     -d '{"text":"kazoo orchestra","session_id":"t"}'` should give `"fallback_used": true`.
+2. Merge PR #9 (C10).
+3. **First task: T11.1 latency pass** (cold search p50 3.2 s → < 3 s: parallel planner + embed, rerank output size).
+   Then T11.2 (token bucket, README toggle). Re-run `scripts/bench.py` against production after the deploy: the
+   `v2` cache reset makes the first pass colder than session 5's.
