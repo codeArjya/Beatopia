@@ -5,19 +5,23 @@ import { useState } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { retryOnceUnlessTimeout } from "@/lib/api";
+import { PreviewProvider } from "@/lib/preview/PreviewProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
-        defaultOptions: { queries: { staleTime: 60_000, retry: 1, refetchOnWindowFocus: false } },
+        defaultOptions: { queries: { staleTime: 60_000, retry: retryOnceUnlessTimeout, refetchOnWindowFocus: false } },
       }),
   );
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        {children}
-        <Toaster />
+        <PreviewProvider>
+          {children}
+          <Toaster theme="dark" />
+        </PreviewProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

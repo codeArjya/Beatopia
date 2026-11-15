@@ -9,6 +9,8 @@ import jobDoneAnalyzeFixture from "@fixtures/job_done_analyze.json";
 import jobDoneStemsFixture from "@fixtures/job_done_stems.json";
 import jobRunningFixture from "@fixtures/job_running.json";
 import searchFixture from "@fixtures/search.json";
+import searchEmptyFixture from "@fixtures/search_empty.json";
+import searchFallbackFixture from "@fixtures/search_fallback.json";
 import stemsQueuedFixture from "@fixtures/stems_queued.json";
 import stemsReadyFixture from "@fixtures/stems_ready.json";
 import trackDetailFixture from "@fixtures/track_detail.json";
@@ -46,11 +48,19 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+/** Default per-request timeout. Search embeds the query with CLAP on a CPU VM, so leave room; uploads get more. */
+export const REQUEST_TIMEOUT_MS = 20_000;
+const UPLOAD_TIMEOUT_MS = 120_000;
+
+async function request<T>(path: string, init?: RequestInit, timeoutMs = REQUEST_TIMEOUT_MS): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}`, init);
+    res = await fetch(`${API_URL}${path}`, { ...init, signal: AbortSignal.timeout(timeoutMs) });
   } catch (e) {
+    // AbortSignal.timeout rejects with a DOMException named "TimeoutError"; anything else is the network.
+    if (e instanceof Error && e.name === "TimeoutError") {
+      throw new ApiError(0, "timeout", `no answer after ${Math.round(timeoutMs / 1000)} s`);
+    }
     throw new ApiError(0, "network_error", e instanceof Error ? e.message : "network error");
   }
   if (!res.ok) {
@@ -75,6 +85,22 @@ const json = (method: string, body: unknown): RequestInit => ({
 /** Resolve a fixture on the next tick with a small delay, so loading states are visible in fixture mode. */
 function fixture<T>(data: unknown, delayMs = 150): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(structuredClone(data) as T), delayMs));
+}
+
+/**
+ * Fixture-mode search. Dev-only switch: `?fixture=empty` or `?fixture=fallback` in the page URL serves
+ * search_empty.json / search_fallback.json instead of search.json, to check those UI states in the browser.
+ */
+export function fixtureSearchVariant(): "default" | "empty" | "fallback" {
+  if (typeof window === "undefined") return "default";
+  const v = new URLSearchParams(window.location.search).get("fixture");
+  return v === "empty" || v === "fallback" ? v : "default";
+}
+
+function fixtureSearch(): Promise<SearchResponse> {
+  const v = fixtureSearchVariant();
+  const data = v === "empty" ? searchEmptyFixture : v === "fallback" ? searchFallbackFixture : searchFixture;
+  return fixture<SearchResponse>(data, 300);
 }
 
 // Fixture-mode job polling: a stems job reports "running" for the first 2 polls, then "done".
@@ -108,7 +134,7 @@ export const api = {
     USE_FIXTURES ? fixture<ChipsResponse>(chipsFixture) : request("/chips"),
 
   search: (req: SearchRequest): Promise<SearchResponse> =>
-    USE_FIXTURES ? fixture<SearchResponse>(searchFixture, 300) : request("/search", json("POST", req)),
+    USE_FIXTURES ? fixtureSearch() : request("/search", json("POST", req)),
 
   getTrack: (trackId: string): Promise<TrackDetail> =>
     USE_FIXTURES
@@ -128,7 +154,7 @@ export const api = {
     const form = new FormData();
     form.append("file", file);
     form.append("session_id", sessionId);
-    return request("/imports", { method: "POST", body: form });
+    return request("/imports", { method: "POST", body: form }, UPLOAD_TIMEOUT_MS);
   },
 
   why: (req: WhyRequest): Promise<WhyResponse> =>
