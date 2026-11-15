@@ -51,7 +51,7 @@ export function ResultCard({ result: r }: { result: Result }) {
     <AppCard
       tabIndex={0}
       aria-labelledby={titleId}
-      aria-keyshortcuts="Space Enter"
+      aria-keyshortcuts="Space Enter s e j k"
       onPointerEnter={warm}
       onFocus={warm}
       onKeyDown={onKeyDown}
@@ -76,6 +76,7 @@ export function ResultCard({ result: r }: { result: Result }) {
             className="text-muted-foreground hover:text-foreground"
             aria-label={`Stems of ${r.track.title}`}
             aria-haspopup="dialog"
+            data-shortcut="stems"
             aria-expanded={stemsOpen}
             onClick={() => setStemsOpen(true)}
           >
@@ -85,6 +86,7 @@ export function ResultCard({ result: r }: { result: Result }) {
           <AppButton asChild size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
             <Link
               href={editorHrefOf(r)}
+              data-shortcut="editor"
               aria-label={`Open ${r.track.title} in the editor`}
               // Hiding the page stops the preview too (useStopPreviewOnHide); stopping here is immediate.
               onClick={() => {
