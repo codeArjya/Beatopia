@@ -1,4 +1,34 @@
-# WS4 acceptance retry handoff
+# WS4 stems and local-source handoff
+
+Current assigned session started clean on `ws4-editor` at `bbb7b6a`. Core source/history/decoder commit: `fae1c4d`; see recent log for the UI/handoff commit. Work from repo root, use pnpm.cmd in web, preserve WS4 path ownership and generated wire types. Prior handoffs below are historical; their "unassigned stems/local work" statements are superseded by this section.
+
+## Implemented in the assigned H16–H19 scope
+
+- Undoable source addition preserves the previous op chain and audible repeated/nested arrangement, appends the new root and checkpoints registry plus wire state atomically. Undo removes only that addition; redo restores it; failed/stale/over-cap additions leave existing edits intact. Source metadata/licenses live in runtime assets, never extra wire fields.
+- Covering existing stems and ready/requested/queued stem UI, with one-second job polling while open, terminal/error/closed polling stop, progress, retry, job identity/kind validation, wrong-track/noncovering result rejection and file-local offsets. Adds a stem as a fresh root without resetting earlier edits. All networking goes through WS3's existing typed API client.
+- **WS3 drawer/hooks still do not exist in this checkout.** Used the explicitly reviewed plan fallback: `components/editor/stems-drawer.tsx` and `stem-hooks.ts`. No WS3/backend/shared/generated type/dependency/env files edited. This is a working WS4 adapter, not a claim that missing WS3 components were integrated. Replace these imports when WS3 supplies its drawer/useStems/useJob API; keep source loading/history intact. API source remains the fixture bootstrap; live worker acceptance is still unavailable.
+- Local file drop and chooser at bare `/editor` (no track/API needed), or append to an existing edit. One WAV/MP3/FLAC/M4A/OGG at a time, <=25 MB, nonempty decoded mono/stereo <=60 seconds; offline decode at 44100; no upload. Each import is `track_id = local` with a unique blob identity, unknown BPM/beats and honest missing license/attribution. Decode errors/abort/size/range errors preserve edits. Temporary import URL is revoked immediately in finally; source replay/undo/redo use retained PCM, so the revoked URL is an identity rather than a refetchable source. No persistence/reload or local assist is promised.
+- Local edit/play/export uses the existing engine. WAV: 44100 Hz, 16-bit PCM, stereo when any source is stereo. Local/mixed-local exports omit telemetry. Download URLs have timeout and unmount cleanup. Added-source history and current licenses remain visible. A link opens the bare local editor when the URL track is still loading or has failed.
+- Development + fixtures-only `/editor/source-checks`: real ranged WAV crop -> edit/add/undo/redo; actual 48k stereo WAV decode at 44100; unique/revoked local blob identities; local edit/export/native WAV decode expected 66150 frames / 1.5 s. Route compiles but **browser run remains unrun**. This does not prove drop/chooser UI, worker jobs or musical listening.
+
+## Passing verification
+
+From web: `pnpm.cmd test lib/audio stores components/editor/stem-hooks.test.ts` **17 files / 69 tests**; `pnpm.cmd lint`; `pnpm.cmd tsc --noEmit`; `pnpm.cmd test` **18 files / 76 tests**; `git diff --check`. Node tests verify ready/queued/running/done/error/retry queries, disabled polling on close, covering/ranged stem sample offsets, source add/undo/redo preservation, stale/over-cap rejection, local validation/unique identities/no upload/edits/WAV and URL cleanup on success/error/abort/unmount. Web Audio is doubled in Node; actual resampling requires browser execution.
+
+HTTP 200: `/editor`, `/editor?track=jam_1532881&start=5&end=10&stem=mix`, `/editor/source-checks`. Compilation only. Dev server started with NEXT_PUBLIC_USE_FIXTURES=1 on port 3000 after verifying no listener; left running for manual checks. Do not start a second server. No required pnpm checks blocked/unrun.
+
+## What is still needed to accept this step
+
+1. Browser access host was unavailable (`browsers: []`, "The browser access host is unavailable"). No native UI input attempted. In standalone Chrome open `http://localhost:3000/editor/source-checks`, run audio checks, retain the log and preview/download/open the resulting WAV. Expect 44100 Hz / 16-bit stereo / 66150 frames / 1.5 s. This validates actual browser decode/resampling rather than Node doubles.
+2. Actual editor: `http://localhost:3000/editor?track=jam_1532881&start=5&end=10&stem=mix`. Chop/reverse/reorder/duplicate, open Stems, add drums; verify a new root after the edited order, visible license, undo preserving the prior chain/audio, then redo and export. Existing fixture stems cover this window. Check close/reopen behavior and failed decode retry without losing edits.
+3. Bare `http://localhost:3000/editor`: choose/drop a supported local 48 kHz mono/stereo file <=25 MB/60 s; verify 44.1k rendered/export audio, trim/chop/reverse, repeat import (distinct roots), undo/redo source addition, preview/download/open. Verify unsupported/empty/oversized/long files and multi-file drop errors preserve edits; navigate away while decoding to check cancellation/cleanup. Also append a local file to a library arrangement; local/mixed-local exports should send no event. Node URL cleanup tests already pass; browser UI remains unrun.
+4. WS3 must supply its actual StemsDrawer/useStems/useJob interfaces; then replace the reviewed WS4 adapter imports. WS2/WS1 must provide real TrackDetail/separation/job endpoints + worker for true queue progress/error/done acceptance. Current ready fixture data does not naturally yield a valid queued covering result for this editor window; do not mislabel Node simulated job tests as live worker acceptance. No new credentials needed for public hero audio.
+
+Both H16–H19 task checkboxes remain open until their full browser/upstream acceptance passes. Implementation is present; those verification/dependency gaps are explicit. Earlier H8 browser cleanup/transport, H12 Tone musical listening and H16 production API gates remain open; existing checked native/arrangement tasks stay checked. No chat or later optimization implemented. No features cut; retain chat -> advanced pitch/keep-pitch -> filter -> transient -> drag cut order if later gates slip, without cutting required acceptance.
+
+---
+
+# Prior WS4 acceptance retry handoff (historical)
 
 Latest session starts at `07dd5b8`; new code/tooling commit `af96da1`. Work from repo root on `ws4-editor`. Use pnpm.cmd in web and preserve WS4 ownership. The historical records below remain for evidence; the 401/no-real-hero statements in them are superseded by this section. No shared/generated types, dependencies, API client, backend or `.env` edits.
 

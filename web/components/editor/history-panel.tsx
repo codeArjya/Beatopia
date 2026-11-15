@@ -8,7 +8,9 @@ export function HistoryPanel({ editor }: { editor: ReturnType<EditorStoreApi["ge
     <ol className="max-h-48 space-y-1 overflow-auto text-sm">
       <li>Original source</li>
       {checkpoints.slice(1).map((checkpoint, index) => <li key={index} className={index >= editor.past.length ? "text-muted-foreground" : undefined}>
-        {index + 1}. {checkpoint.wire.ops.slice(checkpoints[index].wire.ops.length).map(describeOp).join("; ")}
+        {index + 1}. {checkpoint.wire.clips.slice(checkpoints[index].wire.clips.length).map((clip) => `Add ${clip.id} (${clip.source.track_id === "local" ? "local file" : clip.source.stem ?? "mix"})`).join("; ")}
+        {checkpoint.wire.clips.length > checkpoints[index].wire.clips.length ? " · " : ""}
+        {checkpoint.wire.ops.slice(checkpoints[index].wire.ops.length).map(describeOp).join("; ")}
         {index >= editor.past.length ? " (undone)" : ""}
       </li>)}
     </ol>

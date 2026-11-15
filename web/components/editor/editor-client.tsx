@@ -9,6 +9,8 @@ import type { Op, TrackDetail } from "@/lib/types/api";
 import { loadSource } from "@/lib/audio/decode";
 import { parseEntry, resolveEntry } from "@/lib/audio/entry";
 import { sourceKey } from "@/lib/audio/evaluate";
+import { loadLocalFile, loadStem, type LoadedSource } from "@/lib/audio/source-import";
+import { ObjectUrls } from "@/lib/audio/object-urls";
 import { renderOffline } from "@/lib/audio/native-offline";
 import { duration } from "@/lib/audio/pcm";
 import { occurrenceAt, PlaybackController } from "@/lib/audio/playback";
@@ -20,6 +22,8 @@ import { Toolbar } from "./toolbar";
 import { Waveform } from "./waveform";
 import { ArrangementLane } from "./arrangement-lane";
 import { HistoryPanel } from "./history-panel";
+import { LocalFileDrop } from "./local-file-drop";
+import { StemsDrawer } from "./stems-drawer";
 
 export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDetail } = {}) {
   const params = useSearchParams();
@@ -36,6 +40,10 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
   const [loop, setLoop] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [selectedOccurrence, setSelectedOccurrence] = useState(0);
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
+  const importController = useRef<AbortController | null>(null);
+  const [downloadUrls] = useState(() => new ObjectUrls());
   // Development-only metadata injection keeps real storage/UI checks independent of WS2.
   // Use an isolated cache key so a snapshot never seeds the product's track cache.
   const acceptance = process.env.NODE_ENV === "development" && acceptanceDetail?.track.id === parsed.entry?.trackId ? acceptanceDetail : undefined;
@@ -61,11 +69,13 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
     const unsubscribe = store.subscribe((state, previous) => {
       if (state.revision !== previous.revision) player.seek(0);
     });
-    return () => { cancelAnimationFrame(frame); unsubscribe(); player.dispose(); transport.current = null; store.getState().reset(); };
-  }, [store]);
+    return () => { cancelAnimationFrame(frame); unsubscribe(); player.dispose(); transport.current = null;
+      importController.current?.abort(); downloadUrls.dispose(); store.getState().reset(); };
+  }, [store, downloadUrls]);
 
   useEffect(() => {
     const controller = new AbortController();
+    importController.current?.abort();
     store.getState().reset();
     if (!parsed.entry || !track.data) return () => controller.abort();
     const entry = parsed.entry;
@@ -77,7 +87,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
         const pcm = await loadSource(resolved.source, resolved.origin, controller.signal);
         if (controller.signal.aborted) return;
         await store.getState().initialize({ bpm: detail.track.bpm, clips: [{ id: "c1", source: resolved.source }], ops: [], arrangement: [] },
-          new Map([[sourceKey(resolved.source), { pcm, origin: entry.start, beatTimes: detail.beat_times, bpm: detail.track.bpm ?? null }]]));
+          new Map([[sourceKey(resolved.source), { pcm, origin: entry.start, beatTimes: detail.beat_times, bpm: detail.track.bpm ?? null, metadata: detail.track }]]));
         if (!store.getState().current && !controller.signal.aborted) throw new Error(store.getState().error ?? "Audio could not be loaded.");
         if (!controller.signal.aborted) setLoad({ status: "ready" });
       } catch (error) {
@@ -90,6 +100,31 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
 
   const retry = () => { if (track.isError) void track.refetch(); setAttempt((value) => value + 1); };
   const stop = () => transport.current?.stop();
+  const importSource = async (loader: (signal: AbortSignal) => Promise<LoadedSource>): Promise<boolean> => {
+    if (importController.current && !importController.current.signal.aborted) return false;
+    const controller = new AbortController();
+    importController.current = controller;
+    const revision = store.getState().revision;
+    setImporting(true); setImportError(null); stop();
+    try {
+      const { source, asset } = await loader(controller.signal);
+      controller.signal.throwIfAborted();
+      const added = await store.getState().addSource(source, asset, revision);
+      if (!added && !controller.signal.aborted) throw new Error(store.getState().error ?? "The editor changed while decoding. Add the source again.");
+      if (added && !controller.signal.aborted) {
+        const order = store.getState().current!.evaluation.order;
+        setSelectedOccurrence(order.length - 1);
+        transport.current?.seek(0);
+        setNotice(`Added ${asset.metadata?.title ?? source.stem ?? "audio"}. Undo removes this source.`);
+      }
+      return added;
+    } catch (error) {
+      if (!controller.signal.aborted) setImportError((error as Error).message);
+      return false;
+    } finally {
+      if (importController.current === controller) { importController.current = null; setImporting(false); }
+    }
+  };
   const apply = (ops: Op[]) => { stop(); setNotice(null); void editor.apply(ops); };
   const current = editor.current;
   const active = editor.active && current?.evaluation.clips.get(editor.active);
@@ -112,16 +147,18 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
     void transport.current?.play(current.evaluation.rendered, clock.position, loop).catch((error: Error) => setNotice(error.message));
   };
   const download = () => {
-    if (!current || editor.pending || !track.data || !parsed.entry) return;
+    if (!current || editor.pending) return;
     try {
       const pcm = current.evaluation.rendered;
-      const filename = exportFilename(track.data.track);
-      const url = URL.createObjectURL(new Blob([encodeWav(pcm)], { type: "audio/wav" }));
+      const first = current.wire.clips[0];
+      const asset = current.registry.get(sourceKey(first.source));
+      const filename = exportFilename({ title: asset?.metadata?.title ?? "Beatopia", bpm: asset?.bpm, key: asset?.metadata?.key });
+      const url = downloadUrls.create(new Blob([encodeWav(pcm)], { type: "audio/wav" }));
       const link = document.createElement("a");
       link.href = url; link.download = filename; document.body.append(link); link.click(); link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
       setNotice(`Downloaded ${filename} · 44100 Hz · 16-bit PCM · ${pcm.channels.length} channels · ${pcm.channels[0].length} frames`);
-      const windowId = resolveEntry(parsed.entry, track.data).windowId;
+      const hasLocal = current.wire.clips.some((clip) => clip.source.track_id === "local");
+      const windowId = !hasLocal && parsed.entry && track.data ? resolveEntry(parsed.entry, track.data).windowId : undefined;
       if (windowId) {
         try {
           const sessionId = localStorage.getItem("session_id") ?? crypto.randomUUID();
@@ -156,23 +193,39 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
     return () => window.removeEventListener("keydown", handleKey);
   });
 
-  if (parsed.error) return <div className="space-y-3"><p role="alert">{parsed.error}</p>
+  const inputs = <>
+    <LocalFileDrop disabled={importing || editor.pending || (!!parsed.entry && !current)} onError={setImportError} onFile={(file) => void importSource((signal) => loadLocalFile(file, signal))} />
+    {parsed.entry && !current && <a className="block text-sm underline" href="/editor">Open local file editor</a>}
+    {importing && <p role="status">Decoding and adding audio…</p>}
+    {importError && <p role="alert">{importError}</p>}
+  </>;
+  if (parsed.error && !current) return <div className="space-y-3">{inputs}<p role={params.get("track") ? "alert" : undefined}>{parsed.error}</p>
     <a className="underline" href="/editor?track=jam_1532881&start=0&end=16&stem=mix">Open jam_1532881 fixture (16 s)</a></div>;
-  if (track.isError) return <div><p role="alert">{track.error.message}</p><Button onClick={retry}>Retry track</Button></div>;
-  if (!track.data) return <p role="status">Loading track metadata…</p>;
-  const metadata = track.data.track;
+  if (track.isError && !current) return <div>{inputs}<p role="alert">{track.error.message}</p><Button onClick={retry}>Retry track</Button></div>;
+  if (parsed.entry && !track.data && !current) return <>{inputs}<p role="status">Loading track metadata…</p></>;
+  const metadata = track.data?.track;
   return <div className="space-y-6">
+    {inputs}
     <header className="space-y-1">
-      <h2 className="text-xl font-medium">{metadata.title}</h2>
-      <p>{metadata.artist ?? "Unknown artist"} · {metadata.bpm ?? "Unknown"} BPM · {metadata.key ?? "Unknown key"}</p>
-      <p className="text-muted-foreground text-sm">{parsed.entry!.start}–{parsed.entry!.end} s · {parsed.entry!.stem} · {acceptance ? "Development metadata snapshot / live public audio" : USE_FIXTURES ? "Fixture library" : "Live library"}</p>
-      <p className="text-sm">{metadata.license} · {metadata.attribution}</p>
+      <h2 className="text-xl font-medium">{metadata?.title ?? "Local audio editor"}</h2>
+      <p>{metadata?.artist ?? "Unknown artist"} · {metadata?.bpm ?? "Unknown"} BPM · {metadata?.key ?? "Unknown key"}</p>
+      {parsed.entry && <p className="text-muted-foreground text-sm">{parsed.entry.start}–{parsed.entry.end} s · {parsed.entry.stem} · {acceptance ? "Development metadata snapshot / live public audio" : USE_FIXTURES ? "Fixture library" : "Live library"}</p>}
+      {metadata && <p className="text-sm">{metadata.license} · {metadata.attribution}</p>}
     </header>
-    {load.status === "loading" && <p role="status">Loading and decoding audio…</p>}
+    {parsed.entry && load.status === "loading" && <p role="status">Loading and decoding audio…</p>}
     {load.error && <div className="space-y-2"><p role="alert">{load.error}</p><Button onClick={retry}>Retry audio</Button>
       {acceptance ? <a className="block text-sm underline" href="/editor/live-editor-checks?track=jam_1047157&start=5&end=15&stem=mix&case=normal">Restore normal live hero audio</a>
         : <p className="text-sm">Fixture fallback: start the web server with NEXT_PUBLIC_USE_FIXTURES=1 and open the fixture link.</p>}</div>}
     {editor.error && <p className="text-destructive" role="alert">{editor.error}</p>}
+    {track.data && parsed.entry && current && <StemsDrawer key={`${parsed.entry.trackId}:${parsed.entry.start}:${parsed.entry.end}`}
+      detail={track.data} start={parsed.entry.start} end={parsed.entry.end} disabled={importing || editor.pending} error={importError}
+      onSelect={(stem) => importSource((signal) => loadStem(stem, track.data!, parsed.entry!.start, parsed.entry!.end, signal))} />}
+    {current && <section aria-label="Source licenses" className="space-y-1 text-sm">
+      {current.wire.clips.map((clip) => {
+        const source = current.registry.get(sourceKey(clip.source));
+        return <p key={clip.id}>{clip.id} · {source?.metadata?.title ?? clip.source.track_id} · {clip.source.stem ?? "mix"} · {source?.metadata?.license ?? "License not supplied"} · {source?.metadata?.attribution ?? "Attribution not supplied"}</p>;
+      })}
+    </section>}
     {current && active && selection && editor.active && <>
       <div className="flex flex-wrap gap-2" aria-label="Choose active clip">
         {current.evaluation.leaves.map((id) => <Button key={id} variant={editor.active === id ? "default" : "outline"} onClick={() => { stop(); editor.select(id); }}>
