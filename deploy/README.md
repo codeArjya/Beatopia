@@ -28,13 +28,40 @@ curl -s https://45-77-216-35.sslip.io/health   # {"ok":true}
 
 ## Redeploy / operate
 ```bash
-VM=root@45.77.216.35 SSH_KEY=~/.ssh/vultr_hack deploy/deploy.sh ws2-api      # any ref; .env is kept
-WORKER=1 VM=... deploy/deploy.sh                                              # also start the worker
-ssh ... 'cd /opt/beatopia && docker compose -f deploy/docker-compose.yml logs -f --tail=100 api'
+VM=root@45.77.216.35 SSH_KEY=~/.ssh/id_ed25519 deploy/deploy.sh main      # API only (default); any ref
+CADDY=1 VM=... SSH_KEY=... deploy/deploy.sh main                            # + Caddy, only if the Caddyfile changed
+WORKER=1 VM=... SSH_KEY=... deploy/deploy.sh main                           # + worker (read "Worker data" first)
+ssh ... 'cd /opt/beatopia && docker compose -f deploy/docker-compose.yml --env-file .env logs -f --tail=100 api'
 ssh ... 'cat /opt/beatopia/DEPLOYED_SHA'
 ```
+`deploy.sh` only rebuilds and recreates the services it names, each with `--no-deps`, and never uses
+`--remove-orphans`. The archive is extracted over `/opt/beatopia` in place (no directory swap), so `.env` and
+anything not in git survive. At the end it prints each container's image label and its process
+`BEATOPIA_REVISION`. They match per container. The worker keeps its own revision until it is recreated with
+`WORKER=1`.
+
 Toggle Gemini degraded mode: set `GEMINI_DEGRADED=1` in `/opt/beatopia/.env`, then
-`docker compose -f deploy/docker-compose.yml --env-file .env up -d api` (recreates the container with the new env).
+`docker compose -f deploy/docker-compose.yml --env-file .env up -d --no-deps --force-recreate api`
+(see `api/README.md`).
+
+## Worker data (issue #13)
+The worker keeps separation/import checkpoints, receipts and `worker.jsonl` in `WORKER_DATA_DIR`
+(`/app/worker/data`). Compose now mounts the named volume `beatopia_worker_data` there. A worker created before
+that change keeps the data in its container layer, which a recreate would delete. `WORKER=1 deploy.sh` handles
+the move:
+1. It prints the old container's mounts and copies `/app/worker/data` to `/opt/beatopia-backups/worker-data-<UTC>`.
+2. It builds the image and creates the new container without starting it.
+3. If the volume is empty, it seeds the volume from that backup.
+4. It starts the worker.
+
+Before running it:
+```bash
+ssh ... 'docker inspect --format "{{json .Mounts}}" beatopia-worker-1'   # anything besides hf/torch caches?
+ssh ... 'docker logs --tail 20 beatopia-worker-1'                         # no job in progress
+```
+If the old container mounts its data from somewhere else (a host path), copy that into the volume instead and
+tell WS1. Never run a bare `docker compose up` (it would recreate the worker). Never run `docker compose config`
+(it prints every secret in `.env`).
 
 ## Checks against production
 ```bash
