@@ -14,6 +14,7 @@ import type { Result } from "@/lib/types/api";
 
 import { MiniWaveform } from "./MiniWaveform";
 import { PlayButton } from "./PlayButton";
+import { FlipTips } from "./FlipTips";
 import { WhyNote } from "./WhyNote";
 
 export function previewItemOf(r: Result): PreviewItem {
@@ -129,6 +130,7 @@ export function ResultCard({ result: r }: { result: Result }) {
       </div>
 
       <WhyNote windowId={r.window_id} cachedNote={r.why} />
+      <FlipTips result={r} />
 
       <div className="mt-auto flex min-w-0 items-center gap-2 pt-1">
         <LicenseBadge license={r.track.license} attribution={r.track.attribution} />

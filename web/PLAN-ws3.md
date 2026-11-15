@@ -136,7 +136,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 ### Tier 2 (H20+, in cut-list order)
 - [x] **T9.1 Events** (1 h). `usePostEvent` fire-and-forget for `play` (first play per card per query), `pick` (open in editor or use stem), and `skip` (another card played within 1.5 s of starting this one).
 - [x] **T9.2 Offline backup** (1 h). `?offline=1` switches `lib/api` to fixtures at runtime and is kept in `sessionStorage`.
-- [ ] **T9.3 "Flip this sample" tips** (1.5 h), drawn from the why note.
+- [x] **T9.3 "Flip this sample" tips** (1.5 h), drawn from the why note.
 - [ ] **T9.4 Keyboard shortcuts** (1 h). `/` focuses search, `j`/`k` move between cards, `s` opens stems, `e` opens the editor, `?` shows help.
 
 **Cut order if behind** (handoff §10): Tier 2 → motion → import page → why lazy fetch (cached notes only) → drag-and-drop (click-to-add stays).
