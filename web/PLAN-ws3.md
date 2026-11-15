@@ -448,3 +448,13 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - Git: local `ws3-web` was reset to `origin/main` (same tree, checked with `git diff`). Start new WS3 work from `main`. The `ws3-import` branch is merged and can be deleted.
   - Open items outside WS3: the WS4 editor isn't pushed, and there's no "Keys" chip (WS1 vocab). Test imports `imp_97a1001c`, `imp_0e0bdaf7`, `imp_9e766a4c`, `imp_22efb81b` (+2 earlier) are in the production DB.
   - Next for WS3: T8.1 design tokens (needs `docs/proposals/WS3-design-tokens.md`).
+- **Addendum 4 (2026-11-15): WS4 editor merged (#8, f5a94d8); integration check.** Rebased on `origin/main` (also 9eb65e5, contract C10: Freesound fallback rule + Freesound results first; no schema/fixture change). `make schema` made no diff; `make check-fixtures` passed 13/13. lint/typecheck are clean, **189/189** tests (WS4's included), and `pnpm build` passes (new `/editor/*-checks` routes). WS4 touched no WS3 paths.
+  - **Production (https://beatopia-liart.vercel.app, f5a94d8), all passing:**
+    - Search (Soul + Rhodes + Melancholy) → card Open in editor → the real editor decodes the window as clip c1 (10.031 s), with the waveform, bar timeline, chop/reverse/repitch tools and the assist panel. Only one `<main>` is visible (the search page is hidden by `<Activity>`). No horizontal scroll, no console errors.
+    - Editor → Stems (our `StemsDrawer` through WS4's `onPick`) → "Use Drums in the editor" adds clip c2 with the "Undo removes this source" notice.
+    - Import (10 s WAV) → summary → Open in editor → clip c1 10.000 s, 99.4 BPM / C major.
+    - **The stems job path in the UI, live, for the first time:** editor Stems on that imported track went queued → 5% → … → 95% → 4 stems in 13 s.
+  - Note: a card's hand-off carries the result's own `stem` (e.g. `stem=other` for a window on the "other" stem). That's intended: the card preview plays that same stem's `audio_url`.
+  - **Fixed (WS3):** after "Use in editor" from the editor's Stems sheet, focus fell to `<body>`, because WS4 disables its Stems button while decoding and a disabled button can't take focus. `AppSheet`'s `restoreFocus` now waits for the opener to be enabled again (up to 15 s, and only if focus is still on `<body>`). Checked on localhost in live mode: focus was BODY during decode, then the Stems button.
+  - For WS4 (no change needed): the editor page renders its own `<h1>Editor</h1>` and `<main>` in `max-w-5xl px-6`; the T8.1 design pass may want to line it up with the header's `max-w-7xl px-4 sm:px-6`.
+  - More test data in production: `imp_b3022a69` and its range stems (0–10 s).
