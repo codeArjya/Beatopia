@@ -114,7 +114,8 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-14 (session 4):** T1.1–T5.1 done. Everything from T6.1 on is not started. T2.2 still
+**Status 2026-11-15 (session 5):** T1.1–T5.1, T7.1, T7.2, T9.1, T10.1–T10.3 done; T6.1–T6.3 files done, VM steps
+blocked on SSH access; T8.1, T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
 needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
 
 ### → Gate H3: real DB wired, chips and tracks real
@@ -212,22 +213,39 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       Re-run against production at T6.2.
 - [ ] **T6.1 Docker images** (1.5 h). `deploy/api.Dockerfile`, `deploy/worker.Dockerfile`, `.dockerignore`.
       *Accept:* both build locally (or on the VM); `docker run api` → `/health` ok with HF cache volume.
-      *Left:* all; the worker image needs WS1's run command, packages and env (`worker/main.py` is still a stub).
-- [ ] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). *Left:* all; blocked on the VM IP + SSH and C8. SSH: install Docker, clone repo to `/opt/beatopia`,
+      *Done (files, session 5):* both Dockerfiles (python 3.11 slim, ffmpeg, uv `sync --frozen --no-dev`, CPU torch
+      from each lock), per-Dockerfile `.dockerignore`s, OCI revision label + `BEATOPIA_REVISION` from the
+      `REVISION` build arg. *Left:* the build itself (no Docker on L2; it runs on the VM in T6.2). The worker image
+      runs WS1's `python -m worker.main`, which is still a stub on main, so compose keeps it behind a `worker` profile.
+- [ ] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). SSH: install Docker, clone repo to `/opt/beatopia`,
       copy `.env`, `docker compose up -d`, Caddy HTTPS on `<ip>.sslip.io`, CORS origins.
       *Accept:* `curl https://<host>/health` ok; `/search` from the Vercel origin passes CORS; contract test green
       against production. **Gate H12: post the URL to the human for `NEXT_PUBLIC_API_URL`.**
+      *Done (files):* `docker-compose.yml` (api, worker profile, caddy; hf/torch/caddy volumes), `Caddyfile`,
+      `vm_setup.sh`, `deploy.sh` (git archive over SSH, no GitHub access on the VM), `vm.env.template` (C8/C9 values,
+      `WEB_ORIGIN` incl. `https://beatopia-*.vercel.app`, which the API turns into an origin regex).
+      *Left:* everything on the VM. **Blocked:** the key `~/.ssh/vultr_hack` named by the human isn't on L2 (port 22
+      answers since ~02:30 UTC). Steps once in: `vm_setup.sh` → `.env` → `deploy.sh` → `curl /health` → contract test.
 - [ ] **T6.3 `api/scripts/bench.py`** (0.5 h). 20 eval queries (mix of text-only, chips-only, text+chips), prints
       p50/p95 per stage from the timing headers (`Server-Timing`). *Accept:* prod p50 < 3 s, or slowest stage noted.
+      *Done (script):* local real mode, pass 1 p50 560 ms / p95 4.8 s (rerank at its 4 s budget on 4 text queries),
+      warm pass p50 273 ms (slowest: sql 267 ms via the session pooler). *Left:* the production run (after T6.2).
 
 ### → Gate H16: Tier 0 end to end in production
-- [ ] **T7.1 `/tracks/{id}/stems` + `/jobs/{id}`** (1.5 h). Covering stems = same track, `range_start ≤ start` and
+- [x] **T7.1 `/tracks/{id}/stems` + `/jobs/{id}`** (1.5 h). Covering stems = same track, `range_start ≤ start` and
       `range_end ≥ end`, model match (hero full-length stems always qualify); dedupe identical queued/running job;
       range checks (`range_too_long`, `bad_request`). *Accept:* tests for covered / queued / dedupe / > 60 s;
       with WS1 worker running, a job goes queued → done and returns `Stem` list.
-- [ ] **T7.2 `/imports`** (1.5 h). ≤ 25 MB streamed check (`upload_too_large` 413), ext + magic sniff
+      *Done:* `core/jobs.py`: one complete stem set for the requested model whose range covers the request
+      (narrowest wins; model must match, since a 6-stem request needs guitar/piano), else a covering queued/running
+      job, else a new one; per-track advisory lock; end clamped to the track length. A done job with an invalid or
+      missing output is reported as `status: error`. Live: hero `jam_1030277` 10–20 s → 4 full-length stems, a done
+      WS1 job validates. *Left (WS1):* queued → done needs a running worker; none is running (session 5 log).
+- [x] **T7.2 `/imports`** (1.5 h). ≤ 25 MB streamed check (`upload_too_large` 413), ext + magic sniff
       (`unsupported_format` 415), id `imp_{8 hex}`, upload `imports/{id}/original.{ext}`, placeholder row, `analyze` job.
       *Accept:* tests for size/format errors; live upload → job done → `GET /tracks/imp_x` validates.
+      *Done:* live upload of the 16 s fixture WAV → `imp_27b87909` + queued analyze job in 1.1 s (upload 0.9 s); the
+      placeholder track validates; a text file named .wav → 415. *Left (WS1):* job → done needs the worker.
 - [ ] **T8.1 Freesound fallback** (1.5 h). `core/freesound.py` (httpx, 5 s, 1 h TTL cache, license mapping),
       `/tracks/fs_*` and `/why` for non-DB ids (in-memory note cache), `POST /tracks/fs_*/stems` stores the minimal
       row + copies the preview first (CONTRACT §7.7). *Accept:* mock-HTTP tests; live nonsense query
@@ -236,17 +254,23 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       **Gate H16: search → preview → stems → editor works in production (checked with WS3/WS4).**
 
 ### → Gate H24: `/assist`
-- [ ] **T9.1 `/events` + Rocchio** (1.5 h). Insert event (204); `core/personalize.py`; applied in `/search` when
+- [x] **T9.1 `/events` + Rocchio** (1.5 h). Insert event (204); `core/personalize.py`; applied in `/search` when
       session has picks. *Accept:* test: after a pick, the picked window's track ranks ≥ before; event row exists.
-- [ ] **T10.1 Tool registry** (1.5 h). `core/assist_tools.py`: function declarations generated from Op models
+      *Done:* DB test: after pick + skip, sim to the picked window rises and to the skipped one falls; fs_* picks and
+      other sessions are ignored; rows exist. Log fields `picks`/`skips`.
+- [x] **T10.1 Tool registry** (1.5 h). `core/assist_tools.py`: function declarations generated from Op models
       (strip `op`/titles, `anyOf[null]` → optional), descriptions from §5 P4 table. *Accept:* snapshot test of
       the 15 declarations; each schema accepted by a live `count_tokens`/dry call.
-- [ ] **T10.2 Chain simulator** (1.5 h). `core/opsim.py`: live clip set, slice children, `clip_is_sliced`,
+- [x] **T10.2 Chain simulator** (1.5 h). `core/opsim.py`: live clip set, slice children, `clip_is_sliced`,
       arrange ids. *Accept:* unit tests incl. "slice c1 then gain c1" → `clip_is_sliced`.
-- [ ] **T10.3 `/assist` loop** (2 h). P4, manual function-calling loop (≤ 3 turns, thought signatures preserved),
+- [x] **T10.3 `/assist` loop** (2 h). P4, manual function-calling loop (≤ 3 turns, thought signatures preserved),
       validation → one repair round → reply. *Accept:* `tests/assist_eval.py` with the 10 scripted prompts in §5;
       live ≥ 9/10 produce exactly the expected ops; "chop this into 4 and reverse the last one" →
       `[slice c1 count 4 snap beat, reverse c1.4]`. **Gate H24.**
+      *Done:* `scripts/assist_eval.py` live on `gemini-3.6-flash`: **9/10**, 2.1–4.8 s each; case 1 exactly as above.
+      The miss (#9 "reverse c1" after slicing) reversed all 4 pieces and arranged them last-to-first instead of
+      asking. Changes from §1: thinking LOW (not MEDIUM, latency); invalid calls are sent back to the model for repair
+      and only the valid chain is returned (not all-or-nothing); `search_library` runs without Gemini (fast).
 
 ### H24–H30: hardening
 - [ ] **T11.1 Latency pass** (1.5 h): speculatively `embed_text(raw text)` in parallel with the planner, use it if
