@@ -134,7 +134,7 @@ def test_repeat_search_reuses_the_memo_and_skips_gemini(pool: NotesPool) -> None
     noted = [scored(s.candidate.window_id, s.score, why=first.notes.get(s.candidate.window_id)) for s in RANKED]
     second, client = run(noted, reply, pool)
     assert second.status == "skipped:memo" and client.models.calls == []
-    assert ids(second) == order and len(second.notes) == 8
+    assert ids(second) == order and len(second.notes) == rerank.NOTES_PER_RERANK  # the top 4; /why fills the rest
 
     # A different request (or candidate set) doesn't reuse it.
     other = rerank.rerank("other words", [], noted, 8, gemini=None, pool=pool)  # type: ignore[arg-type]
@@ -163,3 +163,11 @@ def test_schema_and_trim_note() -> None:
     assert rerank.trim_note("One two. Three four five six", 5) == "One two."
     assert rerank.trim_note("one two three, four five six", 4) == "one two three, four…"
     assert rerank.trim_note("Ends right here. More words", 3) == "Ends right here."
+
+
+def test_new_notes_are_capped_to_the_top_of_the_order(pool: NotesPool) -> None:
+    order = [IDS[9], IDS[3], IDS[12], IDS[0], IDS[1], IDS[2], IDS[4], IDS[5]]
+    reply = {"order": order, "notes": [{"id": i, "note": f"note {i}."} for i in reversed(order)]}
+    out, client = run(RANKED, reply, pool)
+    assert set(out.new_notes) == set(order[: rerank.NOTES_PER_RERANK])
+    assert f"first {rerank.NOTES_PER_RERANK} ids" in client.models.calls[0]["config"].system_instruction

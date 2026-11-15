@@ -214,6 +214,27 @@ def test_budget_is_wall_clock() -> None:
     assert time.perf_counter() - t0 < 0.4
 
 
+def test_budget_timeouts_can_skip_auto_degrade() -> None:
+    class Slow(FakeModels):
+        def generate_content(self, **kw: Any) -> FakeResponse:
+            time.sleep(0.2)
+            return super().generate_content(**kw)
+
+    client = FakeClient(TRUMPET_RAW)
+    client.models = Slow([TRUMPET_RAW])
+    g = gem.Gemini(client, "m")
+    for _ in range(gem.AUTO_DEGRADE_FAILURES + 1):
+        with pytest.raises(gem.GeminiUnavailable, match="TimeoutError"):
+            g.generate_json(
+                system="s", contents="c", schema={}, temperature=0, budget=gem.CallBudget(20, 1), timeouts_degrade=False
+            )
+    assert g.available()  # tight-budget timeouts (rerank) don't switch Gemini off for /why and /assist
+    for _ in range(gem.AUTO_DEGRADE_FAILURES):
+        with pytest.raises(gem.GeminiUnavailable):
+            g.generate_json(system="s", contents="c", schema={}, temperature=0, budget=gem.CallBudget(20, 1))
+    assert not g.available()  # default: timeouts still count
+
+
 # ---- degraded switch ----
 
 
