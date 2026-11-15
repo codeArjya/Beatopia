@@ -33,7 +33,7 @@ export function AppSheet({ open, onOpenChange, title, description, side = "right
           opener.current = null;
           if (el?.isConnected) {
             e.preventDefault();
-            el.focus();
+            restoreFocus(el);
           }
         }}
       >
@@ -49,4 +49,34 @@ export function AppSheet({ open, onOpenChange, title, description, side = "right
       </SheetContent>
     </Sheet>
   );
+}
+
+/** Give up waiting for a disabled opener after this long. */
+const RESTORE_WAIT_MS = 15_000;
+
+/**
+ * Focus the opener. A disabled button can't take focus: the editor disables its Stems button while it decodes
+ * the stem picked in this sheet. So wait until it's enabled again, then focus it, unless the user has already
+ * moved focus somewhere else.
+ */
+function restoreFocus(el: HTMLElement) {
+  const disabled = () => el.matches(":disabled");
+  if (!disabled()) {
+    el.focus();
+    return;
+  }
+  const lost = () => document.activeElement === null || document.activeElement === document.body;
+  const done = () => {
+    observer.disconnect();
+    clearTimeout(timer);
+  };
+  const observer = new MutationObserver(() => {
+    if (!el.isConnected || !lost()) return done();
+    if (!disabled()) {
+      done();
+      el.focus();
+    }
+  });
+  observer.observe(el, { attributes: true, attributeFilter: ["disabled"] });
+  const timer = setTimeout(done, RESTORE_WAIT_MS);
 }
