@@ -9,7 +9,7 @@ import secrets
 
 from psycopg_pool import ConnectionPool
 
-from app.core import embed, planner, rerank, search_sql
+from app.core import embed, personalize, planner, rerank, search_sql
 from app.core.errors import bad_request
 from app.core.gemini import Gemini
 from app.core.scoring import Scored, rank
@@ -64,6 +64,7 @@ def run_search(
     with stage("embed"):
         q = embed.embed_query(plan.clap_text)
     with stage("sql"), pool.connection() as conn:
+        q, feedback = personalize.personalize(conn, req.session_id, q)
         candidates, relaxed = search_sql.fetch_candidates(conn, plan, q)
     with stage("score"):
         ranked = rank(candidates, plan)
@@ -74,6 +75,8 @@ def run_search(
         plan_source=outcome.source,
         plan_cached=outcome.cached,
         relaxed=relaxed,
+        picks=feedback.picked,
+        skips=feedback.skipped,
         candidates=len(candidates),
         n=len(results),
         rerank=rr.status,

@@ -23,14 +23,22 @@ from app.core.errors import install_error_handlers
 from app.core.settings import Settings, get_settings, origin_regex
 from app.core.timing import configure_logging, install_timing
 from app.fixture_routes import fixture
-from app.routes import chips, jobs, search, tracks, why
+from app.routes import chips, events, imports, jobs, search, tracks, why
 
 __all__ = ["app", "create_app", "fixture"]
 
 log = logging.getLogger("app")
 
 # Real routers, mounted in real mode. Each task adds its router here.
-REAL_ROUTERS: list[APIRouter] = [chips.router, tracks.router, search.router, why.router, jobs.router]
+REAL_ROUTERS: list[APIRouter] = [
+    chips.router,
+    tracks.router,
+    search.router,
+    why.router,
+    jobs.router,
+    imports.router,
+    events.router,
+]
 
 
 def _route_keys(router: APIRouter) -> set[tuple[str, str]]:
