@@ -285,9 +285,10 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
 ### H24–H30: hardening
 - [ ] **T11.1 Latency pass** (1.5 h): speculatively `embed_text(raw text)` in parallel with the planner, use it if
       `plan.clap_text` == raw text; parallel rerank + notes fetch; bench before/after.
-      *Left:* all; main target is rerank (2.3–3.3 s, uncached search 2.8–5.3 s); auto-degrade already done (T4.1).
+      *Left:* all; target is the prod cold path: rerank p50 3.0 s (4-note cap already in) + planner ≈ 1.4 s → p50 3.2 s.
 - [ ] **T11.2 Timeouts, degraded mode, rate limits** (1.5 h): token bucket, auto-degrade, `GEMINI_DEGRADED` toggle
       documented in `api/README.md`. *Accept:* tests with mocked Gemini 503s → `/search` still 200 with cached notes.
+      *Left:* token bucket (429 `rate_limited`) and the README toggle docs; auto-degrade + rerank-timeout exemption are done.
 
 Cut order (from handoff): `/assist` → Rocchio → Freesound fallback → audio in `/why` → rerank.
 
