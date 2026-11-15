@@ -1,0 +1,12 @@
+{
+  "provenance": "worker/SESSION4.md: seven deliberately failed acceptance jobs; IDs only, no production-wide exemptions",
+  "job_ids": [
+    "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+    "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+    "09c36510-c540-4040-a58d-82cc3dfab312",
+    "e622c072-9226-4fa0-8a74-77d10a529661",
+    "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+    "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+    "28f0ce2c-e627-4544-a921-7b189ecc260b"
+  ]
+}

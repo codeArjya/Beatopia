@@ -1,0 +1,5765 @@
+{
+  "acceptance": {
+    "audibly_verified_prominent_timbres": 0,
+    "full_quality_gate": "open",
+    "hero_shortfall": 56,
+    "heroes_80": false,
+    "human_reviewed_hero_tracks": 1,
+    "library_300_500": true,
+    "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+    "prominent_timbres_30": "unverified",
+    "technically_verified_heroes": 24,
+    "technically_verified_library": 350,
+    "verified_hero_ids": [
+      "jam_1030282",
+      "jam_1039379",
+      "jam_1047157",
+      "jam_1096249",
+      "jam_1101341",
+      "jam_1121408",
+      "jam_1126354",
+      "jam_1149160",
+      "jam_1149166",
+      "jam_1179114",
+      "jam_1222581",
+      "jam_1223964",
+      "jam_1229099",
+      "jam_1270293",
+      "jam_1282782",
+      "jam_1367270",
+      "jam_1432367",
+      "jam_1432369",
+      "jam_1433063",
+      "jam_1433892",
+      "jam_1436572",
+      "jam_1439805",
+      "jam_1464239",
+      "jam_1475806"
+    ]
+  },
+  "counts": {
+    "hero_flags": 24,
+    "imports": 1,
+    "library_tracks": 350,
+    "stems": 100,
+    "windows": 7777
+  },
+  "decoded_objects": 450,
+  "elapsed_s": 90.93799999999828,
+  "finished_at": "2026-11-14T23:33:11.687412+00:00",
+  "heroes_failures": [
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1307441",
+      "location": "heroes.py:164:features",
+      "time": 1794693143.8375132
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1149165",
+      "location": "heroes.py:164:features",
+      "time": 1794693548.3273082
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1149164",
+      "location": "heroes.py:164:features",
+      "time": 1794694231.4245431
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1348228",
+      "location": "heroes.py:164:features",
+      "time": 1794696233.7174523
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1359980",
+      "location": "heroes.py:164:features",
+      "time": 1794696606.4292517
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1149159",
+      "location": "heroes.py:164:features",
+      "time": 1794697561.830883
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1238674",
+      "location": "heroes.py:164:features",
+      "time": 1794697755.5595303
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1149161",
+      "location": "heroes.py:164:features",
+      "time": 1794698187.877459
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "jam_1544396",
+      "location": "heroes.py:164:features",
+      "time": 1794698420.8642087
+    }
+  ],
+  "ingest_failures": [
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "fs_507355",
+      "location": "pipeline.py:128:prepare",
+      "time": 1794685617.026065
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "fs_507355",
+      "location": "pipeline.py:128:prepare",
+      "time": 1794685763.9438267
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "fs_507355",
+      "location": "pipeline.py:128:prepare",
+      "time": 1794685935.9595587
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "fs_507355",
+      "location": "pipeline.py:128:prepare",
+      "time": 1794692853.154806
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "fs_498604",
+      "location": "pipeline.py:128:prepare",
+      "time": 1794693620.3757007
+    },
+    {
+      "error_type": "ValueError",
+      "event": "failure",
+      "http_status": null,
+      "id": "fs_498606",
+      "location": "pipeline.py:128:prepare",
+      "time": 1794693716.4794352
+    }
+  ],
+  "invalid_windows": [],
+  "jobs": {
+    "counts": {
+      "done": 5,
+      "error": 7
+    },
+    "errors": [
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+        "kind": "stems",
+        "progress": 0.4,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+        "kind": "stems",
+        "progress": 0.4,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+        "kind": "stems",
+        "progress": 0.0,
+        "status": "error"
+      },
+      {
+        "classification": "intentional_session4_acceptance",
+        "has_error": true,
+        "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+        "kind": "analyze",
+        "progress": 0.0,
+        "status": "error"
+      }
+    ]
+  },
+  "listening_reviews": [
+    {
+      "acceptance_credit": "one identified hero track/stem human listening review; exact window and a formal prominence judgment remain unspecified; no 30-track pass or threshold/prompt change",
+      "audio_path": "tracks/jam_1282782/stems/other.mp3",
+      "matched_verified_hero": true,
+      "playback_range": null,
+      "recorded_at": "2026-11-14T23:27:14+00:00",
+      "reported_density": "denser side, but instruments distinguishable for most part",
+      "reported_instruments": [
+        "horns, particularly bass tones",
+        "strings",
+        "piano",
+        "electric guitar",
+        "saxophone",
+        "basic synth"
+      ],
+      "reported_uncertain_instruments": [
+        "trumpet",
+        "drums/bongos"
+      ],
+      "reported_usefulness": "would probably sample beginning and guitar part; useful as part of a beat",
+      "required_timbres_reported": [
+        "horns",
+        "strings",
+        "piano"
+      ],
+      "reviewer": "human in Codex Session 5",
+      "status": "identified_track_level_human_review",
+      "stem": "other",
+      "supplied_audio_reference": "jam_1282782/stems/other.mp3",
+      "track_id": "jam_1282782",
+      "verbatim": "horns (particularly bass tones), strings, piano, i think trumpet, electric guitar, saxophone, drums(bongos) aren't very clear but i think we heard some, basic synth, more on the denser side but can dinstinguish instruments for most part, and we would probably sample beginning, and guitar part but song is pretty good for a part of a beat",
+      "window_id": null
+    }
+  ],
+  "max_decoded_duration_delta_s": 0.00047165532879489547,
+  "missing_stages": [
+    {
+      "cached_files": [
+        "decoded.wav",
+        "mix.mp3",
+        "original.audio",
+        "processed.wav"
+      ],
+      "id": "fs_507355",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [
+        "decoded.wav",
+        "mix.mp3",
+        "original.audio",
+        "processed.wav"
+      ],
+      "id": "fs_498604",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [
+        "decoded.wav",
+        "mix.mp3",
+        "original.audio",
+        "processed.wav"
+      ],
+      "id": "fs_498606",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_424896",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_424894",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_424892",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_424888",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_424887",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_424886",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_424890",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_430267",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_532661",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_387517",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_447951",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_447880",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_788077",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_681100",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_533764",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_257413",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_100476",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_832560",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_447843",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_190957",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_430271",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_388055",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_711048",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_862466",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_863100",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_435812",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_320070",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_478628",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_100475",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_682332",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119234",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119228",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119700",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119698",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119677",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119676",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119675",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119673",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119672",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119670",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119669",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119668",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119666",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119665",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119664",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119663",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [],
+      "id": "fs_119662",
+      "published_in_snapshot": false,
+      "stage": "mix"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1307441",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1149165",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1149164",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1348228",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1359980",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1149159",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1238674",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1149161",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [
+        "bass.mp3",
+        "drums.mp3",
+        "other.mp3",
+        "separated.json",
+        "vocals.mp3"
+      ],
+      "id": "jam_1544396",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1342553",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1207327",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1275400",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1149158",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1485349",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1433978",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1378003",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1121423",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1277123",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1492151",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1432420",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1378557",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1030279",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1030277",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1131022",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1101338",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1544394",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1289101",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1432851",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1149162",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1544392",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1390854",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1331951",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1283863",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1101344",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1311439",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1096663",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1407055",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1432847",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1466603",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1364453",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1544389",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1332140",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1501360",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1111809",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1222826",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1432368",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1222516",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1442142",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1222537",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1331954",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1222552",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1149163",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1030276",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1271467",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1304261",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1149157",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1222876",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1030284",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1360689",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1030283",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1265033",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1009061",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1047155",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1363092",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1445903",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1492154",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1101342",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1047158",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1544393",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1337940",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1289105",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1009065",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1009064",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1003082",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1413777",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    },
+    {
+      "cached_files": [],
+      "id": "jam_1306282",
+      "published_in_snapshot": false,
+      "stage": "hero"
+    }
+  ],
+  "public_object_failures": [],
+  "public_objects": [
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122329/mix.mp3",
+      "sha256": "cd2089116e2471d979195d9f536701e4f605d9ffabbeb7fe2dcd4fad44f51102",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122330/mix.mp3",
+      "sha256": "1a60527d282fd7b9ec4926b3abc2e52bdb5294771096058a8e34059bdbfc6ff6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122331/mix.mp3",
+      "sha256": "e1df539263aa9ce4bc2a8169a06c39af486f5bf2dacd9febea6518ab6ce857a8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122332/mix.mp3",
+      "sha256": "85c6ffc3df251ad3cffca59664da80af5ce86c41ea384eef1b13c35bebd57f87",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122333/mix.mp3",
+      "sha256": "46be4423f77d0246f2ccdd7d9123b20ee6ad1d1428ca022c461b2013b9f1acbc",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122334/mix.mp3",
+      "sha256": "fa90f7e82ab1950e8ad0c25bccde2d387100d3926fcb655e579cf3275864e60d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122335/mix.mp3",
+      "sha256": "719070cc3ac30542c5995780f15a9212dfe6ac71163eb25e58e233ce68d71299",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122336/mix.mp3",
+      "sha256": "c5e7bfea036e85dd2c8d759f02ce151d19cb22ec87c3516d67988703abde3b4e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122337/mix.mp3",
+      "sha256": "029ce2abbd75bf2fe7e0a2e41ac1d9e46373b0b502afc4634992047907e9063a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122338/mix.mp3",
+      "sha256": "bb0f173c2ea8603e8e0595c76a077cc4a92ed06b7f780fa445ec5d7aac9bb910",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122339/mix.mp3",
+      "sha256": "d7fd660c239ecc0d1a5fc9da4f30a9ae1bfb0c16363aeaedecac133407f58de1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122340/mix.mp3",
+      "sha256": "353ea79e8de4a97b8d03624875ee72b478a12f52094e105c8daf4e44a8c7b923",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122341/mix.mp3",
+      "sha256": "73ce69e587e54d51256ac70fe6b4fa812c2c62e19e449583d586f5147f8a4672",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122342/mix.mp3",
+      "sha256": "0317f6a5431346bf62c77154eb8133bcd9a704b5898836c29a148df5219183cb",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122343/mix.mp3",
+      "sha256": "90f9177036ee53551f0cc929a253119eac8b92c2ff8c7269dc5fba4971c34cca",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122344/mix.mp3",
+      "sha256": "8afe0ed8e95f83454a0ce20d57203061d2a2d51bc709815e8f5da227e1bfa60c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122345/mix.mp3",
+      "sha256": "1aacdcae7f0f709c9868ab67f1ddd72ef5671c717d41efee1d608b20ef8f750c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122346/mix.mp3",
+      "sha256": "c89cde67f88316c6fe86743f26d4b51cde4f92cc95a6ca31cb5d3bdd88035ed3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122347/mix.mp3",
+      "sha256": "b73175af84fb978848c6cc52201af59c5975d4837cceb4132c868018a75b9789",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_122348/mix.mp3",
+      "sha256": "a020b416163548354e31effdc992f178ab41a604d0c8a5addff17457eb792580",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_130630/mix.mp3",
+      "sha256": "9a12618216b153ac99abfa74b9736ebf50c3f2a627f4b39ee70aaf8a84bf4d71",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_161163/mix.mp3",
+      "sha256": "1e67e07dd44fc3d02d1229eedec43068e7e8d276376dc503dd38960c1af72a66",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_161164/mix.mp3",
+      "sha256": "d0c6c024d4d4de28593b85e7c33fb68b6a438cccadf8e786d624bdcc8d5158ed",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_161165/mix.mp3",
+      "sha256": "4df4fb8a4e30e204226cbb8b1fa8fbc97019284ea07140991c04ccf5e1b0e512",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_161166/mix.mp3",
+      "sha256": "94593df1c6324966689939a58c7c3743e9d0fe88e18c1e180c9d0ae673ce0e26",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_161172/mix.mp3",
+      "sha256": "714eeae296e1b9011b0569df71de871c8c36a124e82f031cc5739103894db95e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_166649/mix.mp3",
+      "sha256": "28236387c66c30feab401f97c3f03381d3001037f467ffb944968d845a236aa6",
+      "verified": true
+    },
+    {
+      "hash_anchored": false,
+      "path": "tracks/fs_166649/stems/bass_5000_35000.mp3",
+      "sha256": "ed85d69f3b63454a28b8bff39bf7b47e556019af6009d842870a1ff2ac07cac1",
+      "verified": true
+    },
+    {
+      "hash_anchored": false,
+      "path": "tracks/fs_166649/stems/drums_5000_35000.mp3",
+      "sha256": "0ec23de141b62927f00f5413abd4546f2e551e6f60b73050d2d0da1f339f62a9",
+      "verified": true
+    },
+    {
+      "hash_anchored": false,
+      "path": "tracks/fs_166649/stems/other_5000_35000.mp3",
+      "sha256": "83c74e7b169b165849c8bb93f62e7e33ebe0a05f2d16438adab4c96caf80fefc",
+      "verified": true
+    },
+    {
+      "hash_anchored": false,
+      "path": "tracks/fs_166649/stems/vocals_5000_35000.mp3",
+      "sha256": "f08bf9a4c3b84a936004157374449902c54de4f229d4682cb1605cb48eef8b1a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_175170/mix.mp3",
+      "sha256": "227d36cf661b5e8a331b2fb35bb2a9261df7fef8268f064450cdc9138d0f8b4a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_175171/mix.mp3",
+      "sha256": "50fca4ac8889250f74d345c178d4df70133829f7469e50fe77aaec069b67aa1a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_175172/mix.mp3",
+      "sha256": "db196e21bbd60fcb6cc4b4d6703052d0ba4e185385bdd68cc0ff0f2c82186c85",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_175173/mix.mp3",
+      "sha256": "d7c954728eaff18dd14efb31af0c1afdf556804ff0f4c495eb5f582a3fd4f848",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_22452/mix.mp3",
+      "sha256": "87ea79cad4c8ca1fd8526c26a644fd549ff9828d470b57dbaa8141515215ea08",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_25484/mix.mp3",
+      "sha256": "5a2c51ee9a3018f013fdf377c913c96add418ae633d8fafb005ae4a64ccf2601",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_274614/mix.mp3",
+      "sha256": "0c8be4928fda3c887828d4090adf51367f919d89624769e1145c96083bbe5add",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_274615/mix.mp3",
+      "sha256": "bfde244bf9b244eb3c91a1770c6b571fb4162f7f56f88623836a8bb5385a501c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_274616/mix.mp3",
+      "sha256": "9255f52bbe8353bce767f1f4f988ab68020c8943e90c1f94f9c16a9486728390",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_274617/mix.mp3",
+      "sha256": "aa8bef209c71d2560e740216195f7bc09809cb50cac2464d8024b9d9853a8a7d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_30192/mix.mp3",
+      "sha256": "ad8d639011ab92b359cc37a29a825feb46c0c11cc91f0bca0dc05ce80d82f3d6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357877/mix.mp3",
+      "sha256": "b057553b06c366409b0bff4c3c325bce252c8806d1792bc918be31ed73b1ea9a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357878/mix.mp3",
+      "sha256": "22804315a1d8df3206b48a8f88bd60d3e3f31d7c6423fca6ccb2edf8c3c0815f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357879/mix.mp3",
+      "sha256": "f9cfe7a37a7008a58d283ecd18e8a6817a55f79b9c2730509a5c6c81baaab514",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357880/mix.mp3",
+      "sha256": "8ac4e1315f040845b9a85ef1120f2ce40ad4d751c92f066d05180ccc97a819f2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357881/mix.mp3",
+      "sha256": "4b277db63523f9df09835cc9b34546f1934a82fc7ea7968677b081ba21fd385f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357882/mix.mp3",
+      "sha256": "53f759c340692b92f0582369df12d7d101bfa52144792c64a4f3c8069a1aeb8d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357883/mix.mp3",
+      "sha256": "1c178e5fa379b2ed8049143bff94dd20a40f8ee980f578093ad4ed90f82f1e86",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357885/mix.mp3",
+      "sha256": "03d27f3e8b15af175f86c2d0ab773e87431a08d6082539e9d999d1897d021420",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357887/mix.mp3",
+      "sha256": "515ba242b02b2484396d54bf415afb0b25f8b7fb795fcd33142aaa6425b2df96",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357888/mix.mp3",
+      "sha256": "3b77769a130709fdaf36b80155b62ca9dbcb3381c09eb557b8bbcf3434a46d91",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357889/mix.mp3",
+      "sha256": "c0be450d9bf331361d47fc0b234ca5cc5e2a8fd022842b9a54e56b882269750f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357890/mix.mp3",
+      "sha256": "82ae75dc0143964d1f412ba58c03cfc062fbe816ebf5df1144a9b6071464b58c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_357891/mix.mp3",
+      "sha256": "48f773cef701c98ba5044e9f55fab4d5839188ec39fc9d99a8398f02bbaf8618",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_424915/mix.mp3",
+      "sha256": "f2ba4edc922740ff77f863825aa7950ce6475c5d12a99986f2f9777aa110808a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_424916/mix.mp3",
+      "sha256": "1f9c8e766079ee857a43b211dc3a0aee9280d2accf309358e64dbf6d10c944c6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431506/mix.mp3",
+      "sha256": "23b608f2be25583d3710d98965712b8fcc8c3aaa0cf4ea26d436185adc0807e8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431543/mix.mp3",
+      "sha256": "ba65cbee452bbf24399cff63fc260ee3c5dbcae731ceef78511b3068846dbd51",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431544/mix.mp3",
+      "sha256": "fd80c32f82bd9c2fa5b3430b804d4a78a5a28e4ca432397c00e5d4a621865e98",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431545/mix.mp3",
+      "sha256": "4e23c692d518a196b0421063fc8433ee2ce920886ad4a1c1b801f42a85c0cd7f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431547/mix.mp3",
+      "sha256": "3729597c698a4e27c0988688172c55dbfb4fabae9dde2d54618a30a3fa13e964",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431548/mix.mp3",
+      "sha256": "1b7c08d421ab2afa9b042c8036dad15bcd1e5b9cc7c13406af82f3f468e56399",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431549/mix.mp3",
+      "sha256": "0c3ba19cd08f06789bf77848f8406364fc80e1e9d27237dc32ee6d2ea20f8dc1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_431550/mix.mp3",
+      "sha256": "9044f7ef92a7ed8988e7cf31f3c3065e476441b454db9332b58172aeecbcad50",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_442724/mix.mp3",
+      "sha256": "850f8861083b0fbfaac1426916f462d2b6de40aedca9f92935629b59b66241d5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_442778/mix.mp3",
+      "sha256": "af083f0e5751cb9dcd9743564a6bfa7286af02f05f316ab7f6360c5b214d7dba",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_442779/mix.mp3",
+      "sha256": "d3302e3407d0aa5eafa1119c6efea28a0f5c780c9eb22173b356b3922e09af92",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_442780/mix.mp3",
+      "sha256": "919af6364be2f6576ce7abeca8714fb7e463dab347f6906790385e5668367711",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_442782/mix.mp3",
+      "sha256": "e326e828b572535736e242b47d99b897193277a05865a0679024ef4fa61242e0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449744/mix.mp3",
+      "sha256": "cf970b041e94b3cb22cd2889b676615972a11824c09e743dd566806f61e1908a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449745/mix.mp3",
+      "sha256": "b03c4dbd0e2b2867d655e267d5b3a6e6a01ee9f45f0c1d00c8b2b48abfd698a1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449746/mix.mp3",
+      "sha256": "7e869062b7d2878544db5789fb966bc7e0aad921de4a7da7d2df168b1935ec7c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449747/mix.mp3",
+      "sha256": "6eb772db2ec6c7e168b79f6666cfbada164adcd2c9b5f8b284a4df2c86b68420",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449754/mix.mp3",
+      "sha256": "4e3783b8d41c3be7d5431047fb57b361fb20c7de0d864736839e8078e52cd0ee",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449758/mix.mp3",
+      "sha256": "01ac673a6196960ab7a5bf89fd56b69bfbef1ac8fba365ce3f8c05f7e16ac429",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449759/mix.mp3",
+      "sha256": "f5ce6291d5e1589a52a57451452d19f2f184b824cb7b031f11dfab41d660980e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449772/mix.mp3",
+      "sha256": "796d361e7a990de564dd026ea394cdca825615f2c7ac0b778ad19f2f195eba1b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449774/mix.mp3",
+      "sha256": "78ca4ba5d9f14dc4032c91d33d47d3a0d061146ff0a6e72ec42f69e336dd23f0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449777/mix.mp3",
+      "sha256": "b1929695cc71f32a0514b2588dc4feb52af5d29c868fcb11830f3dd10929ad66",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449778/mix.mp3",
+      "sha256": "a3439c0baa812efe0fe082d8319170d25408ab53287e4a7222ef136197fdb721",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449779/mix.mp3",
+      "sha256": "2cfe19519c10f7c392808119ee65d3b5aa7955e6695a71e65608f148907c1562",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449780/mix.mp3",
+      "sha256": "ddab6bfbda0360cce2c1be89f28067cf04e5177fb281dd51509c629ed6cbe5b1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449781/mix.mp3",
+      "sha256": "e97686449b5c1166de624630383f989d8fb88a7de695d3fe840de8a9c689f610",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449782/mix.mp3",
+      "sha256": "a9593bbd78c15386ce9d5d582dd9f4abed462118136b5c45bb527c9f4adc4166",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_449791/mix.mp3",
+      "sha256": "9b7eb3bf57e005ae579584e8c5d41c27c1074a90d06c0ac26d2959ef3c05c973",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470463/mix.mp3",
+      "sha256": "3bda683df459c96521e8973177cb9735f34172e7aaeda9efd9307548cf24a2ee",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470467/mix.mp3",
+      "sha256": "a90586dcbca4d736e5f4de8c98ccd387fe8eda3d377af4e2897d91f9b0d5f428",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470468/mix.mp3",
+      "sha256": "f995148209fd8db92fd38aa9cd64a29c2e1ce371ff126d695094b9d7ab40f207",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470469/mix.mp3",
+      "sha256": "0e1ae2c9f1778b730c1f44105be2113670b3dd89dcbf309352800a1b0995ac41",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470470/mix.mp3",
+      "sha256": "f950bd309b546d0cdbcbdfd671373b1c65db268e066b9a0eb791595e8450d8ea",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470471/mix.mp3",
+      "sha256": "5da7adab1b53e80ff38a96e6e671b6589e39503016443df2e8f15b6db0e95294",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470472/mix.mp3",
+      "sha256": "fd9d4724235911f14de93d6cd9004c33e8f641343f178ed4b8de7124caaf1a7b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470473/mix.mp3",
+      "sha256": "aa7ba623e77328c5b234cafb8b346059487dadcfdb339269873a53fa34ccd0d0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470474/mix.mp3",
+      "sha256": "e09d1b74633ad97081a801b2b136f79d2b8192f9780caef259f026242b885746",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470476/mix.mp3",
+      "sha256": "a6eb3c93b6b1216c8e99fffe8dab6eaa539d014ed191d77271ee69f01e494633",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_470477/mix.mp3",
+      "sha256": "041e54d48bd2882b03879bcd7ddd0e047a621c34550a1974b9de900df798ff96",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_528026/mix.mp3",
+      "sha256": "76aff4c5fc1bc745fd4fd3ef7036d028573f51175190faecb808392fde7f2333",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_528779/mix.mp3",
+      "sha256": "d066ba3975ccfd4eb165c7f64ef284f3d484c83f67bc9c420f0745c75d8b5a21",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_528780/mix.mp3",
+      "sha256": "836660a6301863b9ea78ce60590e70b4407be744d19c38328f1bd424057d8afc",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61115/mix.mp3",
+      "sha256": "3add3093abf24f0f9328acd77794ba4c6bfcf30f2f3a2a69f0b24df0716cc437",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61821/mix.mp3",
+      "sha256": "b31d7ee6005aa58eeb839b91696bf84e7b3163c9f89df650ac3b8c836914111e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61822/mix.mp3",
+      "sha256": "a1bac151e8ece7d454efe999aa335e890da045b20dfee292b87b0621fe5a5d5b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61823/mix.mp3",
+      "sha256": "863d5dac995c062a468162b53bf7d60fdf9306ce5099fd06854e37c2ff94a0e1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61824/mix.mp3",
+      "sha256": "5c19fc836e5f4541908cf0624b1342addf019416efeab8c84b2dc81a2787b4b8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61826/mix.mp3",
+      "sha256": "0a5674810ed5133adbee3db55cc395bc857a873962eda15623d1eed624d12d3c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61827/mix.mp3",
+      "sha256": "0684c0c8ae472d2fbb03f6d41319f1ab991a35525ba69a0cc22f1f3532e427a4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61828/mix.mp3",
+      "sha256": "4d2e01e7459c7e87c1ebad59816cad333af60099868e94a0fefb8c553d2993cc",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61829/mix.mp3",
+      "sha256": "1059d6354476f95b610a901e766135691c96fd70a101e2f80cc80b6dfaa1b832",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61830/mix.mp3",
+      "sha256": "db40c336fc565e1f9d39e53695f2e3dcd301be438b17a3375c6e6166e0a6d812",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61831/mix.mp3",
+      "sha256": "e9c8da4e457b77f18ac3a843078704ced082cb9afe2b053a8a5d64ad69197e79",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_61832/mix.mp3",
+      "sha256": "922347af3909bb2da1c7e80149b0298718f5eb314a53807cfbcf35fccd8fd7d2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629676/mix.mp3",
+      "sha256": "c04ac3c9a20d1974524130f2b5197a78cb3d6672ca1fdfe7fabf5cb5708d9228",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629677/mix.mp3",
+      "sha256": "0ded64f3b71823e29ad62dd3e845f36be641b2d7319ecd96d252913762980a2e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629678/mix.mp3",
+      "sha256": "4ea6989b304a046dd3ee86309c296b91612a956f9c69ad95bce1e3413b554ca4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629679/mix.mp3",
+      "sha256": "841713d397099919de7b17093279dc9d8b04dd297abbb99e6fa86528199731b5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629680/mix.mp3",
+      "sha256": "9fc70fc9583f34ad0acb3c344a4d60c49ecebd786b3a1c26c12fc4c4e5815526",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629681/mix.mp3",
+      "sha256": "0c11cb12e419b5cf65ceb6a9e88b242a781f1653db324811075953fbfe6d3014",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629682/mix.mp3",
+      "sha256": "9146adab346ce96c69bc51ac7da2ecfc1e2173d9d50b8495e134942ef3f5a112",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629683/mix.mp3",
+      "sha256": "30ba9ff2ae9a841f126cf7bb117f97a328145354401f9e193a4930b96157d1b5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629684/mix.mp3",
+      "sha256": "bf45806cef919254e807981932d5cafb09533e841997dc4160a5bf4b17a5c640",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629685/mix.mp3",
+      "sha256": "b52809d46fca60a193b9ff40745015d6e90ded49fbb29343d91e0d3517c1b18d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629688/mix.mp3",
+      "sha256": "cccf66053c1be9b7a3c3872aabc0d1f5542fd70707d6ea3362594b5e54f53abf",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629689/mix.mp3",
+      "sha256": "8510e9354e86270a2df66f98e5037a2991a2c914a8688ee7e5e43c15335df2bd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629690/mix.mp3",
+      "sha256": "277653f0f5179cc7610c740de6e1c087e378d02c3019a2e66afd6f39c047bed1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629691/mix.mp3",
+      "sha256": "591b7a1ead3259c246d7e80f345b503fb796ebdcc6ecdd7b7c9b727281caee2d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629692/mix.mp3",
+      "sha256": "1f9c8e56ef0fe14381edf1b1c4cbfec656f449f0511e325024341d305fc18ada",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629693/mix.mp3",
+      "sha256": "8d501715d04cd76f851a9598c3cfd8e2560fe7bb2eb1a931ac73bccb6134b04e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629694/mix.mp3",
+      "sha256": "7782ba4aa70a7c4861e495fa03f0e6e27816eadac759cf18524b635bc4b78489",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629695/mix.mp3",
+      "sha256": "6568f490973cfdeb31fca82dd83475e2c4a273786fdde59161ef7b162831dad9",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629696/mix.mp3",
+      "sha256": "3c48943933a4c9292f84d81428e29d28032d123130edee3ffc1aa176238a87b0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629697/mix.mp3",
+      "sha256": "a7bb0a43314e10d8cee035b11796136530989befd5ff013116dab3d5a83a6ea0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629699/mix.mp3",
+      "sha256": "05ef2942ebe4410f06c1de390aa2a15cd22a49ebbb8df3c0ea15652ac4388e7f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629701/mix.mp3",
+      "sha256": "432d118f07603fa7f3e2fe513ccc0feed69961be0656a6c5ec7845650d731cbc",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629702/mix.mp3",
+      "sha256": "8804fea36c41e50e5ace13e69870f1aa79c82a9f72d6bb361e40e7d8121ad8ec",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629703/mix.mp3",
+      "sha256": "50ab742340b46bbe7f7243bd856828ec9aef2ba4027e41374fd8ab1e7fbb5e3b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629704/mix.mp3",
+      "sha256": "f69004b13edca55c329332f58b30dbc5fddd5695e425541b2c2dd1032a213698",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629705/mix.mp3",
+      "sha256": "a1c949d63291bce213516fe19ed8c97970a2d6c8756f736c9a28a1d96ea7dfa4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629706/mix.mp3",
+      "sha256": "cf83903311ffdd66bc1ff6bfe0bdbd1997c56142c0ef154544b30e76a27de446",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629707/mix.mp3",
+      "sha256": "8da4d08ed041f6d728683a082901fbd439324bfa844b317da28bc43683cc9c22",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629708/mix.mp3",
+      "sha256": "f98cdf8aa651a8c0658c86060fa4f15c183f719f20ac366b6a9364febf321fbe",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629709/mix.mp3",
+      "sha256": "3d5d9b0909c60131d985d0c9439e062fbe92a006233dc71ab3bfbd74c5e40053",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629710/mix.mp3",
+      "sha256": "6613dbfb9748f81fafd5b8645a4967b40c62ffdc349a3592ae71363dbb5b7cb7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629711/mix.mp3",
+      "sha256": "d0936649adb7cb1989b723804fc300ed54ec7ba7c7013d93d162838a8cecc278",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629712/mix.mp3",
+      "sha256": "3b292fe078314eadd9cee5c55bfa385ac246a3d974f01ec28ef2a57763012f17",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629713/mix.mp3",
+      "sha256": "e2a9bc46db9f4ad74d226970301789190f204e7fb1e7ec011dd7e6f391b1ee31",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629714/mix.mp3",
+      "sha256": "91dadd1b55f8463b1bf5db25c645cae78a88fab0838d98bd8125e8266a04132e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_629715/mix.mp3",
+      "sha256": "6fd386f956f99daebb068f1a5e57f53cc851a770100ec823e7793478edef327e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65650/mix.mp3",
+      "sha256": "b6c9252230f991205a3143e3936834cc43c28de752cd018495f20215362af9f1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65652/mix.mp3",
+      "sha256": "eb9c93a9ffdc365b83099ece61d24e8dbd04fc08e5d31df8bd7c7c5827d569e5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65653/mix.mp3",
+      "sha256": "235a868f71c89a575921eadcb04dfb58d73383f8b7ac0f1779193eacf510f767",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65654/mix.mp3",
+      "sha256": "58f1783af1745bf260f992fabd88a7742baeed5208fbea031f61b50b74555534",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65655/mix.mp3",
+      "sha256": "1f4aa253937e29ad75889885a6987a08805dba811206691ece1ab1551a0b32d0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65656/mix.mp3",
+      "sha256": "f851e68155e895714bff5d3317016116be672c58ccbb7282352741fca4fb4f24",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65657/mix.mp3",
+      "sha256": "eaeb76fe548cef229f12091aa744e412171bb24303f48c8536287cf69034d177",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65658/mix.mp3",
+      "sha256": "c206de8aef2c43d0a66b333c2cde7fcdf687f9dfa0bd3979461e52c241cb3bc0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65659/mix.mp3",
+      "sha256": "8163746b234ff14c1224d16c18130962cdc93f1bdad5769a82185e863942bcf7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65660/mix.mp3",
+      "sha256": "55306950a04eddae7fcfb98bb4214a7aa3374029c5925198a89cabfbae4c5438",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65661/mix.mp3",
+      "sha256": "a7f6805d1914f66f3391763f489c5468f8264acaef31609a7e8861aa010c8a1a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65662/mix.mp3",
+      "sha256": "eff8e37d31bba11a1ee661d09a56c68fcc5c91187faa57123374f9446e5526de",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65663/mix.mp3",
+      "sha256": "702bd3bfb4fcb56bc03c478248af190a99f7ef6523818875b30efa14505b07b3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65664/mix.mp3",
+      "sha256": "f22d63904bfadda2e8ca1e56b06960ee334ff9756d5563f81bc75057066e8899",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_656965/mix.mp3",
+      "sha256": "be724dad8133a89e1800cc0d9226c3456c8f0558b52f6fe9956daacf31b62d48",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65714/mix.mp3",
+      "sha256": "741894a99cd9f674024e83e52e01973d36359464c0890110f5dd6c6f14a5686c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65715/mix.mp3",
+      "sha256": "8334d9885ee2af8dab0ebbff4ef6132ea36a4b927a610cfd35c91d768bea8e0f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65716/mix.mp3",
+      "sha256": "39289d664b280919b282e5e4ecf6e8e06d5cab68847f0ea720e364cd68c1ee70",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65717/mix.mp3",
+      "sha256": "d9a78a5e1a920bedf9fc6e3072193555153ba72d56cc795a56beb13a99c8dfb8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65718/mix.mp3",
+      "sha256": "468ff550028f471f95a5ee32ac0981276752794980a6c533cc67107ef4f630e2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65721/mix.mp3",
+      "sha256": "dbb8ef8190bfbeda1ebfeb9a3192939661f3fed07d506c4241870758e1881371",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65722/mix.mp3",
+      "sha256": "94601e0e749a0c6e6810677f765ce3bdf435a8fedcac7e081e39138a32255504",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65723/mix.mp3",
+      "sha256": "e196632475cbc4fb5c040d983577ef8650e629180f5719a4ed447b91985ceb93",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65724/mix.mp3",
+      "sha256": "961011e65035887b34c04f684e7d80c7ac502a3d0d2ef3e5ccd2bbac8cb68273",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65725/mix.mp3",
+      "sha256": "5b684da1de42a3f54a71f7c6b513ea9ff1ddea5a5bc46ddb07aae36eed7417ec",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65726/mix.mp3",
+      "sha256": "30ee691748dc78fb728a4b4bae0a0142018ea9a91a636b7a8420c4153e2fef9d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65727/mix.mp3",
+      "sha256": "f85a6e881176dad5154bf204127c4e30e2d87cee05a177bc739db03299bb6a4f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65728/mix.mp3",
+      "sha256": "5a81de321000daf5861419b3affc68bc106d386fc843fd3a0e1fb6c6fda444fd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65729/mix.mp3",
+      "sha256": "8e1eac418c095d4e79acad5d2bf8b419a0d3e5bf1a06ce180b03255d6150b5c0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65730/mix.mp3",
+      "sha256": "2545be2cfb173abc370a7f15729303b8dac9ce68927ef7b9c8ccc4797ba61165",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65754/mix.mp3",
+      "sha256": "865c36de855d66ea1b5be1e8e77b5752f97330c08bdc3ccf84809bbac6544869",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65755/mix.mp3",
+      "sha256": "d49bab723ba11ed195f4fe6ff311582008f139f67d257b07031717383b840b00",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65756/mix.mp3",
+      "sha256": "6553b77eaefa30269f7cddec2343243d508e208a9f16baa39c61561e851e1228",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65757/mix.mp3",
+      "sha256": "cea5d14f18ea64e23851e0747eff116cb9a970aa7d427c8c399cf51f9bd65569",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65758/mix.mp3",
+      "sha256": "61e060c202ac68407a793bd9b675d0ec17f0b5c783d6649fbcd7243a9a705596",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65759/mix.mp3",
+      "sha256": "d3d25172ee7066e54a5d9932863b36679ac0c85dc0623e3ebe921f7ef5309cbd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65760/mix.mp3",
+      "sha256": "8e5c56dc1465a0780bdfc146317570bf09d8841b8f37552b6b70ffb178521f4e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65761/mix.mp3",
+      "sha256": "bf982b26e11209c5342e0cd51a3dfd0199144019d8ce2e754bb815a8c03f2c23",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_65762/mix.mp3",
+      "sha256": "650dcdb085013193d4111c385d362f9838a7c3fe7556c2753125e415cbdd391b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_72627/mix.mp3",
+      "sha256": "a52e1bf7bf4d85baf26bd90332ffa2f19d1dde553599557bb780d2a84da7f809",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_72628/mix.mp3",
+      "sha256": "16ab2450c5ac4bfc64c4f1eca4124c8739895c6caa08689471fff110d30c4fd0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_72629/mix.mp3",
+      "sha256": "fb93af3714dadd556d9d313d520006ccf62dc42c1d818596364901ff6e44e49c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_758506/mix.mp3",
+      "sha256": "e6f4bba962a453956b17805ead6867a77dbf25989d1b310f8f8dac8a91e214d8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_77685/mix.mp3",
+      "sha256": "c7da972fa89b11f495f5bbc732ee494cc082ea4208f300ccfccc27035b6e5aa1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_790850/mix.mp3",
+      "sha256": "0ea965841a06af4e32dd9bc7a2d02898d5d355c80e04235232a17fb0aa91ec60",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_794381/mix.mp3",
+      "sha256": "0e0e91ee214535b3b27cea8ba2eebcd7406355813f75b659e33fcdd569636ee8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_794383/mix.mp3",
+      "sha256": "7d753d1e6da9037aa2fd4aaee803368cfe93dc7f00157235c97d4c6fa2723f47",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_794386/mix.mp3",
+      "sha256": "3952e1af379a20694de46a613ec7b1d032a732420743f0d97343edd502ed09e5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_832926/mix.mp3",
+      "sha256": "2b71f79c24d443517bf06f0ddcd0a22ff7df463c77d188629a7314797f301ca8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_833229/mix.mp3",
+      "sha256": "3afc7ab3939320d6444d5cecf9276d54d07005938a1deec827d7736af0528bb6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_833374/mix.mp3",
+      "sha256": "1e8c39c26cf47f09b780a14b08435ff8bf448c19094e843ca15646e756119985",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_833839/mix.mp3",
+      "sha256": "755ae76a5b106e45fb46d8f22725c6f480c8ef88adc85f233f2fd5fb15a578e9",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_833973/mix.mp3",
+      "sha256": "0cabff1a512a5480a2e176331b38524a9c6bc1e426db3bcfeb4cb88cd3150009",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_836863/mix.mp3",
+      "sha256": "74d7bb4931bbfadf03b68fddb02587dff557012db6658273ec580963d0b1336f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_856135/mix.mp3",
+      "sha256": "44b4a9ed0ff8e1badd7feed8c0c51da6c3e8d6e01db83b24958f7cb2c92c5b81",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/fs_856136/mix.mp3",
+      "sha256": "fa6cf9d158e5e0d7e16f5c75d92afe5c1370440bf01578ee031294f721fcfbb8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1003082/mix.mp3",
+      "sha256": "b60351028be5b71338cb5e40276ba54cb8561c2e7caa22162ab681400ae9f8ae",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1009060/mix.mp3",
+      "sha256": "2e7548810d43cb2a89d18761efc8a54162b90c64952342759013454fe0b8a288",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1009061/mix.mp3",
+      "sha256": "31a6d47031321c503d78cf6254a90cf6f81ea1fbbb7eddbca5d5b00e7941f6b0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1009063/mix.mp3",
+      "sha256": "e89e82a9fc2fd76ff9e5e2d658b459ec93d0878363eb7054e5b6de0cb75fbae0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1009064/mix.mp3",
+      "sha256": "bbd13b19f41c610a3349987f7d20edb50aec26b979b1e2f4dbe0e0e1b5774f9a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1009065/mix.mp3",
+      "sha256": "e05999ccbd84ede67abedda8a4381a1758b71a3e0e6f6cb0aec872d45cea9819",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1009346/mix.mp3",
+      "sha256": "275a67b414e0763cf596ca8a8236e0e53993df46012acbc10cc42c8201e53c8e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1010376/mix.mp3",
+      "sha256": "da9c7865790c10f4ab5e794f1aa3d7c2dd4426f6f17b68e88e0d632db0fad1b4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1012460/mix.mp3",
+      "sha256": "0bddf1128040f5d8843b37d9ddcc51ed9f821c8d48a1a7cc8505607d0a348513",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1014064/mix.mp3",
+      "sha256": "25831ad21e0548b43575a31bc2c870e95baec5301c5d367d2e7853901893fe1f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1014927/mix.mp3",
+      "sha256": "a2e36c6dfa5735fa48bdf5148ecceeba205bda8fd00bbd50a86d4cf1b253b2d3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1017174/mix.mp3",
+      "sha256": "284b81addb3ab48ebb2f177f16892663166f85f95db279a053ec608c106c991b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1017958/mix.mp3",
+      "sha256": "be315337c69eaa3a60c7034417c410ccb6c05d5129927547134e82b0ad30c24f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1024429/mix.mp3",
+      "sha256": "91d90191fa88af36eec9711208ec44e5174c33fb1ccf03bd501eac6f736c084d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1024479/mix.mp3",
+      "sha256": "34a82e86d205cdfeae74737427f1289e24faffe9ad852d067b2c3e552da25d61",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1026088/mix.mp3",
+      "sha256": "ba6c2d38af508886c18a31913f84628211e7a810570ca670ba024f21138959bc",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1027261/mix.mp3",
+      "sha256": "51e69edd2465500328098d1e33fa281fd434e3d4d3818aafca8c0795dda05a7e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1027293/mix.mp3",
+      "sha256": "a9e46c2cde287f9f8ef75d0d9a4b2b7dfd45c882853786d7d9c9df43a1d44d96",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1027294/mix.mp3",
+      "sha256": "b15225e942387335e439d72d1a0a7b7c60dd9dcf802adb49f1482801b972ad09",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1028188/mix.mp3",
+      "sha256": "4166fd513a75160bd96bb96651c22af1e70f13e49b54a6f71beeadf0496a9b6b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1028274/mix.mp3",
+      "sha256": "698c4e77353d556b0fedf2eb8046e950454565635a7412c3d04875144c1b574c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1028275/mix.mp3",
+      "sha256": "75f4880de7988aa13c0b77a40179460571c8bb3a19e6b5267f28ea4103ccb979",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1028441/mix.mp3",
+      "sha256": "ae591f555ad83dc0165ed6bca755ae80e4a790eeb946c4de9510ae8bca466011",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1029230/mix.mp3",
+      "sha256": "05303bc45baa335322ea36880621a2013f353af35efabae971af494e6301f6be",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1029434/mix.mp3",
+      "sha256": "e6c22ef6a0c369ef758029cea16807a4ce7ff0725840d23e35680b195cdccdf3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1029435/mix.mp3",
+      "sha256": "00dd29880dac6e97359b17425b15ac31cdb44fdf2478ea9cf3c4087a3ce8153a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1029436/mix.mp3",
+      "sha256": "172377e3ce8752ef1f074082383a67184fe8623ac9390e1908ba155239ad86e3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1029638/mix.mp3",
+      "sha256": "682c6e923da0e3a1b730d5789783cac354670b231f2f395e2c5a19f192752cff",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1029666/mix.mp3",
+      "sha256": "b63480a43c19ca0edb5abaec41249e633a21507681881f68a952867831698f59",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030276/mix.mp3",
+      "sha256": "acca9a9ee5ef126915885bcb67d9c152a76d78149eca5b66006967f1ffbf3533",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030277/mix.mp3",
+      "sha256": "6157023ee05a93695088c83420c590da84088daea22ad9879c6d21fd6f431294",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030279/mix.mp3",
+      "sha256": "ce84f13bcd6b619a47fb3eaab6be5df84db6c67115dac106c390782a5b41df8d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030282/mix.mp3",
+      "sha256": "687d86dfbc0f858cd6905263af785c9f9ddded8cf8e80c0141eb91d1bf4ec804",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030282/stems/bass.mp3",
+      "sha256": "1bf571705e94544320ab4e0e3aad40389b7c6e5f1fb29d865de7f53ebe9332ca",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030282/stems/other.mp3",
+      "sha256": "7a76978b60efa731c6df59d56f76f7989d5f1df4e5ad528abd6342aaae51c4c6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030282/stems/drums.mp3",
+      "sha256": "78e3f25ff9ada0c4c429f653283ca45ab6e6b41ee812cfb4993495fc26e8e623",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030282/stems/vocals.mp3",
+      "sha256": "f8e361e6937c274cff97ec0cbd23e2389c23811a2d1a41bebd03206bc5306eaf",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030283/mix.mp3",
+      "sha256": "b23988b03cbb37a71bdc9e48c398619728f8ce7c383a300bdd6223aa4b890e5d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030284/mix.mp3",
+      "sha256": "ead38837be383aba084d0c729cfcbfd566780cf250641e7e2912eb4bc92b0a64",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030305/mix.mp3",
+      "sha256": "3c2165e70ebff36fac873a47739290e6ac3042f27e408f9c228ec796793ee654",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1030875/mix.mp3",
+      "sha256": "8c604b8fdbb866a5405e206095a0b38614afc49d3d503152368f2f6888c55766",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1032879/mix.mp3",
+      "sha256": "6e6731cffc9b09b41c342b0860441917800f41ca0e5271482beb6359d33c1d03",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1032880/mix.mp3",
+      "sha256": "4dbed702f82a3055b9a59196aaf62a87e763b2e0daa2bd791c0eb35ab20fe12c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1032881/mix.mp3",
+      "sha256": "37522d843bb430e0f1ff6ce03d772a722d0e5e66f9309db900a7797eb1acff5d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1032883/mix.mp3",
+      "sha256": "0aeb8e4f1e9879a3a55eb15f10f37024413ccd14c66ffb4e4a6a484a9ae5bf90",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1032884/mix.mp3",
+      "sha256": "4af6def988b89149057cd290cae5720b5bcb904a4574aa86a586c8bf5153d800",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033252/mix.mp3",
+      "sha256": "7e2f7460cacc94a1094cc9818244fa8bc498e4795057dd95cc85e0cf61611dd4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033253/mix.mp3",
+      "sha256": "b89f72ff1118a0fc4c921fd4051f1dfa4f4ef11360bcadb9650c555d907425c3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033254/mix.mp3",
+      "sha256": "5a43d6ef619a26061401ba737d8dcce13edf77624dce5b32ca541ac61e7ee35d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033255/mix.mp3",
+      "sha256": "24cd055b8c7b67e69389e124d2507fad864debe0206e7f4cb87159ce404b3f4c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033256/mix.mp3",
+      "sha256": "9e961ae398d858f4613e2b1625985203468d6ab71ab9df4c62e5cfde69e05365",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033257/mix.mp3",
+      "sha256": "20b85bc9476707e2ad85d841b8a0a72d5c5dd0f4bb1e18daf371b83bc74ae397",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033258/mix.mp3",
+      "sha256": "e423839acca91c82ad687a103f399ff9d615fc7de23b0159116f1791926f0c44",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033259/mix.mp3",
+      "sha256": "76f1608fb2d7d4e6f58f3d3045d9f63df579030a32356d7c01a02c247c9bd25f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033260/mix.mp3",
+      "sha256": "537aa47493675716038acd73957b6e80b300b2908144f7de58dc953e3a41387b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033261/mix.mp3",
+      "sha256": "bc6bd037c9b5f7ce5f6e6d34bd866aa2bf2f56d155df0cda23163b0a9ab1542b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1033262/mix.mp3",
+      "sha256": "71a47217fa3bddfc4e7f96b2dc08f7925cc307b1f19c1d9126ac820c51aff7d1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1039379/mix.mp3",
+      "sha256": "6b8d95d97102afbd5f0a204e5773a3731542e8f0441c1ca5a2be0b81cac66732",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1039379/stems/bass.mp3",
+      "sha256": "2e3a229314bb19578978ad589b4e58d2523cb8234d3a0a46cf39033b1e26581b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1039379/stems/other.mp3",
+      "sha256": "cea1d741288e49fda49d008f96039f18ceda5cdbdb8e6b8a6bf16b413e8d6a2e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1039379/stems/drums.mp3",
+      "sha256": "10e3b9f3f48d03eddf3f65c06a4f1b3bd78ccaa161b3d92455c71d28f0a3dfbc",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1039379/stems/vocals.mp3",
+      "sha256": "05f27320f723880710b5c1a336ae5d9d86f7fb287180a2bec9bfb8d77f1e3e1b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1047155/mix.mp3",
+      "sha256": "1003c4d3aa1decc112e4533b00f548bcbb4fb3c6295aa73e12fed6088ad36d8b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1047157/mix.mp3",
+      "sha256": "6e8cf17ec3996630b98bd1a499557d987ee3357f71615a868b43215a0daaf764",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1047157/stems/bass.mp3",
+      "sha256": "7e2fd8ac576e671994919465a17478cca5d1ff6d7396154f9ec3d6ce01e84e93",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1047157/stems/other.mp3",
+      "sha256": "6b52caa5dc15902091c3d230e7569f0e3e15a87a7a09197e5fb8da60fabf8c42",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1047157/stems/drums.mp3",
+      "sha256": "86325b8afca7e1c7ed69ac6e783e1326d4c9147c071b83907e423153cae06047",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1047157/stems/vocals.mp3",
+      "sha256": "61a5fa483ea1fc3e1362802a11a628f1f3577dff40ad63afbc76cc2e20d460c5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1047158/mix.mp3",
+      "sha256": "987df2af01eee5fa76114e2a872e3168368d21dd5f05a060a78e2be0e5cf834a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1063979/mix.mp3",
+      "sha256": "9c89d2c31c1799dbf7e3bf6555dfdff9d03754bd51835f071f380e2cda199fb2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1096249/mix.mp3",
+      "sha256": "5f3dbbba844a4cfced1eb6943818d5666bf2c0adad6e9e33c7a034c7cf769019",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1096249/stems/bass.mp3",
+      "sha256": "be44bd325df314611e730ec0e01a6f48e7c564229993ab26b1d2bb83a8a57fa6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1096249/stems/other.mp3",
+      "sha256": "b31547166e72e2626e50b393b450778403dc4f3bc582767835f42e2b2d27a20b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1096249/stems/drums.mp3",
+      "sha256": "09771431d41dd72d5730c5ccec106a721241dbb1678c14bd0e8de311f918f408",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1096249/stems/vocals.mp3",
+      "sha256": "238eb08be9c464b65cb0791e60868329b116ab8145504fbb585fb309f6a9bb15",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1096663/mix.mp3",
+      "sha256": "926a6b1f0312abf1f0f3ce40c7363a56012b78dc943c051ac060fb3961c4121c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101338/mix.mp3",
+      "sha256": "c83f52a2f0075f175eba13fdaa0204917b0321129808b5b385a66d885330e5bf",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101341/mix.mp3",
+      "sha256": "988952c1549f9a974deb75b9c7a345a8ad4ddff5424f149b457099b660a6b48e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101341/stems/bass.mp3",
+      "sha256": "0a50150fb852e5a246027139bace561907a59215cf7b547521e7fe202befd1a3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101341/stems/other.mp3",
+      "sha256": "9015e8593dd4b928ebf92d57b56e9291e9b55b91ceaf8966e2e1eaabb99f7bf6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101341/stems/drums.mp3",
+      "sha256": "394f0aa5d78abcb6aec19d4e33ae2eabaa4414e79f955ea8ca63e94338b35331",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101341/stems/vocals.mp3",
+      "sha256": "eb08f37936bd71c4ba46cc7e5e289ac303fa18273b5343c4bbaf8560ad8f6b67",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101342/mix.mp3",
+      "sha256": "48a79d15519ea57bc65078335e8f69c436ff894cbfeebdab1fa129727137abd6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1101344/mix.mp3",
+      "sha256": "c32e593620081e2c691106284fe43c4615a3a7879251fc61c01c840492e1e952",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1111809/mix.mp3",
+      "sha256": "9e22fcc288c759cecc4a50264d15fa79bdcce09433d566fd8c26cd11cb41bdbe",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1121408/mix.mp3",
+      "sha256": "b4843098f2610b534d433b173276d9f6fe0bc0c527eedae6a7e25394ab138303",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1121408/stems/bass.mp3",
+      "sha256": "04e4834653792b267a189af456761c584774985f5e39978d0cf1d188911eb6ee",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1121408/stems/other.mp3",
+      "sha256": "cda9046ef75ce8744d6764f2bf9196c3ccd329cd9dd3dc8ff2516a59761251bb",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1121408/stems/drums.mp3",
+      "sha256": "b9836ea3f3dbad7b441aefb686133c38029a078f58657e3d68813bdb3c9bf0ba",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1121408/stems/vocals.mp3",
+      "sha256": "ed212d7a68a85fca6f1b2b522a5be733de3bc2071612ac97ef14c321a096c5f6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1121423/mix.mp3",
+      "sha256": "4bfd4e932c1d75486df60999a166d28bc45b8e4d7fc46a95d44a5f7cdf070f95",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1126354/mix.mp3",
+      "sha256": "9aa602c7fabea8f87b5c547cbbb4d094476f1bb61c8dd6dd3ed9011c96d43352",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1126354/stems/bass.mp3",
+      "sha256": "49942baaa022da576d20507d6445304e9c177a68b6ba79e2dd0130ad2d7f7693",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1126354/stems/other.mp3",
+      "sha256": "b1005554e499eb7c3c3e7356f9acb8601dde522f060c69e9aa386524721d1980",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1126354/stems/drums.mp3",
+      "sha256": "aa14781692fd28903cd6091690dde1b6e39861cccbafa1dddc617a5b7335bc75",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1126354/stems/vocals.mp3",
+      "sha256": "357be68e01f41e879989db9a8594711b4f9a04a044685e9b83ed784a27064823",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1127185/mix.mp3",
+      "sha256": "61d3cf9b209f371da79025061990ca783d165e1ec00844233cdb8d6a2d5a492a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1131022/mix.mp3",
+      "sha256": "df7a2567a5b6ccdbd06527619b4dbaad54ff418cf32fb0e1755854b1798c9c1f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149157/mix.mp3",
+      "sha256": "f22b680a303fec1f6cb31ab0c82ef2bcb8a584d84637776a2215f3421bf5f86f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149158/mix.mp3",
+      "sha256": "e14e46d1dd1e2fc39bb60ef56bc7e90271fe7e571e13817b806c3ce1ba276647",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149159/mix.mp3",
+      "sha256": "b7771145168d174d03af0e0fd16883d3b2d98a80983244ada237525d3e273970",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149160/mix.mp3",
+      "sha256": "4ba4e5c8d278bde723d145599a0039e9d4f398098432f48f0f6f366d77d3854e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149160/stems/bass.mp3",
+      "sha256": "97e687dde312ffe39284f451328cf66bccd7864ee8b1a3f24249662697155e4e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149160/stems/other.mp3",
+      "sha256": "07a143d6c61adcdcf74af0a72bceb02e9b72e6fce7704d08543e67cd7ec8f142",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149160/stems/drums.mp3",
+      "sha256": "f4cf4b67c0546a83857ed66bc6d6246889d7458140fc1f2c0e396da7557fc52c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149160/stems/vocals.mp3",
+      "sha256": "08148e6b355d503fb7242360965d83923ac6d9263ddc5364781260801c5597a1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149161/mix.mp3",
+      "sha256": "b7c4be8bc3a1fda846f4eb3e2c6d8ff1aa3d0a51e830cdd3cffdae28df9f83d6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149162/mix.mp3",
+      "sha256": "7c117509dd40b6140aedd81cf3a3ca4def5cdc1ac367aa16ec2b09d0dc34f8ac",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149163/mix.mp3",
+      "sha256": "640c0bae630ae62912d2cbfea718b469e8cb95a531952b7ec88bfe4618168692",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149164/mix.mp3",
+      "sha256": "4e1b23651ea400c040507687b91f1d0367aa86ec5af52b89341be07c0237f319",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149165/mix.mp3",
+      "sha256": "bf399ab2cfe91fbb484080b46e0c6a1006998d9ba0b17ceca0fa3ef79c94c9fe",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149166/mix.mp3",
+      "sha256": "47846a477c53d874977e242ec553d4547bcd222943c1ff00ef3f0e208faf9eb1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149166/stems/bass.mp3",
+      "sha256": "ff198117ab0253928c6bb2c0e6b2b03a89280330c6f8536593a3133b9fe9fba3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149166/stems/other.mp3",
+      "sha256": "16182e6c63c496f3f04aea8cecedee680afd918f235a59cee4bf753cefa22e04",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149166/stems/drums.mp3",
+      "sha256": "d48e4fb3829e06b0e92fe6f7384c2e5d2942198e461e6100af73d44d6ea7b7bb",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1149166/stems/vocals.mp3",
+      "sha256": "1d924073abf52db562c1a820a4afcf00569bcabbc203de508d0502c17c45d6ed",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1179114/mix.mp3",
+      "sha256": "5cf4d92fbd246cc91217068f3cb5e92042287a78b811a638383fcfc145b81308",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1179114/stems/bass.mp3",
+      "sha256": "485b53368d09ace4a4159d110485434c113e986e33be5008280021a7df3db896",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1179114/stems/other.mp3",
+      "sha256": "6d217135f31f515e2247a722587d4b896880352ca4d1d784a012a22938f3cbc6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1179114/stems/drums.mp3",
+      "sha256": "9d492e13d7a178518457a04b9a10f0be238451f9bb490d271083c2a82fc7eef9",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1179114/stems/vocals.mp3",
+      "sha256": "c37d8a88b0664cdcbc2be15bc73bd203ca24e477293413802b891360fd8ff654",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1207327/mix.mp3",
+      "sha256": "bd9d1ee7487dd52a071d59c51690297736810abe0a14e8695660133a8d3a3d9f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222516/mix.mp3",
+      "sha256": "d001b2351eb0fb1990d4a08a5ad4c659b4c8c87faa4cf7c492d54702d442828a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222537/mix.mp3",
+      "sha256": "c2e15d42d83bbc447b2f876c69c479034e375139c5a22db87de840352fab52fa",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222552/mix.mp3",
+      "sha256": "66567803e6a164413ce4a22c69f4e68fbbc1137846d827d67fbf08c3dd5edba0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222581/mix.mp3",
+      "sha256": "610ed1e70e175e5b269de6449ce7ec1438163bf1b796d2327ec2f37d1ef50d31",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222581/stems/bass.mp3",
+      "sha256": "b9aed78c764b0690a8fcc9e358e6f1431d2da1c10ad82245b659a3aef7513bc0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222581/stems/other.mp3",
+      "sha256": "f310048b752385b264e8e35f38e0d7e6957de919afd5c0fe050b52925aeafa45",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222581/stems/drums.mp3",
+      "sha256": "7d0933aeb7628c8e24c321ad631dc29e5dc25ab4bce16485817c1b1960740096",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222581/stems/vocals.mp3",
+      "sha256": "7c8cd3beb552bb2403c2633c9dff1dde195967023615b987410c964048933cf0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222826/mix.mp3",
+      "sha256": "2955f10fc39882ada64f44fa01abe8c8ba018d87e3ee2cb1f7892d4d74152f3f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1222876/mix.mp3",
+      "sha256": "991e812a3bf8f7b58fca93e47a18d5f8bafb36e9ab50b86113d5c369acbf8689",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1223964/mix.mp3",
+      "sha256": "7c87e15b357f99cae2c565f4b9dabe46b8c0c5c60cf136da0b0426f37febac6a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1223964/stems/bass.mp3",
+      "sha256": "4f492d652a1e2fa8ee83641014e28fbc81ec61aa45fe85b5b0989e711c6635c8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1223964/stems/other.mp3",
+      "sha256": "e24ad3e2755313f39cb123f47d798ad1301ea3113d3cc20124b08f31feb7490f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1223964/stems/drums.mp3",
+      "sha256": "54f5ffb5b5bf6d958ac27a9ce154795224945064b027d998297e4adf3b9b522f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1223964/stems/vocals.mp3",
+      "sha256": "6ac85bde3368262915fca97e1de99979481591c561c28c0aa0edba2730d58b35",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1229099/mix.mp3",
+      "sha256": "91e728ca6327afa0833c183bffdfab3d02b7eaf86c4df583ecac14e4efa62f01",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1229099/stems/bass.mp3",
+      "sha256": "babbaba31008a3bdd19cd496f06197ef9635e6f1fff31655ae5013bb9c307b86",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1229099/stems/other.mp3",
+      "sha256": "3ff15e2423f1511a926789bee73d35b178201c6110d0bbedf26feb4b246e70cd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1229099/stems/drums.mp3",
+      "sha256": "9a27d4d72653e8ac1d332295634c4fa04e60fa0a03f72d8984aa5d815dba5052",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1229099/stems/vocals.mp3",
+      "sha256": "4e5a26ed023b2bb41702f4771484ccc0bd9cb41514c67056f6dc573ed86f95a6",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1238674/mix.mp3",
+      "sha256": "72b2e7fdeb9c87517d1d892499831a5b4d9e93113a0f5dcbb2584e7fb936e6e7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1265033/mix.mp3",
+      "sha256": "d28939b53ae44f49d74cff4f3b2792646bb28949304a6f059ae4f42fe3fb3946",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1270293/mix.mp3",
+      "sha256": "8addcf0a1daf128be368d9b23c1359ab2edf59fd6dfbd44b3f067d2e7a986527",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1270293/stems/bass.mp3",
+      "sha256": "34f42903244131785a013744e6736bbb9a352045b73089786568481211422fcf",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1270293/stems/other.mp3",
+      "sha256": "43b655fca970fc36299450394a5923243c273b0346e95c95b513d4b286a13e0c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1270293/stems/drums.mp3",
+      "sha256": "5206034a7e635fa5af00fdbd18447e2a0f7f31d0c5576bf9f5e17507dbffc695",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1270293/stems/vocals.mp3",
+      "sha256": "19222d92a4a5f6b262f4bee14c378ac87a60c706a8860ad780847238d973a654",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1271467/mix.mp3",
+      "sha256": "cdab1b950af8b9de8f36e5293bc6c3730c7d24f0dfc0f5cb5c0ca68a6fc626c8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1275400/mix.mp3",
+      "sha256": "db21ba30d5bc1c38aa2c734805ec8e59c7e82bc25f1b9e182536867708f983e8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1277123/mix.mp3",
+      "sha256": "bb957788582e025a165b8c8b7cd4ed3074c33c645bcbdc2b42638324af6f4c2b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1282782/mix.mp3",
+      "sha256": "8c3004fb83f7d32c166a075ce1cfe531159a5511f791d6ea8622487605e9d74c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1282782/stems/bass.mp3",
+      "sha256": "347a8ab38fe697d9414ad61bd5cebf0e5bf02c68cf3cc7998b362e92efb78559",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1282782/stems/other.mp3",
+      "sha256": "c7385fbd7a75244cb9cdadfe02add8543b1b471adfd865d31f121eb292d20c88",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1282782/stems/drums.mp3",
+      "sha256": "79c28dd7678d400d2358ea525a6749393d6abf14e84cccbc20c338f194d3deef",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1282782/stems/vocals.mp3",
+      "sha256": "e2189d46be0a819ad80a988af633ba3e099b330b09b8e176bf80393485630d35",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1283863/mix.mp3",
+      "sha256": "cfc44dbe8a3174809ffa22643e5fc24822463a1285a35d7f1532ab8dafc9a145",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1289101/mix.mp3",
+      "sha256": "30599daac490639f8fd5c5b794cf118428cb2df1097b6aa207bed27dfdf689a7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1289105/mix.mp3",
+      "sha256": "a33f03016de82bd362f7b163baf335eb6d314a0e5f1374196c19a58feb32b18e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1304261/mix.mp3",
+      "sha256": "d003a225b4ab34930e4ada88cc23b3dc72825cb27a92b5a5f47b00b066f398a2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1306282/mix.mp3",
+      "sha256": "df070bec4077c73f1b8f516ef4e3e2891ea51f2df5b29ffe4644166903607ad8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1307441/mix.mp3",
+      "sha256": "96f37a0eefe4817058583fb20fe39db8b4fedb0e6e478ceb4ddfd11c355764a5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1311439/mix.mp3",
+      "sha256": "2ba96e009349aca22a55df3a98bac5e3bf9ec1ad92370c7adaa82e870de1cccf",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1331951/mix.mp3",
+      "sha256": "166977f15ab92a106ae70285d5a0974d5afca0b5c3041d37a87a6576fd44f8f1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1331954/mix.mp3",
+      "sha256": "e1af577f61a410ecd81c0c318a5646beae88f197cfaff99429bc982485fbd706",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1332140/mix.mp3",
+      "sha256": "0a7e1a5580d656af0cfbb327d50d2920630314eb59a6b1874977d11243db4bff",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1337940/mix.mp3",
+      "sha256": "c4021d2e77c7c79762cfd61fcce0691bb0899aa4912cedd512ffe3962593d09d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1342553/mix.mp3",
+      "sha256": "d2423201b21a8f02798473ffbe7763b569ff1e761d55715957c39a517774cc43",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1348228/mix.mp3",
+      "sha256": "e5c22c7940818dc20a972ad0eb956274ae07ae7b7f313663101f2f0b85a2337b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1358656/mix.mp3",
+      "sha256": "995854ed485bb966d018374eb5a5322eee9424f7c5e2a9b5d9afa191297122b9",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1359980/mix.mp3",
+      "sha256": "726cc4765a6864ff1fd3c27acbc279db4f1d4714ed44c0e3f34dc64be797146d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1360689/mix.mp3",
+      "sha256": "0ab28aee189b10ead78216f4475e420e62f4e6132aeda8e9dd54c062a2dd9d20",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1363092/mix.mp3",
+      "sha256": "17a5d1143d612050d3b0519362911b432abef772f9140be43fe765b7e351e92d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1364453/mix.mp3",
+      "sha256": "f181e9b65b86ea42d14dde725aaadeb0ca8410b211f834f8e6156ece57b4e6d8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1367270/mix.mp3",
+      "sha256": "5bb798d0888b91e670e23496c6d6191de03f6b5b87dcfa0ea253b1b3b553aaff",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1367270/stems/bass.mp3",
+      "sha256": "f0ed7240aebddc5a2ed52c0fb3572455af5b096e68ca4f0f01d0d53a5d10a8b7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1367270/stems/other.mp3",
+      "sha256": "1ceb3c7d0418851a4d3b72b4dee544198b13d4154a5db72eeaf0feabb7ec78bf",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1367270/stems/drums.mp3",
+      "sha256": "1d6429f7b580af1fbfc1592acffe75808860dff6303b467548e260b03d978071",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1367270/stems/vocals.mp3",
+      "sha256": "c5bdcc90c219f013bd8f2ece77458ac185d82f989a3564682c2f1c55167c0599",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1378003/mix.mp3",
+      "sha256": "0dd15cdbc9a7df6c0fcd535fdf3b9f61282e75cf2f280b1ba884c25d059c5d98",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1378557/mix.mp3",
+      "sha256": "62d7c4fa75a4b4059ed0cdd112145ee8eef40a482492eaa401725c7a39274b9b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1389077/mix.mp3",
+      "sha256": "fa3366f00401fe5f07d0091ed5f1d2d5f43698e262ae9d67101d1c1d5918b0dc",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1390854/mix.mp3",
+      "sha256": "1a054ecf526fb5a3a18ba68eb0e11235410ab0c178ff0e5ce569e2d0e5ef63cd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1396086/mix.mp3",
+      "sha256": "0557d71c0ec02b6c828579902d8be7db2e5d19ee50c806507b6eb7ef2e29525e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1407055/mix.mp3",
+      "sha256": "660d0259e88eeed0ab46d6d02e2865d49385c7659050692b1d33ed5fafd94695",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1413777/mix.mp3",
+      "sha256": "a909e9a02f33a2958d876acc90a1c06cd684d94e31f8cb0481ec3584233d067f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432367/mix.mp3",
+      "sha256": "2ceb93b96e41c4835af4bc64fdb3d2ecd9fe87032957316639e02bda2bc3ceca",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432367/stems/bass.mp3",
+      "sha256": "4eadcc54d959938d6685f68283ed7d950e93c98dc1259c4e170ef1e5a2883817",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432367/stems/other.mp3",
+      "sha256": "67dada1871b7603524c314285ad0807cd71f3b34a24651048fa5a74dea7f7fb4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432367/stems/drums.mp3",
+      "sha256": "d19f678e2cad0dbbcc671dceadeb5f58200c2b46916bec7ce1c7dba139a12073",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432367/stems/vocals.mp3",
+      "sha256": "69f6c02139bffa17edfa1746a6ce0b0c6aea9f2e7fd5c4bfa9c4b173382fb58a",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432368/mix.mp3",
+      "sha256": "cda3776cca4894332a5d825ce7b7f0c9c4ab2e619552e5739e30658ba2fc8674",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432369/mix.mp3",
+      "sha256": "c59f44a16b1863b74f6a6c05751465c3dc9f54704ff59f481dab5380319f8aa7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432369/stems/bass.mp3",
+      "sha256": "71c5fb9412f430f0511b0a17f5db1ed5dde2b37b92c732f9786591a80fdcc4cd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432369/stems/other.mp3",
+      "sha256": "0b5a10a8ea8f6224f31e5603c5c748f5d80279fb9b6b3c281b473638385db893",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432369/stems/drums.mp3",
+      "sha256": "ee9f5b0f50868761754846b4b169ba348d33fbb382ca1a51b1f7cabdfd92afa5",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432369/stems/vocals.mp3",
+      "sha256": "2383e2ee5b2ef7b68982c442231083fd922638b6be0abeadb009ae98158a708c",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432420/mix.mp3",
+      "sha256": "34006c753210b429633c90c8fefff245d180badbe4e6ada76c4cbb9ef057b791",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432847/mix.mp3",
+      "sha256": "11ec9add80d7264b76eca793162814db9ad75f1d626469c1fcde107a16bc1ea3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1432851/mix.mp3",
+      "sha256": "92bc1d32faff8bea8563aa15c63f7d08ae03615ca52a2f497098921a78edc854",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433063/mix.mp3",
+      "sha256": "ef2eb425bf4f5f2881da0392ae234168b3a5b06a241f9c7c6dde816afb462a68",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433063/stems/bass.mp3",
+      "sha256": "7299a076bce81a0e64ceda0ade7f58c3c50d1ad0d90e44b087133c4f46c02efd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433063/stems/other.mp3",
+      "sha256": "98a0af291c1f5505c6222aba5eaf941c006be55fdd95f57dbbba011ced8bae7d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433063/stems/drums.mp3",
+      "sha256": "e26688d694be6b3879b2e03fe6b340ddfd14ecc94c8bd7ec7355ab5aa59a2815",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433063/stems/vocals.mp3",
+      "sha256": "fe732250e9b3cca3200612f4a2d423939c97bd1804c2b8806141418fba9f2899",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433892/mix.mp3",
+      "sha256": "0b947949d3d4ed7ab0d61cafd3c121f4507dc75b53c1bbddc876c6c1a046f68b",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433892/stems/bass.mp3",
+      "sha256": "8c40e13a2176dbc864c5dd5547b285a6fdbed468c5b6ed68f1239ced7764aad0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433892/stems/other.mp3",
+      "sha256": "a65ecfa27f888728d99cbf0d57615a4e9e81ffe484de1d841cfcae2a8184e596",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433892/stems/drums.mp3",
+      "sha256": "2d8643b600aaee3b9a796dbd4a0d9c08f7e4fbf15c5a20ea79fba6af8d159126",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433892/stems/vocals.mp3",
+      "sha256": "5c188fba315fd10331a059aa64128da7e46306161ae60ace9a9974200cbd3bc7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1433978/mix.mp3",
+      "sha256": "08aa354d6ed32bc3609c623aaf61f4d472f098931278d8637d03d6cc3fd404b2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1436572/mix.mp3",
+      "sha256": "9d23d94b8b214914d5ede31c661a43c01456767831d56154acb5fbf919d026a7",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1436572/stems/bass.mp3",
+      "sha256": "44b7ec16dc55f017f03d8f272f1170270eb9d9afabf10beb4efe0d3d040c72aa",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1436572/stems/other.mp3",
+      "sha256": "8fb1e54680502629fbb7547729575fa267abe72586a17ad2b385c7a2cc3b13e4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1436572/stems/drums.mp3",
+      "sha256": "0277305d50fd722d0f8242683364e32126d953dfdcac483cd567ed76e9b617ce",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1436572/stems/vocals.mp3",
+      "sha256": "6223ea57932aa30bba6523a1b34e03a141e078b73a33ea04c7794208d1cd182d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1439805/mix.mp3",
+      "sha256": "b20679454486c22db48ae7247bb9b9174cb8a657b33be5322311fb766c0d18c3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1439805/stems/bass.mp3",
+      "sha256": "238656191966208cb3fe5fdd2a4b68d7f6f283f8f0752c1e2575eaa1b26116cb",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1439805/stems/other.mp3",
+      "sha256": "ba89f179502b59cad6101763a74dbd2b7dcb82e2a9d0f99c49a761c685d51acd",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1439805/stems/drums.mp3",
+      "sha256": "8c48ffb49157293e56d27c7bf2fa986bbf58077c2618ca8df843fa077bee6118",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1439805/stems/vocals.mp3",
+      "sha256": "f0cc9266dc12bfcccfb232917d69b45e4cbe2843f5804d6e8b2e836eaad38555",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1442142/mix.mp3",
+      "sha256": "18196f28b5b175d45f835c301edba95bb45ac6ccd2b4f0fb561e829d3b27cc03",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1445903/mix.mp3",
+      "sha256": "517a35e96b75e44cb0f015ce874aba0485fa9c9219769ad8831a5de4360193a8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1464239/mix.mp3",
+      "sha256": "ca04e73d24b1835c688c97b2a9846385337d2117fc03c006a1916563585a3019",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1464239/stems/bass.mp3",
+      "sha256": "7c2abdfad7ee214437d90a919eb4d19e91919d50495984d1742c4434684fe745",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1464239/stems/other.mp3",
+      "sha256": "efe81a4a083dbc3692a3f194b0a24dbd098d33e1882112124b9c66a7e653414d",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1464239/stems/drums.mp3",
+      "sha256": "805ee5d95182c08a20179d8b2df97ce9e74e12c15c429a8a58fe9eac70b417a3",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1464239/stems/vocals.mp3",
+      "sha256": "ebc6a7a9dac7502ab7849a0ccd694f7a23435b2ed47ac4a11d1ff76d65ff1460",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1466603/mix.mp3",
+      "sha256": "88f5cbebfe311a3a7c0ed08346c71bbadd04c49e9f6e407b8bb13e6ffc14ccb8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1468793/mix.mp3",
+      "sha256": "edaf452cb0a0b8756003ec3ac747698884c2873f4c9dcdb76fecd6986ffe1553",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1475806/mix.mp3",
+      "sha256": "ad41beb123823a094be29e94a8ded2d7b85e4a001f0e988dd366a4b22e87dae2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1475806/stems/bass.mp3",
+      "sha256": "4b24d9b7e4a9208717bf5363464c80879f793fbbb3c2d158c5543dc29816c8aa",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1475806/stems/other.mp3",
+      "sha256": "a15e0e74744f8c17c15792f785d7b5d327ce76c94d79012135f09d3cdd61e1a2",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1475806/stems/drums.mp3",
+      "sha256": "4e5aeae7dd82b805d4861b8cbef0bdcc404118dc95c57c8ac0e1be272345c566",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1475806/stems/vocals.mp3",
+      "sha256": "c24dfb8aab2df376dc8a537cf3e21f351ebcb15965c002c3a801f1b23b8a298f",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1485349/mix.mp3",
+      "sha256": "3e7bc61235efde63f0fc7a00139b9d7bd112aae25b24f663bcdd42034ec768a8",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1492151/mix.mp3",
+      "sha256": "1af67159d43a6caab783941b93193d2e51f65c85fad116c40fe5b2f46edd5b68",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1492154/mix.mp3",
+      "sha256": "37d8d6479f6486021879a5f166ae6a908aaf95e4a61561aaca688c87499264c4",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1501360/mix.mp3",
+      "sha256": "d0111f07feb6d71772099e75d72b81d6d71badd4454f54dab1d0a1e184557b01",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1544389/mix.mp3",
+      "sha256": "b8213aed1ada831d2e281c045232917bebf63a962105977d06172e66e0548531",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1544392/mix.mp3",
+      "sha256": "eeb670db808cdae466b3bad9b35d872f7e64544f77716e60e3dbac5aa789d3e1",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1544393/mix.mp3",
+      "sha256": "ff8000936e18f955ddb33719e520680a96e68120b800ec24e7510899e8bfbbe0",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1544394/mix.mp3",
+      "sha256": "c482e036c0940c1b8a713ad37585704172fdfd76e2e211184731516b5f90a94e",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1544396/mix.mp3",
+      "sha256": "cea71817ccba5853c93070a165a26b4df59a748f74b1fd9226eadb73751368e9",
+      "verified": true
+    },
+    {
+      "hash_anchored": true,
+      "path": "tracks/jam_1544397/mix.mp3",
+      "sha256": "88725db0c10504b33dfe3ad9892284bee82cdc48538fcadc0c627528a26887a1",
+      "verified": true
+    }
+  ],
+  "random_windows": [
+    {
+      "artist": "Acusticadelica",
+      "attribution": "Corre il treno by Acusticadelica; https://www.jamendo.com/track/1304261; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.405072,
+      "end_s": 145.0,
+      "id": "jam_1304261:mix:135000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "rms": 0.288402,
+      "source": "jamendo",
+      "start_s": 135.0,
+      "stem": "mix",
+      "tags": [
+        "upright bass",
+        "wah guitar",
+        "saxophone",
+        "latin",
+        "funk",
+        "jazz",
+        "soulful",
+        "groovy",
+        "nostalgic"
+      ],
+      "title": "Corre il treno",
+      "top_scores": [
+        [
+          "latin",
+          0.4158121347427368
+        ],
+        [
+          "funk",
+          0.3360859751701355
+        ],
+        [
+          "jazz",
+          0.3349352180957794
+        ],
+        [
+          "soulful",
+          0.3135591149330139
+        ],
+        [
+          "soul",
+          0.30737385153770447
+        ]
+      ],
+      "track_id": "jam_1304261"
+    },
+    {
+      "artist": "Bayard Russell",
+      "attribution": "City Lights by Bayard Russell; https://www.jamendo.com/track/1033257; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.205037,
+      "end_s": 135.0,
+      "id": "jam_1033257:mix:125000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "rms": 0.1389,
+      "source": "jamendo",
+      "start_s": 125.0,
+      "stem": "mix",
+      "tags": [
+        "slide guitar",
+        "wah guitar",
+        "vinyl crackle",
+        "soul",
+        "disco",
+        "latin",
+        "nostalgic",
+        "soulful",
+        "bittersweet"
+      ],
+      "title": "City Lights",
+      "top_scores": [
+        [
+          "nostalgic",
+          0.3526567816734314
+        ],
+        [
+          "soulful",
+          0.33595117926597595
+        ],
+        [
+          "soul",
+          0.3224978446960449
+        ],
+        [
+          "bittersweet",
+          0.2828102111816406
+        ],
+        [
+          "romantic",
+          0.27551794052124023
+        ]
+      ],
+      "track_id": "jam_1033257"
+    },
+    {
+      "artist": "4AM JAM",
+      "attribution": "SKINAW_2 by 4AM JAM; https://www.jamendo.com/track/1432367; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.375044,
+      "end_s": 165.0,
+      "id": "jam_1432367:other:155000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "rms": 0.0597922,
+      "source": "jamendo",
+      "start_s": 155.0,
+      "stem": "other",
+      "tags": [
+        "clarinet",
+        "saxophone",
+        "clavinet",
+        "jazz",
+        "classical",
+        "latin",
+        "triumphant",
+        "tense",
+        "hopeful"
+      ],
+      "title": "SKINAW_2",
+      "top_scores": [
+        [
+          "clarinet",
+          0.33651331067085266
+        ],
+        [
+          "saxophone",
+          0.32147499918937683
+        ],
+        [
+          "jazz",
+          0.3166419565677643
+        ],
+        [
+          "clavinet",
+          0.30799663066864014
+        ],
+        [
+          "trumpet",
+          0.2908320426940918
+        ]
+      ],
+      "track_id": "jam_1432367"
+    },
+    {
+      "artist": "F.Ra.Coon",
+      "attribution": "Am Morgen-F.Ra.Coon by F.Ra.Coon; https://www.jamendo.com/track/1111809; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.285386,
+      "end_s": 90.0,
+      "id": "jam_1111809:mix:80000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "rms": 0.171026,
+      "source": "jamendo",
+      "start_s": 80.0,
+      "stem": "mix",
+      "tags": [
+        "saxophone",
+        "wah guitar",
+        "rhodes",
+        "funk",
+        "soul",
+        "latin",
+        "groovy",
+        "soulful",
+        "nostalgic"
+      ],
+      "title": "Am Morgen-F.Ra.Coon",
+      "top_scores": [
+        [
+          "funk",
+          0.43525686860084534
+        ],
+        [
+          "groovy",
+          0.40890657901763916
+        ],
+        [
+          "soulful",
+          0.40624770522117615
+        ],
+        [
+          "soul",
+          0.4007658362388611
+        ],
+        [
+          "latin",
+          0.3848600387573242
+        ]
+      ],
+      "track_id": "jam_1111809"
+    },
+    {
+      "artist": "Gamssy Ghoulz",
+      "attribution": "Emilie by Gamssy Ghoulz; https://www.jamendo.com/track/1433063; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.305003,
+      "end_s": 35.0,
+      "id": "jam_1433063:mix:25000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "rms": 0.250171,
+      "source": "jamendo",
+      "start_s": 25.0,
+      "stem": "mix",
+      "tags": [
+        "wah guitar",
+        "rhodes",
+        "mellotron",
+        "disco",
+        "soul",
+        "funk",
+        "tense",
+        "nostalgic",
+        "groovy"
+      ],
+      "title": "Emilie",
+      "top_scores": [
+        [
+          "disco",
+          0.3644070625305176
+        ],
+        [
+          "soul",
+          0.29395270347595215
+        ],
+        [
+          "tense",
+          0.2497979700565338
+        ],
+        [
+          "nostalgic",
+          0.24956569075584412
+        ],
+        [
+          "funk",
+          0.24923425912857056
+        ]
+      ],
+      "track_id": "jam_1433063"
+    },
+    {
+      "artist": "John Alexander",
+      "attribution": "Irreplaceable by John Alexander; https://www.jamendo.com/track/1367270; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.185068,
+      "end_s": 85.0,
+      "id": "jam_1367270:mix:75000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "rms": 0.260572,
+      "source": "jamendo",
+      "start_s": 75.0,
+      "stem": "mix",
+      "tags": [
+        "vocal chop",
+        "wah guitar",
+        "congas",
+        "disco",
+        "funk",
+        "dub",
+        "tense",
+        "groovy",
+        "energetic"
+      ],
+      "title": "Irreplaceable",
+      "top_scores": [
+        [
+          "disco",
+          0.23779083788394928
+        ],
+        [
+          "tense",
+          0.22264307737350464
+        ],
+        [
+          "funk",
+          0.19302672147750854
+        ],
+        [
+          "groovy",
+          0.1916879415512085
+        ],
+        [
+          "dub",
+          0.18455372750759125
+        ]
+      ],
+      "track_id": "jam_1367270"
+    },
+    {
+      "artist": "Bielebny",
+      "attribution": "On green Dolphin street by Bielebny; https://www.jamendo.com/track/1544394; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.235052,
+      "end_s": 50.0,
+      "id": "jam_1544394:mix:40000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "rms": 0.106383,
+      "source": "jamendo",
+      "start_s": 40.0,
+      "stem": "mix",
+      "tags": [
+        "rhodes",
+        "breakbeat",
+        "drum loop",
+        "trip hop",
+        "downtempo",
+        "soul",
+        "groovy",
+        "tense",
+        "soulful"
+      ],
+      "title": "On green Dolphin street",
+      "top_scores": [
+        [
+          "trip hop",
+          0.4586465358734131
+        ],
+        [
+          "downtempo",
+          0.3313736617565155
+        ],
+        [
+          "groovy",
+          0.3177247941493988
+        ],
+        [
+          "soul",
+          0.314493864774704
+        ],
+        [
+          "rhodes",
+          0.3102104663848877
+        ]
+      ],
+      "track_id": "jam_1544394"
+    },
+    {
+      "artist": "Noin",
+      "attribution": "Noin - Summer Time by Noin; https://www.jamendo.com/track/1436572; CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.375097,
+      "end_s": 50.0,
+      "id": "jam_1436572:other:40000",
+      "license": "CC-BY-SA-3.0",
+      "listening": "unreviewed",
+      "rms": 0.0466761,
+      "source": "jamendo",
+      "start_s": 40.0,
+      "stem": "other",
+      "tags": [
+        "trombone",
+        "trumpet",
+        "saxophone",
+        "dub",
+        "classical",
+        "latin",
+        "triumphant",
+        "epic",
+        "groovy"
+      ],
+      "title": "Noin - Summer Time",
+      "top_scores": [
+        [
+          "trombone",
+          0.4688463807106018
+        ],
+        [
+          "triumphant",
+          0.3913321793079376
+        ],
+        [
+          "trumpet",
+          0.3699690103530884
+        ],
+        [
+          "saxophone",
+          0.3187851905822754
+        ],
+        [
+          "dub",
+          0.30748802423477173
+        ]
+      ],
+      "track_id": "jam_1436572"
+    },
+    {
+      "artist": "4AM JAM",
+      "attribution": "SKINAW_2 by 4AM JAM; https://www.jamendo.com/track/1432367; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.230037,
+      "end_s": 95.0,
+      "id": "jam_1432367:mix:85000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "rms": 0.0920801,
+      "source": "jamendo",
+      "start_s": 85.0,
+      "stem": "mix",
+      "tags": [
+        "wah guitar",
+        "saxophone",
+        "rhodes",
+        "latin",
+        "funk",
+        "soul",
+        "groovy",
+        "soulful",
+        "nostalgic"
+      ],
+      "title": "SKINAW_2",
+      "top_scores": [
+        [
+          "groovy",
+          0.3649546504020691
+        ],
+        [
+          "latin",
+          0.3637126684188843
+        ],
+        [
+          "funk",
+          0.3625223636627197
+        ],
+        [
+          "soulful",
+          0.3622105121612549
+        ],
+        [
+          "soul",
+          0.35610347986221313
+        ]
+      ],
+      "track_id": "jam_1432367"
+    },
+    {
+      "artist": "Blik",
+      "attribution": "Lounge (guitar, trumpet) by Blik; https://www.jamendo.com/track/1337940; CC-BY-3.0 (http://creativecommons.org/licenses/by/3.0/); excerpted/transcoded by Beatopia.",
+      "density": 0.280145,
+      "end_s": 25.0,
+      "id": "jam_1337940:mix:15000",
+      "license": "CC-BY-3.0",
+      "listening": "unreviewed",
+      "rms": 0.314489,
+      "source": "jamendo",
+      "start_s": 15.0,
+      "stem": "mix",
+      "tags": [
+        "breakbeat",
+        "arpeggio",
+        "808",
+        "techno",
+        "disco",
+        "synthwave",
+        "groovy",
+        "energetic",
+        "smooth"
+      ],
+      "title": "Lounge (guitar, trumpet)",
+      "top_scores": [
+        [
+          "techno",
+          0.4412550628185272
+        ],
+        [
+          "disco",
+          0.4046780467033386
+        ],
+        [
+          "groovy",
+          0.3849020004272461
+        ],
+        [
+          "energetic",
+          0.34353184700012207
+        ],
+        [
+          "smooth",
+          0.3254358172416687
+        ]
+      ],
+      "track_id": "jam_1337940"
+    }
+  ],
+  "scope": "DB snapshot first; later objects/cache checks may overlap live publication",
+  "seed": 5,
+  "snapshot_at": "2026-11-14T23:31:41.329677+00:00",
+  "source_artifact": "ingest/data/session5/report-reviewed.json",
+  "source_license_counts": [
+    {
+      "count": 28,
+      "license": "CC-BY-3.0",
+      "source": "freesound"
+    },
+    {
+      "count": 98,
+      "license": "CC-BY-4.0",
+      "source": "freesound"
+    },
+    {
+      "count": 74,
+      "license": "CC0",
+      "source": "freesound"
+    },
+    {
+      "count": 34,
+      "license": "CC-BY-3.0",
+      "source": "jamendo"
+    },
+    {
+      "count": 116,
+      "license": "CC-BY-SA-3.0",
+      "source": "jamendo"
+    }
+  ],
+  "source_sha256": "40a44567512aec9046ea4b93ab0bff3ec0b15024cbd56b81e740a3876ec658c7",
+  "stream_formats": [
+    {
+      "bit_rate": "192000",
+      "channels": 2,
+      "codec_name": "mp3",
+      "codec_type": "audio",
+      "count": 450,
+      "sample_rate": "44100"
+    }
+  ],
+  "tags": {
+    "808": {
+      "top_example_ids": [
+        "jam_1121408:bass:25000",
+        "jam_1121408:bass:35000",
+        "jam_1433892:bass:20000"
+      ],
+      "tracks": 74,
+      "windows": 639
+    },
+    "accordion": {
+      "top_example_ids": [
+        "jam_1436572:other:140000",
+        "jam_1436572:other:130000",
+        "jam_1436572:other:145000"
+      ],
+      "tracks": 56,
+      "windows": 379
+    },
+    "acoustic guitar": {
+      "top_example_ids": [
+        "jam_1032881:mix:0",
+        "jam_1029638:mix:0",
+        "jam_1033255:mix:0"
+      ],
+      "tracks": 34,
+      "windows": 344
+    },
+    "afrobeat": {
+      "top_example_ids": [
+        "jam_1445903:mix:125000",
+        "jam_1445903:mix:120000",
+        "jam_1445903:mix:75000"
+      ],
+      "tracks": 30,
+      "windows": 323
+    },
+    "aggressive": {
+      "top_example_ids": [
+        "jam_1270293:vocals:75000",
+        "jam_1270293:vocals:135000",
+        "jam_1179114:vocals:85000"
+      ],
+      "tracks": 20,
+      "windows": 210
+    },
+    "ambient": {
+      "top_example_ids": [
+        "jam_1149160:vocals:25000",
+        "jam_1149160:drums:80000",
+        "jam_1149160:vocals:15000"
+      ],
+      "tracks": 3,
+      "windows": 26
+    },
+    "arpeggio": {
+      "top_example_ids": [
+        "jam_1229099:other:0",
+        "jam_1229099:mix:0",
+        "jam_1229099:other:10000"
+      ],
+      "tracks": 100,
+      "windows": 978
+    },
+    "banjo": {
+      "top_example_ids": [
+        "jam_1306282:mix:155000",
+        "jam_1306282:mix:150000",
+        "jam_1306282:mix:165000"
+      ],
+      "tracks": 26,
+      "windows": 112
+    },
+    "bass guitar": {
+      "top_example_ids": [
+        "jam_1030282:bass:65000",
+        "jam_1222581:bass:155000",
+        "jam_1030282:bass:70000"
+      ],
+      "tracks": 74,
+      "windows": 603
+    },
+    "bells": {
+      "top_example_ids": [
+        "fs_470469:mix:0",
+        "fs_470463:mix:0",
+        "fs_470470:mix:0"
+      ],
+      "tracks": 3,
+      "windows": 3
+    },
+    "bittersweet": {
+      "top_example_ids": [
+        "jam_1030283:mix:90000",
+        "jam_1149166:mix:45000",
+        "jam_1030283:mix:85000"
+      ],
+      "tracks": 104,
+      "windows": 1088
+    },
+    "blues": {
+      "top_example_ids": [
+        "jam_1222581:mix:30000",
+        "jam_1222581:mix:35000",
+        "jam_1222581:mix:25000"
+      ],
+      "tracks": 37,
+      "windows": 341
+    },
+    "bongos": {
+      "top_example_ids": [
+        "jam_1439805:other:75000",
+        "jam_1047157:drums:30000",
+        "jam_1439805:bass:75000"
+      ],
+      "tracks": 11,
+      "windows": 73
+    },
+    "boom bap": {
+      "top_example_ids": [
+        "jam_1047157:drums:120000",
+        "jam_1475806:bass:0",
+        "jam_1047157:drums:110000"
+      ],
+      "tracks": 61,
+      "windows": 368
+    },
+    "bossa nova": {
+      "top_example_ids": [
+        "jam_1222537:mix:30000",
+        "jam_1222537:mix:50000",
+        "jam_1306282:mix:165000"
+      ],
+      "tracks": 52,
+      "windows": 397
+    },
+    "breakbeat": {
+      "top_example_ids": [
+        "jam_1464239:drums:20000",
+        "jam_1432369:drums:105000",
+        "jam_1432369:drums:140000"
+      ],
+      "tracks": 85,
+      "windows": 1528
+    },
+    "cello": {
+      "top_example_ids": [
+        "jam_1348228:mix:5000",
+        "jam_1348228:mix:0",
+        "fs_72628:mix:5000"
+      ],
+      "tracks": 45,
+      "windows": 265
+    },
+    "chill": {
+      "top_example_ids": [
+        "jam_1030282:bass:100000",
+        "jam_1030282:bass:15000",
+        "jam_1238674:mix:145000"
+      ],
+      "tracks": 75,
+      "windows": 535
+    },
+    "choir": {
+      "top_example_ids": [
+        "jam_1149160:vocals:105000",
+        "jam_1265033:mix:95000",
+        "jam_1475806:vocals:110000"
+      ],
+      "tracks": 4,
+      "windows": 7
+    },
+    "cinematic": {
+      "top_example_ids": [
+        "jam_1364453:mix:95000",
+        "jam_1364453:mix:75000",
+        "jam_1348228:mix:15000"
+      ],
+      "tracks": 128,
+      "windows": 988
+    },
+    "claps": {
+      "top_example_ids": [
+        "jam_1436572:vocals:105000",
+        "jam_1436572:bass:25000",
+        "jam_1121408:bass:20000"
+      ],
+      "tracks": 3,
+      "windows": 17
+    },
+    "clarinet": {
+      "top_example_ids": [
+        "jam_1149160:mix:10000",
+        "jam_1149160:mix:15000",
+        "jam_1149160:mix:20000"
+      ],
+      "tracks": 48,
+      "windows": 281
+    },
+    "classical": {
+      "top_example_ids": [
+        "jam_1027294:mix:90000",
+        "jam_1149159:mix:75000",
+        "jam_1149166:mix:125000"
+      ],
+      "tracks": 147,
+      "windows": 1288
+    },
+    "clavinet": {
+      "top_example_ids": [
+        "jam_1149160:mix:10000",
+        "jam_1149163:mix:30000",
+        "jam_1101342:mix:85000"
+      ],
+      "tracks": 48,
+      "windows": 253
+    },
+    "congas": {
+      "top_example_ids": [
+        "jam_1283863:mix:0",
+        "jam_1389077:mix:25000",
+        "jam_1389077:mix:145000"
+      ],
+      "tracks": 85,
+      "windows": 1049
+    },
+    "cymbals": {
+      "top_example_ids": [
+        "fs_470470:mix:0",
+        "fs_470474:mix:0",
+        "fs_470467:mix:0"
+      ],
+      "tracks": 21,
+      "windows": 33
+    },
+    "dark": {
+      "top_example_ids": [
+        "jam_1028188:mix:65000",
+        "jam_1028188:mix:70000",
+        "jam_1028188:mix:150000"
+      ],
+      "tracks": 43,
+      "windows": 280
+    },
+    "disco": {
+      "top_example_ids": [
+        "jam_1030284:mix:70000",
+        "jam_1433978:mix:55000",
+        "jam_1030282:mix:100000"
+      ],
+      "tracks": 151,
+      "windows": 1966
+    },
+    "downtempo": {
+      "top_example_ids": [
+        "jam_1544393:mix:5000",
+        "jam_1030282:bass:15000",
+        "jam_1026088:mix:5000"
+      ],
+      "tracks": 104,
+      "windows": 1204
+    },
+    "dreamy": {
+      "top_example_ids": [
+        "jam_1047157:other:70000",
+        "jam_1047157:other:75000",
+        "jam_1003082:mix:100000"
+      ],
+      "tracks": 55,
+      "windows": 403
+    },
+    "drill": {
+      "top_example_ids": [
+        "jam_1149160:vocals:60000",
+        "jam_1149160:vocals:55000",
+        "jam_1149160:vocals:65000"
+      ],
+      "tracks": 36,
+      "windows": 133
+    },
+    "drum and bass": {
+      "top_example_ids": [
+        "jam_1439805:mix:120000",
+        "jam_1126354:drums:80000",
+        "jam_1407055:mix:165000"
+      ],
+      "tracks": 56,
+      "windows": 401
+    },
+    "drum loop": {
+      "top_example_ids": [
+        "jam_1439805:mix:120000",
+        "jam_1149166:drums:35000",
+        "jam_1149166:drums:25000"
+      ],
+      "tracks": 30,
+      "windows": 449
+    },
+    "dub": {
+      "top_example_ids": [
+        "jam_1026088:mix:0",
+        "jam_1436572:other:35000",
+        "jam_1436572:mix:40000"
+      ],
+      "tracks": 86,
+      "windows": 1121
+    },
+    "dusty": {
+      "top_example_ids": [
+        "jam_1436572:vocals:130000",
+        "jam_1149160:vocals:30000",
+        "jam_1149160:vocals:20000"
+      ],
+      "tracks": 2,
+      "windows": 37
+    },
+    "eerie": {
+      "top_example_ids": [
+        "jam_1028188:mix:150000",
+        "jam_1485349:mix:65000",
+        "jam_1028188:mix:65000"
+      ],
+      "tracks": 100,
+      "windows": 485
+    },
+    "electric guitar": {
+      "top_example_ids": [
+        "jam_1475806:other:0",
+        "jam_1222552:mix:0",
+        "jam_1039379:mix:0"
+      ],
+      "tracks": 26,
+      "windows": 138
+    },
+    "electronic": {
+      "top_example_ids": [
+        "jam_1149160:vocals:40000",
+        "jam_1149160:vocals:0",
+        "jam_1149160:vocals:95000"
+      ],
+      "tracks": 64,
+      "windows": 428
+    },
+    "energetic": {
+      "top_example_ids": [
+        "jam_1407055:mix:90000",
+        "jam_1407055:mix:170000",
+        "jam_1407055:mix:105000"
+      ],
+      "tracks": 73,
+      "windows": 1423
+    },
+    "epic": {
+      "top_example_ids": [
+        "jam_1149164:mix:170000",
+        "jam_1149160:other:50000",
+        "jam_1149160:other:45000"
+      ],
+      "tracks": 120,
+      "windows": 1013
+    },
+    "female vocals": {
+      "top_example_ids": [
+        "jam_1096249:vocals:130000",
+        "jam_1096249:vocals:105000",
+        "jam_1039379:vocals:75000"
+      ],
+      "tracks": 16,
+      "windows": 97
+    },
+    "flute": {
+      "top_example_ids": [
+        "jam_1149158:mix:50000",
+        "jam_1149160:mix:100000",
+        "jam_1149160:mix:95000"
+      ],
+      "tracks": 13,
+      "windows": 35
+    },
+    "folk": {
+      "top_example_ids": [
+        "jam_1222552:mix:110000",
+        "jam_1306282:mix:165000",
+        "jam_1306282:mix:160000"
+      ],
+      "tracks": 66,
+      "windows": 379
+    },
+    "funk": {
+      "top_example_ids": [
+        "jam_1121423:mix:10000",
+        "jam_1121423:mix:5000",
+        "jam_1121423:mix:130000"
+      ],
+      "tracks": 81,
+      "windows": 954
+    },
+    "glockenspiel": {
+      "top_example_ids": [
+        "jam_1544389:mix:0",
+        "jam_1475806:bass:35000",
+        "jam_1475806:bass:60000"
+      ],
+      "tracks": 43,
+      "windows": 136
+    },
+    "gospel": {
+      "top_example_ids": [
+        "jam_1306282:mix:65000",
+        "jam_1032883:mix:50000",
+        "jam_1433063:other:5000"
+      ],
+      "tracks": 65,
+      "windows": 485
+    },
+    "gritty": {
+      "top_example_ids": [
+        "jam_1436572:bass:0",
+        "jam_1436572:vocals:5000",
+        "jam_1436572:vocals:0"
+      ],
+      "tracks": 52,
+      "windows": 409
+    },
+    "groovy": {
+      "top_example_ids": [
+        "jam_1432851:mix:40000",
+        "jam_1432851:mix:35000",
+        "jam_1433978:mix:35000"
+      ],
+      "tracks": 109,
+      "windows": 2726
+    },
+    "harmonica": {
+      "top_example_ids": [
+        "jam_1464239:other:10000",
+        "jam_1432367:other:110000",
+        "jam_1464239:other:15000"
+      ],
+      "tracks": 25,
+      "windows": 95
+    },
+    "harp": {
+      "top_example_ids": [
+        "jam_1047158:mix:55000",
+        "jam_1378003:mix:0",
+        "jam_1149166:other:35000"
+      ],
+      "tracks": 69,
+      "windows": 463
+    },
+    "harpsichord": {
+      "top_example_ids": [
+        "jam_1307441:mix:120000",
+        "jam_1017958:mix:150000",
+        "jam_1307441:mix:125000"
+      ],
+      "tracks": 65,
+      "windows": 277
+    },
+    "haunting": {
+      "top_example_ids": [
+        "jam_1028188:mix:150000",
+        "jam_1028188:mix:65000",
+        "jam_1028188:mix:75000"
+      ],
+      "tracks": 48,
+      "windows": 280
+    },
+    "hi-hats": {
+      "top_example_ids": [
+        "jam_1030283:mix:10000",
+        "jam_1439805:drums:20000",
+        "jam_1030283:mix:15000"
+      ],
+      "tracks": 46,
+      "windows": 454
+    },
+    "hip hop": {
+      "top_example_ids": [
+        "jam_1270293:mix:15000",
+        "jam_1270293:mix:80000",
+        "jam_1270293:mix:85000"
+      ],
+      "tracks": 42,
+      "windows": 505
+    },
+    "hopeful": {
+      "top_example_ids": [
+        "jam_1149166:mix:45000",
+        "jam_1027294:mix:90000",
+        "jam_1149166:mix:50000"
+      ],
+      "tracks": 83,
+      "windows": 628
+    },
+    "horns": {
+      "top_example_ids": [
+        "jam_1149163:mix:5000",
+        "jam_1282782:vocals:130000",
+        "jam_1149166:other:90000"
+      ],
+      "tracks": 13,
+      "windows": 22
+    },
+    "house": {
+      "top_example_ids": [
+        "jam_1436572:bass:20000"
+      ],
+      "tracks": 1,
+      "windows": 1
+    },
+    "humming": {
+      "top_example_ids": [
+        "jam_1149160:vocals:20000",
+        "jam_1149160:vocals:10000",
+        "jam_1149160:vocals:15000"
+      ],
+      "tracks": 20,
+      "windows": 231
+    },
+    "hypnotic": {
+      "top_example_ids": [
+        "jam_1223964:bass:160000",
+        "jam_1223964:bass:170000",
+        "jam_1436572:vocals:20000"
+      ],
+      "tracks": 23,
+      "windows": 298
+    },
+    "jazz": {
+      "top_example_ids": [
+        "jam_1030279:mix:105000",
+        "jam_1030283:mix:55000",
+        "jam_1030279:mix:85000"
+      ],
+      "tracks": 99,
+      "windows": 858
+    },
+    "kalimba": {
+      "top_example_ids": [
+        "jam_1149166:other:30000",
+        "jam_1149166:other:40000",
+        "jam_1149166:other:35000"
+      ],
+      "tracks": 34,
+      "windows": 81
+    },
+    "kick": {
+      "top_example_ids": [
+        "jam_1433063:drums:100000",
+        "jam_1223964:bass:90000",
+        "jam_1432847:mix:0"
+      ],
+      "tracks": 16,
+      "windows": 64
+    },
+    "koto": {
+      "top_example_ids": [
+        "jam_1364453:mix:85000",
+        "jam_1364453:mix:50000",
+        "jam_1149164:mix:170000"
+      ],
+      "tracks": 111,
+      "windows": 1153
+    },
+    "latin": {
+      "top_example_ids": [
+        "jam_1304261:mix:15000",
+        "jam_1306282:mix:20000",
+        "jam_1304261:mix:105000"
+      ],
+      "tracks": 144,
+      "windows": 2176
+    },
+    "lo-fi": {
+      "top_example_ids": [
+        "jam_1029434:mix:30000",
+        "jam_1029434:mix:25000",
+        "jam_1029434:mix:35000"
+      ],
+      "tracks": 38,
+      "windows": 241
+    },
+    "lush": {
+      "top_example_ids": [
+        "jam_1229099:other:90000",
+        "jam_1475806:other:70000",
+        "jam_1229099:other:10000"
+      ],
+      "tracks": 59,
+      "windows": 551
+    },
+    "male vocals": {
+      "top_example_ids": [
+        "jam_1039379:vocals:40000",
+        "jam_1039379:vocals:135000",
+        "jam_1039379:vocals:140000"
+      ],
+      "tracks": 16,
+      "windows": 194
+    },
+    "marimba": {
+      "top_example_ids": [
+        "jam_1047157:drums:30000",
+        "jam_1149166:mix:40000",
+        "jam_1149166:other:30000"
+      ],
+      "tracks": 31,
+      "windows": 81
+    },
+    "melancholy": {
+      "top_example_ids": [
+        "jam_1030282:bass:20000",
+        "jam_1149160:bass:65000",
+        "jam_1030282:bass:100000"
+      ],
+      "tracks": 80,
+      "windows": 546
+    },
+    "mellotron": {
+      "top_example_ids": [
+        "jam_1039379:bass:65000",
+        "jam_1039379:mix:0",
+        "jam_1039379:bass:60000"
+      ],
+      "tracks": 81,
+      "windows": 642
+    },
+    "music box": {
+      "top_example_ids": [
+        "jam_1149166:mix:40000",
+        "jam_1149166:mix:25000",
+        "jam_1149166:other:35000"
+      ],
+      "tracks": 34,
+      "windows": 102
+    },
+    "mysterious": {
+      "top_example_ids": [
+        "fs_470468:mix:5000",
+        "fs_470468:mix:0",
+        "fs_470474:mix:0"
+      ],
+      "tracks": 59,
+      "windows": 147
+    },
+    "nostalgic": {
+      "top_example_ids": [
+        "jam_1033255:mix:65000",
+        "jam_1033253:mix:90000",
+        "jam_1033253:mix:85000"
+      ],
+      "tracks": 100,
+      "windows": 1728
+    },
+    "organ": {
+      "top_example_ids": [
+        "jam_1436572:other:165000",
+        "jam_1436572:other:170000",
+        "jam_1149166:other:100000"
+      ],
+      "tracks": 89,
+      "windows": 735
+    },
+    "peaceful": {
+      "top_example_ids": [
+        "jam_1149160:vocals:15000",
+        "jam_1149160:vocals:20000",
+        "jam_1149160:vocals:25000"
+      ],
+      "tracks": 1,
+      "windows": 14
+    },
+    "piano": {
+      "top_example_ids": [
+        "fs_470469:mix:0",
+        "jam_1009346:mix:0",
+        "jam_1003082:mix:25000"
+      ],
+      "tracks": 50,
+      "windows": 313
+    },
+    "playful": {
+      "top_example_ids": [
+        "jam_1282782:bass:50000",
+        "jam_1407055:mix:165000",
+        "jam_1407055:mix:90000"
+      ],
+      "tracks": 49,
+      "windows": 432
+    },
+    "psychedelic": {
+      "top_example_ids": [
+        "fs_470473:mix:5000",
+        "fs_470468:mix:0",
+        "fs_470468:mix:5000"
+      ],
+      "tracks": 190,
+      "windows": 1150
+    },
+    "r&b": {
+      "top_example_ids": [
+        "jam_1445903:mix:125000",
+        "jam_1033252:mix:140000",
+        "jam_1544397:mix:10000"
+      ],
+      "tracks": 112,
+      "windows": 1298
+    },
+    "raw": {
+      "top_example_ids": [
+        "jam_1179114:vocals:20000",
+        "jam_1179114:vocals:15000",
+        "jam_1270293:vocals:15000"
+      ],
+      "tracks": 59,
+      "windows": 600
+    },
+    "reggae": {
+      "top_example_ids": [
+        "jam_1127185:mix:20000",
+        "jam_1127185:mix:65000",
+        "jam_1127185:mix:45000"
+      ],
+      "tracks": 44,
+      "windows": 572
+    },
+    "rhodes": {
+      "top_example_ids": [
+        "jam_1544397:mix:5000",
+        "jam_1030282:bass:155000",
+        "jam_1030282:bass:160000"
+      ],
+      "tracks": 142,
+      "windows": 1384
+    },
+    "rock": {
+      "top_example_ids": [
+        "jam_1390854:mix:10000",
+        "jam_1390854:mix:120000",
+        "jam_1390854:mix:90000"
+      ],
+      "tracks": 50,
+      "windows": 316
+    },
+    "romantic": {
+      "top_example_ids": [
+        "jam_1047157:mix:5000",
+        "jam_1009346:mix:110000",
+        "jam_1047157:other:120000"
+      ],
+      "tracks": 141,
+      "windows": 1383
+    },
+    "sad": {
+      "top_example_ids": [
+        "jam_1047157:other:0",
+        "jam_1029666:mix:35000",
+        "jam_1029666:mix:40000"
+      ],
+      "tracks": 48,
+      "windows": 328
+    },
+    "saxophone": {
+      "top_example_ids": [
+        "jam_1464239:other:0",
+        "jam_1464239:mix:0",
+        "jam_1282782:other:130000"
+      ],
+      "tracks": 97,
+      "windows": 1148
+    },
+    "shaker": {
+      "top_example_ids": [
+        "jam_1439805:drums:30000",
+        "jam_1436572:vocals:10000",
+        "jam_1439805:drums:45000"
+      ],
+      "tracks": 13,
+      "windows": 81
+    },
+    "sitar": {
+      "top_example_ids": [
+        "jam_1024429:mix:80000",
+        "jam_1024429:mix:85000",
+        "fs_274614:mix:0"
+      ],
+      "tracks": 67,
+      "windows": 121
+    },
+    "slide guitar": {
+      "top_example_ids": [
+        "jam_1032884:mix:125000",
+        "jam_1032884:mix:130000",
+        "jam_1032884:mix:135000"
+      ],
+      "tracks": 76,
+      "windows": 651
+    },
+    "smooth": {
+      "top_example_ids": [
+        "jam_1039379:bass:170000",
+        "jam_1337940:mix:0",
+        "jam_1030282:bass:120000"
+      ],
+      "tracks": 101,
+      "windows": 448
+    },
+    "snare": {
+      "top_example_ids": [
+        "jam_1149166:drums:20000",
+        "jam_1282782:drums:100000",
+        "jam_1222581:drums:135000"
+      ],
+      "tracks": 3,
+      "windows": 4
+    },
+    "soul": {
+      "top_example_ids": [
+        "jam_1033255:mix:65000",
+        "jam_1033262:mix:20000",
+        "jam_1030282:mix:100000"
+      ],
+      "tracks": 151,
+      "windows": 1852
+    },
+    "soulful": {
+      "top_example_ids": [
+        "jam_1033255:mix:65000",
+        "jam_1306282:mix:35000",
+        "jam_1306282:mix:40000"
+      ],
+      "tracks": 125,
+      "windows": 2619
+    },
+    "sparse": {
+      "top_example_ids": [
+        "jam_1149160:drums:0"
+      ],
+      "tracks": 1,
+      "windows": 1
+    },
+    "spoken word": {
+      "top_example_ids": [
+        "jam_1014927:mix:55000"
+      ],
+      "tracks": 1,
+      "windows": 1
+    },
+    "steel drums": {
+      "top_example_ids": [
+        "jam_1149166:drums:90000",
+        "jam_1047157:drums:115000",
+        "jam_1149164:mix:170000"
+      ],
+      "tracks": 19,
+      "windows": 84
+    },
+    "strings": {
+      "top_example_ids": [
+        "jam_1027294:mix:140000",
+        "jam_1027294:mix:70000",
+        "jam_1027294:mix:90000"
+      ],
+      "tracks": 53,
+      "windows": 526
+    },
+    "synth bass": {
+      "top_example_ids": [
+        "jam_1024479:mix:10000",
+        "jam_1024479:mix:0",
+        "jam_1024479:mix:5000"
+      ],
+      "tracks": 59,
+      "windows": 569
+    },
+    "synth lead": {
+      "top_example_ids": [
+        "jam_1101341:other:80000",
+        "jam_1101341:mix:80000",
+        "jam_1101341:other:20000"
+      ],
+      "tracks": 46,
+      "windows": 216
+    },
+    "synth pad": {
+      "top_example_ids": [
+        "jam_1485349:mix:0",
+        "jam_1485349:mix:45000",
+        "jam_1485349:mix:40000"
+      ],
+      "tracks": 57,
+      "windows": 187
+    },
+    "synthwave": {
+      "top_example_ids": [
+        "jam_1024479:mix:120000",
+        "jam_1307441:mix:5000",
+        "jam_1126354:mix:130000"
+      ],
+      "tracks": 106,
+      "windows": 1009
+    },
+    "tabla": {
+      "top_example_ids": [
+        "jam_1024429:mix:85000",
+        "jam_1024429:mix:90000",
+        "jam_1026088:mix:15000"
+      ],
+      "tracks": 17,
+      "windows": 47
+    },
+    "tambourine": {
+      "top_example_ids": [
+        "jam_1229099:drums:30000",
+        "jam_1030282:drums:10000",
+        "jam_1030282:drums:5000"
+      ],
+      "tracks": 35,
+      "windows": 237
+    },
+    "techno": {
+      "top_example_ids": [
+        "jam_1407055:mix:170000",
+        "jam_1407055:mix:95000",
+        "jam_1378557:mix:110000"
+      ],
+      "tracks": 38,
+      "windows": 637
+    },
+    "tense": {
+      "top_example_ids": [
+        "jam_1047157:other:80000",
+        "jam_1047157:other:35000",
+        "jam_1047157:other:40000"
+      ],
+      "tracks": 164,
+      "windows": 2690
+    },
+    "timpani": {
+      "top_example_ids": [
+        "jam_1149164:mix:170000",
+        "jam_1149166:drums:95000",
+        "jam_1364453:mix:90000"
+      ],
+      "tracks": 25,
+      "windows": 155
+    },
+    "trap": {
+      "top_example_ids": [
+        "jam_1027261:mix:120000",
+        "jam_1027261:mix:30000",
+        "jam_1439805:drums:70000"
+      ],
+      "tracks": 36,
+      "windows": 266
+    },
+    "trip hop": {
+      "top_example_ids": [
+        "jam_1096249:mix:120000",
+        "jam_1096249:mix:125000",
+        "jam_1096249:mix:130000"
+      ],
+      "tracks": 104,
+      "windows": 1475
+    },
+    "triumphant": {
+      "top_example_ids": [
+        "jam_1149164:mix:170000",
+        "jam_1101341:mix:5000",
+        "jam_1149158:mix:25000"
+      ],
+      "tracks": 138,
+      "windows": 1124
+    },
+    "trombone": {
+      "top_example_ids": [
+        "jam_1436572:bass:75000",
+        "jam_1436572:other:40000",
+        "jam_1436572:mix:0"
+      ],
+      "tracks": 63,
+      "windows": 412
+    },
+    "trumpet": {
+      "top_example_ids": [
+        "jam_1063979:mix:70000",
+        "jam_1063979:mix:40000",
+        "jam_1063979:mix:75000"
+      ],
+      "tracks": 82,
+      "windows": 455
+    },
+    "uplifting": {
+      "top_example_ids": [
+        "jam_1229099:other:0",
+        "jam_1229099:other:10000",
+        "jam_1229099:other:5000"
+      ],
+      "tracks": 120,
+      "windows": 410
+    },
+    "upright bass": {
+      "top_example_ids": [
+        "jam_1039379:bass:155000",
+        "jam_1030282:bass:70000",
+        "jam_1030282:bass:65000"
+      ],
+      "tracks": 110,
+      "windows": 1360
+    },
+    "vibraphone": {
+      "top_example_ids": [
+        "jam_1149159:mix:0",
+        "jam_1149166:mix:25000",
+        "jam_1149166:mix:30000"
+      ],
+      "tracks": 63,
+      "windows": 253
+    },
+    "vinyl crackle": {
+      "top_example_ids": [
+        "jam_1277123:mix:165000",
+        "jam_1436572:vocals:80000",
+        "jam_1436572:vocals:30000"
+      ],
+      "tracks": 31,
+      "windows": 255
+    },
+    "violin": {
+      "top_example_ids": [
+        "jam_1149158:mix:15000",
+        "jam_1149158:mix:0",
+        "jam_1149162:mix:0"
+      ],
+      "tracks": 71,
+      "windows": 322
+    },
+    "vocal chop": {
+      "top_example_ids": [
+        "jam_1439805:bass:110000",
+        "jam_1432367:bass:125000",
+        "jam_1439805:bass:105000"
+      ],
+      "tracks": 45,
+      "windows": 374
+    },
+    "wah guitar": {
+      "top_example_ids": [
+        "jam_1222581:mix:30000",
+        "jam_1331951:mix:25000",
+        "jam_1222581:mix:25000"
+      ],
+      "tracks": 110,
+      "windows": 1567
+    },
+    "warm": {
+      "top_example_ids": [
+        "jam_1047157:bass:140000",
+        "jam_1149166:bass:155000",
+        "jam_1436572:vocals:100000"
+      ],
+      "tracks": 17,
+      "windows": 19
+    },
+    "wurlitzer": {
+      "top_example_ids": [
+        "jam_1360689:mix:0",
+        "jam_1149163:mix:155000",
+        "jam_1149163:mix:160000"
+      ],
+      "tracks": 88,
+      "windows": 587
+    }
+  },
+  "track_failures": [],
+  "verified_library_ids": [
+    "fs_122329",
+    "fs_122330",
+    "fs_122331",
+    "fs_122332",
+    "fs_122333",
+    "fs_122334",
+    "fs_122335",
+    "fs_122336",
+    "fs_122337",
+    "fs_122338",
+    "fs_122339",
+    "fs_122340",
+    "fs_122341",
+    "fs_122342",
+    "fs_122343",
+    "fs_122344",
+    "fs_122345",
+    "fs_122346",
+    "fs_122347",
+    "fs_122348",
+    "fs_130630",
+    "fs_161163",
+    "fs_161164",
+    "fs_161165",
+    "fs_161166",
+    "fs_161172",
+    "fs_166649",
+    "fs_175170",
+    "fs_175171",
+    "fs_175172",
+    "fs_175173",
+    "fs_22452",
+    "fs_25484",
+    "fs_274614",
+    "fs_274615",
+    "fs_274616",
+    "fs_274617",
+    "fs_30192",
+    "fs_357877",
+    "fs_357878",
+    "fs_357879",
+    "fs_357880",
+    "fs_357881",
+    "fs_357882",
+    "fs_357883",
+    "fs_357885",
+    "fs_357887",
+    "fs_357888",
+    "fs_357889",
+    "fs_357890",
+    "fs_357891",
+    "fs_424915",
+    "fs_424916",
+    "fs_431506",
+    "fs_431543",
+    "fs_431544",
+    "fs_431545",
+    "fs_431547",
+    "fs_431548",
+    "fs_431549",
+    "fs_431550",
+    "fs_442724",
+    "fs_442778",
+    "fs_442779",
+    "fs_442780",
+    "fs_442782",
+    "fs_449744",
+    "fs_449745",
+    "fs_449746",
+    "fs_449747",
+    "fs_449754",
+    "fs_449758",
+    "fs_449759",
+    "fs_449772",
+    "fs_449774",
+    "fs_449777",
+    "fs_449778",
+    "fs_449779",
+    "fs_449780",
+    "fs_449781",
+    "fs_449782",
+    "fs_449791",
+    "fs_470463",
+    "fs_470467",
+    "fs_470468",
+    "fs_470469",
+    "fs_470470",
+    "fs_470471",
+    "fs_470472",
+    "fs_470473",
+    "fs_470474",
+    "fs_470476",
+    "fs_470477",
+    "fs_528026",
+    "fs_528779",
+    "fs_528780",
+    "fs_61115",
+    "fs_61821",
+    "fs_61822",
+    "fs_61823",
+    "fs_61824",
+    "fs_61826",
+    "fs_61827",
+    "fs_61828",
+    "fs_61829",
+    "fs_61830",
+    "fs_61831",
+    "fs_61832",
+    "fs_629676",
+    "fs_629677",
+    "fs_629678",
+    "fs_629679",
+    "fs_629680",
+    "fs_629681",
+    "fs_629682",
+    "fs_629683",
+    "fs_629684",
+    "fs_629685",
+    "fs_629688",
+    "fs_629689",
+    "fs_629690",
+    "fs_629691",
+    "fs_629692",
+    "fs_629693",
+    "fs_629694",
+    "fs_629695",
+    "fs_629696",
+    "fs_629697",
+    "fs_629699",
+    "fs_629701",
+    "fs_629702",
+    "fs_629703",
+    "fs_629704",
+    "fs_629705",
+    "fs_629706",
+    "fs_629707",
+    "fs_629708",
+    "fs_629709",
+    "fs_629710",
+    "fs_629711",
+    "fs_629712",
+    "fs_629713",
+    "fs_629714",
+    "fs_629715",
+    "fs_65650",
+    "fs_65652",
+    "fs_65653",
+    "fs_65654",
+    "fs_65655",
+    "fs_65656",
+    "fs_65657",
+    "fs_65658",
+    "fs_65659",
+    "fs_65660",
+    "fs_65661",
+    "fs_65662",
+    "fs_65663",
+    "fs_65664",
+    "fs_656965",
+    "fs_65714",
+    "fs_65715",
+    "fs_65716",
+    "fs_65717",
+    "fs_65718",
+    "fs_65721",
+    "fs_65722",
+    "fs_65723",
+    "fs_65724",
+    "fs_65725",
+    "fs_65726",
+    "fs_65727",
+    "fs_65728",
+    "fs_65729",
+    "fs_65730",
+    "fs_65754",
+    "fs_65755",
+    "fs_65756",
+    "fs_65757",
+    "fs_65758",
+    "fs_65759",
+    "fs_65760",
+    "fs_65761",
+    "fs_65762",
+    "fs_72627",
+    "fs_72628",
+    "fs_72629",
+    "fs_758506",
+    "fs_77685",
+    "fs_790850",
+    "fs_794381",
+    "fs_794383",
+    "fs_794386",
+    "fs_832926",
+    "fs_833229",
+    "fs_833374",
+    "fs_833839",
+    "fs_833973",
+    "fs_836863",
+    "fs_856135",
+    "fs_856136",
+    "jam_1003082",
+    "jam_1009060",
+    "jam_1009061",
+    "jam_1009063",
+    "jam_1009064",
+    "jam_1009065",
+    "jam_1009346",
+    "jam_1010376",
+    "jam_1012460",
+    "jam_1014064",
+    "jam_1014927",
+    "jam_1017174",
+    "jam_1017958",
+    "jam_1024429",
+    "jam_1024479",
+    "jam_1026088",
+    "jam_1027261",
+    "jam_1027293",
+    "jam_1027294",
+    "jam_1028188",
+    "jam_1028274",
+    "jam_1028275",
+    "jam_1028441",
+    "jam_1029230",
+    "jam_1029434",
+    "jam_1029435",
+    "jam_1029436",
+    "jam_1029638",
+    "jam_1029666",
+    "jam_1030276",
+    "jam_1030277",
+    "jam_1030279",
+    "jam_1030282",
+    "jam_1030283",
+    "jam_1030284",
+    "jam_1030305",
+    "jam_1030875",
+    "jam_1032879",
+    "jam_1032880",
+    "jam_1032881",
+    "jam_1032883",
+    "jam_1032884",
+    "jam_1033252",
+    "jam_1033253",
+    "jam_1033254",
+    "jam_1033255",
+    "jam_1033256",
+    "jam_1033257",
+    "jam_1033258",
+    "jam_1033259",
+    "jam_1033260",
+    "jam_1033261",
+    "jam_1033262",
+    "jam_1039379",
+    "jam_1047155",
+    "jam_1047157",
+    "jam_1047158",
+    "jam_1063979",
+    "jam_1096249",
+    "jam_1096663",
+    "jam_1101338",
+    "jam_1101341",
+    "jam_1101342",
+    "jam_1101344",
+    "jam_1111809",
+    "jam_1121408",
+    "jam_1121423",
+    "jam_1126354",
+    "jam_1127185",
+    "jam_1131022",
+    "jam_1149157",
+    "jam_1149158",
+    "jam_1149159",
+    "jam_1149160",
+    "jam_1149161",
+    "jam_1149162",
+    "jam_1149163",
+    "jam_1149164",
+    "jam_1149165",
+    "jam_1149166",
+    "jam_1179114",
+    "jam_1207327",
+    "jam_1222516",
+    "jam_1222537",
+    "jam_1222552",
+    "jam_1222581",
+    "jam_1222826",
+    "jam_1222876",
+    "jam_1223964",
+    "jam_1229099",
+    "jam_1238674",
+    "jam_1265033",
+    "jam_1270293",
+    "jam_1271467",
+    "jam_1275400",
+    "jam_1277123",
+    "jam_1282782",
+    "jam_1283863",
+    "jam_1289101",
+    "jam_1289105",
+    "jam_1304261",
+    "jam_1306282",
+    "jam_1307441",
+    "jam_1311439",
+    "jam_1331951",
+    "jam_1331954",
+    "jam_1332140",
+    "jam_1337940",
+    "jam_1342553",
+    "jam_1348228",
+    "jam_1358656",
+    "jam_1359980",
+    "jam_1360689",
+    "jam_1363092",
+    "jam_1364453",
+    "jam_1367270",
+    "jam_1378003",
+    "jam_1378557",
+    "jam_1389077",
+    "jam_1390854",
+    "jam_1396086",
+    "jam_1407055",
+    "jam_1413777",
+    "jam_1432367",
+    "jam_1432368",
+    "jam_1432369",
+    "jam_1432420",
+    "jam_1432847",
+    "jam_1432851",
+    "jam_1433063",
+    "jam_1433892",
+    "jam_1433978",
+    "jam_1436572",
+    "jam_1439805",
+    "jam_1442142",
+    "jam_1445903",
+    "jam_1464239",
+    "jam_1466603",
+    "jam_1468793",
+    "jam_1475806",
+    "jam_1485349",
+    "jam_1492151",
+    "jam_1492154",
+    "jam_1501360",
+    "jam_1544389",
+    "jam_1544392",
+    "jam_1544393",
+    "jam_1544394",
+    "jam_1544396",
+    "jam_1544397"
+  ],
+  "window_counts": {
+    "bass": 611,
+    "drums": 717,
+    "mix": 5219,
+    "other": 783,
+    "vocals": 444
+  }
+}

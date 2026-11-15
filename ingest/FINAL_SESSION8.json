@@ -1,0 +1,2885 @@
+{
+  "session": 8,
+  "status": "worker/API integration verified; launch-readiness quality and other-stream gates remain incomplete",
+  "recorded_at": "2026-11-15T06:39:57.543032+00:00",
+  "starting_commit": "1118b804f19ac2ea9e5e688478507ec18a2cebf4",
+  "plan": "six-step plan approved by user; task execution began after first successful HTTPS health check",
+  "api": {
+    "base_url": "https://45-77-216-35.sslip.io",
+    "observed_revisions": [
+      "43ea7a61263b246c3e06af534a845bc5289a0a6a",
+      "567279d63c37de408fe1aba4ff925bbfc3905584",
+      "56838aecd79c3e1a299a450b8e792be7ef0a2a26"
+    ],
+    "model": "laion/larger_clap_general",
+    "model_revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+    "model_identity_evidence": "User/WS2 confirms selected settings; inspected revision imports matching common.clap. Weights not independently attested.",
+    "normalization": "shared source explicitly L2 normalizes; 95 returned DB embeddings unit normalized",
+    "real_db_search": "owner confirmation + deployed revision source + 95 returned windows checked against DB",
+    "import_exclusion": "real SQL excludes source=import; no imports in 95 results; corpus import count retained separately",
+    "fixture_routes": "all endpoint routers present in real-mode source; unexercised routes not runtime-accepted; Freesound fallback absent"
+  },
+  "connectivity": {
+    "first_window": [
+      {
+        "started_at": "2026-11-15T02:13:56.5028205Z",
+        "exit_code": 28,
+        "http_status": null,
+        "elapsed_s": 8.007686
+      },
+      {
+        "started_at": "2026-11-15T02:19:07.7978421Z",
+        "exit_code": 28,
+        "http_status": null,
+        "elapsed_s": 8.003685,
+        "revision": null
+      },
+      {
+        "started_at": "2026-11-15T02:24:11.3527629Z",
+        "exit_code": 28,
+        "http_status": null,
+        "elapsed_s": 8.008845,
+        "revision": null
+      },
+      {
+        "started_at": "2026-11-15T02:29:04.5405893Z",
+        "exit_code": 28,
+        "http_status": null,
+        "elapsed_s": 8.007609,
+        "revision": null
+      },
+      {
+        "started_at": "2026-11-15T02:34:06.7359809Z",
+        "exit_code": 28,
+        "http_status": null,
+        "elapsed_s": 8.001695,
+        "revision": null
+      },
+      {
+        "started_at": "2026-11-15T02:39:35.1565625Z",
+        "exit_code": 28,
+        "http_status": null,
+        "elapsed_s": 8.002284,
+        "revision": null
+      },
+      {
+        "started_at": "2026-11-15T02:44:05.2547485Z",
+        "exit_code": 28,
+        "http_status": null,
+        "elapsed_s": 8.001473,
+        "revision": null
+      }
+    ],
+    "extension": [
+      {
+        "started_at": "2026-11-15T02:49:16.9201170Z",
+        "exit_code": 0,
+        "http_status": 200,
+        "elapsed_s": 0.271858,
+        "revision": "43ea7a61263b246c3e06af534a845bc5289a0a6a"
+      },
+      {
+        "started_at": "2026-11-15T02:54:57.4928887Z",
+        "exit_code": 0,
+        "http_status": 200,
+        "elapsed_s": 0.087365,
+        "revision": "43ea7a61263b246c3e06af534a845bc5289a0a6a"
+      },
+      {
+        "started_at": "2026-11-15T03:56:22.2652388Z",
+        "exit_code": 0,
+        "http_status": 200,
+        "elapsed_s": 0.13755,
+        "revision": "56838aecd79c3e1a299a450b8e792be7ef0a2a26"
+      }
+    ],
+    "cadence_limit": "Five-minute target cadence; unobserved gap during pending tool interactions in extension. No continuous coverage claim."
+  },
+  "endpoints": [
+    {
+      "url": "https://45-77-216-35.sslip.io/chips",
+      "started_at": "2026-11-15T02:50:28.220246+00:00",
+      "status": 200,
+      "revision": "43ea7a61263b246c3e06af534a845bc5289a0a6a",
+      "content_type": "application/json",
+      "body_file": "1-response.json",
+      "chips": 154,
+      "elapsed_s": 0.10899999999674037
+    },
+    {
+      "url": "https://45-77-216-35.sslip.io/tracks/jam_1121408",
+      "started_at": "2026-11-15T02:50:28.336369+00:00",
+      "status": 200,
+      "revision": "43ea7a61263b246c3e06af534a845bc5289a0a6a",
+      "content_type": "application/json",
+      "body_file": "2-response.json",
+      "track_id": "jam_1121408",
+      "windows": 127,
+      "stems": 4,
+      "elapsed_s": 0.09399999999732245
+    },
+    {
+      "url": "https://45-77-216-35.sslip.io/openapi.json",
+      "started_at": "2026-11-15T02:50:28.424647+00:00",
+      "status": 200,
+      "revision": "43ea7a61263b246c3e06af534a845bc5289a0a6a",
+      "content_type": "application/json",
+      "body_file": "3-response.json",
+      "paths": [
+        "/health",
+        "/chips",
+        "/tracks/{track_id}",
+        "/search",
+        "/why",
+        "/tracks/{track_id}/stems",
+        "/jobs/{job_id}",
+        "/imports",
+        "/events",
+        "/assist"
+      ],
+      "elapsed_s": 0.07800000000133878
+    }
+  ],
+  "evaluation": {
+    "run_id": "f80ee115-5af6-47a8-85f1-431da22c330b",
+    "result_sha256": "64d0982183b5c7baeeda46bd541668de404d3840569c6c3622c2b37b2dbcdf3a",
+    "dataset_sha256": "63ff9cc24fbf97a688f6cdeda81a9e88869e8d0e32b1f196b619ae163c89844f",
+    "dataset_file_sha256": "ac865e19715dfe59e7aed4808106f6649c929c1f4bfeb313db4062401f783015",
+    "path": "ingest/data/session8/eval-before",
+    "request_count": 20,
+    "http_200": 20,
+    "returned_results": 95,
+    "runner_technical_failures": 1,
+    "runner_exit_code": 1,
+    "failures": [
+      {
+        "query": "q14",
+        "error": null,
+        "issues": [
+          "empty_results"
+        ]
+      }
+    ],
+    "db_checked_results": 95,
+    "distinct_windows": 94,
+    "additional_provenance_issues": [
+      {
+        "query_id": "q05",
+        "window_id": "jam_1121408:mix:120000",
+        "issue": "api_snapped_range_crosses_artificial_join"
+      },
+      {
+        "query_id": "q06",
+        "window_id": "jam_1030279:mix:110000",
+        "issue": "api_snapped_range_crosses_artificial_join"
+      },
+      {
+        "query_id": "q16",
+        "window_id": "jam_1348228:mix:120000",
+        "issue": "api_snapped_range_crosses_artificial_join"
+      }
+    ],
+    "house_tagged_windows": 1,
+    "house_tempo_eligible_windows": 0,
+    "credit_comparison": "zero mismatches after correcting diagnostic default Windows encoding; first-pass artifacts retained",
+    "review_exclusions": {
+      "run_id": "f80ee115-5af6-47a8-85f1-431da22c330b",
+      "result_sha256": "64d0982183b5c7baeeda46bd541668de404d3840569c6c3622c2b37b2dbcdf3a",
+      "technical_holds": [
+        {
+          "query_id": "q05",
+          "rank": 5,
+          "window_id": "jam_1121408:mix:120000",
+          "start_s": 119.56,
+          "end_s": 126.247,
+          "grade": null,
+          "reason": "API-snapped range crosses processed audio artificial join at 120 seconds; technical hold"
+        },
+        {
+          "query_id": "q06",
+          "rank": 2,
+          "window_id": "jam_1030279:mix:110000",
+          "start_s": 110.097,
+          "end_s": 120.685,
+          "grade": null,
+          "reason": "API-snapped range crosses processed audio artificial join at 120 seconds; technical hold"
+        },
+        {
+          "query_id": "q16",
+          "rank": 2,
+          "window_id": "jam_1348228:mix:120000",
+          "start_s": 119.954,
+          "end_s": 128.955,
+          "grade": null,
+          "reason": "API-snapped range crosses processed audio artificial join at 120 seconds; technical hold"
+        }
+      ]
+    },
+    "reviews": [
+      {
+        "path": "ingest/data/session8/reviews/20261115T063957523068Z/reviewer-A.json",
+        "working_review_path": "ingest/data/session8/eval-before/reviewer-A.json",
+        "sha256": "1afac8efc4c7ffab3b1a49e552920ee9001efbb25da0413c6f3e575378833602",
+        "reviewer": "Santiago & Arjya",
+        "recorded_at": "2026-11-15T06:20:06+00:00",
+        "graded": 95,
+        "actual_grades": [
+          {
+            "query_id": "q01",
+            "rank": 1,
+            "window_id": "jam_1096249:mix:40000",
+            "grade": 2,
+            "notes": "Good descrption but missing the initial animalistic sounds"
+          },
+          {
+            "query_id": "q01",
+            "rank": 2,
+            "window_id": "jam_1096249:mix:130000",
+            "grade": 2,
+            "notes": "Female vocals are important to mention as it did"
+          },
+          {
+            "query_id": "q01",
+            "rank": 3,
+            "window_id": "jam_1033262:mix:80000",
+            "grade": 0,
+            "notes": "Missing male voices, not very romantic as it mentioned"
+          },
+          {
+            "query_id": "q01",
+            "rank": 4,
+            "window_id": "jam_1223964:mix:20000",
+            "grade": 0,
+            "notes": "Very peaceful as instead of groovy and r&b"
+          },
+          {
+            "query_id": "q01",
+            "rank": 5,
+            "window_id": "jam_1544396:mix:40000",
+            "grade": 1,
+            "notes": "Missing intruments like drum plates and is not tense"
+          },
+          {
+            "query_id": "q02",
+            "rank": 1,
+            "window_id": "jam_1063979:mix:65000",
+            "grade": 1,
+            "notes": "Tone is correct but it was solely trumpet"
+          },
+          {
+            "query_id": "q02",
+            "rank": 2,
+            "window_id": "jam_1030279:mix:120000",
+            "grade": 1,
+            "notes": "Instruments are good but no latin and not tense at all"
+          },
+          {
+            "query_id": "q02",
+            "rank": 3,
+            "window_id": "jam_1348228:mix:105000",
+            "grade": 2,
+            "notes": "just not jazz"
+          },
+          {
+            "query_id": "q02",
+            "rank": 4,
+            "window_id": "jam_1063979:mix:30000",
+            "grade": 2,
+            "notes": "not sure about trombone"
+          },
+          {
+            "query_id": "q02",
+            "rank": 5,
+            "window_id": "jam_1149163:mix:155000",
+            "grade": 2,
+            "notes": "Jazz not that much"
+          },
+          {
+            "query_id": "q03",
+            "rank": 1,
+            "window_id": "jam_1332140:drums:140000",
+            "grade": 0,
+            "notes": "between the data there was only a single drum playing over and over"
+          },
+          {
+            "query_id": "q03",
+            "rank": 2,
+            "window_id": "jam_1332140:drums:125000",
+            "grade": 0,
+            "notes": "Once again, only drums, maybe rest of the song fits but not data times it mentioned"
+          },
+          {
+            "query_id": "q03",
+            "rank": 3,
+            "window_id": "jam_1223964:bass:125000",
+            "grade": 0,
+            "notes": "Sound too low to even describe. Only tense a bit"
+          },
+          {
+            "query_id": "q03",
+            "rank": 4,
+            "window_id": "jam_1367270:drums:100000",
+            "grade": 0,
+            "notes": "No tone or feeling at all, only kick and a bit of breakbit"
+          },
+          {
+            "query_id": "q03",
+            "rank": 5,
+            "window_id": "jam_1223964:bass:135000",
+            "grade": 0,
+            "notes": "Just a silent audio"
+          },
+          {
+            "query_id": "q04",
+            "rank": 1,
+            "window_id": "jam_1265033:mix:160000",
+            "grade": 2,
+            "notes": "best so far, however data time did not match audio length"
+          },
+          {
+            "query_id": "q04",
+            "rank": 2,
+            "window_id": "jam_1265033:mix:85000",
+            "grade": 2,
+            "notes": "Very accurate"
+          },
+          {
+            "query_id": "q04",
+            "rank": 3,
+            "window_id": "jam_1265033:mix:60000",
+            "grade": 2,
+            "notes": "Perfect"
+          },
+          {
+            "query_id": "q04",
+            "rank": 4,
+            "window_id": "fs_166649:mix:15000",
+            "grade": 1,
+            "notes": "Some instruments did not match"
+          },
+          {
+            "query_id": "q04",
+            "rank": 5,
+            "window_id": "jam_1017958:mix:10000",
+            "grade": 0,
+            "notes": "Not good match of instruments, missing main piano"
+          },
+          {
+            "query_id": "q05",
+            "rank": 1,
+            "window_id": "jam_1332140:vocals:0",
+            "grade": 1,
+            "notes": "Not very r&b but vibe kind of matches, not aggresive tho"
+          },
+          {
+            "query_id": "q05",
+            "rank": 2,
+            "window_id": "jam_1442142:vocals:105000",
+            "grade": 0,
+            "notes": "Only voice, not tone matching at all"
+          },
+          {
+            "query_id": "q05",
+            "rank": 3,
+            "window_id": "jam_1275400:bass:50000",
+            "grade": 0,
+            "notes": "Not chill and groovy or hip hop and no vocal chop"
+          },
+          {
+            "query_id": "q05",
+            "rank": 4,
+            "window_id": "jam_1439805:mix:45000",
+            "grade": 1,
+            "notes": "Got the groovy and playful vibe, not very much the instruments"
+          },
+          {
+            "query_id": "q05",
+            "rank": 5,
+            "window_id": "jam_1121408:mix:120000",
+            "grade": 2,
+            "notes": "Pretty good"
+          },
+          {
+            "query_id": "q06",
+            "rank": 1,
+            "window_id": "jam_1030279:mix:80000",
+            "grade": 2,
+            "notes": "Not latin, good the rest"
+          },
+          {
+            "query_id": "q06",
+            "rank": 2,
+            "window_id": "jam_1030279:mix:110000",
+            "grade": 2,
+            "notes": "Once again not latin but rest good. Really similar to past"
+          },
+          {
+            "query_id": "q06",
+            "rank": 3,
+            "window_id": "jam_1111809:mix:70000",
+            "grade": 1,
+            "notes": "Not so tense or funk or latin"
+          },
+          {
+            "query_id": "q06",
+            "rank": 4,
+            "window_id": "jam_1030279:mix:60000",
+            "grade": 2,
+            "notes": "Basically same audio as 1 and 2"
+          },
+          {
+            "query_id": "q06",
+            "rank": 5,
+            "window_id": "jam_1030283:mix:55000",
+            "grade": 2,
+            "notes": "Very good"
+          },
+          {
+            "query_id": "q07",
+            "rank": 1,
+            "window_id": "jam_1010376:mix:75000",
+            "grade": 1,
+            "notes": "Good except for latin, plucked guitar is not acoustic"
+          },
+          {
+            "query_id": "q07",
+            "rank": 2,
+            "window_id": "jam_1029230:mix:0",
+            "grade": 1,
+            "notes": "Missing the piano, not a lot of guitar"
+          },
+          {
+            "query_id": "q07",
+            "rank": 3,
+            "window_id": "jam_1010376:mix:35000",
+            "grade": 0,
+            "notes": "No guitar at all and not tense or latin, missing keys from tags"
+          },
+          {
+            "query_id": "q07",
+            "rank": 4,
+            "window_id": "jam_1010376:mix:170000",
+            "grade": 2,
+            "notes": "Perfect"
+          },
+          {
+            "query_id": "q07",
+            "rank": 5,
+            "window_id": "jam_1029230:mix:160000",
+            "grade": 1,
+            "notes": "Missing human voices,  not so downtempo"
+          },
+          {
+            "query_id": "q08",
+            "rank": 1,
+            "window_id": "jam_1047157:mix:20000",
+            "grade": 1,
+            "notes": "Not trip hop, not romantic"
+          },
+          {
+            "query_id": "q08",
+            "rank": 2,
+            "window_id": "jam_1047155:mix:45000",
+            "grade": 2,
+            "notes": "Only not so much cello"
+          },
+          {
+            "query_id": "q08",
+            "rank": 3,
+            "window_id": "jam_1047155:other:45000",
+            "grade": 0,
+            "notes": "Not hip hop at all, not romantic, no saxophone"
+          },
+          {
+            "query_id": "q08",
+            "rank": 4,
+            "window_id": "fs_470471:mix:0",
+            "grade": 0,
+            "notes": "Too short to be anything"
+          },
+          {
+            "query_id": "q08",
+            "rank": 5,
+            "window_id": "jam_1475806:mix:170000",
+            "grade": 1,
+            "notes": "Not tense"
+          },
+          {
+            "query_id": "q09",
+            "rank": 1,
+            "window_id": "jam_1432368:mix:165000",
+            "grade": 0,
+            "notes": "Not very groovy or soulful or funk or nostalgic"
+          },
+          {
+            "query_id": "q09",
+            "rank": 2,
+            "window_id": "jam_1331954:bass:95000",
+            "grade": 0,
+            "notes": "Only correct with instruments"
+          },
+          {
+            "query_id": "q09",
+            "rank": 3,
+            "window_id": "jam_1331954:bass:40000",
+            "grade": 1,
+            "notes": "Good instruments, not reggae, groovy, or playful"
+          },
+          {
+            "query_id": "q09",
+            "rank": 4,
+            "window_id": "jam_1283863:mix:40000",
+            "grade": 0,
+            "notes": "Not the tone at all, only synth pad"
+          },
+          {
+            "query_id": "q09",
+            "rank": 5,
+            "window_id": "jam_1222516:bass:45000",
+            "grade": 2,
+            "notes": "Not very r&b"
+          },
+          {
+            "query_id": "q10",
+            "rank": 1,
+            "window_id": "jam_1475806:mix:55000",
+            "grade": 2,
+            "notes": "good description of instruments and very good tone"
+          },
+          {
+            "query_id": "q10",
+            "rank": 2,
+            "window_id": "jam_1475806:other:10000",
+            "grade": 1,
+            "notes": "Same audio as before but changed tags for no reason"
+          },
+          {
+            "query_id": "q10",
+            "rank": 3,
+            "window_id": "jam_1475806:mix:35000",
+            "grade": 1,
+            "notes": "Same audio again"
+          },
+          {
+            "query_id": "q10",
+            "rank": 4,
+            "window_id": "jam_1096249:other:70000",
+            "grade": 1,
+            "notes": "Too quiet to be cinematic of psychedelic"
+          },
+          {
+            "query_id": "q10",
+            "rank": 5,
+            "window_id": "jam_1436572:other:75000",
+            "grade": 2,
+            "notes": "Correct instruments but maybe could add some groovy"
+          },
+          {
+            "query_id": "q11",
+            "rank": 1,
+            "window_id": "jam_1096663:mix:0",
+            "grade": 1,
+            "notes": "All good but blues is just a polar opposite"
+          },
+          {
+            "query_id": "q11",
+            "rank": 2,
+            "window_id": "jam_1096663:other:5000",
+            "grade": 2,
+            "notes": "Correct description"
+          },
+          {
+            "query_id": "q11",
+            "rank": 3,
+            "window_id": "jam_1390854:mix:35000",
+            "grade": 1,
+            "notes": "not blues, soul, or soulful"
+          },
+          {
+            "query_id": "q11",
+            "rank": 4,
+            "window_id": "jam_1390854:mix:100000",
+            "grade": 1,
+            "notes": "A bit more towards soulful but still rock. Rock and blues are opposites"
+          },
+          {
+            "query_id": "q11",
+            "rank": 5,
+            "window_id": "jam_1390854:mix:45000",
+            "grade": 0,
+            "notes": "Same audio as 4"
+          },
+          {
+            "query_id": "q12",
+            "rank": 1,
+            "window_id": "jam_1149158:mix:55000",
+            "grade": 1,
+            "notes": "Not very classical or trip hop"
+          },
+          {
+            "query_id": "q12",
+            "rank": 2,
+            "window_id": "jam_1149164:mix:125000",
+            "grade": 2,
+            "notes": "Good"
+          },
+          {
+            "query_id": "q12",
+            "rank": 3,
+            "window_id": "jam_1149160:mix:100000",
+            "grade": 1,
+            "notes": "No trumpet, not tense or epic"
+          },
+          {
+            "query_id": "q12",
+            "rank": 4,
+            "window_id": "jam_1475806:mix:40000",
+            "grade": 1,
+            "notes": "not trap at all what"
+          },
+          {
+            "query_id": "q12",
+            "rank": 5,
+            "window_id": "jam_1275400:mix:90000",
+            "grade": 2,
+            "notes": "Not very triumphant"
+          },
+          {
+            "query_id": "q13",
+            "rank": 1,
+            "window_id": "jam_1009346:mix:140000",
+            "grade": 0,
+            "notes": "Selected data times was too quiet but rest of song did match the description"
+          },
+          {
+            "query_id": "q13",
+            "rank": 2,
+            "window_id": "jam_1009346:mix:75000",
+            "grade": 0,
+            "notes": "Not tense at all, some instruments just don't match"
+          },
+          {
+            "query_id": "q13",
+            "rank": 3,
+            "window_id": "jam_1030283:other:70000",
+            "grade": 1,
+            "notes": "Not latin or r&b"
+          },
+          {
+            "query_id": "q13",
+            "rank": 4,
+            "window_id": "jam_1009346:mix:65000",
+            "grade": 1,
+            "notes": "Not jazz or r&b"
+          },
+          {
+            "query_id": "q13",
+            "rank": 5,
+            "window_id": "jam_1030283:other:15000",
+            "grade": 2,
+            "notes": "Not r&b"
+          },
+          {
+            "query_id": "q15",
+            "rank": 1,
+            "window_id": "jam_1222876:drums:35000",
+            "grade": 2,
+            "notes": "not very smooth"
+          },
+          {
+            "query_id": "q15",
+            "rank": 2,
+            "window_id": "jam_1289101:drums:55000",
+            "grade": 1,
+            "notes": "No bass"
+          },
+          {
+            "query_id": "q15",
+            "rank": 3,
+            "window_id": "jam_1289101:drums:65000",
+            "grade": 2,
+            "notes": "Same as audio 2 but fits better"
+          },
+          {
+            "query_id": "q15",
+            "rank": 4,
+            "window_id": "jam_1222876:drums:85000",
+            "grade": 0,
+            "notes": "Not the vibe or genre at all, only instruments"
+          },
+          {
+            "query_id": "q15",
+            "rank": 5,
+            "window_id": "jam_1289101:drums:75000",
+            "grade": 2,
+            "notes": "Just a bit not techno"
+          },
+          {
+            "query_id": "q16",
+            "rank": 1,
+            "window_id": "fs_470469:mix:0",
+            "grade": 1,
+            "notes": "Tone correct but not instruments"
+          },
+          {
+            "query_id": "q16",
+            "rank": 2,
+            "window_id": "jam_1348228:mix:120000",
+            "grade": 2,
+            "notes": "Just not jazzy"
+          },
+          {
+            "query_id": "q16",
+            "rank": 3,
+            "window_id": "jam_1024429:mix:0",
+            "grade": 1,
+            "notes": "Not tense or r&b"
+          },
+          {
+            "query_id": "q16",
+            "rank": 4,
+            "window_id": "jam_1009346:mix:60000",
+            "grade": 1,
+            "notes": "Not tense, r&b"
+          },
+          {
+            "query_id": "q16",
+            "rank": 5,
+            "window_id": "jam_1378003:mix:140000",
+            "grade": 2,
+            "notes": "Very good"
+          },
+          {
+            "query_id": "q17",
+            "rank": 1,
+            "window_id": "jam_1149166:other:90000",
+            "grade": 2,
+            "notes": "Not very trip hop"
+          },
+          {
+            "query_id": "q17",
+            "rank": 2,
+            "window_id": "jam_1030279:vocals:105000",
+            "grade": 0,
+            "notes": "Basically empty audio"
+          },
+          {
+            "query_id": "q17",
+            "rank": 3,
+            "window_id": "jam_1030276:vocals:5000",
+            "grade": 0,
+            "notes": "Just one instrument and then quiet"
+          },
+          {
+            "query_id": "q17",
+            "rank": 4,
+            "window_id": "jam_1030277:bass:135000",
+            "grade": 0,
+            "notes": "Not jazz, cinematic, downtempo, or epic"
+          },
+          {
+            "query_id": "q17",
+            "rank": 5,
+            "window_id": "jam_1436572:vocals:140000",
+            "grade": 0,
+            "notes": "Just a quiet audio"
+          },
+          {
+            "query_id": "q18",
+            "rank": 1,
+            "window_id": "jam_1149166:drums:25000",
+            "grade": 2,
+            "notes": "Perfect"
+          },
+          {
+            "query_id": "q18",
+            "rank": 2,
+            "window_id": "jam_1436572:vocals:135000",
+            "grade": 0,
+            "notes": "Empty audio"
+          },
+          {
+            "query_id": "q18",
+            "rank": 3,
+            "window_id": "jam_1436572:vocals:105000",
+            "grade": 0,
+            "notes": "Empty audio"
+          },
+          {
+            "query_id": "q18",
+            "rank": 4,
+            "window_id": "jam_1096663:bass:130000",
+            "grade": 2,
+            "notes": "Very good, not that cinematic"
+          },
+          {
+            "query_id": "q18",
+            "rank": 5,
+            "window_id": "jam_1149166:drums:40000",
+            "grade": 2,
+            "notes": "maybe not trip hop"
+          },
+          {
+            "query_id": "q19",
+            "rank": 1,
+            "window_id": "jam_1028188:mix:70000",
+            "grade": 2,
+            "notes": "Good"
+          },
+          {
+            "query_id": "q19",
+            "rank": 2,
+            "window_id": "jam_1544392:other:145000",
+            "grade": 2,
+            "notes": "Not tense, rest very good"
+          },
+          {
+            "query_id": "q19",
+            "rank": 3,
+            "window_id": "jam_1101338:vocals:45000",
+            "grade": 0,
+            "notes": "psychidelic maybe but that's it"
+          },
+          {
+            "query_id": "q19",
+            "rank": 4,
+            "window_id": "jam_1432369:vocals:160000",
+            "grade": 0,
+            "notes": "No trombone, not trip hop, dub or tense"
+          },
+          {
+            "query_id": "q19",
+            "rank": 5,
+            "window_id": "jam_1544392:other:155000",
+            "grade": 1,
+            "notes": "Not tense or downtempo"
+          },
+          {
+            "query_id": "q20",
+            "rank": 1,
+            "window_id": "jam_1149160:other:40000",
+            "grade": 1,
+            "notes": "No violin or tense"
+          },
+          {
+            "query_id": "q20",
+            "rank": 2,
+            "window_id": "jam_1149160:other:55000",
+            "grade": 1,
+            "notes": "Same audio as 1, pretty much same problems"
+          },
+          {
+            "query_id": "q20",
+            "rank": 3,
+            "window_id": "jam_1265033:mix:160000",
+            "grade": 2,
+            "notes": "Correct, maybe add the gospel voices to tags"
+          },
+          {
+            "query_id": "q20",
+            "rank": 4,
+            "window_id": "fs_30192:mix:5000",
+            "grade": 1,
+            "notes": "Not cassical or cinematic or epic. Not a lot of strings"
+          },
+          {
+            "query_id": "q20",
+            "rank": 5,
+            "window_id": "jam_1265033:mix:135000",
+            "grade": 2,
+            "notes": "What a good way to end the review"
+          }
+        ]
+      },
+      {
+        "path": "ingest/data/session8/reviews/20261115T063957523068Z/reviewer-B.json",
+        "working_review_path": "ingest/data/session8/eval-before/reviewer-B.json",
+        "sha256": "33c2db141add8de062d83a5d6707f4b17bb39db82fc7b60727b1218752f4474f",
+        "reviewer": "",
+        "recorded_at": "",
+        "graded": 0,
+        "actual_grades": []
+      }
+    ],
+    "review_mode": {
+      "mode": "joint_consensus",
+      "confirmed_by": "User explicitly states they agree on one joint grade",
+      "independent_reviews": 0,
+      "joint_reviews": 1,
+      "intended_file": "reviewer-A.json",
+      "second_file": "leave blank; do not duplicate consensus grades",
+      "acceptance": "Complete under the explicitly revised one-joint-review requirement; no extra review round required for this baseline",
+      "grade_basis": "mixed query/listening-intent match and displayed-tag accuracy, without separate scores",
+      "grade_basis_confirmed_by": "User explicitly answered Both, without separating them",
+      "completed_joint_review": true,
+      "pure_query_relevance": "Not separately measured; not a separate current review-collection requirement",
+      "timestamp_normalization": {
+        "original": "22:56pm",
+        "canonical": "2026-11-15T06:20:06+00:00",
+        "approved_by_user": true,
+        "original_file_snapshot": "ingest/data/session8/reviews/reviewer-A-before-timestamp-normalization.json"
+      },
+      "required_review_count": 1,
+      "independence_required": false,
+      "review_collection_requirement": "One completed joint review combining query/listening-intent match and displayed-tag accuracy",
+      "criteria_change": {
+        "approved_by": "requesting user",
+        "instruction": "Remove the original two independent reviewers requirement and use this one",
+        "recorded_at_agent": "2026-11-15T06:39:23.006082+00:00",
+        "supersedes": "Original Session 8 requirement for two independent query-relevance reviewers"
+      }
+    },
+    "completed_joint_review": {
+      "recorded_at_agent": "2026-11-15T06:39:57.351999+00:00",
+      "run_id": "f80ee115-5af6-47a8-85f1-431da22c330b",
+      "result_sha256": "64d0982183b5c7baeeda46bd541668de404d3840569c6c3622c2b37b2dbcdf3a",
+      "source_snapshot": "ingest/data/session8/reviews/20261115T063957346507Z/reviewer-A-joint-original.json",
+      "source_sha256": "1afac8efc4c7ffab3b1a49e552920ee9001efbb25da0413c6f3e575378833602",
+      "reviewer": "Santiago & Arjya",
+      "review_recorded_at_original": "2026-11-15T06:20:06+00:00",
+      "timestamp_is_timezone_aware_iso": true,
+      "review_mode": "joint consensus explicitly confirmed by user",
+      "independent_review_count": 0,
+      "grade_basis": "mixed query/listening-intent match and displayed-tag accuracy, without separate scores",
+      "pure_query_relevance": "not separately measured; joint mixed feedback is the user-approved review requirement",
+      "current_requirement": "One completed joint review combining query/listening-intent match and displayed-tag accuracy",
+      "criteria_change": {
+        "approved_by": "requesting user",
+        "instruction": "Remove the original two independent reviewers requirement and use this one",
+        "recorded_at_agent": "2026-11-15T06:39:23.006082+00:00",
+        "supersedes": "Original Session 8 requirement for two independent query-relevance reviewers"
+      },
+      "human_confirmation": "User says review finished",
+      "submitted_grades": 95,
+      "valid_result_count": 92,
+      "graded_valid_results": 92,
+      "all_valid_results_graded": true,
+      "grade_counts": {
+        "2": 32,
+        "0": 28,
+        "1": 32
+      },
+      "mean_grade": 1.0434782608695652,
+      "technical_hold_ratings_preserved_but_excluded": [
+        {
+          "query_id": "q05",
+          "rank": 5,
+          "window_id": "jam_1121408:mix:120000",
+          "grade": 2,
+          "notes": "Pretty good"
+        },
+        {
+          "query_id": "q06",
+          "rank": 2,
+          "window_id": "jam_1030279:mix:110000",
+          "grade": 2,
+          "notes": "Once again not latin but rest good. Really similar to past"
+        },
+        {
+          "query_id": "q16",
+          "rank": 2,
+          "window_id": "jam_1348228:mix:120000",
+          "grade": 2,
+          "notes": "Just not jazzy"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "q01",
+          "text": "dusty soul keys",
+          "graded_valid_results": 5,
+          "mean_grade": 1.0,
+          "grade_counts": {
+            "2": 2,
+            "0": 2,
+            "1": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1096249:mix:40000",
+              "grade": 2,
+              "notes": "Good descrption but missing the initial animalistic sounds"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1096249:mix:130000",
+              "grade": 2,
+              "notes": "Female vocals are important to mention as it did"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1033262:mix:80000",
+              "grade": 0,
+              "notes": "Missing male voices, not very romantic as it mentioned"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1223964:mix:20000",
+              "grade": 0,
+              "notes": "Very peaceful as instead of groovy and r&b"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1544396:mix:40000",
+              "grade": 1,
+              "notes": "Missing intruments like drum plates and is not tense"
+            }
+          ]
+        },
+        {
+          "query_id": "q02",
+          "text": "solo trumpet",
+          "graded_valid_results": 5,
+          "mean_grade": 1.6,
+          "grade_counts": {
+            "1": 2,
+            "2": 3
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1063979:mix:65000",
+              "grade": 1,
+              "notes": "Tone is correct but it was solely trumpet"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1030279:mix:120000",
+              "grade": 1,
+              "notes": "Instruments are good but no latin and not tense at all"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1348228:mix:105000",
+              "grade": 2,
+              "notes": "just not jazz"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1063979:mix:30000",
+              "grade": 2,
+              "notes": "not sure about trombone"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1149163:mix:155000",
+              "grade": 2,
+              "notes": "Jazz not that much"
+            }
+          ]
+        },
+        {
+          "query_id": "q03",
+          "text": "boom bap drums 90 bpm",
+          "graded_valid_results": 5,
+          "mean_grade": 0.0,
+          "grade_counts": {
+            "0": 5
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1332140:drums:140000",
+              "grade": 0,
+              "notes": "between the data there was only a single drum playing over and over"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1332140:drums:125000",
+              "grade": 0,
+              "notes": "Once again, only drums, maybe rest of the song fits but not data times it mentioned"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1223964:bass:125000",
+              "grade": 0,
+              "notes": "Sound too low to even describe. Only tense a bit"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1367270:drums:100000",
+              "grade": 0,
+              "notes": "No tone or feeling at all, only kick and a bit of breakbit"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1223964:bass:135000",
+              "grade": 0,
+              "notes": "Just a silent audio"
+            }
+          ]
+        },
+        {
+          "query_id": "q04",
+          "text": "melancholy strings",
+          "graded_valid_results": 5,
+          "mean_grade": 1.4,
+          "grade_counts": {
+            "2": 3,
+            "1": 1,
+            "0": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1265033:mix:160000",
+              "grade": 2,
+              "notes": "best so far, however data time did not match audio length"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1265033:mix:85000",
+              "grade": 2,
+              "notes": "Very accurate"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1265033:mix:60000",
+              "grade": 2,
+              "notes": "Perfect"
+            },
+            {
+              "rank": 4,
+              "window_id": "fs_166649:mix:15000",
+              "grade": 1,
+              "notes": "Some instruments did not match"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1017958:mix:10000",
+              "grade": 0,
+              "notes": "Not good match of instruments, missing main piano"
+            }
+          ]
+        },
+        {
+          "query_id": "q05",
+          "text": "vocal chop",
+          "graded_valid_results": 4,
+          "mean_grade": 0.5,
+          "grade_counts": {
+            "1": 2,
+            "0": 2
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1332140:vocals:0",
+              "grade": 1,
+              "notes": "Not very r&b but vibe kind of matches, not aggresive tho"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1442142:vocals:105000",
+              "grade": 0,
+              "notes": "Only voice, not tone matching at all"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1275400:bass:50000",
+              "grade": 0,
+              "notes": "Not chill and groovy or hip hop and no vocal chop"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1439805:mix:45000",
+              "grade": 1,
+              "notes": "Got the groovy and playful vibe, not very much the instruments"
+            }
+          ]
+        },
+        {
+          "query_id": "q06",
+          "text": "mellow jazz saxophone",
+          "graded_valid_results": 4,
+          "mean_grade": 1.75,
+          "grade_counts": {
+            "2": 3,
+            "1": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1030279:mix:80000",
+              "grade": 2,
+              "notes": "Not latin, good the rest"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1111809:mix:70000",
+              "grade": 1,
+              "notes": "Not so tense or funk or latin"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1030279:mix:60000",
+              "grade": 2,
+              "notes": "Basically same audio as 1 and 2"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1030283:mix:55000",
+              "grade": 2,
+              "notes": "Very good"
+            }
+          ]
+        },
+        {
+          "query_id": "q07",
+          "text": "warm acoustic guitar picking",
+          "graded_valid_results": 5,
+          "mean_grade": 1.0,
+          "grade_counts": {
+            "1": 3,
+            "0": 1,
+            "2": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1010376:mix:75000",
+              "grade": 1,
+              "notes": "Good except for latin, plucked guitar is not acoustic"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1029230:mix:0",
+              "grade": 1,
+              "notes": "Missing the piano, not a lot of guitar"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1010376:mix:35000",
+              "grade": 0,
+              "notes": "No guitar at all and not tense or latin, missing keys from tags"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1010376:mix:170000",
+              "grade": 2,
+              "notes": "Perfect"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1029230:mix:160000",
+              "grade": 1,
+              "notes": "Missing human voices,  not so downtempo"
+            }
+          ]
+        },
+        {
+          "query_id": "q08",
+          "text": "church organ chords",
+          "graded_valid_results": 5,
+          "mean_grade": 0.8,
+          "grade_counts": {
+            "1": 2,
+            "2": 1,
+            "0": 2
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1047157:mix:20000",
+              "grade": 1,
+              "notes": "Not trip hop, not romantic"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1047155:mix:45000",
+              "grade": 2,
+              "notes": "Only not so much cello"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1047155:other:45000",
+              "grade": 0,
+              "notes": "Not hip hop at all, not romantic, no saxophone"
+            },
+            {
+              "rank": 4,
+              "window_id": "fs_470471:mix:0",
+              "grade": 0,
+              "notes": "Too short to be anything"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1475806:mix:170000",
+              "grade": 1,
+              "notes": "Not tense"
+            }
+          ]
+        },
+        {
+          "query_id": "q09",
+          "text": "funky electric bass groove",
+          "graded_valid_results": 5,
+          "mean_grade": 0.6,
+          "grade_counts": {
+            "0": 3,
+            "1": 1,
+            "2": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1432368:mix:165000",
+              "grade": 0,
+              "notes": "Not very groovy or soulful or funk or nostalgic"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1331954:bass:95000",
+              "grade": 0,
+              "notes": "Only correct with instruments"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1331954:bass:40000",
+              "grade": 1,
+              "notes": "Good instruments, not reggae, groovy, or playful"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1283863:mix:40000",
+              "grade": 0,
+              "notes": "Not the tone at all, only synth pad"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1222516:bass:45000",
+              "grade": 2,
+              "notes": "Not very r&b"
+            }
+          ]
+        },
+        {
+          "query_id": "q10",
+          "text": "dreamy ambient synth pad",
+          "graded_valid_results": 5,
+          "mean_grade": 1.4,
+          "grade_counts": {
+            "2": 2,
+            "1": 3
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1475806:mix:55000",
+              "grade": 2,
+              "notes": "good description of instruments and very good tone"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1475806:other:10000",
+              "grade": 1,
+              "notes": "Same audio as before but changed tags for no reason"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1475806:mix:35000",
+              "grade": 1,
+              "notes": "Same audio again"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1096249:other:70000",
+              "grade": 1,
+              "notes": "Too quiet to be cinematic of psychedelic"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1436572:other:75000",
+              "grade": 2,
+              "notes": "Correct instruments but maybe could add some groovy"
+            }
+          ]
+        },
+        {
+          "query_id": "q11",
+          "text": "aggressive distorted rock guitar",
+          "graded_valid_results": 5,
+          "mean_grade": 1.0,
+          "grade_counts": {
+            "1": 3,
+            "2": 1,
+            "0": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1096663:mix:0",
+              "grade": 1,
+              "notes": "All good but blues is just a polar opposite"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1096663:other:5000",
+              "grade": 2,
+              "notes": "Correct description"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1390854:mix:35000",
+              "grade": 1,
+              "notes": "not blues, soul, or soulful"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1390854:mix:100000",
+              "grade": 1,
+              "notes": "A bit more towards soulful but still rock. Rock and blues are opposites"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1390854:mix:45000",
+              "grade": 0,
+              "notes": "Same audio as 4"
+            }
+          ]
+        },
+        {
+          "query_id": "q12",
+          "text": "happy upbeat flute melody",
+          "graded_valid_results": 5,
+          "mean_grade": 1.4,
+          "grade_counts": {
+            "1": 3,
+            "2": 2
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1149158:mix:55000",
+              "grade": 1,
+              "notes": "Not very classical or trip hop"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1149164:mix:125000",
+              "grade": 2,
+              "notes": "Good"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1149160:mix:100000",
+              "grade": 1,
+              "notes": "No trumpet, not tense or epic"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1475806:mix:40000",
+              "grade": 1,
+              "notes": "not trap at all what"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1275400:mix:90000",
+              "grade": 2,
+              "notes": "Not very triumphant"
+            }
+          ]
+        },
+        {
+          "query_id": "q13",
+          "text": "slow piano ballad around 70 bpm",
+          "graded_valid_results": 5,
+          "mean_grade": 0.8,
+          "grade_counts": {
+            "0": 2,
+            "1": 2,
+            "2": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1009346:mix:140000",
+              "grade": 0,
+              "notes": "Selected data times was too quiet but rest of song did match the description"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1009346:mix:75000",
+              "grade": 0,
+              "notes": "Not tense at all, some instruments just don't match"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1030283:other:70000",
+              "grade": 1,
+              "notes": "Not latin or r&b"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1009346:mix:65000",
+              "grade": 1,
+              "notes": "Not jazz or r&b"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1030283:other:15000",
+              "grade": 2,
+              "notes": "Not r&b"
+            }
+          ]
+        },
+        {
+          "query_id": "q14",
+          "text": "house groove 120 bpm",
+          "graded_valid_results": 0,
+          "mean_grade": null,
+          "grade_counts": {},
+          "notes": []
+        },
+        {
+          "query_id": "q15",
+          "text": "fast breakbeat around 160 bpm",
+          "graded_valid_results": 5,
+          "mean_grade": 1.4,
+          "grade_counts": {
+            "2": 3,
+            "1": 1,
+            "0": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1222876:drums:35000",
+              "grade": 2,
+              "notes": "not very smooth"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1289101:drums:55000",
+              "grade": 1,
+              "notes": "No bass"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1289101:drums:65000",
+              "grade": 2,
+              "notes": "Same as audio 2 but fits better"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1222876:drums:85000",
+              "grade": 0,
+              "notes": "Not the vibe or genre at all, only instruments"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1289101:drums:75000",
+              "grade": 2,
+              "notes": "Just a bit not techno"
+            }
+          ]
+        },
+        {
+          "query_id": "q16",
+          "text": "find a cleaner moment with sparse piano and no drums",
+          "graded_valid_results": 4,
+          "mean_grade": 1.25,
+          "grade_counts": {
+            "1": 3,
+            "2": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "fs_470469:mix:0",
+              "grade": 1,
+              "notes": "Tone correct but not instruments"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1024429:mix:0",
+              "grade": 1,
+              "notes": "Not tense or r&b"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1009346:mix:60000",
+              "grade": 1,
+              "notes": "Not tense, r&b"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1378003:mix:140000",
+              "grade": 2,
+              "notes": "Very good"
+            }
+          ]
+        },
+        {
+          "query_id": "q17",
+          "text": "sparse horns with space between phrases",
+          "graded_valid_results": 5,
+          "mean_grade": 0.4,
+          "grade_counts": {
+            "2": 1,
+            "0": 4
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1149166:other:90000",
+              "grade": 2,
+              "notes": "Not very trip hop"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1030279:vocals:105000",
+              "grade": 0,
+              "notes": "Basically empty audio"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1030276:vocals:5000",
+              "grade": 0,
+              "notes": "Just one instrument and then quiet"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1030277:bass:135000",
+              "grade": 0,
+              "notes": "Not jazz, cinematic, downtempo, or epic"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1436572:vocals:140000",
+              "grade": 0,
+              "notes": "Just a quiet audio"
+            }
+          ]
+        },
+        {
+          "query_id": "q18",
+          "text": "isolated drums stem with no vocals",
+          "graded_valid_results": 5,
+          "mean_grade": 1.2,
+          "grade_counts": {
+            "2": 3,
+            "0": 2
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1149166:drums:25000",
+              "grade": 2,
+              "notes": "Perfect"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1436572:vocals:135000",
+              "grade": 0,
+              "notes": "Empty audio"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1436572:vocals:105000",
+              "grade": 0,
+              "notes": "Empty audio"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1096663:bass:130000",
+              "grade": 2,
+              "notes": "Very good, not that cinematic"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1149166:drums:40000",
+              "grade": 2,
+              "notes": "maybe not trip hop"
+            }
+          ]
+        },
+        {
+          "query_id": "q19",
+          "text": "isolated vocals stem for sampling",
+          "graded_valid_results": 5,
+          "mean_grade": 1.0,
+          "grade_counts": {
+            "2": 2,
+            "0": 2,
+            "1": 1
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1028188:mix:70000",
+              "grade": 2,
+              "notes": "Good"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1544392:other:145000",
+              "grade": 2,
+              "notes": "Not tense, rest very good"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1101338:vocals:45000",
+              "grade": 0,
+              "notes": "psychidelic maybe but that's it"
+            },
+            {
+              "rank": 4,
+              "window_id": "jam_1432369:vocals:160000",
+              "grade": 0,
+              "notes": "No trombone, not trip hop, dub or tense"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1544392:other:155000",
+              "grade": 1,
+              "notes": "Not tense or downtempo"
+            }
+          ]
+        },
+        {
+          "query_id": "q20",
+          "text": "other stem with clean strings or keys and no bass or drums",
+          "graded_valid_results": 5,
+          "mean_grade": 1.4,
+          "grade_counts": {
+            "1": 3,
+            "2": 2
+          },
+          "notes": [
+            {
+              "rank": 1,
+              "window_id": "jam_1149160:other:40000",
+              "grade": 1,
+              "notes": "No violin or tense"
+            },
+            {
+              "rank": 2,
+              "window_id": "jam_1149160:other:55000",
+              "grade": 1,
+              "notes": "Same audio as 1, pretty much same problems"
+            },
+            {
+              "rank": 3,
+              "window_id": "jam_1265033:mix:160000",
+              "grade": 2,
+              "notes": "Correct, maybe add the gospel voices to tags"
+            },
+            {
+              "rank": 4,
+              "window_id": "fs_30192:mix:5000",
+              "grade": 1,
+              "notes": "Not cassical or cinematic or epic. Not a lot of strings"
+            },
+            {
+              "rank": 5,
+              "window_id": "jam_1265033:mix:135000",
+              "grade": 2,
+              "notes": "What a good way to end the review"
+            }
+          ]
+        }
+      ],
+      "acceptance": "completed under user-approved one-joint-review requirement; q14 and three range technical holds remain separate technical issues",
+      "semantic_pass": "No numerical pass threshold was specified; these are descriptive joint grades",
+      "human_grades_and_notes_modified": false,
+      "timestamp_metadata_normalized_by_user_request": true,
+      "original_timestamp_preserved": "22:56pm"
+    },
+    "human_acceptance": "complete under explicitly user-revised one-joint-review requirement; mixed feedback, no automatic numerical quality threshold",
+    "eval_after": null
+  },
+  "integration": {
+    "cached_and_validation": {
+      "job_counts_before": [
+        [
+          "error",
+          7
+        ],
+        [
+          "queued",
+          5
+        ],
+        [
+          "done",
+          5
+        ]
+      ],
+      "job_counts_after": [
+        [
+          "error",
+          7
+        ],
+        [
+          "queued",
+          5
+        ],
+        [
+          "done",
+          5
+        ]
+      ],
+      "test_job_ids": [],
+      "worker_deployed": false,
+      "new_inference": false,
+      "tests": [
+        {
+          "test": "hero_cached",
+          "status": 200,
+          "elapsed_s": 0.06199999999807915,
+          "file_local_playback": [
+            [
+              10.0,
+              20.0
+            ],
+            [
+              10.0,
+              20.0
+            ],
+            [
+              10.0,
+              20.0
+            ],
+            [
+              10.0,
+              20.0
+            ]
+          ]
+        },
+        {
+          "test": "nonzero_cached_range",
+          "status": 200,
+          "elapsed_s": 0.06300000000192085,
+          "file_local_playback": [
+            [
+              5.0,
+              15.0
+            ],
+            [
+              5.0,
+              15.0
+            ],
+            [
+              5.0,
+              15.0
+            ],
+            [
+              5.0,
+              15.0
+            ]
+          ]
+        },
+        {
+          "test": "negative_start",
+          "status": 400,
+          "elapsed_s": 0.031000000002677552
+        },
+        {
+          "test": "reversed_range",
+          "status": 400,
+          "elapsed_s": 0.01600000000325963
+        },
+        {
+          "test": "start_past_duration",
+          "status": 400,
+          "elapsed_s": 0.046999999998661224
+        },
+        {
+          "test": "over_60_seconds",
+          "status": 400,
+          "elapsed_s": 0.01599999999598367
+        },
+        {
+          "test": "strict_over_60_boundary",
+          "status": 200,
+          "elapsed_s": 0.04700000000593718,
+          "file_local_playback": [
+            [
+              10.0,
+              70.005
+            ],
+            [
+              10.0,
+              70.005
+            ],
+            [
+              10.0,
+              70.005
+            ],
+            [
+              10.0,
+              70.005
+            ]
+          ]
+        }
+      ],
+      "browser": "unverified: browser host unavailable and Chrome access not approved"
+    },
+    "strict_60s_gate": "failed: 60.005-second request returned 200; source uses 0.01-second slack",
+    "uncached_job_ids": [
+      "b8b7cb59-e316-4abc-b154-cf92fa4bdfbf"
+    ],
+    "new_inference": {
+      "job_id": "b8b7cb59-e316-4abc-b154-cf92fa4bdfbf",
+      "request": {
+        "start_s": 5.0,
+        "end_s": 35.0,
+        "model": "htdemucs"
+      },
+      "track_id": "jam_1307441",
+      "terminal_status": "done",
+      "enqueue_to_terminal_poll_s": 22.75,
+      "under_60s": true,
+      "poll_count": 23,
+      "progress_observed": [
+        0.0,
+        0.05,
+        0.15,
+        0.65,
+        0.725,
+        0.8,
+        0.875,
+        0.95,
+        1.0
+      ],
+      "new_inference": true,
+      "public_objects_verified": 4,
+      "cached_narrower_reuse": true,
+      "file_local_playback": [
+        [
+          5.0,
+          15.0
+        ],
+        [
+          5.0,
+          15.0
+        ],
+        [
+          5.0,
+          15.0
+        ],
+        [
+          5.0,
+          15.0
+        ]
+      ],
+      "db_job": {
+        "status": "done",
+        "progress": 1.0,
+        "input": {
+          "end_s": 35.0,
+          "model": "htdemucs",
+          "start_s": 5.0,
+          "track_id": "jam_1307441"
+        },
+        "created_at": "2026-11-15 04:59:29.188832+00:00",
+        "updated_at": "2026-11-15 04:59:51.198353+00:00"
+      },
+      "db_enqueue_to_terminal_s": 22.009521,
+      "requested_model_verified": true,
+      "worker_timing": {
+        "job_id": "b8b7cb59-e316-4abc-b154-cf92fa4bdfbf",
+        "kind": "stems",
+        "status": "done",
+        "end_to_end_s": 20.89182136999989,
+        "time": 1794718791.2250512,
+        "download_decode_s": 0.4497340800007805,
+        "model_load_s": 0.31406314900050347,
+        "inference_s": 11.087572925000131,
+        "device": "cpu",
+        "fallback": null
+      },
+      "model_cache_conditions": {
+        "actual_new_inference": true,
+        "engine_cache": "LRU engine cache in running worker; reported model_load_s is engine instance initial load, not proof this job was cold",
+        "model_weight_cache_state": "not independently measured",
+        "fallback": "none",
+        "device": "cpu"
+      },
+      "measurement_origin": "Client monotonic clock immediately before POST through terminal poll; DB created/updated interval recorded separately."
+    },
+    "worker_timing": {
+      "source": "Operator copied matching line from deployed worker log; filtered by session job UUID",
+      "record": {
+        "job_id": "b8b7cb59-e316-4abc-b154-cf92fa4bdfbf",
+        "kind": "stems",
+        "status": "done",
+        "end_to_end_s": 20.89182136999989,
+        "time": 1794718791.2250512,
+        "download_decode_s": 0.4497340800007805,
+        "model_load_s": 0.31406314900050347,
+        "inference_s": 11.087572925000131,
+        "device": "cpu",
+        "fallback": null
+      },
+      "conditions": {
+        "actual_new_inference": true,
+        "engine_cache": "LRU engine cache in running worker; reported model_load_s is engine instance initial load, not proof this job was cold",
+        "model_weight_cache_state": "not independently measured",
+        "fallback": "none",
+        "device": "cpu"
+      }
+    },
+    "import_acceptance": {
+      "job_id": "631df075-73d8-42c8-936b-819ef25c45e7",
+      "track_id": "imp_430eb4b6",
+      "terminal_status": "done",
+      "enqueue_to_terminal_poll_s": 5.89100000000326,
+      "poll_count": 6,
+      "analysis_windows": 1,
+      "embedding_norms": [
+        1.0
+      ],
+      "source": "import",
+      "license_preserved": true,
+      "attribution_preserved": true,
+      "normalized_audio": {
+        "http_status": 200,
+        "bytes": 193768,
+        "sha256": "824b8d4d3e9846f3186254b0489b60bd6baa01ca5f8dc08b185a8a321d5bd0e8",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 8.0
+      },
+      "search_checks": [
+        {
+          "request": {
+            "text": "ws1 session8 acceptance synthetic drum loop",
+            "chips": [],
+            "limit": 24,
+            "session_id": "3145e067-3669-428f-850c-bc218ba119d4"
+          },
+          "http_status": 200,
+          "returned_ids": [
+            "jam_1439805",
+            "jam_1432847",
+            "jam_1432851",
+            "jam_1439805",
+            "jam_1432851",
+            "jam_1439805",
+            "jam_1432851",
+            "jam_1367270",
+            "jam_1436572",
+            "jam_1432369",
+            "jam_1096663",
+            "jam_1407055",
+            "jam_1432369",
+            "jam_1223964",
+            "jam_1367270",
+            "jam_1544392",
+            "jam_1367270",
+            "jam_1101338",
+            "jam_1544392",
+            "jam_1101338"
+          ],
+          "private_import_returned": false
+        },
+        {
+          "request": {
+            "text": "a synthetic sustained chord with a kick drum",
+            "chips": [],
+            "limit": 24,
+            "session_id": "3145e067-3669-428f-850c-bc218ba119d4"
+          },
+          "http_status": 200,
+          "returned_ids": [
+            "jam_1466603",
+            "jam_1466603",
+            "jam_1485349",
+            "jam_1485349",
+            "jam_1485349",
+            "jam_1024479",
+            "jam_1024479",
+            "jam_1229099",
+            "jam_1466603",
+            "jam_1332140",
+            "jam_1332140",
+            "jam_1367270",
+            "jam_1433063",
+            "jam_1332140",
+            "jam_1024479",
+            "jam_1121408",
+            "jam_1348228",
+            "jam_1047157",
+            "jam_1348228",
+            "fs_161164"
+          ],
+          "private_import_returned": false
+        }
+      ],
+      "exclusion_evidence": "actual analyzed DB import + live negative searches + inspected deployed SQL source explicitly excludes imports",
+      "private_urls": "redacted from every serialized HTTP/job evidence record",
+      "measurement_origin": "Client monotonic clock before multipart POST through terminal poll, including upload/enqueue request."
+    }
+  },
+  "browser": {
+    "url": "https://beatopia-liart.vercel.app/",
+    "method": "user-requested local Playwright + installed Chrome",
+    "tooling_version": "1.65.1",
+    "earlier_cua_failures": [
+      "browser access host unavailable",
+      "Chrome not approved through CUA"
+    ],
+    "live_search_revision": "56838aecd79c3e1a299a450b8e792be7ef0a2a26",
+    "hero_preview": {
+      "track": "jam_1121408",
+      "stem": "other",
+      "sample_count": 11,
+      "observed_times": [
+        164.919,
+        164.919,
+        165.446428,
+        166.456499,
+        167.477228,
+        168.48682,
+        169.493431,
+        170.519845,
+        171.526237,
+        165.805076,
+        166.832547
+      ],
+      "media_errors": [],
+      "loop_seek_events": [
+        {
+          "event": "seeked",
+          "at": "2026-11-15T04:21:18.610Z",
+          "currentTime": 164.919,
+          "paused": false,
+          "readyState": 4,
+          "error": null,
+          "path": "/storage/v1/object/public/audio/tracks/jam_1121408/stems/other.mp3"
+        },
+        {
+          "event": "seeked",
+          "at": "2026-11-15T04:21:26.395Z",
+          "currentTime": 164.919,
+          "paused": false,
+          "readyState": 4,
+          "error": null,
+          "path": "/storage/v1/object/public/audio/tracks/jam_1121408/stems/other.mp3"
+        }
+      ],
+      "raw_samples": "ingest/data/session8/browser/preview-timing.json",
+      "raw_events": "ingest/data/session8/browser/preview-media-events.json",
+      "scope": "actual browser media time advanced and looped; no human listening judgment"
+    },
+    "nonzero_editor": {
+      "requested": {
+        "track_id": "fs_166649",
+        "stem": "other",
+        "start_s": 10,
+        "end_s": 20
+      },
+      "expected_cached_coverage": [
+        5,
+        35
+      ],
+      "expected_file_local_playback": [
+        5,
+        15
+      ],
+      "samples": [
+        {
+          "at": "2026-11-15T04:42:05.634Z",
+          "media": {
+            "currentTime": 0,
+            "duration": 55.714286,
+            "paused": false,
+            "readyState": 4,
+            "path": "/storage/v1/object/public/audio/tracks/fs_166649/mix.mp3",
+            "error": null
+          }
+        },
+        {
+          "at": "2026-11-15T04:42:06.680Z",
+          "media": {
+            "currentTime": 0,
+            "duration": 55.714286,
+            "paused": false,
+            "readyState": 4,
+            "path": "/storage/v1/object/public/audio/tracks/fs_166649/mix.mp3",
+            "error": null
+          }
+        },
+        {
+          "at": "2026-11-15T04:42:07.689Z",
+          "media": {
+            "currentTime": 0.760929,
+            "duration": 55.714286,
+            "paused": false,
+            "readyState": 4,
+            "path": "/storage/v1/object/public/audio/tracks/fs_166649/mix.mp3",
+            "error": null
+          }
+        },
+        {
+          "at": "2026-11-15T04:42:08.704Z",
+          "media": {
+            "currentTime": 1.780005,
+            "duration": 55.714286,
+            "paused": false,
+            "readyState": 4,
+            "path": "/storage/v1/object/public/audio/tracks/fs_166649/mix.mp3",
+            "error": null
+          }
+        }
+      ]
+    },
+    "nonzero_editor_gate": "failed: requested other [10,20], expected range file [5,35] local [5,15]; editor plays mix from zero"
+  },
+  "reports": {
+    "initial": {
+      "path": "ingest/data/session8/report-initial.json",
+      "sha256": "fd3d5867919ef1182b57e4bc3f373dbefee924acfcac6213f49893fb06788d9b",
+      "snapshot_at": "2026-11-15T02:51:11.079964+00:00",
+      "finished_at": "2026-11-15T04:01:47.653908+00:00",
+      "elapsed_s": 4237.110000000001,
+      "counts": {
+        "hero_flags": 64,
+        "imports": 3,
+        "library_tracks": 350,
+        "stems": 260,
+        "windows": 12242
+      },
+      "library_window_counts": {
+        "bass": 1804,
+        "drums": 1925,
+        "mix": 5219,
+        "other": 2041,
+        "vocals": 1250
+      },
+      "library_windows": 12239,
+      "hero_density": {
+        "method": "spectral-flatness+four-stem-rms-above-minus30dbfs-v1",
+        "missing_hero_ids": [],
+        "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+        "verified_heroes": 64,
+        "verified_windows": 9084
+      },
+      "invalid_windows": 0,
+      "track_issues": [],
+      "public_objects": 610,
+      "public_failures": 0,
+      "locally_hash_anchored": 606,
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7,
+          "queued": 2
+        },
+        "error_classification_counts": {
+          "intentional_session4_acceptance": 7
+        },
+        "unexplained_error_ids": []
+      },
+      "acceptance": {
+        "all_completed_hero_density": true,
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 16,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 64,
+        "technically_verified_library": 350
+      }
+    },
+    "final": {
+      "path": "ingest/data/session8/report-final.json",
+      "sha256": "1f59eeae46dd7d108f9e2200c8cc140b48b7f07b4389569c3c35065975141d7d",
+      "snapshot_at": "2026-11-15T04:20:14.979874+00:00",
+      "finished_at": "2026-11-15T04:31:21.515251+00:00",
+      "elapsed_s": 667.0939999999973,
+      "counts": {
+        "hero_flags": 67,
+        "imports": 6,
+        "library_tracks": 350,
+        "stems": 272,
+        "windows": 12618
+      },
+      "library_window_counts": {
+        "bass": 1906,
+        "drums": 2025,
+        "mix": 5219,
+        "other": 2143,
+        "vocals": 1322
+      },
+      "library_windows": 12615,
+      "hero_density": {
+        "method": "spectral-flatness+four-stem-rms-above-minus30dbfs-v1",
+        "missing_hero_ids": [],
+        "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+        "verified_heroes": 67,
+        "verified_windows": 9562
+      },
+      "invalid_windows": 0,
+      "track_issues": [],
+      "public_objects": 622,
+      "public_failures": 0,
+      "locally_hash_anchored": 618,
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7,
+          "queued": 5
+        },
+        "error_classification_counts": {
+          "intentional_session4_acceptance": 7
+        },
+        "unexplained_error_ids": []
+      },
+      "acceptance": {
+        "all_completed_hero_density": true,
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 13,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 67,
+        "technically_verified_library": 350
+      }
+    },
+    "initial_exit": {
+      "started_at": "2026-11-15T02:51:02.0613959Z",
+      "finished_at": "2026-11-15T04:01:53.2303619Z",
+      "exit_code": 2
+    },
+    "final_exit": {
+      "started_at": "2026-11-15T04:20:11.5488971Z",
+      "finished_at": "2026-11-15T04:31:23.9536722Z",
+      "exit_code": 2
+    },
+    "post_integration": {
+      "path": "ingest/data/session8/report-post-integration.json",
+      "sha256": "1e0347802766c25f52b30a06ef3fcba4371540587dd97f529a0011b058bfe6ec",
+      "snapshot_at": "2026-11-15T05:09:47.987525+00:00",
+      "finished_at": "2026-11-15T05:20:58.808888+00:00",
+      "elapsed_s": 671.2969999999987,
+      "counts": {
+        "hero_flags": 67,
+        "imports": 11,
+        "library_tracks": 350,
+        "stems": 284,
+        "windows": 12642
+      },
+      "library_window_counts": {
+        "bass": 1906,
+        "drums": 2025,
+        "mix": 5219,
+        "other": 2143,
+        "vocals": 1322
+      },
+      "library_windows": 12615,
+      "hero_density": {
+        "method": "spectral-flatness+four-stem-rms-above-minus30dbfs-v1",
+        "missing_hero_ids": [],
+        "scope": "All mix and stem windows of completed heroes in the read-only DB snapshot; independently decoded",
+        "verified_heroes": 67,
+        "verified_windows": 9562
+      },
+      "invalid_windows": 0,
+      "track_issues": [],
+      "public_objects": 634,
+      "public_failures": 0,
+      "locally_hash_anchored": 618,
+      "jobs": {
+        "counts": {
+          "done": 18,
+          "error": 7
+        },
+        "error_classification_counts": {
+          "intentional_session4_acceptance": 7
+        },
+        "unexplained_error_ids": []
+      },
+      "acceptance": {
+        "all_completed_hero_density": true,
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 13,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 67,
+        "technically_verified_library": 350
+      }
+    },
+    "post_integration_exit": {
+      "started_at": "2026-11-15T05:09:44.9788113Z",
+      "finished_at": "2026-11-15T05:21:01.5698535Z",
+      "exit_code": 2
+    }
+  },
+  "density": {
+    "old_follower_failure": {
+      "elapsed_s": 3397.375,
+      "failures": [
+        {
+          "error_type": "OperationalError",
+          "http_status": null,
+          "id": "jam_1039379",
+          "location": "generators.pyx:235:fetch",
+          "message": "consuming input failed: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request."
+        }
+      ],
+      "follow": true,
+      "heroes_in_snapshot": 65,
+      "pid": 21740,
+      "producer_running_before_snapshot": true,
+      "time": 1794715019.1941764,
+      "updated_rows": 0,
+      "verified_heroes": 64,
+      "verified_windows": 9066
+    },
+    "recovery": {
+      "elapsed_s": 114.28100000000268,
+      "failures": [],
+      "follow": true,
+      "heroes_in_snapshot": 67,
+      "pid": 33096,
+      "producer_running_before_snapshot": false,
+      "time": 1794716323.3389235,
+      "updated_rows": 68,
+      "verified_heroes": 67,
+      "verified_windows": 9562
+    }
+  },
+  "producer": {
+    "finished": {
+      "completed": 67,
+      "event": "finished",
+      "failed": 33,
+      "target": 80,
+      "time": 1794716113.9395118
+    },
+    "original_queue_sha256": "2bfe34247b61a8aeef5f746bb9b2a87588c843e8eaa72a1fd4ec643e759e22d6",
+    "queue_candidates": 100,
+    "target": 80,
+    "additional_production_started": false
+  },
+  "rejections": {
+    "new_ids": [
+      "jam_1003082",
+      "jam_1009061",
+      "jam_1009064",
+      "jam_1009065",
+      "jam_1047158",
+      "jam_1149157",
+      "jam_1149163",
+      "jam_1265033",
+      "jam_1289105",
+      "jam_1337940",
+      "jam_1360689",
+      "jam_1492154"
+    ],
+    "decoded_files": 48,
+    "silence_threshold": 0.005623413251903491,
+    "all_new_rejections_have_zero_window_stem": true,
+    "zero_window_stems": [
+      {
+        "track_id": "jam_1003082",
+        "stem": "drums",
+        "sha256": "446d3cd1f55c973ad899326d0c148a18e00cba995a73b6c3e6623cf554f8197b",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00030956525339979315,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1003082",
+        "stem": "vocals",
+        "sha256": "39cc7a072b8b9ec9be7d3be72a99db7def9b0f0b6b8057d17f3f5c9935cae7e2",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00011372184769826865,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009061",
+        "stem": "bass",
+        "sha256": "9f69d7dc6b041e24d71a557a2548f966f9aec8e7489755274265b3004c86959c",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.0001565983055108728,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009061",
+        "stem": "drums",
+        "sha256": "3c232d1929a087587920deba819ee0c18327324c53250f0b8487ef0a107a5591",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00043223273453834844,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009061",
+        "stem": "vocals",
+        "sha256": "06c9f5b071505da14ebe6158145fec9368ea2a2bb17b2913f2a0a9df37a0b5b3",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.0002616162932816045,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009064",
+        "stem": "bass",
+        "sha256": "b11cc60aae3d46cfcd691408287bca3d4c1a4fa058f3dd4e338a946c2b25e82b",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 6.963137322898893e-05,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009064",
+        "stem": "drums",
+        "sha256": "fe15278e283cf574f05bc168347b6cd2c76ba10620f37e077a951add77d64d8a",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00013006346326991598,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009064",
+        "stem": "vocals",
+        "sha256": "411a9e3d35aceb4a817f2e15dfffd9765180edb496db08322c74f6e5d9e0c32b",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.0001973068115944142,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009065",
+        "stem": "bass",
+        "sha256": "600c9b8b71ebe65e263eb8ac80c2fe973c98422899eba383ff3415066e9bcf30",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00011066993861149794,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009065",
+        "stem": "drums",
+        "sha256": "d276953d58be2d7516731e768a1009d2f791f076a70a64102196ccd6ca71b5ef",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00041687173767650004,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1009065",
+        "stem": "vocals",
+        "sha256": "dbd5b6ed7197c4f0df25db4a3804388c2eec2425853f1bc168cde6dbecafb0cd",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00015075639718083216,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1047158",
+        "stem": "bass",
+        "sha256": "ab905b05764eca2673e2fa80711c443406b39f53470b0e5e2e4c43f36c6ec796",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 65.33333333333333,
+        "max_nominal_rms": 0.00065228655788538,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1149157",
+        "stem": "bass",
+        "sha256": "127da53a6e2f91703eaff32e0f0f456d611d89b324da6fce01313fbf4bea3a72",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 50.0,
+        "max_nominal_rms": 0.00010660482473502399,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1149157",
+        "stem": "vocals",
+        "sha256": "79858d894ce271a11ce43db858e1ae2364ea33e311d88504308b6a425732a1bc",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 50.0,
+        "max_nominal_rms": 0.0002446093618947598,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1149163",
+        "stem": "vocals",
+        "sha256": "1f5fe219217b4b9753e74d177407f83d7c3149ec32039c5c3d209d14ad683b2b",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.00013333753246668319,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1265033",
+        "stem": "bass",
+        "sha256": "01cb1df9a26e7edb6461290be70c78f44d856d5d59ff49070872d2c2105511cb",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 175.83891156462585,
+        "max_nominal_rms": 0.003444004280387223,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1265033",
+        "stem": "drums",
+        "sha256": "72c9de693af8d1856a42eae664cc65c30102ea5c56dfd1b0b2fe7133fe5c9114",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 175.83891156462585,
+        "max_nominal_rms": 0.0034756213330656128,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1289105",
+        "stem": "vocals",
+        "sha256": "7714d6c0c0ba2c5d999a240d98bce94e279fd433dc28d0b1aaa4fa08ca61d885",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 156.45024943310656,
+        "max_nominal_rms": 0.00041567330843288674,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1337940",
+        "stem": "vocals",
+        "sha256": "fca8cd0407ad9b29ec6bc1a408341e56fa9d0e3f243ab9b5f7a9d0ebad2b4be1",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 138.03102040816327,
+        "max_nominal_rms": 0.0014290569896309331,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1360689",
+        "stem": "vocals",
+        "sha256": "8aa0605faa88155fab7bee3039eafd70aeeb5f943077c5e8c98cb755a2653a57",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.0012786651363615841,
+        "eligible_nominal_windows": 0
+      },
+      {
+        "track_id": "jam_1492154",
+        "stem": "drums",
+        "sha256": "2fc1f057af71b3d3ef888cbb5fc69cf94a884d8da446c8e661e53d3af8d34a17",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "max_nominal_rms": 0.001132976681807744,
+        "eligible_nominal_windows": 0
+      }
+    ]
+  },
+  "candidate_screen": {
+    "eligible_tracks": 50,
+    "proposed_ids": [
+      "jam_1027294",
+      "jam_1544397",
+      "jam_1012460",
+      "jam_1009063",
+      "jam_1028275",
+      "jam_1029436",
+      "jam_1009346",
+      "jam_1027293",
+      "jam_1033254",
+      "jam_1024429",
+      "jam_1029434",
+      "jam_1017958",
+      "jam_1024479",
+      "jam_1032883",
+      "jam_1033252",
+      "jam_1032879",
+      "jam_1029230",
+      "jam_1010376",
+      "jam_1017174",
+      "jam_1033253"
+    ],
+    "evidence": "exact frozen-vocabulary CLAP mix screening only; listening unreviewed; no inference or queue mutation"
+  },
+  "calibration": {
+    "audit_snapshot": "2026-11-15T02:51:11.079964+00:00",
+    "replayed_windows": 12239,
+    "changed_windows": 0,
+    "auditions": 58,
+    "prominent_timbre_candidate_tracks": 30,
+    "human_listening": "incomplete"
+  },
+  "worker_merge": {
+    "worker_source_commit": "643b883",
+    "worker_only_commit": "417556ddbd2ab19f1cdcf208912f72540f25158e",
+    "concurrent_contract_commit": "b7485cf",
+    "merged_main_commit": "018e0c7ea25087cf46e9c0f438a6ab0b207fef73",
+    "remote_main_verified": true,
+    "worker_tree_parity_with_tested_ws1": true,
+    "common_tree_parity_with_tested_ws1": true,
+    "isolated_worktree": "ingest/data/session8/worker-main-integration",
+    "current_checkout_branch": "ws1-data",
+    "current_checkout_switched": false,
+    "github_connector_pr_attempt": "403 Resource not accessible by integration",
+    "first_main_push": "rejected non-fast-forward; concurrent teammate commit preserved; no force push",
+    "merge_method": "merge concurrent origin/main into worker-only branch; normal fast-forward main push",
+    "operator_reported_vm": {
+      "hostname": "beatopia-vultr-api",
+      "user": "root",
+      "deployed_api_revision": "56838aecd79c3e1a299a450b8e792be7ef0a2a26",
+      "running_containers": [
+        "beatopia-api-1",
+        "beatopia-caddy-1"
+      ],
+      "available_memory": "13 GiB",
+      "swap": "8 GiB",
+      "free_disk": "195 GiB"
+    },
+    "agent_ssh": {
+      "outcome": "Permission denied (publickey,password)",
+      "key_authentication": false,
+      "operator_uses_password": true,
+      "password_collected": false
+    },
+    "deployment": {
+      "status": "existing deployed worker verified running; real session stems and analyze jobs passed",
+      "package": "ingest/data/session8/worker-deploy-018e0c7.tar",
+      "sha256": "f1a610c1acb7188b8884ee38f00cab4bd391761451448569c8e99f8f1f6288d1",
+      "script": "ingest/data/session8/start-worker-session8.sh",
+      "script_sha256": "0bda3f630fdf70802912eb91f9d779a72a391f9c4497d4b6fd60c8da5f5c635d",
+      "api_source_or_env_replaced": false,
+      "worker_jobs_created_by_session": [
+        "b8b7cb59-e316-4abc-b154-cf92fa4bdfbf",
+        "631df075-73d8-42c8-936b-819ef25c45e7"
+      ],
+      "pending_ws2": "Existing compose does not mount /app/worker/data; preserve container checkpoints before future recreation.",
+      "operator_reported_container": {
+        "name": "beatopia-worker-1",
+        "id": "9d8e57ed87880a5ad6b43075f5cf12345cef92804d362bacf6d74f58f99b3d0e",
+        "status": "running",
+        "exit_code": 0,
+        "started_at": "2026-11-15T04:50:53.714146507Z",
+        "image_revision": "069411369305f7550e0ed1987491cf2a11ed4059",
+        "process_revision": "567279d63c37de408fe1aba4ff925bbfc3905584",
+        "model": "laion/larger_clap_general",
+        "model_revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+        "cuda_available": false
+      },
+      "first_operator_attempt": {
+        "image_build": "succeeded, 64.5 seconds",
+        "up": "name conflict with already-running worker",
+        "existing_container_preserved": true,
+        "container_not_removed_or_renamed": true
+      },
+      "source_comparison": "No worker/common diff between tested main 018e0c7 and running-image revision 0694113"
+    }
+  },
+  "checks": {
+    "focused": {
+      "exit_code": 0,
+      "output_tail": "36 passed in 5.15s"
+    },
+    "ingest": {
+      "exit_code": 0,
+      "output_tail": "134 passed in 74.31s (0:01:14)"
+    },
+    "worker": {
+      "exit_code": 0,
+      "output_tail": "23 passed, 5 skipped in 48.38s"
+    },
+    "worker-main": {
+      "exit_code": 0,
+      "output_tail": "23 passed, 5 skipped in 24.98s"
+    },
+    "lint": {
+      "make_available": false,
+      "ruff_exit": 0,
+      "format_exit": 0,
+      "global_lint": "not passed: make is not recognized as a command"
+    },
+    "artifact_consistency": "passed: raw hashes; completed joint-review/criteria-change provenance; unchanged grades; technical exclusions; real job IDs/timing/output; final audit; private-URL redaction; queue/schema/history preservation"
+  },
+  "preserved_schema_sha256": "bb8f20c0ba862279a7b89b12c3e2946af087e43f10e1ae184132ac2e181f6df5",
+  "scope_cuts": [
+    "two-model comparison",
+    "automatic model selection",
+    "personalization",
+    "new hero production or target changes"
+  ],
+  "remaining_gates": [
+    "30 prominent useful timbres",
+    "perceptual density calibration",
+    "80 heroes",
+    "mixed-fixture cosine historically 0.186066 < 0.2",
+    "WS2 snapped joins/strict 60s/fallback",
+    "WS4 editor source/offset routing",
+    "global lint"
+  ],
+  "raw_artifact_sha256": {
+    "ingest/data/session8/connectivity.json": "b962379f2535055e69a2e942b3b182e2f85601f0d8047bb9d0fd665b51aac311",
+    "ingest/data/session8/connectivity-extension.json": "98fa936c2361af497a110201343802be5882924d9a1dbb46ffdcb92ce7a81d78",
+    "ingest/data/session8/endpoints/requests.json": "20afa0871af7f1b6827437536a4719293b28cc7197fb49a76838edf5a2095678",
+    "ingest/data/session8/eval-before/results.json": "0db7f144c9c8da4c07234af234a91e64dc7af4c921a37461aea18daed5432ab3",
+    "ingest/data/session8/eval-before/review-exclusions.json": "fbb5c5bff42f86d9875f1436bf529e2594e577b50bcccb4321cee4f1657a0745",
+    "ingest/data/session8/search-provenance.json": "a76c45db82cb30a52875f0cebabfc86606104186e646dd77730729f2d2aee876",
+    "ingest/data/session8/search-provenance-first-pass.json": "1c8b469358ef2d6c49f3887deafbb5643b98e6d52935251e44f472be56808214",
+    "ingest/data/session8/credit-differences-corrected.json": "c305652d795822608c04fe30d701a53cd9e81d42829d6cd43b47c3e3cc2d0bdc",
+    "ingest/data/session8/cached-validation-http.json": "6a77d640e0ac5ddce731867d80d38df5cae238a3d6b3c663e88d859f7dd28eaf",
+    "ingest/data/session8/cached-validation-summary.json": "a2aa25a7ab292bf31dad84750077d4d13d95f16ad888de291c6ebbf4bc0050d9",
+    "ingest/data/session8/report-initial.json": "fd3d5867919ef1182b57e4bc3f373dbefee924acfcac6213f49893fb06788d9b",
+    "ingest/data/session8/report-final.json": "1f59eeae46dd7d108f9e2200c8cc140b48b7f07b4389569c3c35065975141d7d",
+    "ingest/data/session8/density-follower-failure.json": "b1e8e3b476d0f89d4373373ef56a6fe3f84351171af07376cb8bee1fb696a819",
+    "ingest/data/session8/density-recovery.json": "bb6a845228c11c6ccc88a905ee02ecce4863ec38be68d707b64e832f7a843b0e",
+    "ingest/data/session8/rejections.json": "4949f73eb84470b79fafd4393bef862a711b7a1c6a0ee66d5a611daf5eb2ab3f",
+    "ingest/data/session8/candidate-shortlist.json": "f977204e45e4e9dcdca3934b9317d634cfbda042578c56da4b753bbbcc85cc3b",
+    "ingest/data/session8/calibration.json": "4bffdb2bedcfd0b78089889fb2cd5d03059d8f0d067ed972c719b6b922004522",
+    "ingest/data/session8/deployed-source.json": "89341e48d6143c182f7cad6f26997598784021b6059ee12c30265a04e9b8d197",
+    "ingest/data/session8/browser/preview.json": "276dd5d982a86e34a31949e053fc1eec1ded5cd43280a58043c33360e6907d5c",
+    "ingest/data/session8/browser/preview-timing.json": "f9cb70b3a192978ef75bd23faa12c5183d4127dd98dcec7b5159826a2fdf3bb2",
+    "ingest/data/session8/browser/preview-media-events.json": "48ae676b3e8561ea2fbe0c60f67ccbb6368612e29d91896a689dcf3464106eb6",
+    "ingest/data/session8/browser/offset-editor-playback.json": "1cd04cdb9294d1437e8e01a9349209edbb5e1ce163b816746b504c619e94eff0",
+    "ingest/data/session8/worker-integration.json": "a47aa9ce3cfbb3d60c9c9b0f186fa2f970988bd42ca2a08f3438f8519eb2ccd7",
+    "ingest/data/session8/worker-deploy-018e0c7.tar": "f1a610c1acb7188b8884ee38f00cab4bd391761451448569c8e99f8f1f6288d1",
+    "ingest/data/session8/start-worker-session8.sh": "0bda3f630fdf70802912eb91f9d779a72a391f9c4497d4b6fd60c8da5f5c635d",
+    "ingest/data/session8/review-mode.json": "a23a59edd8f5eab927e6d5864d7103d8b44db884df3c2346dcb7d2068a719c97",
+    "ingest/data/session8/uncached-preflight.json": "1111b533c5c16e217a30033db88d5f10806f350c8d1bc1c1340465822b1a9cb7",
+    "ingest/data/session8/uncached-created.json": "715f8dc8cb15731939c7609ab30829c9f5df797f69629556061d5e369b143154",
+    "ingest/data/session8/uncached-summary.json": "1b5d6dfd7662a03181a8b8096a85c1cb0b58610ab1e7aecbf8277c57e67cc18d",
+    "ingest/data/session8/joint-review-final.json": "2efe15fce9e6dcb005b7b711a01e392ec79d979fe718a8a643ca818ebe94e8bb",
+    "ingest/data/session8/reviews/reviewer-A-before-timestamp-normalization.json": "2eaac1ffd9bab130bf844163655fd1fb5aec2398a3c723b96cb1432606094924",
+    "ingest/data/session8/uncached-public-audio.json": "c0d63f9fe57f10082a212ae24873129abec36a8165c9649a6fce29cc0a42c21d",
+    "ingest/data/session8/owned-worker-timing.json": "45e40831644d0f8930be96dc84278604b1da0de5137855f4097b79d80a63ec8e",
+    "ingest/data/session8/integration-http.jsonl": "f979cd072d1091bba162ae7c617afab4f0854c7cc2ab9e7d7d0ee7bea2df6bd6",
+    "ingest/data/session8/job-b8b7cb59-e316-4abc-b154-cf92fa4bdfbf-polls.json": "59ae036f18ea247b2cef9b672ee0e8d9a5d9aa72401d0c094f22f05c69d4babb",
+    "ingest/data/session8/job-b8b7cb59-e316-4abc-b154-cf92fa4bdfbf-terminal.json": "25779abbc3695800cdcdf2e8f2cba29c3d3a2f0393e6e364d828dcbc65f14be1",
+    "ingest/data/session8/import-request.json": "34a72377a91e37336cec570108e3af468734474fcb79d24537837dc146505dc4",
+    "ingest/data/session8/import-created.json": "0172c23e7e15904c880983547eb9ce74bc9b0e887e9be78a1d0b60668ae8d2e1",
+    "ingest/data/session8/import-summary.json": "ca712f25ff2fd07f6578bc6cad0fc57f2cc01d669cd56dfa87450cd29ae1d379",
+    "ingest/data/session8/job-631df075-73d8-42c8-936b-819ef25c45e7-polls.json": "82012d6ac74db3f3c695b1369b0f1223669da74f4448663aa6cbcdfcc0026cb1",
+    "ingest/data/session8/job-631df075-73d8-42c8-936b-819ef25c45e7-terminal.json": "ca1bf9da4a5ef0975ea2abdbcc741091d270b5967c832481497eb1600652317a",
+    "ingest/data/session8/report-post-integration.json": "1e0347802766c25f52b30a06ef3fcba4371540587dd97f529a0011b058bfe6ec",
+    "ingest/data/session8/reviews/20261115T063957523068Z/reviewer-A.json": "1afac8efc4c7ffab3b1a49e552920ee9001efbb25da0413c6f3e575378833602",
+    "ingest/data/session8/reviews/20261115T063957523068Z/reviewer-B.json": "33c2db141add8de062d83a5d6707f4b17bb39db82fc7b60727b1218752f4474f"
+  }
+}

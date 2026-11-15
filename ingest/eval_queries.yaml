@@ -1,0 +1,103 @@
+# Evaluation intents are human listening guidance, never desired IDs or fabricated grades.
+version: 1
+queries:
+  - id: q01
+    text: dusty soul keys
+    chips: [genre.soul, inst.rhodes]
+    covers: [instrument, mood, genre, chips]
+    listen_for: Warm electric piano chords with a dusty soul character.
+  - id: q02
+    text: solo trumpet
+    chips: [inst.trumpet]
+    covers: [instrument, sparse, chips]
+    listen_for: Prominent trumpet with little accompaniment; distinguish saxophone and synth brass.
+  - id: q03
+    text: boom bap drums 90 bpm
+    chips: [genre.boom_bap, tempo.90]
+    covers: [instrument, genre, tempo, chips]
+    listen_for: A usable boom bap drum pattern near 90 BPM, allowing half or double time.
+  - id: q04
+    text: melancholy strings
+    chips: [inst.strings, mood.melancholy]
+    covers: [instrument, mood, chips]
+    listen_for: Clearly audible bowed strings with a melancholy character.
+  - id: q05
+    text: vocal chop
+    chips: [inst.vocal_chop]
+    covers: [instrument, chips]
+    listen_for: Short cut or repeated vocal phrases suitable for chopping.
+  - id: q06
+    text: mellow jazz saxophone
+    chips: [genre.jazz, inst.saxophone]
+    covers: [instrument, mood, genre, chips]
+    listen_for: Prominent saxophone phrasing in a mellow jazz setting.
+  - id: q07
+    text: warm acoustic guitar picking
+    chips: [inst.acoustic_guitar]
+    covers: [instrument, mood, chips]
+    listen_for: Audible plucked acoustic guitar with clear attacks and a warm tone.
+  - id: q08
+    text: church organ chords
+    chips: [inst.organ]
+    covers: [instrument, chips]
+    listen_for: Sustained organ chords; distinguish pads from organ timbre.
+  - id: q09
+    text: funky electric bass groove
+    chips: [inst.bass_guitar, genre.funk]
+    covers: [instrument, genre, chips]
+    listen_for: A prominent electric bass riff with a funk rhythm.
+  - id: q10
+    text: dreamy ambient synth pad
+    chips: [genre.ambient, inst.synth_pad]
+    covers: [instrument, mood, genre, chips]
+    listen_for: Sustained atmospheric synth with a dreamy character.
+  - id: q11
+    text: aggressive distorted rock guitar
+    chips: [genre.rock, inst.electric_guitar]
+    covers: [instrument, mood, genre, chips]
+    listen_for: Distorted electric guitar with an aggressive rock character.
+  - id: q12
+    text: happy upbeat flute melody
+    chips: [inst.flute]
+    covers: [instrument, mood, chips]
+    listen_for: A prominent flute melody with a bright upbeat feel.
+  - id: q13
+    text: slow piano ballad around 70 bpm
+    chips: [inst.piano, tempo.70]
+    covers: [instrument, genre, tempo, chips]
+    listen_for: Piano-led ballad near 70 BPM, allowing half or double time.
+  - id: q14
+    text: house groove 120 bpm
+    chips: [genre.house, tempo.120]
+    covers: [genre, tempo, chips]
+    listen_for: Danceable house pulse near 120 BPM, allowing half or double time.
+  - id: q15
+    text: fast breakbeat around 160 bpm
+    chips: [inst.breakbeat, tempo.160]
+    covers: [instrument, tempo, chips]
+    listen_for: A broken drum rhythm near 160 BPM, allowing half or double time.
+  - id: q16
+    text: find a cleaner moment with sparse piano and no drums
+    chips: [inst.piano]
+    covers: [instrument, sparse, chips]
+    listen_for: Exposed piano with little competing sound and no audible drums.
+  - id: q17
+    text: sparse horns with space between phrases
+    chips: []
+    covers: [instrument, sparse, text_only]
+    listen_for: Brass phrases separated by space with minimal accompaniment.
+  - id: q18
+    text: isolated drums stem with no vocals
+    chips: []
+    covers: [instrument, stem, text_only]
+    listen_for: A drums stem with useful transients; note vocal or tonal bleed.
+  - id: q19
+    text: isolated vocals stem for sampling
+    chips: []
+    covers: [instrument, stem, text_only]
+    listen_for: A vocals stem with an audible phrase; note accompaniment bleed.
+  - id: q20
+    text: other stem with clean strings or keys and no bass or drums
+    chips: []
+    covers: [instrument, sparse, stem, text_only]
+    listen_for: An other stem exposing useful strings or keys; note drum and bass bleed.

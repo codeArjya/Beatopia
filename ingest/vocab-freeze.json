@@ -1,0 +1,622 @@
+{
+  "categories": {
+    "genre": 30,
+    "instrument": 60,
+    "mood": 30
+  },
+  "fixture_sha256": "7fb1d16f7040073fde601f4ba8c377ccab10333b0dabe5f073f6098b9220bc75",
+  "model": "laion/larger_clap_general",
+  "prompt": "a recording of {tag}",
+  "revision": "ada0c23a36c4e8582805bb38fec3905903f18b41",
+  "selection": "per-category top 3 strictly above population mean + 1 population std; stable vocab-order ties",
+  "status": "Frozen existing 120 raw tags and chip mapping; human confirmed WS2 and WS3 agreement in Session 5",
+  "acknowledgments": {
+    "recorded_at": "2026-11-14T23:15:54+00:00",
+    "source": "Human reply in Codex Session 5: Both streams have agreed",
+    "ws2": "agreed, reported by human",
+    "ws3": "agreed, reported by human"
+  },
+  "tags": {
+    "808": {
+      "category": "instrument",
+      "id": "inst.808",
+      "label": "808"
+    },
+    "accordion": {
+      "category": "instrument",
+      "id": "inst.accordion",
+      "label": "Accordion"
+    },
+    "acoustic guitar": {
+      "category": "instrument",
+      "id": "inst.acoustic_guitar",
+      "label": "Acoustic guitar"
+    },
+    "afrobeat": {
+      "category": "genre",
+      "id": "genre.afrobeat",
+      "label": "Afrobeat"
+    },
+    "aggressive": {
+      "category": "mood",
+      "id": "mood.aggressive",
+      "label": "Aggressive"
+    },
+    "ambient": {
+      "category": "genre",
+      "id": "genre.ambient",
+      "label": "Ambient"
+    },
+    "arpeggio": {
+      "category": "instrument",
+      "id": "inst.arpeggio",
+      "label": "Arpeggio"
+    },
+    "banjo": {
+      "category": "instrument",
+      "id": "inst.banjo",
+      "label": "Banjo"
+    },
+    "bass guitar": {
+      "category": "instrument",
+      "id": "inst.bass_guitar",
+      "label": "Bass guitar"
+    },
+    "bells": {
+      "category": "instrument",
+      "id": "inst.bells",
+      "label": "Bells"
+    },
+    "bittersweet": {
+      "category": "mood",
+      "id": "mood.bittersweet",
+      "label": "Bittersweet"
+    },
+    "blues": {
+      "category": "genre",
+      "id": "genre.blues",
+      "label": "Blues"
+    },
+    "bongos": {
+      "category": "instrument",
+      "id": "inst.bongos",
+      "label": "Bongos"
+    },
+    "boom bap": {
+      "category": "genre",
+      "id": "genre.boom_bap",
+      "label": "Boom bap"
+    },
+    "bossa nova": {
+      "category": "genre",
+      "id": "genre.bossa_nova",
+      "label": "Bossa nova"
+    },
+    "breakbeat": {
+      "category": "instrument",
+      "id": "inst.breakbeat",
+      "label": "Breakbeat"
+    },
+    "cello": {
+      "category": "instrument",
+      "id": "inst.cello",
+      "label": "Cello"
+    },
+    "chill": {
+      "category": "mood",
+      "id": "mood.chill",
+      "label": "Chill"
+    },
+    "choir": {
+      "category": "instrument",
+      "id": "inst.choir",
+      "label": "Choir"
+    },
+    "cinematic": {
+      "category": "genre",
+      "id": "genre.cinematic",
+      "label": "Cinematic"
+    },
+    "claps": {
+      "category": "instrument",
+      "id": "inst.claps",
+      "label": "Claps"
+    },
+    "clarinet": {
+      "category": "instrument",
+      "id": "inst.clarinet",
+      "label": "Clarinet"
+    },
+    "classical": {
+      "category": "genre",
+      "id": "genre.classical",
+      "label": "Classical"
+    },
+    "clavinet": {
+      "category": "instrument",
+      "id": "inst.clavinet",
+      "label": "Clavinet"
+    },
+    "congas": {
+      "category": "instrument",
+      "id": "inst.congas",
+      "label": "Congas"
+    },
+    "cymbals": {
+      "category": "instrument",
+      "id": "inst.cymbals",
+      "label": "Cymbals"
+    },
+    "dark": {
+      "category": "mood",
+      "id": "mood.dark",
+      "label": "Dark"
+    },
+    "disco": {
+      "category": "genre",
+      "id": "genre.disco",
+      "label": "Disco"
+    },
+    "downtempo": {
+      "category": "genre",
+      "id": "genre.downtempo",
+      "label": "Downtempo"
+    },
+    "dreamy": {
+      "category": "mood",
+      "id": "mood.dreamy",
+      "label": "Dreamy"
+    },
+    "drill": {
+      "category": "genre",
+      "id": "genre.drill",
+      "label": "Drill"
+    },
+    "drum and bass": {
+      "category": "genre",
+      "id": "genre.drum_and_bass",
+      "label": "Drum and bass"
+    },
+    "drum loop": {
+      "category": "instrument",
+      "id": "inst.drum_loop",
+      "label": "Drum loop"
+    },
+    "dub": {
+      "category": "genre",
+      "id": "genre.dub",
+      "label": "Dub"
+    },
+    "dusty": {
+      "category": "mood",
+      "id": "mood.dusty",
+      "label": "Dusty"
+    },
+    "eerie": {
+      "category": "mood",
+      "id": "mood.eerie",
+      "label": "Eerie"
+    },
+    "electric guitar": {
+      "category": "instrument",
+      "id": "inst.electric_guitar",
+      "label": "Electric guitar"
+    },
+    "electronic": {
+      "category": "genre",
+      "id": "genre.electronic",
+      "label": "Electronic"
+    },
+    "energetic": {
+      "category": "mood",
+      "id": "mood.energetic",
+      "label": "Energetic"
+    },
+    "epic": {
+      "category": "mood",
+      "id": "mood.epic",
+      "label": "Epic"
+    },
+    "female vocals": {
+      "category": "instrument",
+      "id": "inst.female_vocals",
+      "label": "Female vocals"
+    },
+    "flute": {
+      "category": "instrument",
+      "id": "inst.flute",
+      "label": "Flute"
+    },
+    "folk": {
+      "category": "genre",
+      "id": "genre.folk",
+      "label": "Folk"
+    },
+    "funk": {
+      "category": "genre",
+      "id": "genre.funk",
+      "label": "Funk"
+    },
+    "glockenspiel": {
+      "category": "instrument",
+      "id": "inst.glockenspiel",
+      "label": "Glockenspiel"
+    },
+    "gospel": {
+      "category": "genre",
+      "id": "genre.gospel",
+      "label": "Gospel"
+    },
+    "gritty": {
+      "category": "mood",
+      "id": "mood.gritty",
+      "label": "Gritty"
+    },
+    "groovy": {
+      "category": "mood",
+      "id": "mood.groovy",
+      "label": "Groovy"
+    },
+    "harmonica": {
+      "category": "instrument",
+      "id": "inst.harmonica",
+      "label": "Harmonica"
+    },
+    "harp": {
+      "category": "instrument",
+      "id": "inst.harp",
+      "label": "Harp"
+    },
+    "harpsichord": {
+      "category": "instrument",
+      "id": "inst.harpsichord",
+      "label": "Harpsichord"
+    },
+    "haunting": {
+      "category": "mood",
+      "id": "mood.haunting",
+      "label": "Haunting"
+    },
+    "hi-hats": {
+      "category": "instrument",
+      "id": "inst.hi_hats",
+      "label": "Hi-hats"
+    },
+    "hip hop": {
+      "category": "genre",
+      "id": "genre.hip_hop",
+      "label": "Hip hop"
+    },
+    "hopeful": {
+      "category": "mood",
+      "id": "mood.hopeful",
+      "label": "Hopeful"
+    },
+    "horns": {
+      "category": "instrument",
+      "id": "inst.horns",
+      "label": "Horns"
+    },
+    "house": {
+      "category": "genre",
+      "id": "genre.house",
+      "label": "House"
+    },
+    "humming": {
+      "category": "instrument",
+      "id": "inst.humming",
+      "label": "Humming"
+    },
+    "hypnotic": {
+      "category": "mood",
+      "id": "mood.hypnotic",
+      "label": "Hypnotic"
+    },
+    "jazz": {
+      "category": "genre",
+      "id": "genre.jazz",
+      "label": "Jazz"
+    },
+    "kalimba": {
+      "category": "instrument",
+      "id": "inst.kalimba",
+      "label": "Kalimba"
+    },
+    "kick": {
+      "category": "instrument",
+      "id": "inst.kick",
+      "label": "Kick"
+    },
+    "koto": {
+      "category": "instrument",
+      "id": "inst.koto",
+      "label": "Koto"
+    },
+    "latin": {
+      "category": "genre",
+      "id": "genre.latin",
+      "label": "Latin"
+    },
+    "lo-fi": {
+      "category": "genre",
+      "id": "genre.lo_fi",
+      "label": "Lo-fi"
+    },
+    "lush": {
+      "category": "mood",
+      "id": "mood.lush",
+      "label": "Lush"
+    },
+    "male vocals": {
+      "category": "instrument",
+      "id": "inst.male_vocals",
+      "label": "Male vocals"
+    },
+    "marimba": {
+      "category": "instrument",
+      "id": "inst.marimba",
+      "label": "Marimba"
+    },
+    "melancholy": {
+      "category": "mood",
+      "id": "mood.melancholy",
+      "label": "Melancholy"
+    },
+    "mellotron": {
+      "category": "instrument",
+      "id": "inst.mellotron",
+      "label": "Mellotron"
+    },
+    "music box": {
+      "category": "instrument",
+      "id": "inst.music_box",
+      "label": "Music box"
+    },
+    "mysterious": {
+      "category": "mood",
+      "id": "mood.mysterious",
+      "label": "Mysterious"
+    },
+    "nostalgic": {
+      "category": "mood",
+      "id": "mood.nostalgic",
+      "label": "Nostalgic"
+    },
+    "organ": {
+      "category": "instrument",
+      "id": "inst.organ",
+      "label": "Organ"
+    },
+    "peaceful": {
+      "category": "mood",
+      "id": "mood.peaceful",
+      "label": "Peaceful"
+    },
+    "piano": {
+      "category": "instrument",
+      "id": "inst.piano",
+      "label": "Piano"
+    },
+    "playful": {
+      "category": "mood",
+      "id": "mood.playful",
+      "label": "Playful"
+    },
+    "psychedelic": {
+      "category": "genre",
+      "id": "genre.psychedelic",
+      "label": "Psychedelic"
+    },
+    "r&b": {
+      "category": "genre",
+      "id": "genre.rnb",
+      "label": "R&B"
+    },
+    "raw": {
+      "category": "mood",
+      "id": "mood.raw",
+      "label": "Raw"
+    },
+    "reggae": {
+      "category": "genre",
+      "id": "genre.reggae",
+      "label": "Reggae"
+    },
+    "rhodes": {
+      "category": "instrument",
+      "id": "inst.rhodes",
+      "label": "Rhodes"
+    },
+    "rock": {
+      "category": "genre",
+      "id": "genre.rock",
+      "label": "Rock"
+    },
+    "romantic": {
+      "category": "mood",
+      "id": "mood.romantic",
+      "label": "Romantic"
+    },
+    "sad": {
+      "category": "mood",
+      "id": "mood.sad",
+      "label": "Sad"
+    },
+    "saxophone": {
+      "category": "instrument",
+      "id": "inst.saxophone",
+      "label": "Saxophone"
+    },
+    "shaker": {
+      "category": "instrument",
+      "id": "inst.shaker",
+      "label": "Shaker"
+    },
+    "sitar": {
+      "category": "instrument",
+      "id": "inst.sitar",
+      "label": "Sitar"
+    },
+    "slide guitar": {
+      "category": "instrument",
+      "id": "inst.slide_guitar",
+      "label": "Slide guitar"
+    },
+    "smooth": {
+      "category": "mood",
+      "id": "mood.smooth",
+      "label": "Smooth"
+    },
+    "snare": {
+      "category": "instrument",
+      "id": "inst.snare",
+      "label": "Snare"
+    },
+    "soul": {
+      "category": "genre",
+      "id": "genre.soul",
+      "label": "Soul"
+    },
+    "soulful": {
+      "category": "mood",
+      "id": "mood.soulful",
+      "label": "Soulful"
+    },
+    "sparse": {
+      "category": "mood",
+      "id": "mood.sparse",
+      "label": "Sparse"
+    },
+    "spoken word": {
+      "category": "instrument",
+      "id": "inst.spoken_word",
+      "label": "Spoken word"
+    },
+    "steel drums": {
+      "category": "instrument",
+      "id": "inst.steel_drums",
+      "label": "Steel drums"
+    },
+    "strings": {
+      "category": "instrument",
+      "id": "inst.strings",
+      "label": "Strings"
+    },
+    "synth bass": {
+      "category": "instrument",
+      "id": "inst.synth_bass",
+      "label": "Synth bass"
+    },
+    "synth lead": {
+      "category": "instrument",
+      "id": "inst.synth_lead",
+      "label": "Synth lead"
+    },
+    "synth pad": {
+      "category": "instrument",
+      "id": "inst.synth_pad",
+      "label": "Synth pad"
+    },
+    "synthwave": {
+      "category": "genre",
+      "id": "genre.synthwave",
+      "label": "Synthwave"
+    },
+    "tabla": {
+      "category": "instrument",
+      "id": "inst.tabla",
+      "label": "Tabla"
+    },
+    "tambourine": {
+      "category": "instrument",
+      "id": "inst.tambourine",
+      "label": "Tambourine"
+    },
+    "techno": {
+      "category": "genre",
+      "id": "genre.techno",
+      "label": "Techno"
+    },
+    "tense": {
+      "category": "mood",
+      "id": "mood.tense",
+      "label": "Tense"
+    },
+    "timpani": {
+      "category": "instrument",
+      "id": "inst.timpani",
+      "label": "Timpani"
+    },
+    "trap": {
+      "category": "genre",
+      "id": "genre.trap",
+      "label": "Trap"
+    },
+    "trip hop": {
+      "category": "genre",
+      "id": "genre.trip_hop",
+      "label": "Trip hop"
+    },
+    "triumphant": {
+      "category": "mood",
+      "id": "mood.triumphant",
+      "label": "Triumphant"
+    },
+    "trombone": {
+      "category": "instrument",
+      "id": "inst.trombone",
+      "label": "Trombone"
+    },
+    "trumpet": {
+      "category": "instrument",
+      "id": "inst.trumpet",
+      "label": "Trumpet"
+    },
+    "uplifting": {
+      "category": "mood",
+      "id": "mood.uplifting",
+      "label": "Uplifting"
+    },
+    "upright bass": {
+      "category": "instrument",
+      "id": "inst.upright_bass",
+      "label": "Upright bass"
+    },
+    "vibraphone": {
+      "category": "instrument",
+      "id": "inst.vibraphone",
+      "label": "Vibraphone"
+    },
+    "vinyl crackle": {
+      "category": "instrument",
+      "id": "inst.vinyl_crackle",
+      "label": "Vinyl crackle"
+    },
+    "violin": {
+      "category": "instrument",
+      "id": "inst.violin",
+      "label": "Violin"
+    },
+    "vocal chop": {
+      "category": "instrument",
+      "id": "inst.vocal_chop",
+      "label": "Vocal chop"
+    },
+    "wah guitar": {
+      "category": "instrument",
+      "id": "inst.wah_guitar",
+      "label": "Wah guitar"
+    },
+    "warm": {
+      "category": "mood",
+      "id": "mood.warm",
+      "label": "Warm"
+    },
+    "wurlitzer": {
+      "category": "instrument",
+      "id": "inst.wurlitzer",
+      "label": "Wurlitzer"
+    }
+  },
+  "vocab_sha256": "58e11a8e9df70520508d5a902d7120d3aa42a133d09f690c8306f70534b6ed9c"
+}
