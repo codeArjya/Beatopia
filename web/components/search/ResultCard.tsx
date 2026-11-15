@@ -7,6 +7,7 @@ import { useId, useState, type KeyboardEvent } from "react";
 import { AppButton, AppCard, Attribution, LicenseBadge, MonoStat } from "@/components/adapters";
 import { editorHref } from "@/lib/links";
 import { StemsDrawer } from "@/components/stems/StemsDrawer";
+import { useSearchEvents } from "@/lib/events/SearchEvents";
 import { usePreviewPlayer, type PreviewItem } from "@/lib/preview/PreviewProvider";
 import { formatWindow, topTags } from "@/lib/search/results";
 import type { Result } from "@/lib/types/api";
@@ -36,6 +37,7 @@ export function ResultCard({ result: r }: { result: Result }) {
   const tags = topTags(r.tags);
   const fallbackSource = r.track.source === "freesound";
   const [stemsOpen, setStemsOpen] = useState(false);
+  const events = useSearchEvents();
 
   const onKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.target !== e.currentTarget || e.altKey || e.ctrlKey || e.metaKey) return;
@@ -84,7 +86,10 @@ export function ResultCard({ result: r }: { result: Result }) {
               href={editorHrefOf(r)}
               aria-label={`Open ${r.track.title} in the editor`}
               // Hiding the page stops the preview too (useStopPreviewOnHide); stopping here is immediate.
-              onClick={() => player.stop()}
+              onClick={() => {
+                player.stop();
+                events.pick(r.window_id);
+              }}
             >
               <ExternalLinkIcon className="size-4" aria-hidden />
               <span className="hidden @lg:inline">Open in editor</span>
@@ -101,6 +106,7 @@ export function ResultCard({ result: r }: { result: Result }) {
         endS={r.end_s}
         open={stemsOpen}
         onOpenChange={setStemsOpen}
+        onUse={() => events.pick(r.window_id)}
       />
 
       <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">

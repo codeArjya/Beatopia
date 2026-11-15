@@ -7,6 +7,7 @@ import { toast } from "sonner";
 
 import { AppButton } from "@/components/adapters";
 import { useSearch, type SearchParams } from "@/lib/api";
+import { SearchEvents } from "@/lib/events/SearchEvents";
 import { resultsStatusText, searchErrorKind, searchErrorMessage, SLOW_SEARCH_MS } from "@/lib/search/results";
 import { useSlow } from "@/lib/search/useSlow";
 
@@ -104,18 +105,20 @@ export function ResultList({ request, lastChipLabel, onRemoveLastChip }: ResultL
       )}
 
       {results && results.length > 0 && (
-        <ol
-          aria-label="Results"
-          aria-busy={refreshing}
-          className={cn("grid gap-3 transition-opacity duration-(--dur-shuffle) xl:grid-cols-2", refreshing && "opacity-60")}
-        >
-          {results.map((r) => (
-            // New results rise in (180 ms, CSS only; off under reduced motion). Keyed by window, so kept cards don't re-run it.
-            <li key={r.window_id} className="flex min-w-0 motion-safe:animate-rise-in">
-              <ResultCard result={r} />
-            </li>
-          ))}
-        </ol>
+        <SearchEvents queryId={data?.query_id ?? null} windowIds={results.map((r) => r.window_id)}>
+          <ol
+            aria-label="Results"
+            aria-busy={refreshing}
+            className={cn("grid gap-3 transition-opacity duration-(--dur-shuffle) xl:grid-cols-2", refreshing && "opacity-60")}
+          >
+            {results.map((r) => (
+              // New results rise in (180 ms, CSS only; off under reduced motion). Keyed by window, so kept cards don't re-run it.
+              <li key={r.window_id} className="flex min-w-0 motion-safe:animate-rise-in">
+                <ResultCard result={r} />
+              </li>
+            ))}
+          </ol>
+        </SearchEvents>
       )}
     </div>
   );

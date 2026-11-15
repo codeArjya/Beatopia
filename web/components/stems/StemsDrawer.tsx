@@ -27,6 +27,8 @@ export type StemsDrawerProps = {
    * `/editor?track=…&start=…&end=…&stem=…`.
    */
   onPick?: (stem: Stem) => void;
+  /** Called after either "Use in editor" path (analytics: the search page sends a `pick` event). */
+  onUse?: (stem: Stem) => void;
 };
 
 const STEM_LABEL: Record<Stem["stem"], string> = {
@@ -50,7 +52,7 @@ const STATUS_TEXT: Partial<Record<StemsFlowStatus, string>> = {
  * separation job is polled with a progress bar. Each row plays that stem alone through the shared preview
  * player and can be sent to the editor. Radix handles Esc, the focus trap, and returning focus to the opener.
  */
-export function StemsDrawer({ trackId, startS, endS, open, onOpenChange, trackTitle, onPick }: StemsDrawerProps) {
+export function StemsDrawer({ trackId, startS, endS, open, onOpenChange, trackTitle, onPick, onUse }: StemsDrawerProps) {
   const player = usePreviewPlayer();
   const flow = useStemsFlow(trackId, startS, endS, open);
   const stuck = useSlow(flow.status === "queued", `${trackId}:${startS}-${endS}`, STUCK_QUEUE_MS);
@@ -106,6 +108,7 @@ export function StemsDrawer({ trackId, startS, endS, open, onOpenChange, trackTi
               startS={startS}
               endS={endS}
               onPick={onPick}
+              onUse={onUse}
               onLeave={() => onOpen(false)}
             />
           ))}
@@ -121,6 +124,7 @@ function StemRow({
   startS,
   endS,
   onPick,
+  onUse,
   onLeave,
 }: {
   stem: Stem;
@@ -128,6 +132,7 @@ function StemRow({
   startS: number;
   endS: number;
   onPick?: (stem: Stem) => void;
+  onUse?: (stem: Stem) => void;
   onLeave: () => void;
 }) {
   const player = usePreviewPlayer();
@@ -146,6 +151,7 @@ function StemRow({
           aria-label={useLabel}
           onClick={() => {
             player.stop();
+            onUse?.(stem);
             onPick(stem);
           }}
         >
@@ -159,6 +165,7 @@ function StemRow({
             aria-label={useLabel}
             onClick={() => {
               player.stop();
+              onUse?.(stem);
               onLeave();
             }}
           >
