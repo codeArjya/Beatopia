@@ -109,9 +109,9 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* unit test for the stem offset math. Manually: each stem plays its matching segment, and "Use in editor" opens `…&stem=drums`. Esc closes and returns focus to the Stems button.
 
 ### Go live + deploy, H12 → H14 (together with WS2)
-- [ ] **T6.1 Live API** (1.5 h). `NEXT_PUBLIC_USE_FIXTURES=0` and fix what real data breaks: long titles, missing bpm or key, no results, slow searches (> 3 s spinner text), CORS on the waveform fetch.
+- [x] **T6.1 Live API** (1.5 h). `NEXT_PUBLIC_USE_FIXTURES=0` and fix what real data breaks: long titles, missing bpm or key, no results, slow searches (> 3 s spinner text), CORS on the waveform fetch.
   *Accept:* 5 real queries render without layout breaks. Fixture mode still passes the H8 walkthrough.
-  *Status (session 7):* hardening done and H8 re-passed. The 5 real queries are **not run yet**: the API VM didn't answer. Left open.
+  *Status (session 7):* hardening done and H8 re-passed. Later in the session the API came up, and 5 real queries rendered with no layout breaks (see the session 7 addendum).
 - [ ] **T6.2 Vercel deploy** (1 h). Project rooted at `web/`, env vars set, production URL sent to the human, CORS confirmed with WS2.
   *Accept:* the production URL runs a live search with no CORS errors in the console.
 
@@ -376,3 +376,10 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - **T6.1 acceptance:** needs the API VM reachable (WS2/human: check the VM is running and that the Vultr firewall allows 443).
   - **T6.2:** needs the human to approve creating the Vercel project and setting the env vars, and to run `vercel login` (interactive).
   - Commits are local on `ws3-web` (not pushed). PR #3/#4 status was not checked this session.
+- **Addendum (later in session 7): the live API came up.** The 5 real queries pass in Chrome (`dusty soul keys`, `punchy drums`, `melancholy piano`, `funky bass` + Melancholy chip, `zzqx nonsense`) on `next dev -p 3000` with `NEXT_PUBLIC_USE_FIXTURES=0`. Each returned 8 cards with real waveforms, no layout breaks and no console errors. A missing BPM ("The Notebook") shows "—". Playback and the playhead work. T6.1 ticked.
+  - **Port matters:** the API's CORS allows only `http://localhost:3000`. On :3001 every call fails as `network_error`. The Vercel origin isn't allowed yet either (WS2 needs to add it for T6.2).
+  - CORS is correct on preflight, GET, and 4xx error bodies. The Supabase audio sends `Access-Control-Allow-Origin: *`, so the waveform fetch works. Each file is a 180 s, 192 kbps MP3 (4,321,532 bytes); fetches take 0.2–0.6 s each.
+  - Search latency (curl): 4.8–6.6 s for the first queries, then about 0.25 s. The "Still searching…" text is worth having.
+  - **`/why` returns 502 `upstream_error`** ("notes are unavailable right now (auto-degraded after 3 failures)"). The note service is failing on WS2's side. The UI shows "Couldn't load the note." with Retry. Cached `why` notes from search do render.
+  - Data notes for WS1/WS2: results often repeat one track (e.g. 3 of 8 cards are "A Sweaty Nightmare"); a nonsense query still returns 8 results (no empty state in practice); some BPMs are doubled (252 for a piano piece).
+  - Still unchecked live: the stems job path (progress + Retry) and `fallback_used`.
