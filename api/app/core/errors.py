@@ -52,6 +52,7 @@ class ApiException(Exception):
         self.code: ErrorCode = code
         self.message = message
         self.status = status if status is not None else STATUS[code]
+        self.headers: dict[str, str] = {}
 
 
 def not_found(message: str) -> ApiException:
@@ -70,14 +71,15 @@ def rate_limited(message: str = "too many requests, slow down") -> ApiException:
     return ApiException("rate_limited", message)
 
 
-def error_response(status: int, code: str, message: str) -> JSONResponse:
-    return JSONResponse(status_code=status, content={"error": ApiError(code=code, message=message).model_dump()})
+def error_response(status: int, code: str, message: str, headers: dict[str, str] | None = None) -> JSONResponse:
+    body = {"error": ApiError(code=code, message=message).model_dump()}
+    return JSONResponse(status_code=status, content=body, headers=headers or None)
 
 
 def install_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(ApiException)
     async def _api(_: Request, exc: ApiException) -> JSONResponse:
-        return error_response(exc.status, exc.code, exc.message)
+        return error_response(exc.status, exc.code, exc.message, exc.headers)
 
     @app.exception_handler(StarletteHTTPException)
     async def _http(_: Request, exc: StarletteHTTPException) -> JSONResponse:

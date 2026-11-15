@@ -216,6 +216,7 @@ class Gemini:
 def from_settings(settings: Settings) -> Gemini:
     """The process-wide client (created once in the lifespan)."""
     if settings.gemini_degraded:
+        log.warning("gemini off: GEMINI_DEGRADED=1 (planner, rerank, /why and /assist generation are skipped)")
         return Gemini(None, settings.gemini_model, disabled_reason="GEMINI_DEGRADED=1")
     if not settings.gemini_api_key:
         log.warning("GEMINI_API_KEY is not set: planner, rerank and notes are skipped")

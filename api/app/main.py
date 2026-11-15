@@ -22,6 +22,7 @@ from app.core.chips import load_chips
 from app.core.errors import install_error_handlers
 from app.core.freesound import Freesound
 from app.core.planner import vocab_tags
+from app.core.ratelimit import RateLimiter
 from app.core.settings import Settings, get_settings, origin_regex
 from app.core.timing import configure_logging, install_timing
 from app.fixture_routes import fixture
@@ -105,6 +106,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     configure_logging()
     app = FastAPI(title="Beatopia API", version="0.1.0", lifespan=_lifespan(settings))
     app.state.settings = settings
+    app.state.limiter = RateLimiter()  # per process; 429 rate_limited (T11.2)
 
     install_timing(app)
     app.add_middleware(
