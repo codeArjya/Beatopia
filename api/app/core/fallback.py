@@ -25,7 +25,7 @@ from app.core.scoring import similarity
 from app.core.search_sql import Candidate
 from app.core.snap import NOMINAL_BARS, ONE_SHOT_MAX_S, Bars
 from app.models.api import Chip, Result, TrackDetail, TrackLite, Window
-from common import storage
+from common import audio, storage
 
 log = logging.getLogger("app.fallback")
 
@@ -35,6 +35,7 @@ FS_SCORE_TOP = 0.5
 FS_SCORE_STEP = 0.02
 FS_SCORE_MIN = 0.1
 NOTE_TTL_S = 24 * 3600.0
+MIX_BITRATE = "192k"  # CONTRACT §2: tracks/{id}/mix.mp3 is 44.1 kHz stereo MP3 192k
 
 Reason = Literal["weak", "gap"]
 
@@ -156,21 +157,27 @@ def store_track(pool: ConnectionPool, fs: Freesound | None, track_id: str) -> bo
         raise not_found(f"track {track_id} not found")
 
     path = f"tracks/{track_id}/mix.mp3"
-    fd, tmp = tempfile.mkstemp(prefix="beatopia-fs-", suffix=".mp3")
-    os.close(fd)
-    try:
+    with tempfile.TemporaryDirectory(prefix="beatopia-fs-") as workdir:
+        preview, mix = os.path.join(workdir, "preview.mp3"), os.path.join(workdir, "mix.mp3")
         assert fs is not None  # live_sound returned a sound
         try:
-            size = fs.download_preview(sound, tmp)
+            size = fs.download_preview(sound, preview)
         except FreesoundError as exc:
             raise upstream_error(f"could not fetch the Freesound preview ({exc})") from exc
+        # Library audio is 44.1 kHz stereo MP3 192k (CONTRACT §2), like WS1's ingest mixes: transcode the preview
+        # with the same helper instead of storing Freesound's bytes as they are (issue #13 / WS1 full report).
         try:
-            storage.upload(tmp, path, "audio/mpeg")
+            audio.to_mp3(preview, mix, MIX_BITRATE)
+            y, sr = audio.load_mono(mix)
+            duration_s = round(len(y) / sr, 3) if sr and len(y) else sound.duration_s
+        except Exception as exc:
+            log.warning("fallback %s: preview transcode failed", track_id, exc_info=True)
+            raise upstream_error("could not convert the Freesound preview") from exc
+        try:
+            storage.upload(mix, path, "audio/mpeg")
         except Exception as exc:
             log.warning("fallback %s: preview upload failed", track_id, exc_info=True)
             raise upstream_error("could not copy the Freesound preview to storage") from exc
-    finally:
-        os.unlink(tmp)
 
     with pool.connection() as conn:
         conn.execute(
@@ -185,7 +192,7 @@ def store_track(pool: ConnectionPool, fs: Freesound | None, track_id: str) -> bo
                 sound.username,
                 sound.license,
                 sound.attribution,
-                sound.duration_s,
+                duration_s,
                 path,
             ),
         )

@@ -735,3 +735,49 @@ Commits: `4cddf09` (T2.2 note), `f419cbb` (T11.1), `cfb811f` (T11.2), plus this 
    `uv run --project api python api/scripts/bench.py --url https://45-77-216-35.sslip.io --bust`
    (pass 1 p50 < 3000 ms closes T11.1). Check that both image labels show the new sha.
 2. Review and merge the WS2 PR into `main`. Then `ws2-api` can be reset to `main`.
+
+
+## 2026-11-15 · session 7 continued (issue #13, deploy, T11.1 closed)
+
+PR #11 (all of WS2) was merged by the human as `8fd56a0`. WS1 then filed **issue #13** against production
+`7431e35`. Branch `ws2-launch` from `main` `bd4ab02`, in the same worktree, is **PR #16** (pushed). The human gave
+permission to run the deploy and repair commands.
+
+### Done
+- **Strict stem limit:** `check_range` rejects `end − start > 60 s` on the request (µs rounding only).
+  Production: 0..60.005 → 400 `range_too_long`, 0..61 → 400, 0..60 → 200.
+- **Excerpt joins:** `snap.piece_bounds()` mirrors ingest's `excerpt_ranges` (library tracks stored at 180 s are
+  joined at 120 s; checked over all 351 library tracks); `/search` and `/why` snap inside the piece; if no beat is
+  within one bar of the start, the stored bounds stay. DB replay: 12,646 windows, crossings 232 → 0. Production:
+  q05/q06/q16 at `limit: 24` → 59 results, 0 crossing.
+- **Fallback mix format:** `store_track` transcodes the Freesound preview with `common.audio.to_mp3` (44.1 kHz
+  stereo 192k) and stores the measured duration. `scripts/repair_fallback_mixes.py --apply` fixed `fs_754932`
+  (171,878 → 192,000 bit/s; duration 11.0 s unchanged; old bytes in `.claude/backups/fallback-mix/` of the main
+  checkout).
+- **Deploy:** `deploy.sh` is API-only by default (`--no-deps`, no `--remove-orphans`, no directory swap).
+  `WORKER=1` backs up `/app/worker/data` and seeds the new `beatopia_worker_data` volume; `CADDY=1` is opt-in.
+  Deployed `ws2-launch` `5ee478a` API-only: api recreated, worker (`7431e35`) and Caddy untouched; label =
+  process revision per container.
+- **T11.1 closed:** production `bench.py --bust` cold p50 **2601 ms** (was 3923), rerank 1080 ms, 0 errors; warm
+  82 ms.
+- Checks: global `make lint` green (ruff, ESLint, `tsc`); api tests 236 passed, 10 skipped.
+
+### Deviations
+- Deployed the PR branch `ws2-launch` (not `main`) because PR #16 isn't merged yet; it is `main` + WS2 fixes only.
+
+### Gotchas
+- `repair_fallback_mixes.py` crashed on a cp1252 console after its upload (fixed in `d22ffd8`). The upload had
+  landed; the DB update rolled back but wasn't needed.
+- A `cmd | grep -v …` chain hides the exit code of `cmd`: `d22ffd8` was pushed with one ruff E501, fixed in
+  `fb24751`.
+- The worker still has no durable data volume in production: it wasn't recreated. Before `WORKER=1`, check
+  `docker inspect --format '{{json .Mounts}}' beatopia-worker-1` and that no job is running.
+- WS1's report still needs to accept API-materialized fallback tracks (no ingest manifest); that's `ingest/`.
+
+### State
+- **Production:** API `5ee478a` (ws2-launch), worker `7431e35`, Caddy unchanged. Flags unchanged.
+- PR #16 open, mergeable. Issue #13 open until WS1 re-checks.
+
+### Next
+1. Merge PR #16. Production already runs its code, so no redeploy is needed (redeploying `main` is harmless).
+2. WS1 re-checks #13 and closes it. Recreate the worker with `WORKER=1` only when it's needed.

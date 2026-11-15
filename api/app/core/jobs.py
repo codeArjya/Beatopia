@@ -22,7 +22,8 @@ from common.storage import public_url
 log = logging.getLogger("app.jobs")
 
 MAX_STEM_RANGE_S = 60.0
-EPS_S = 0.01  # float slack: stored ranges are `real`, requests are float64
+EPS_S = 0.01  # coverage slack: stored ranges are `real`, requests are float64 (never applied to the 60 s limit)
+RANGE_DECIMALS = 6
 STEM_ORDER = ("vocals", "drums", "bass", "other", "guitar", "piano")
 MODEL_STEMS: dict[str, frozenset[str]] = {
     "htdemucs": frozenset(STEM_ORDER[:4]),
@@ -37,7 +38,9 @@ def check_range(req: StemsRequest, duration_s: float | None = None) -> tuple[flo
         raise bad_request("start_s must be >= 0")
     if end <= start:
         raise bad_request("end_s must be greater than start_s")
-    if end - start > MAX_STEM_RANGE_S + EPS_S:
+    # Strict (CONTRACT §5: "> 60 s" is rejected), checked on the request before any clamping or coverage slack.
+    # Rounding to the microsecond only absorbs float64 noise, so 10.1..70.1 passes and 0..60.005 doesn't.
+    if round(end - start, RANGE_DECIMALS) > MAX_STEM_RANGE_S:
         raise ApiException("range_too_long", f"stem ranges are limited to {MAX_STEM_RANGE_S:.0f} s")
     if duration_s is not None and duration_s > 0:
         if start >= duration_s:

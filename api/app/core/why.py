@@ -29,7 +29,7 @@ from app.core.freesound import Freesound, FreesoundError, Sound
 from app.core.gemini import CallBudget, Gemini, GeminiUnavailable
 from app.core.rerank import trim_note
 from app.core.search import audio_path
-from app.core.snap import snap_window
+from app.core.snap import piece_bounds, snap_window
 from app.core.timing import note, stage
 from app.models.api import WhyResponse
 from common.storage import public_url
@@ -75,7 +75,7 @@ WHY_SCHEMA: dict[str, Any] = {"type": "object", "properties": {"note": {"type": 
 
 WINDOW_SQL = """
 select w.id, w.track_id, w.stem, w.start_s, w.end_s, w.tags,
-       t.title, t.artist, t.bpm, t.key, t.duration_s, t.beat_times, t.audio_path,
+       t.title, t.artist, t.source, t.bpm, t.key, t.duration_s, t.beat_times, t.audio_path,
        n.text as note
 from windows w
 join tracks t on t.id = w.track_id
@@ -114,12 +114,14 @@ def user_content(row: dict[str, Any], seconds: float, bars: int) -> str:
 def excerpt_range(row: dict[str, Any]) -> tuple[float, float, int]:
     """(start_s, seconds, bars) of the window as /search serves it, capped at 15 s."""
     bpm = float(row["bpm"]) if row["bpm"] else None
+    start, end, duration = float(row["start_s"]), float(row["end_s"]), float(row["duration_s"])
     snapped = snap_window(
-        float(row["start_s"]),
-        float(row["end_s"]),
+        start,
+        end,
         bpm=bpm,
         beat_times=row["beat_times"] or [],
-        duration_s=float(row["duration_s"]),
+        duration_s=duration,
+        piece=piece_bounds(start, end, duration_s=duration, source=row.get("source")),
     )
     return snapped.start_s, min(snapped.end_s - snapped.start_s, excerpt.MAX_EXCERPT_S), snapped.bars
 

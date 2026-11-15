@@ -46,6 +46,9 @@ def client(monkeypatch: pytest.MonkeyPatch) -> TestClient:
         (5.0, 5.0, None, "bad_request"),
         (-1.0, 4.0, None, "bad_request"),
         (0.0, 61.0, None, "range_too_long"),
+        (0.0, 60.005, None, "range_too_long"),  # issue #13: the old 0.01 slack let this through
+        (0.0, 60.005, 180.0, "range_too_long"),  # strict on the request, before clamping to the track
+        (10.0, 70.000002, None, "range_too_long"),
         (40.0, 50.0, 30.0, "bad_request"),
     ],
 )
@@ -58,6 +61,10 @@ def test_check_range_rejects(start: float, end: float, duration: float | None, c
 def test_check_range_clamps_end_to_duration() -> None:
     assert jobs.check_range(StemsRequest(start_s=20.0, end_s=30.05), 30.0) == (20.0, 30.0)
     assert jobs.check_range(StemsRequest(start_s=0.0, end_s=60.0), 180.0) == (0.0, 60.0)
+    # exactly 60 s survives float64 noise (70.1 - 10.1 = 60.00000000000001)
+    assert jobs.check_range(StemsRequest(start_s=10.1, end_s=70.1), 180.0) == (10.1, 70.1)
+    # an end past a short track: the full request is checked first, then clamped
+    assert jobs.check_range(StemsRequest(start_s=0.0, end_s=59.99), 30.0) == (0.0, 30.0)
 
 
 def test_route_range_errors_skip_the_db(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:

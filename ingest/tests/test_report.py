@@ -151,6 +151,84 @@ def test_small_corpus_does_not_claim_targets_or_listening(tmp_path, monkeypatch)
     assert result["acceptance"]["prominent_timbres_30"] == "unverified"
 
 
+def api_track(**over) -> dict:
+    """What WS2's fallback.store_track inserts before a stems request (CONTRACT §7.7)."""
+    track = dict(
+        id="fs_754932",
+        source="freesound",
+        source_id="754932",
+        source_url="https://freesound.org/s/754932/",
+        title="Kazoo",
+        artist="someone",
+        license="CC0",
+        attribution="Kazoo by someone; https://freesound.org/s/754932/; CC0",
+        duration_s=11.0,
+        bpm=None,
+        key=None,
+        beat_times=[],
+        is_hero=False,
+        audio_path="tracks/fs_754932/mix.mp3",
+    )
+    return {**track, **over}
+
+
+def stem_rows(tid: str, end: float) -> list[dict]:
+    return [
+        dict(track_id=tid, stem=s, range_start_s=0, range_end_s=end, path=f"tracks/{tid}/stems/{s}_0_11000.mp3")
+        for s in report.STEMS
+    ]
+
+
+def test_api_materialized_fallback_track_is_audited_without_a_manifest(tmp_path, monkeypatch):
+    monkeypatch.setattr(report.analysis, "_vocab", lambda: {"instrument": ["piano"]})
+    data = dict(tracks=[api_track()], windows=[], stems=stem_rows("fs_754932", 11.0), jobs=[])
+    result, specs = report.build_report(data, tmp_path)
+    assert result["counts"]["library_tracks"] == 0 and result["counts"]["api_materialized_tracks"] == 1
+    assert result["counts"]["imports"] == 0
+    assert result["track_audit"] == []  # not an ingested library track: no manifest expected
+    assert result["api_materialized_audit"] == [{"id": "fs_754932", "stems": 4, "issues": []}]
+    # Its public mix and stems are still decoded and probed like every other object.
+    assert {s["path"] for s in specs} == {"tracks/fs_754932/mix.mp3", *(r["path"] for r in data["stems"])}
+    report.finish_report(result, [{**s, "verified": True} for s in specs])
+    assert result["acceptance"]["technically_verified_library"] == 0  # never counts toward the 300-500 target
+
+
+@pytest.mark.parametrize(
+    ("over", "issue"),
+    [
+        (dict(attribution=" "), "attribution"),
+        (dict(license="CC-BY-NC-4.0"), "license"),
+        (dict(source_id="1"), "id_source_mismatch"),
+        (dict(audio_path="tracks/fs_754932/preview.mp3"), "audio_path"),
+    ],
+)
+def test_api_materialized_metadata_problems_are_issues(tmp_path, monkeypatch, over, issue):
+    monkeypatch.setattr(report.analysis, "_vocab", lambda: {"instrument": ["piano"]})
+    result, _ = report.build_report(dict(tracks=[api_track(**over)], windows=[], stems=[], jobs=[]), tmp_path)
+    assert issue in result["api_materialized_audit"][0]["issues"]
+
+
+def test_api_materialized_bad_stem_range_is_an_issue(tmp_path, monkeypatch):
+    monkeypatch.setattr(report.analysis, "_vocab", lambda: {"instrument": ["piano"]})
+    data = dict(tracks=[api_track()], windows=[], stems=stem_rows("fs_754932", 30.0), jobs=[])
+    result, _ = report.build_report(data, tmp_path)
+    assert "invalid_stem_range_or_name" in result["api_materialized_audit"][0]["issues"]
+
+
+@pytest.mark.parametrize("over", [dict(bpm=90.0), dict(key="A minor"), dict(beat_times=[0.5]), dict(source="jamendo")])
+def test_only_unanalyzed_freesound_rows_skip_the_manifest(tmp_path, monkeypatch, over):
+    monkeypatch.setattr(report.analysis, "_vocab", lambda: {"instrument": ["piano"]})
+    result, _ = report.build_report(dict(tracks=[api_track(**over)], windows=[], stems=[], jobs=[]), tmp_path)
+    assert result["api_materialized_audit"] == [] and result["track_audit"][0]["issues"]  # manifest still required
+
+
+def test_an_ingest_folder_means_a_library_track(tmp_path, monkeypatch):
+    monkeypatch.setattr(report.analysis, "_vocab", lambda: {"instrument": ["piano"]})
+    (tmp_path / "tracks" / "fs_754932").mkdir(parents=True)
+    result, _ = report.build_report(dict(tracks=[api_track()], windows=[], stems=[], jobs=[]), tmp_path)
+    assert result["api_materialized_audit"] == [] and result["track_audit"][0]["issues"]
+
+
 def test_bad_log_line_is_visible_and_secrets_are_not_copied(tmp_path):
     path = tmp_path / "events.jsonl"
     path.write_text('{"event":"failure","id":"fs_1","password":"private"}\n{"incomplete":')

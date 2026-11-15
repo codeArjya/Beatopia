@@ -1,7 +1,8 @@
-# Beatopia production stack (Vultr VM). From the repo root on the VM (/opt/beatopia):
-#   docker compose -f deploy/docker-compose.yml --env-file .env up -d --build
-# The worker (WS1's job loop) is behind the "worker" profile; start it with:
-#   docker compose -f deploy/docker-compose.yml --env-file .env --profile worker up -d --build
+# Beatopia production stack (Vultr VM), deployed with deploy/deploy.sh (API only by default; WORKER=1 / CADDY=1).
+# Targeted by hand, from /opt/beatopia, always one named service with --no-deps and never --remove-orphans:
+#   docker compose -f deploy/docker-compose.yml --env-file .env up -d --build --no-deps api
+# The worker (WS1's job loop) is behind the "worker" profile; recreate it only via `WORKER=1 deploy/deploy.sh`,
+# which backs up and carries over its data directory (issue #13).
 name: beatopia
 
 services:
@@ -39,6 +40,10 @@ services:
     volumes:
       - hf_cache:/root/.cache/huggingface
       - torch_cache:/root/.cache/torch
+      # WORKER_DATA_DIR (default worker/data): separation/import checkpoints, receipts, worker.jsonl. Without a
+      # volume they live in the container layer and a recreate loses them (issue #13). deploy.sh WORKER=1 backs up
+      # the old container's copy and seeds this volume from it the first time.
+      - worker_data:/app/worker/data
     restart: unless-stopped
     logging: *logging
 
@@ -64,3 +69,5 @@ volumes:
   torch_cache:
   caddy_data:
   caddy_config:
+  worker_data:
+    name: beatopia_worker_data  # fixed name: deploy.sh seeds it from a backup with a helper container

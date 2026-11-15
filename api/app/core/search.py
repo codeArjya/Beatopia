@@ -17,7 +17,7 @@ from app.core.freesound import Freesound, FreesoundError, Sound
 from app.core.gemini import Gemini
 from app.core.scoring import Scored, rank
 from app.core.settings import Settings
-from app.core.snap import snap_window
+from app.core.snap import piece_bounds, snap_window
 from app.core.timing import note, stage
 from app.core.tracks import track_lite
 from app.models.api import Chip, Result, SearchRequest, SearchResponse
@@ -43,7 +43,9 @@ def audio_path(track_id: str, stem: str, mix_path: str) -> str:
 def to_result(s: Scored, why: str | None = None) -> Result:
     c = s.candidate
     t = c.track
-    snapped = snap_window(c.start_s, c.end_s, bpm=c.bpm, beat_times=t["beat_times"], duration_s=float(t["duration_s"]))
+    duration = float(t["duration_s"])
+    piece = piece_bounds(c.start_s, c.end_s, duration_s=duration, source=t["source"])
+    snapped = snap_window(c.start_s, c.end_s, bpm=c.bpm, beat_times=t["beat_times"], duration_s=duration, piece=piece)
     return Result(
         window_id=c.window_id,
         track=track_lite(t),
