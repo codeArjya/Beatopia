@@ -3,8 +3,10 @@
 Chips are merged AFTER the plan, so chips always apply. Text-less (chips-only) searches never call Gemini. Any Gemini
 failure gives `base_plan` (the raw text as CLAP caption, no filters), which is not cached.
 
-Cache: sha256(normalized text | sorted chip ids) → the pre-merge plan, in `plan_cache` plus an in-process LRU in
-front of it (the session pooler round trip alone is 80–170 ms).
+Cache: sha256("v2|" normalized text | sorted chip ids) → the pre-merge plan plus `missing_sounds`, in `plan_cache`
+plus an in-process LRU in front of it (the session pooler round trip alone is 80–170 ms). `missing_sounds` are the
+requested sounds that aren't in the tag vocabulary; they trigger the Freesound fallback (proposal C10). "v2" because
+plans cached before C10 never asked for them.
 """
 
 from __future__ import annotations
@@ -39,6 +41,9 @@ PLAN_TEMPERATURE = 0.2
 SINGLE_BPM_HALF_WIDTH = 5.0
 MAX_MUST_TAGS = 4
 MAX_EXCLUDE_TAGS = 12
+MAX_MISSING_SOUNDS = 3
+MAX_SOUND_CHARS = 40
+CACHE_VERSION = "v2"
 STEMS = ["vocals", "drums", "bass", "other", "guitar", "piano"]
 MEMORY_CACHE_SIZE = 1024
 
@@ -119,6 +124,13 @@ stems_wanted: only if the user explicitly asks to ISOLATE a part from a song: "j
 prefer_sparse: true only if the user asks for a clean, open, isolated or minimal moment ("clean",
   "solo", "just the", "sparse", "exposed", "breakdown", "intro"). An instrument or genre name alone is
   not a reason. Otherwise false.
+missing_sounds: the instruments or sounds the user explicitly asks for that the library cannot have,
+  because no instrument tag below names them or a close variant of them. One or two plain words each,
+  for example "kazoo", "bagpipes", "didgeridoo", "dog barking", "rain". Variants and families of a listed
+  tag are NOT missing: "keys" or "electric piano" is rhodes/piano, "horn section" is horns, "sax" is
+  saxophone, "drums" or "beat" is drum loop/breakbeat, "bassline" is bass guitar/synth bass, "vocals" or
+  "voice" is the vocal tags, "synth" is the synth tags. Genres, moods, tempos, keys and production words
+  ("lo-fi", "reverb", "chopped") are never missing. Almost always [].
 
 The user may also have selected filter chips. Chips are applied by the system AFTER you answer, so do
 not repeat them; but do keep clap_text consistent with them (if a "soul" chip is selected, the
@@ -167,6 +179,7 @@ def plan_schema() -> dict[str, Any]:
         "key": _nullable({"type": "string", "enum": KEYS}),
         "stems_wanted": {"type": "array", "items": {"type": "string", "enum": STEMS}},
         "prefer_sparse": {"type": "boolean"},
+        "missing_sounds": {"type": "array", "maxItems": MAX_MISSING_SOUNDS, "items": {"type": "string"}},
     }
     return {"type": "object", "properties": props, "required": list(props)}
 
@@ -216,28 +229,50 @@ def from_gemini(raw: dict[str, Any], *, fallback_text: str, vocab_path: Path) ->
     )
 
 
+def missing_from_gemini(raw: dict[str, Any], *, vocab_path: Path) -> tuple[str, ...]:
+    """Gemini's `missing_sounds`, cleaned: lower case, short, deduped, and never a vocabulary tag."""
+    allowed = set(vocab_tags(vocab_path))
+    value = raw.get("missing_sounds")
+    out: dict[str, None] = {}
+    for item in value if isinstance(value, list) else []:
+        if not isinstance(item, str):
+            continue
+        sound = " ".join(item.lower().split())
+        if sound and len(sound) <= MAX_SOUND_CHARS and sound not in allowed:
+            out[sound] = None
+    return tuple(out)[:MAX_MISSING_SOUNDS]
+
+
 # ---- cache ----
+
+
+@dataclass(frozen=True)
+class Planned:
+    """What the planner caches: the pre-merge plan and the requested sounds outside the vocab."""
+
+    plan: SearchPlan
+    missing_sounds: tuple[str, ...] = ()
 
 
 def cache_key(text: str, chip_ids: Sequence[str]) -> str:
     norm = " ".join(text.lower().split())
-    return hashlib.sha256(f"{norm}|{','.join(sorted(chip_ids))}".encode()).hexdigest()
+    return hashlib.sha256(f"{CACHE_VERSION}|{norm}|{','.join(sorted(chip_ids))}".encode()).hexdigest()
 
 
 class _Lru:
     def __init__(self, size: int) -> None:
         self.size = size
-        self._data: OrderedDict[str, SearchPlan] = OrderedDict()
+        self._data: OrderedDict[str, Planned] = OrderedDict()
         self._lock = threading.Lock()
 
-    def get(self, key: str) -> SearchPlan | None:
+    def get(self, key: str) -> Planned | None:
         with self._lock:
             plan = self._data.get(key)
             if plan is not None:
                 self._data.move_to_end(key)
             return plan
 
-    def put(self, key: str, plan: SearchPlan) -> None:
+    def put(self, key: str, plan: Planned) -> None:
         with self._lock:
             self._data[key] = plan
             self._data.move_to_end(key)
@@ -252,24 +287,36 @@ class _Lru:
 memory_cache = _Lru(MEMORY_CACHE_SIZE)
 
 
-def db_get(pool: ConnectionPool, key: str) -> SearchPlan | None:
+def to_row(planned: Planned) -> dict[str, Any]:
+    """`plan_cache.plan`: the SearchPlan fields plus the WS2-internal `missing_sounds` key."""
+    return {**planned.plan.model_dump(mode="json"), "missing_sounds": list(planned.missing_sounds)}
+
+
+def from_row(row: Any) -> Planned:
+    """Inverse of `to_row`. Raises ValidationError on a bad row."""
+    missing = row.get("missing_sounds") if isinstance(row, dict) else None
+    sounds = tuple(s for s in missing if isinstance(s, str)) if isinstance(missing, list) else ()
+    return Planned(SearchPlan.model_validate(row), sounds)  # SearchPlan ignores the extra key
+
+
+def db_get(pool: ConnectionPool, key: str) -> Planned | None:
     with pool.connection() as conn:
         row = conn.execute("select plan from plan_cache where hash = %s", (key,)).fetchone()
     if row is None:
         return None
     try:
-        return SearchPlan.model_validate(row[0])
+        return from_row(row[0])
     except ValidationError:
         log.warning("ignoring an invalid plan_cache row %s", key[:12])
         return None
 
 
-def db_put(pool: ConnectionPool, key: str, plan: SearchPlan) -> None:
+def db_put(pool: ConnectionPool, key: str, planned: Planned) -> None:
     with pool.connection() as conn:
         conn.execute(
             "insert into plan_cache (hash, plan) values (%s, %s)"
             " on conflict (hash) do update set plan = excluded.plan, created_at = now()",
-            (key, Jsonb(plan.model_dump(mode="json"))),
+            (key, Jsonb(to_row(planned))),
         )
 
 
@@ -280,6 +327,7 @@ def db_put(pool: ConnectionPool, key: str, plan: SearchPlan) -> None:
 class PlanOutcome:
     plan: SearchPlan  # chips already merged
     source: PlanSource
+    missing_sounds: tuple[str, ...] = ()  # requested sounds outside the vocab (fallback trigger, proposal C10)
 
     @property
     def cached(self) -> bool:
@@ -300,33 +348,33 @@ def make_plan(
 
     key = cache_key(text, chip_ids)
     source: PlanSource
-    plan = memory_cache.get(key)
+    planned = memory_cache.get(key)
     source = "memory"
-    if plan is None:
+    if planned is None:
         try:
-            plan = db_get(pool, key)
+            planned = db_get(pool, key)
         except Exception:
             log.warning("plan_cache read failed", exc_info=True)
-            plan = None
+            planned = None
         source = "db"
-        if plan is not None:
-            memory_cache.put(key, plan)
-    if plan is None:
-        plan, source = _ask_gemini(text, chips, gemini, vocab_path)
+        if planned is not None:
+            memory_cache.put(key, planned)
+    if planned is None:
+        planned, source = _ask_gemini(text, chips, gemini, vocab_path)
         if source == "gemini":
-            memory_cache.put(key, plan)
+            memory_cache.put(key, planned)
             try:
-                db_put(pool, key, plan)
+                db_put(pool, key, planned)
             except Exception:
                 log.warning("plan_cache write failed", exc_info=True)
-    return PlanOutcome(merge_chips(plan, chips), source)
+    return PlanOutcome(merge_chips(planned.plan, chips), source, planned.missing_sounds)
 
 
 def _ask_gemini(
     text: str, chips: Sequence[Chip], gemini: Gemini | None, vocab_path: Path
-) -> tuple[SearchPlan, PlanSource]:
+) -> tuple[Planned, PlanSource]:
     if gemini is None:
-        return base_plan(text, chips), "fallback"
+        return Planned(base_plan(text, chips)), "fallback"
     try:
         raw = gemini.generate_json(
             system=system_prompt(vocab_path),
@@ -337,5 +385,6 @@ def _ask_gemini(
             what="planner",
         )
     except GeminiUnavailable:
-        return base_plan(text, chips), "fallback"
-    return from_gemini(raw, fallback_text=text, vocab_path=vocab_path), "gemini"
+        return Planned(base_plan(text, chips)), "fallback"
+    plan = from_gemini(raw, fallback_text=text, vocab_path=vocab_path)
+    return Planned(plan, missing_from_gemini(raw, vocab_path=vocab_path)), "gemini"

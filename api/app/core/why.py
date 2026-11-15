@@ -7,20 +7,24 @@
 3. If the excerpt can't be cut, the text-only P3b runs on the metadata ("<model>:text").
 4. Gemini degraded or failing with no cached note → 502 upstream_error (the client keeps showing no note).
 
-Freesound fallback windows (`fs_*`, not in `windows`) are T8.1 (in-memory note cache); until then they are 404.
+Freesound fallback windows (`fs_*:mix:0`, not in `windows`) are built live from Freesound, the excerpt comes from
+the Freesound preview, and the note is cached in process only (`notes.window_id` is a foreign key; T8.1).
 """
 
 from __future__ import annotations
 
 import logging
+import os
+import tempfile
 from typing import Any
 
 from google.genai import types
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 
-from app.core import excerpt
+from app.core import excerpt, fallback
 from app.core.errors import not_found, upstream_error
+from app.core.freesound import Freesound, FreesoundError, Sound
 from app.core.gemini import CallBudget, Gemini, GeminiUnavailable
 from app.core.rerank import trim_note
 from app.core.search import audio_path
@@ -117,11 +121,15 @@ def excerpt_range(row: dict[str, Any]) -> tuple[float, float, int]:
     return snapped.start_s, min(snapped.end_s - snapped.start_s, excerpt.MAX_EXCERPT_S), snapped.bars
 
 
-def generate(row: dict[str, Any], gemini: Gemini) -> tuple[str, str]:
-    """(note, source) with source "audio" or "text". Raises GeminiUnavailable."""
+def generate(row: dict[str, Any], gemini: Gemini, audio_url: str | None = None) -> tuple[str, str]:
+    """(note, source) with source "audio" or "text". Raises GeminiUnavailable.
+
+    `audio_url` overrides the bucket URL (fallback windows: a local copy of the Freesound preview, or its URL,
+    host-checked in `freesound`).
+    """
     start_s, seconds, bars = excerpt_range(row)
     text = user_content(row, seconds, bars)
-    url = public_url(audio_path(row["track_id"], row["stem"], row["audio_path"]))
+    url = audio_url or public_url(audio_path(row["track_id"], row["stem"], row["audio_path"]))
     try:
         with stage("excerpt"):
             mp3 = excerpt.cut_excerpt(url, start_s, seconds)
@@ -151,25 +159,86 @@ def generate(row: dict[str, Any], gemini: Gemini) -> tuple[str, str]:
     return trim_note(value, NOTE_MAX_WORDS), source
 
 
-def run_why(window_id: str, pool: ConnectionPool, gemini: Gemini | None) -> WhyResponse:
-    with stage("sql"):
-        row = fetch_window(pool, window_id)
-    if row is None:
-        # TODO(T8.1): fs_* fallback windows are served live with an in-memory note cache (CONTRACT §6).
-        raise not_found(f"window {window_id} not found")
-    if row["note"]:
-        note(why_source="cache")
-        return WhyResponse(window_id=window_id, note=row["note"])
+def fallback_row(sound: Sound) -> dict[str, Any]:
+    """A fallback window in the shape of `WINDOW_SQL`'s row (no bpm, key or beats: Freesound doesn't have them)."""
+    return {
+        "id": sound.window_id,
+        "track_id": sound.track_id,
+        "stem": "mix",
+        "start_s": 0.0,
+        "end_s": sound.window_end_s,
+        "tags": list(sound.tags),
+        "title": sound.name,
+        "artist": sound.username,
+        "bpm": None,
+        "key": None,
+        "duration_s": sound.duration_s,
+        "beat_times": [],
+        "audio_path": None,
+        "note": None,
+    }
 
+
+def _require_gemini(gemini: Gemini | None) -> Gemini:
     if gemini is None or not gemini.available():
         reason = gemini.degraded_reason() if gemini is not None else "no Gemini client"
         note(why_source="unavailable")
         raise upstream_error(f"notes are unavailable right now ({reason})")
+    return gemini
+
+
+def _generate(row: dict[str, Any], gemini: Gemini, audio_url: str | None = None) -> tuple[str, str]:
     try:
-        text, source = generate(row, gemini)
+        return generate(row, gemini, audio_url)
     except GeminiUnavailable as exc:
         note(why_source="failed")
         raise upstream_error(f"could not write a note right now ({exc})") from exc
+
+
+def run_fallback_why(window_id: str, gemini: Gemini | None, freesound: Freesound | None) -> WhyResponse:
+    """A Freesound fallback window (not in `windows`): note cached in process only (CONTRACT §6)."""
+    with stage("freesound"):
+        sound = fallback.live_sound(freesound, window_id)
+    if sound is None:
+        raise not_found(f"window {window_id} not found")
+    cached = fallback.notes.get(window_id)
+    if cached:
+        note(why_source="cache:memory")
+        return WhyResponse(window_id=window_id, note=cached)
+    g = _require_gemini(gemini)
+    assert freesound is not None  # live_sound found the sound
+    # ffmpeg seeking over HTTP on Freesound's CDN took 7+ s (vs ~1 s on our bucket); previews are ≤ 30 s
+    # (≈ 0.5 MB), so fetch the whole file over the keep-alive client and cut locally. A failed fetch → P3b.
+    fd, local = tempfile.mkstemp(prefix="beatopia-why-", suffix=".mp3")
+    os.close(fd)
+    try:
+        try:
+            with stage("preview"):
+                freesound.download_preview(sound, local)
+            source_url = local
+        except FreesoundError as exc:
+            log.warning("why %s: preview download failed (%s), ffmpeg will try the URL", window_id, exc)
+            source_url = sound.preview_url
+        text, source = _generate(fallback_row(sound), g, source_url)
+    finally:
+        os.unlink(local)
+    fallback.notes.put(window_id, text)
+    note(why_source=f"{source}:fallback")
+    return WhyResponse(window_id=window_id, note=text)
+
+
+def run_why(
+    window_id: str, pool: ConnectionPool, gemini: Gemini | None, freesound: Freesound | None = None
+) -> WhyResponse:
+    with stage("sql"):
+        row = fetch_window(pool, window_id)
+    if row is None:
+        return run_fallback_why(window_id, gemini, freesound)
+    if row["note"]:
+        note(why_source="cache")
+        return WhyResponse(window_id=window_id, note=row["note"])
+
+    text, source = _generate(row, _require_gemini(gemini))
 
     with stage("sql"):
         stored = store_note(pool, window_id, text, f"{gemini.model}:{source}")
