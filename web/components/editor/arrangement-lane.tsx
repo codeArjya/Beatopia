@@ -43,7 +43,7 @@ export function ArrangementLane(props: Props) {
       if (from >= 0 && to >= 0) props.onApply([{ op: "arrange", order: arrayMove([...props.evaluation.order], from, to) }]);
     }}>
       <SortableContext items={ids} strategy={horizontalListSortingStrategy}>
-        <ol aria-label="Clip occurrences; scroll horizontally for more" tabIndex={0} className="flex gap-2 overflow-x-auto pb-3 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-ring">{ids.map((id, index) => <Tile key={id} id={id} index={index} props={props} />)}</ol>
+        <ol aria-label="Clip occurrences; scroll horizontally for more" tabIndex={0} className="flex gap-2 overflow-x-auto pb-3 focus-visible:outline-2 focus-visible:outline-ring">{ids.map((id, index) => <Tile key={id} id={id} index={index} props={props} />)}</ol>
       </SortableContext>
     </DndContext>
   </section>;
