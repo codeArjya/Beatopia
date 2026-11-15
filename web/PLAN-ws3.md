@@ -121,8 +121,8 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 - [x] **T7.2 Analyze polling + summary** (1 h). Progress, a summary of the `TrackDetail`, the `["track", id]` cache seeded, and "Open in editor" using the best window.
   *Accept:* fixture import → done → summary shows 90 BPM, A minor, and the editor opens. Live: upload a real 10 s WAV in production.
   *Status (session 8):* code done and the fixture path passes in Chrome. The live run first failed because no worker was running. After WS1 started the worker, a real 10 s WAV went upload → summary in 4.9 s against the production API (this branch on `localhost:3000`, live mode), and the editor opened. Ticked.
-- [ ] **Gate H16:** in production, stack Soul + Keys + Melancholy → hear it → read the why note → open stems → send to the editor, and import → editor.
-  *Status (session 8):* every step passes against the production API: the search half on the production URL, and import → editor on this branch's **deployed Vercel preview** (5.3 s to the summary). Still to do before ticking: merge PR #7, re-run the import on the production URL, and the real editor (WS4's work isn't on GitHub yet).
+- [x] **Gate H16:** in production, stack Soul + Keys + Melancholy → hear it → read the why note → open stems → send to the editor, and import → editor.
+  *Status (session 8):* **passed in production** after PR #7 merged (72773d0). Search → hear → why → stems → editor, and import → editor (6.1 s to the summary) all run on https://beatopia-liart.vercel.app. The editor at the end of both paths is still WS4's placeholder (WS4's work isn't on GitHub yet). The WS3 hand-off URLs are correct.
 
 ### Design pass, H16 → **Gate H20**
 - [ ] **T8.1 Apply the Claude Design tokens** (1.5 h) through `globals.css` and the adapters only.
@@ -440,3 +440,11 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - With the human's OK, I force-pushed the rebased branch to `ws3-import` (with lease). PR #7 is current.
   - **Import on the deployed preview** (live API): `gate_h16_preview.wav` uploaded 1 s → analyzing 2.2 s → summary 5.3 s, 99.4 BPM / C major. Open in editor → `/editor?track=imp_0e0bdaf7&start=0&end=10&stem=mix` shows the track. No console errors.
   - **WS4 editor:** no remote branch touches `web/app/editor`, `web/components/editor`, `web/lib/audio` or `web/stores` except `bootstrap` (the placeholder). The editor work exists only on the WS4 laptop and hasn't been pushed. Ask P4 to push their branch (expected `ws4-editor`) and open a PR.
+- **Addendum 3 (2026-11-15): Gate H16 passed in production.** PR #7 was squash-merged (72773d0), and Vercel production built it. On https://beatopia-liart.vercel.app/import:
+  - A `.txt` is rejected with no request.
+  - `gate_h16_production.wav` (10 s) uploaded 0.8 s → analyzing 1.9 s → summary 6.1 s, showing 99.4 BPM / C major. The preview plays.
+  - Open in editor → `/editor?track=imp_97a1001c&start=0&end=10&stem=mix` shows the track. No console errors.
+  - Together with session 8's production search run, every H16 step passes. H16 is ticked.
+  - Git: local `ws3-web` was reset to `origin/main` (same tree, checked with `git diff`). Start new WS3 work from `main`. The `ws3-import` branch is merged and can be deleted.
+  - Open items outside WS3: the WS4 editor isn't pushed, and there's no "Keys" chip (WS1 vocab). Test imports `imp_97a1001c`, `imp_0e0bdaf7`, `imp_9e766a4c`, `imp_22efb81b` (+2 earlier) are in the production DB.
+  - Next for WS3: T8.1 design tokens (needs `docs/proposals/WS3-design-tokens.md`).
