@@ -7,7 +7,9 @@ import { AppButton, AppSheet } from "@/components/adapters";
 import { PlayButton } from "@/components/search/PlayButton";
 import { editorHref } from "@/lib/links";
 import { usePreviewPlayer } from "@/lib/preview/PreviewProvider";
+import { STUCK_QUEUE_MS } from "@/lib/import/flow";
 import { formatWindow } from "@/lib/search/results";
+import { useSlow } from "@/lib/search/useSlow";
 import { sortStems, stemPreviewItem, type StemsFlowStatus } from "@/lib/stems/flow";
 import { useStemsFlow } from "@/lib/stems/useStemsFlow";
 import type { Stem } from "@/lib/types/api";
@@ -51,6 +53,7 @@ const STATUS_TEXT: Partial<Record<StemsFlowStatus, string>> = {
 export function StemsDrawer({ trackId, startS, endS, open, onOpenChange, trackTitle, onPick }: StemsDrawerProps) {
   const player = usePreviewPlayer();
   const flow = useStemsFlow(trackId, startS, endS, open);
+  const stuck = useSlow(flow.status === "queued", `${trackId}:${startS}-${endS}`, STUCK_QUEUE_MS);
 
   const onOpen = (next: boolean) => {
     // Closing the drawer stops a stem preview (a card's own mix preview keeps playing).
@@ -71,6 +74,11 @@ export function StemsDrawer({ trackId, startS, endS, open, onOpenChange, trackTi
           <ProgressBar value={flow.status === "requesting" ? null : flow.progress} />
           {flow.status !== "requesting" && (
             <p className="text-xs text-muted-foreground">Separation takes up to a minute. You can close this and come back.</p>
+          )}
+          {stuck && (
+            <p className="text-sm text-amber-600 dark:text-amber-400">
+              The separator hasn&apos;t started this yet; it may be busy or offline. We&apos;ll keep checking.
+            </p>
           )}
         </div>
       )}

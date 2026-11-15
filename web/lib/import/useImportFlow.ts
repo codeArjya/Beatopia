@@ -8,6 +8,7 @@ import { keys, useImport, useJob } from "@/lib/api";
 import { importFlowState, type ImportFlowState } from "./flow";
 
 export type ImportFlow = ImportFlowState & {
+  jobId: string | null;
   /** Upload a file that already passed the client checks. */
   start: (file: File) => void;
   /** Back to the empty drop zone. */
@@ -41,6 +42,7 @@ export function useImportFlow(): ImportFlow {
 
   return {
     ...state,
+    jobId,
     start: (file) => {
       reset();
       upload.mutate(file);

@@ -5,7 +5,9 @@ import { useState } from "react";
 
 import { AppButton } from "@/components/adapters";
 import { useStopPreviewOnHide } from "@/lib/preview/PreviewProvider";
+import { STUCK_QUEUE_MS } from "@/lib/import/flow";
 import { useImportFlow } from "@/lib/import/useImportFlow";
+import { useSlow } from "@/lib/search/useSlow";
 import { validateImportFile } from "@/lib/import/validate";
 
 import { ImportDropzone } from "./ImportDropzone";
@@ -17,6 +19,8 @@ export function ImportFlow() {
   useStopPreviewOnHide();
   const [checkError, setCheckError] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  // Nothing has claimed the job for a while: the worker may be down. Say so instead of spinning forever.
+  const stuck = useSlow(flow.status === "queued", flow.jobId ?? "", STUCK_QUEUE_MS);
 
   const onFile = async (f: File) => {
     const check = await validateImportFile(f);
@@ -57,6 +61,11 @@ export function ImportFlow() {
         <p className="text-xs text-muted-foreground">
           {file?.name} · analysis usually takes 10–30 seconds. Keep this tab open.
         </p>
+        {stuck && (
+          <p className="text-sm text-amber-600 dark:text-amber-400">
+            The analyzer hasn&apos;t picked this up yet; it may be busy or offline. We&apos;ll keep checking.
+          </p>
+        )}
       </div>
     );
   }

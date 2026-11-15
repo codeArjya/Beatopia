@@ -25,6 +25,9 @@ export function importErrorMessage(e: unknown): string {
   return "Import failed. Try again.";
 }
 
+/** A job still "queued" after this long means no worker has claimed it (busy or down). */
+export const STUCK_QUEUE_MS = 30_000;
+
 export type ImportFlowStatus = "idle" | "uploading" | "queued" | "analyzing" | "done" | "error";
 
 export type ImportFlowState = {
