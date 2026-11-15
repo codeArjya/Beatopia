@@ -112,15 +112,17 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 - [x] **T6.1 Live API** (1.5 h). `NEXT_PUBLIC_USE_FIXTURES=0` and fix what real data breaks: long titles, missing bpm or key, no results, slow searches (> 3 s spinner text), CORS on the waveform fetch.
   *Accept:* 5 real queries render without layout breaks. Fixture mode still passes the H8 walkthrough.
   *Status (session 7):* hardening done and H8 re-passed. Later in the session the API came up, and 5 real queries rendered with no layout breaks (see the session 7 addendum).
-- [ ] **T6.2 Vercel deploy** (1 h). Project rooted at `web/`, env vars set, production URL sent to the human, CORS confirmed with WS2.
+- [x] **T6.2 Vercel deploy** (1 h). Project rooted at `web/`, env vars set, production URL sent to the human, CORS confirmed with WS2.
   *Accept:* the production URL runs a live search with no CORS errors in the console.
 
 ### Import, H14 → **Gate H16** (Tier 0 in production)
-- [ ] **T7.1 ImportDropzone** (1 h). Drag-and-drop or click-to-browse, the client-side checks (`lib/import/validate.ts`), and upload through `useImport`.
+- [x] **T7.1 ImportDropzone** (1 h). Drag-and-drop or click-to-browse, the client-side checks (`lib/import/validate.ts`), and upload through `useImport`.
   *Accept:* unit tests for extension, size and MIME edge cases. A 30 MB file or a `.txt` is rejected before upload with a clear message.
-- [ ] **T7.2 Analyze polling + summary** (1 h). Progress, a summary of the `TrackDetail`, the `["track", id]` cache seeded, and "Open in editor" using the best window.
+- [x] **T7.2 Analyze polling + summary** (1 h). Progress, a summary of the `TrackDetail`, the `["track", id]` cache seeded, and "Open in editor" using the best window.
   *Accept:* fixture import → done → summary shows 90 BPM, A minor, and the editor opens. Live: upload a real 10 s WAV in production.
+  *Status (session 8):* code done and the fixture path passes in Chrome. The live run first failed because no worker was running. After WS1 started the worker, a real 10 s WAV went upload → summary in 4.9 s against the production API (this branch on `localhost:3000`, live mode), and the editor opened. Ticked.
 - [ ] **Gate H16:** in production, stack Soul + Keys + Melancholy → hear it → read the why note → open stems → send to the editor, and import → editor.
+  *Status (session 8):* every step passes against the production API: the search half on the production URL, and import → editor on this branch's **deployed Vercel preview** (5.3 s to the summary). Still to do before ticking: merge PR #7, re-run the import on the production URL, and the real editor (WS4's work isn't on GitHub yet).
 
 ### Design pass, H16 → **Gate H20**
 - [ ] **T8.1 Apply the Claude Design tokens** (1.5 h) through `globals.css` and the adapters only.
@@ -387,3 +389,54 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - **Production still shows `main`'s bootstrap placeholder,** because the WS3 UI wasn't on `main`. With the human's OK, I force-pushed (with lease, pinned to `cc18bc3`; I checked nothing would be lost) local `ws3-web` to `ws3-search-flow` and retargeted **PR #4 to `main`**. It now has all 27 WS3 commits and **supersedes PR #3**: merge #4, close #3. Don't merge #3 first, because #4 is rebased and would conflict.
   - Push from now on with `git push origin ws3-web:ws3-search-flow`.
   - Left for T6.2 after the merge: confirm a live search on the production URL with no CORS errors in the console, then tick T6.2. `NEXT_PUBLIC_API_URL` isn't set for Preview, so preview builds fall back to `http://localhost:8000`. Add it if previews should hit the live API.
+- **Addendum 3 (T6.2 done):** PR #4 was squash-merged (`32bc7f8`) and #3 closed. Production first came up **in fixture mode**: `NEXT_PUBLIC_USE_FIXTURES` was evidently `1`, and the variable is "sensitive", so its value can't be read back. With the human's OK I set `NEXT_PUBLIC_USE_FIXTURES=0` (Production + Preview) and added `NEXT_PUBLIC_API_URL=https://45-77-216-35.sslip.io/` for **Preview** (plain; it's the official API URL). Both went in through `vercel api /v9|v10/projects/beatopia/env`, with no local `.vercel` link. Then I ran `vercel redeploy … --target production`.
+  - **Production check on https://beatopia-liart.vercel.app/?q=dusty+soul+keys:** `GET /chips` 200 and `POST /search` 200 against the live API; 8 real results with waveforms and the notes from search; playback with a moving playhead; **no console errors**. T6.2 ticked.
+  - `NEXT_PUBLIC_*` values are inlined at build time, so any env change needs a redeploy.
+  - **Git:** because #4 was squash-merged, local `ws3-web` was reset to `origin/main` (same files; I checked with `git diff`). Start new WS3 work from `main`. Rebasing the old per-commit history onto `main` conflicts.
+  - Still open (WS2): `/why` 502 for notes that aren't cached.
+
+### Session 8 (2026-11-14): T7.1, T7.2 (code), Gate H16 run
+- **Done:** T7.1 ImportDropzone (ticked). T7.2's code is done and its fixture path passes, but it stays unticked because the live analysis can't finish (see Blocked). I also ran the Gate H16 flow in production and fixed the one WS3 failure it found. `origin/main` had nothing new (still 32bc7f8). lint/typecheck are clean, tests pass 108/108 (8 new in `lib/import/validate.test.ts`, 6 in `lib/import/flow.test.ts`), and `pnpm build` passes. Branch pushed as **`ws3-import`**; PR opened against `main`.
+- **Checked by hand in Chrome:**
+  - Fixtures, `/import`: `.txt`, a 30 MB `.wav`, and text renamed to `.mp3` are each rejected with a clear message and **no request**. A real WAV header goes uploading → queued → analyzing (2 polls) → summary (my_loop_01, 0:16.0, 90 BPM, A minor, 3 windows, `user-upload` + "Uploaded by you"). Open in editor → `/editor?track=imp_3f9a1c2e&start=0&end=10&stem=mix`, and the editor placeholder shows "my_loop_01", which proves the seeded `["track", id]` cache was used (the fixture track would be Late Bloom). No console errors.
+  - **Production search (https://beatopia-liart.vercel.app):** Soul + Rhodes + Melancholy stacked through the tray filter (Enter), URL `?chips=genre.soul,inst.rhodes,mood.melancholy`. 8 live results with waveforms. Play → playhead moves. 5 of 8 notes came cached; "Why this works" on an uncached card fetched `/why` in ~2 s (**last session's 502 is fixed**). Stems on "Just the Two of Us" → 4 stems at once; Drums plays solo in ~300 ms; "Use in editor" → `/editor?track=jam_1544389&start=20.05&end=30.081&stem=drums`.
+  - **Live import (this branch on `localhost:3000` in live mode, same API):** a generated 10 s WAV uploaded fine (`POST /imports` 200, ~1 s, CORS OK), then the analyze job stayed `queued` with progress 0 for 2+ minutes. 64 polls at 1 s each.
+- **Gate H16 failures (cause → owner):**
+  1. **The job worker isn't running.** Analyze job `2968f468-…` and a probe stems job `50bfe576-…` (`jam_1485349`, 20–30 s) both sit at `queued` / 0.0. The API itself is up (revision 56838ae). → WS1/WS2: start `worker` on the VM. This blocks import → editor, and stems for any track without pre-made stems (`jam_1485349`, `jam_1265033`, `jam_1026088`, `jam_1029230`, `jam_1432368`, and every `fs_*` fallback in my sample). The demo needs it.
+  2. **The editor is still WS4's placeholder on `main`.** The hand-off URLs are right, but the page plays the full mix and ignores `stem`. → WS4 merge.
+  3. **There's no "Keys" chip.** The live vocabulary has Piano, Rhodes, Wurlitzer, Organ, Clavinet, but no Keys. → WS1 (vocab) if the demo script must say "Keys"; otherwise say Rhodes.
+  4. *(WS3, fixed)* With the worker down, the import page and the stems drawer spun on "Waiting…" forever. Both now say "may be busy or offline" after 30 s queued (`STUCK_QUEUE_MS`) and keep polling.
+  5. *(Process)* Vercel **preview deployments are protected** (SSO "You need access"), so a branch can't be checked on its preview URL without a team owner granting access. I used `localhost:3000` in live mode instead. The import page goes into production only once the PR merges.
+- **Decisions:**
+  - Client checks mirror WS2's `app/core/imports.py` exactly: the extension list, **25 MiB** (`25*1024*1024`), non-empty, and the same 16-byte magic sniff (`sniffAudio`), including "named .mp3 but is really WAV". MIME is lenient (empty, octet-stream, `video/ogg`, `video/mp4` are fine), and only clearly non-audio types are rejected.
+  - Import components live in `components/import/` (CONTRACT's tree says `components/search/`, but StemsDrawer already set the `components/<feature>/` precedent).
+  - `importFlowState` (pure) maps upload + job → `idle | uploading | queued | analyzing | done | error` with `failedAt: upload | analyze`. Upload errors show in the drop zone with "Retry upload of X". Analysis errors show an alert with "Try again" (re-uploads the same file).
+  - `useImportFlow` seeds `["track", id]` in an effect when done, and `reset` removes the old `["job", id]` (fixture mode reuses one job id).
+  - `importEditorLink`: the window with the highest loopability (ties go to the earliest); with no windows, `0 → min(duration, 8 bars)`, or 16 s when there's no BPM.
+  - The fixture analyze job now runs 2 "running" polls after each `createImport` (it's still "done" on the first poll if fetched without an import, so the old tests hold).
+  - The summary has a PlayButton preview of the chosen window (id `import:…`) and the license + attribution (AGENTS.md rule).
+  - The drop zone is a `<label>` around an sr-only file input (one tab stop, native picker). Window-level dragover/drop are blocked on `/import` so a near-miss drop doesn't navigate to the file.
+- **Files for next session:** `lib/import/{validate,flow,useImportFlow}.ts`, `components/import/{ImportDropzone,ImportFlow,ImportSummary}.tsx`, `app/import/page.tsx`, `lib/api/client.ts` (fixture analyze polling), `components/stems/StemsDrawer.tsx` (stuck hint).
+- **Known bugs / gotchas:**
+  - The test imports from this session left 2 placeholder `imp_*` tracks and their queued analyze jobs in the production DB (plus 1 earlier one), and one queued stems job for `jam_1485349`. They'll run when the worker starts. That's harmless, but WS1 may want to delete them.
+  - An import is lost if the tab reloads mid-analysis (job id only in memory). That's fine for the demo; a `?job=` URL param would fix it.
+  - The hint text uses `text-amber-*` directly. Move it to a token in T8.1.
+  - Next HMR resets the import page state when hooks change, so re-upload after edits.
+- **Blocked:**
+  - T7.2's live tick and Gate H16's import half: the worker (WS1/WS2).
+  - Gate H16 "→ editor" is only as good as WS4's placeholder until WS4 merges.
+  - Next: once the worker runs, re-run a live import in production after the PR merges, tick T7.2 and H16, then T8.1 (design tokens, if `docs/proposals/WS3-design-tokens.md` exists).
+- **Addendum (2026-11-15): worker up, gate re-run.**
+  - Rebased on `origin/main` (b7485cf, contract C7–C9: new `internal_error` code, CLAP/Gemini env). `make schema` made no changes; `make check-fixtures` passed 13/13. lint/typecheck are clean and tests pass 108/108. `internal_error` already falls through to the generic "Import failed: …" text.
+  - The two jobs that were stuck yesterday are both `done`. The worker's analysis is accurate: the 90 BPM A-minor test file gave 90.67 BPM / A minor, one 0–10 s window, loopability 0.95.
+  - **Live import through the UI:** `gate_h16_c_major_100.wav` went uploaded 0.6 s → 5% 1.7 s → 75% → 90% → summary 4.9 s, showing **99.4 BPM, C major** (generated at 100 BPM, C–E–G). The preview plays. Open in editor → `/editor?track=imp_9e766a4c&start=0&end=10&stem=mix`, and the placeholder shows the track. No console errors. T7.2 ticked.
+  - **Stems job path (API):** `jam_1265033` 30–40 s went queued → running 0.15 → 0.65 → 0.8 → 0.875 → done in 13 s with 4 stems. The 30 s stuck hint won't fire at that speed.
+  - **The editor is NOT merged:** `main` has only `web/app/editor/editor-placeholder.tsx`, and no WS4 PR exists (#1–#7). Failure 2 stands.
+  - **Rebased branch not pushed:** the force-push to `ws3-import` (needed after the rebase) was blocked by the session's permission check. PR #7 still shows the pre-rebase commits. Run `git push --force-with-lease origin ws3-web:ws3-import`, or merge #7 as is (it doesn't conflict: b7485cf touches no `web/` files).
+  - Gate H16 is still unticked. Left to do: merge #7 → re-run import on https://beatopia-liart.vercel.app/import → WS4 editor merge.
+  - Test data in the production DB: imports `imp_22efb81b`, `imp_9e766a4c` (plus 2 earlier `gate_h16_test_loop` imports), and new range stems for `jam_1485349` (20–30 s) and `jam_1265033` (30–40 s). Harmless.
+- **Addendum 2 (2026-11-15):**
+  - The human disabled Vercel Authentication for previews (failure 5 resolved). https://beatopia-git-ws3-import-arjyas-projects-caf2d320.vercel.app returns 200 with no SSO redirect.
+  - With the human's OK, I force-pushed the rebased branch to `ws3-import` (with lease). PR #7 is current.
+  - **Import on the deployed preview** (live API): `gate_h16_preview.wav` uploaded 1 s → analyzing 2.2 s → summary 5.3 s, 99.4 BPM / C major. Open in editor → `/editor?track=imp_0e0bdaf7&start=0&end=10&stem=mix` shows the track. No console errors.
+  - **WS4 editor:** no remote branch touches `web/app/editor`, `web/components/editor`, `web/lib/audio` or `web/stores` except `bootstrap` (the placeholder). The editor work exists only on the WS4 laptop and hasn't been pushed. Ask P4 to push their branch (expected `ws4-editor`) and open a PR.
