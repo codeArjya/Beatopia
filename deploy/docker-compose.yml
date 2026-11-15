@@ -1,6 +1,6 @@
 # Beatopia production stack (Vultr VM). From the repo root on the VM (/opt/beatopia):
 #   docker compose -f deploy/docker-compose.yml --env-file .env up -d --build
-# The worker is behind the "worker" profile until WS1's worker loop is implemented:
+# The worker (WS1's job loop) is behind the "worker" profile; start it with:
 #   docker compose -f deploy/docker-compose.yml --env-file .env --profile worker up -d --build
 name: beatopia
 
@@ -32,6 +32,10 @@ services:
       args: *revision
     image: beatopia-worker:latest
     env_file: ../.env
+    environment:
+      # Same caps as WS1's worker/launch.ps1: leave CPU for the API (4 vCPU VM) while Demucs/CLAP run.
+      OMP_NUM_THREADS: "2"
+      MKL_NUM_THREADS: "2"
     volumes:
       - hf_cache:/root/.cache/huggingface
       - torch_cache:/root/.cache/torch
