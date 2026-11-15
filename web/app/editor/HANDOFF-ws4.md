@@ -1,6 +1,6 @@
 # WS4 current acceptance handoff (2026-11-15, resumed)
 
-User authorized continuing after `e1a0517`; browser actions now work. This section supersedes the pending browser/local-listening claims in the historical sections below. **H18-H19 local-file acceptance is complete. H16-H18 stems integration remains open only for the missing upstream components/API/worker acceptance.** Earlier H8/H12/production gates keep their own unmet criteria; no chat or optimization work started.
+User authorized continuing after `e1a0517`; browser actions now work. This section supersedes the pending browser/local-listening claims in the historical sections below. **H18-H19 local-file acceptance is complete. H16-H18 stems integration remains open for WS3 integration and live API/worker verification. The human confirms the API exists and the worker is deployed on Vultr; the deployed API base URL has been requested.** Local bootstrap code is not evidence that the deployed services are missing. Earlier H8/H12/production gates keep their own unmet criteria; no chat or optimization work started.
 
 ## Passed in actual Chrome 157 on Windows
 
@@ -17,8 +17,8 @@ User authorized continuing after `e1a0517`; browser actions now work. This secti
 Final checks pass: `pnpm.cmd lint`, `pnpm.cmd tsc --noEmit`, `pnpm.cmd test` (**18 files / 76 tests**) and `git diff --check`. Final lifecycle route mount/unmount smoke check also passes with no browser console errors.
 
 1. WS3 must supply actual StemsDrawer/useStems/useJob interfaces. Replace the reviewed WS4 adapter imports while preserving source/history behavior. They are still absent from this checkout; do not edit WS3 paths from this stream.
-2. WS1/WS2 must supply a working real TrackDetail/separation/job API and worker, then verify queued progress, close/reopen polling, errors/retry and a valid covering done result in the actual drawer. Existing fixture-ready stems cover every valid range of this 16-second track, so no valid queued UI scenario arises here. Query unit tests simulate those states; no live worker pass is claimed. The backend still explicitly identifies itself as the fixture bootstrap.
-3. When production API is ready, run the main `/editor` with fixtures off, a real hero track and production export telemetry. Existing storage-snapshot checks do not satisfy that H16 gate. No additional credentials are needed for already-public hero audio.
+2. The human confirms the API exists and the worker runs on Vultr. Obtain the API base URL (none was found in this checkout's public environment/deploy configuration; localhost ports 8000/8001/8080 have no listener), then verify real TrackDetail/separation/jobs, queued progress, close/reopen polling, errors/retry and a valid covering done result in the actual drawer. Existing fixture-ready stems cover every valid range of this 16-second track, so no valid queued UI scenario arises here. Query unit tests simulate those states; no live worker pass is claimed. This branch's API/worker source remains bootstrap code and must not be mistaken for the deployed state.
+3. With that deployed API URL, run the main `/editor` with fixtures off, a real hero track and production export telemetry. Existing storage-snapshot checks do not satisfy that H16 gate. No additional credentials are needed for already-public hero audio.
 
 The dev server remains in fixture mode on localhost:3000. For cleanup acceptance: open `/editor/source-checks`, use Mount/Unmount test editor, optionally supply the normal track/start/end/stem query. These controls are behind the existing development + fixture-only route gate. Earlier records below are historical and must not reopen the now-complete local task.
 
