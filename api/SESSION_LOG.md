@@ -495,3 +495,67 @@ This entry adds to the session 5 entry above and supersedes its "Next" list.
   - Delete the merged `contract-ws2-c7-c8-c9` branch if you like.
   - WS3/WS4: `NEXT_PUBLIC_API_URL=https://45-77-216-35.sslip.io`, `NEXT_PUBLIC_USE_FIXTURES=0`, then the Gate H16
     check.
+
+
+## 2026-11-15 · session 5 wrap-up 3 (sync with main, production worker, import fix)
+
+This entry supersedes "Next" in wrap-up 2.
+
+### Done
+- **Synced with `main` per AGENTS.md.**
+  - Ran `git rebase origin/main` onto `018e0c7`. That commit includes WS3 #4, contract PR #6 and WS1's worker loop.
+  - Only 4 files overlapped, all WS2's own `docs/proposals/WS2-*.md` (add/add, because PR #6 had already put
+    them on main). Each was resolved with main's version, i.e. the landed text. The proposal-only commit
+    `329324b` became empty and was skipped, so 31 of 32 commits were replayed.
+  - Checks afterwards:
+    - Non-WS2 paths are identical to `main`.
+    - `api/` and `deploy/` are identical to before the rebase.
+    - `make schema` changed only CRLF (reset). `make check-fixtures`: 13 fixtures, 0 problems.
+    - `make lint` green; api tests 183 passed, 10 skipped.
+- **Production worker is running** (`WORKER=1 deploy.sh`). Both images are labelled `567279d`.
+  - The worker loads CLAP from the shared `hf_cache` volume. Memory: worker ≈ 0.7 GB, api ≈ 0.4 GB.
+  - A client's stems job went queued → done (`jam_1485349`).
+  - **Gate H16 stems leg works in production.**
+- **Import fix (`567279d`):** placeholders now get `attribution = "Uploaded by you"` (the fixture's text).
+  WS1's analyze job rejects an empty license or attribution (`worker/imports.py`). Every import had been failing
+  with `Analyze requires an import placeholder with license and attribution`.
+  - Recovery, per `worker/README.md`: 7 placeholders fixed and exactly those 7 failed jobs requeued by ID (5 test
+    imports, 2 from another client). **All 7 done in 4–5 s each.**
+  - Fresh end-to-end check: upload → done in ≈ 6 s → `GET /tracks/imp_79e47554` (16 s, 90.7 bpm, 3 windows).
+  - Production contract test on `567279d`: 16 passed, 2 skipped.
+
+### Deviations
+- **Placeholder attribution is `"Uploaded by you"`, not `''`.** PLAN §2 said `''`; WS1's worker needs it
+  non-empty.
+- **The rebased branch is pushed as `origin/ws2-api-sync`.** `origin/ws2-api` and `origin/ws2-deploy` still point
+  at the pre-rebase `da12496`, because moving them needs a force-push, which this agent doesn't run.
+  `deploy.sh` ships local commits, so production already runs the synced code.
+
+### Gotchas
+- **Unexplained:** the first `WORKER=1` build labelled the worker image `018e0c7` (main's head) instead of the
+  deployed `0694113`, while the api image was labelled correctly. `docker compose config` resolves `REVISION`
+  correctly for both, and there are no other build files in the tree. A rebuild with the same input labelled it
+  correctly, and the next deploy labelled both `567279d`. The worker code was identical either way (`worker/` and
+  `common/` match `main`). Check both labels after each deploy (`deploy.sh` prints them).
+- **Never run `docker compose config` on the VM in a session.** It prints every secret from `.env` (it happened
+  once this session; the output stayed local).
+- The worker runs one job at a time. A crash can leave a job `running`. Requeue only by ID after confirming the
+  process is dead (`worker/README.md`).
+- The VM worker and any WS1 laptop worker share the DB queue. That's safe (`skip locked`), but tell WS1.
+
+### State
+- **Production:** https://45-77-216-35.sslip.io on `567279d` with `api`, `worker` and `caddy`, all
+  `unless-stopped`. Flags are unchanged (wrap-up 2).
+- Shared DB: no queued or failed analyze jobs from this session remain.
+- Branches:
+  - local `ws2-deploy` = `origin/ws2-api-sync` = `567279d` plus this entry (rebased on `main`).
+  - `origin/ws2-api` and `origin/ws2-deploy` = `da12496` (old).
+
+### Next
+1. **Human, first:** move `ws2-api` to the synced branch. From the main checkout:
+   `git fetch && git push --force-with-lease=ws2-api:da12496 origin origin/ws2-api-sync:ws2-api`, then
+   `git switch ws2-api && git reset --hard origin/ws2-api`.
+   Optionally delete `ws2-api-sync`, `ws2-deploy` and `contract-ws2-c7-c8-c9` on origin.
+2. Then T8.1 Freesound fallback (with the §7.7 `sim`-trigger proposal), T11.1 (cold search p50 3.2 s → < 3 s),
+   T11.2 (token bucket, README toggle).
+3. Tell WS1 the VM runs a worker. Run the Gate H16 check with WS3/WS4 on the production URL.
