@@ -212,7 +212,8 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       Re-run against production at T6.2.
 - [ ] **T6.1 Docker images** (1.5 h). `deploy/api.Dockerfile`, `deploy/worker.Dockerfile`, `.dockerignore`.
       *Accept:* both build locally (or on the VM); `docker run api` → `/health` ok with HF cache volume.
-- [ ] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). SSH: install Docker, clone repo to `/opt/beatopia`,
+      *Left:* all; the worker image needs WS1's run command, packages and env (`worker/main.py` is still a stub).
+- [ ] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). *Left:* all; blocked on the VM IP + SSH and C8. SSH: install Docker, clone repo to `/opt/beatopia`,
       copy `.env`, `docker compose up -d`, Caddy HTTPS on `<ip>.sslip.io`, CORS origins.
       *Accept:* `curl https://<host>/health` ok; `/search` from the Vercel origin passes CORS; contract test green
       against production. **Gate H12: post the URL to the human for `NEXT_PUBLIC_API_URL`.**

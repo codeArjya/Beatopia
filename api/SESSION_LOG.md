@@ -255,3 +255,62 @@ sync.
   2. Fix `GEMINI_MODEL` in `.env` (→ `gemini-3.6-flash`) and add the two `CLAP_*` lines; land C8 and C9.
   3. Get the paid Gemini key before the deploy.
   4. For the deploy: a Vultr VM IP plus SSH access, and WS3's exact Vercel domains for CORS.
+
+
+## 2026-11-14 · session 4 (`/why` with audio, contract test)
+
+Branch `ws2-t4` (worktree `.claude/worktrees/ws2-t4`), pushed. Commits: `7570578` (T4.3) and `9090ebe` (T5.1), plus
+this wrap-up. `origin/main` was still `0877d84`, so there was no sync.
+
+### Done
+- **T4.3 `/why` with audio: pass, live.** These results were re-checked at the end of the session with
+  `scripts/why_check.py --n 2` on `gemini-3.6-flash`:
+  - Audio notes for a mix window and a bass-stem window took 3.5–3.6 s on the first call (SQL ≈ 230 ms,
+    excerpt ≈ 1.2 s at 59–76 KB, Gemini ≈ 2.1 s).
+  - The forced text-only fallback (P3b) took 1.4 s.
+  - Every second call came from the cache in about 100 ms. Notes were 41–44 words (≤ 45).
+  - Earlier in the session, 4 audio notes (including a null-bpm Freesound-sourced track) took 2.7–3.9 s.
+  - The 20-query plan eyeball check: all valid, 1.2–2.0 s each, no loops at temperature 0.2 (kept).
+- **T5.1 contract test: pass.** Fixture mode (part of `make test`): 16 passed, 2 skipped (live-only). Against local
+  real mode (`API_URL=http://127.0.0.1:8011`): 14 passed, 4 skipped; with `CONTRACT_WRITES=1`: 16 passed, 2 skipped.
+- Checks at the end: `make lint` green; `uv run --project api pytest api` gives 133 passed and 7 skipped (the
+  opt-in DB tests and the live-only contract tests).
+
+### Deviations from PLAN.md
+- **Excerpt via ffmpeg reading over HTTP** (`core/excerpt.py`, range requests, only the excerpt is downloaded),
+  not through `common.audio` (it has no excerpt helper and disables network protocols). That's safe because the
+  source is always a `public_url` the API builds for our own bucket, and stderr (which can contain the URL) is
+  never logged.
+- **The excerpt is the snapped window** (what `/search` plays), cut to ≤ 15 s, mono 22.05 kHz 64 kbps.
+- **P1 tweak:** `stems_wanted` / `prefer_sparse` only on explicit isolation ("just the", "only", "acapella"). Before
+  the fix, "boom bap drum break" and "jazzy upright bass line" asked for stems, and only 33 of 351 tracks have any.
+- **Contract test:** null on one side and absent on the other count as equal (`chips.json` omits null
+  `bpm_range` / `key`). Live calls that write (stems, imports, events) only run with `CONTRACT_WRITES=1`.
+- `/why` with no cached note while Gemini is degraded or failing → 502 `upstream_error`; `fs_*` windows → 404
+  until T8.1.
+
+### Gotchas
+- **Another session committed T4.3 and T5.1 in this worktree** while this conversation was interrupted. I briefly
+  overwrote `core/why.py` and `routes/why.py` without reading them, then restored them with `git checkout`, so
+  nothing was lost. Only one agent should work in a worktree at a time.
+- The live scripts (`plan_check`, `rerank_check`, `why_check`) write real rows to `plan_cache` and `notes` in the
+  dev DB. Those rows are the cache.
+- A paid Gemini key now seems to be in `.env` (no 429s today). `GEMINI_MODEL=gemini-3.6-flash` is in the local
+  `.env`, but the `CLAP_*` lines aren't (set them in the env for search checks; proposal C8).
+- ffmpeg 9.0.2 (winget) is on PATH locally. The API Docker image must install ffmpeg for `/why`.
+- No failing tests.
+
+### State
+- No production URL or VM yet. WS3 is still on fixtures, waiting for an API URL.
+- Flags: `USE_FIXTURES=0`, `GEMINI_DEGRADED` unset. Code default model is still `gemini-3.8-flash` until C9 lands.
+- Real endpoints: `/health`, `/chips`, `/tracks/{id}`, `/search` (planner + rerank), `/why`. Fixture stand-ins:
+  `/tracks/{id}/stems`, `/jobs/{id}`, `/imports`, `/events`, `/assist`.
+- Fixtures: unchanged. Proposals waiting to land: C7, C8 (needed before the deploy), C9.
+
+### Next
+- **First task: T6.1 Docker images** (the api image can be built now; the worker image needs WS1's worker details).
+- Human actions first:
+  1. Bring the work into `ws2-api`: from the main checkout, `git merge --ff-only ws2-t4 && git push origin ws2-api`.
+  2. Create the Vultr VM and send me its IP plus SSH access (T6.2). Send WS3's exact Vercel domains for CORS.
+  3. Land C8 (and C7, C9) with WS1, and add the two `CLAP_*` lines to `.env`.
+  4. Ask WS1 for the worker's run command, packages and env, and a vocab freeze.
