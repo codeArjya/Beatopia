@@ -164,7 +164,8 @@ Signatures are fixed. Bodies are WS1's job; the bootstrap writes stubs that rais
 
 ```python
 # common/clap.py: the SAME model at ingest and at query time
-CLAP_MODEL = os.environ.get("CLAP_MODEL", "laion/larger_clap_music")
+CLAP_MODEL = os.environ.get("CLAP_MODEL", "laion/larger_clap_music")   # set laion/larger_clap_general (§8)
+CLAP_REVISION = os.environ.get("CLAP_REVISION", ...)                   # pinned commit; must match the ingest
 def embed_audio(chunks: list[np.ndarray], sr: int) -> np.ndarray: ...   # (n, 512), L2-normalized; resamples to 48 kHz
 def embed_text(texts: list[str]) -> np.ndarray: ...                   # (n, 512), L2-normalized
 
@@ -424,7 +425,7 @@ Base URL `NEXT_PUBLIC_API_URL`. JSON everywhere except `/imports` (multipart). C
 | `POST /assist` | `AssistRequest` | `AssistResponse` | Gemini function calling over the Op union |
 
 Error codes in use: `not_found`, `bad_request`, `range_too_long`, `clip_is_sliced`, `upload_too_large`,
-`unsupported_format`, `upstream_error` (Gemini/Freesound), `rate_limited`.
+`unsupported_format`, `upstream_error` (Gemini/Freesound), `rate_limited`, `internal_error` (unhandled server bug, 500).
 
 ---
 
@@ -461,13 +462,14 @@ DATABASE_URL=postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supaba
 SUPABASE_URL=https://<ref>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=            # server only, never in web/
 GEMINI_API_KEY=
-GEMINI_MODEL=gemini-3.8-flash         # newest stable Flash on ai.google.dev as of 2026-11-14
+GEMINI_MODEL=gemini-3.6-flash         # fast + available; 3.8 Flash was overloaded (503) and slower (C9)
 GEMINI_DEGRADED=0                     # 1 = skip planner/rerank/why/assist generation (Gemini down or rate-limited)
 FREESOUND_API_KEY=
 JAMENDO_CLIENT_ID=                    # optional
-CLAP_MODEL=laion/larger_clap_music
+CLAP_MODEL=laion/larger_clap_general  # the checkpoint the library was ingested with (C8)
+CLAP_REVISION=ada0c23a36c4e8582805bb38fec3905903f18b41  # must match ingest + worker + api (C8)
 DEMUCS_MODEL=htdemucs
-WEB_ORIGIN=http://localhost:3000      # comma-separated list of allowed origins
+WEB_ORIGIN=http://localhost:3000      # comma-separated allowed origins; `*` matches [a-z0-9-]+ (Vercel previews)
 USE_FIXTURES=0                        # 1 = api answers every endpoint from shared/fixtures (no DB, no CLAP)
 API_DOMAIN=                           # deploy only: Caddy hostname, e.g. 203-0-113-7.sslip.io or api.example.com
 
