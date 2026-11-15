@@ -4,7 +4,9 @@
 	encode zstd gzip
 	reverse_proxy api:8000 {
 		health_uri /health
-		health_interval 30s
+		# Short interval: after a redeploy the API is back in ~20 s; a 30 s probe kept answering 503 longer.
+		health_interval 5s
+		health_timeout 3s
 	}
 	log {
 		output stdout
