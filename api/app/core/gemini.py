@@ -126,8 +126,12 @@ class Gemini:
         thinking: ThinkingLevel = "MINIMAL",
         budget: CallBudget = DEFAULT_BUDGET,
         what: str = "call",
+        timeouts_degrade: bool = True,
     ) -> dict[str, Any]:
-        """Structured output: one JSON object matching `schema`. Raises GeminiUnavailable on any problem."""
+        """Structured output: one JSON object matching `schema`. Raises GeminiUnavailable on any problem.
+
+        `timeouts_degrade=False`: running past `budget` still raises, but doesn't count toward auto-degrade (for
+        calls with a deliberately tight budget, e.g. rerank, so a slow day doesn't switch off /why and /assist)."""
         reason = self.degraded_reason()
         if reason:
             raise GeminiUnavailable(reason)
@@ -155,7 +159,8 @@ class Gemini:
             raise GeminiUnavailable(f"gemini {what}: invalid JSON") from exc
         except Exception as exc:  # budget TimeoutError, httpx timeouts, connection errors
             future.cancel()
-            self._record_failure()
+            if timeouts_degrade or not isinstance(exc, TimeoutError):
+                self._record_failure()
             log.warning("gemini %s failed: %s", what, type(exc).__name__)
             raise GeminiUnavailable(f"gemini {what}: {type(exc).__name__}") from exc
         if not isinstance(data, dict):

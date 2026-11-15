@@ -33,6 +33,9 @@ TOP_N = 20
 RERANK_BUDGET = CallBudget(timeout_ms=4_000, attempts=1)
 RERANK_TEMPERATURE = 0.2
 NOTE_MAX_WORDS = 30
+# New notes per rerank call. Output length is what makes rerank slow (8 notes ≈ 4+ s from the VM on 3.6 Flash);
+# the top results get notes now, the rest stay `why: null` for POST /why (CONTRACT §5) or a later repeat search.
+NOTES_PER_RERANK = 4
 CANDIDATE_TAGS = 6
 MAX_IDS = 24  # SearchRequest.limit ≤ 24
 ORDER_MEMO_SIZE = 1024
@@ -47,7 +50,8 @@ which stem it is (mix = full song, or an isolated part) and the score.
    the list. Favor candidates whose tags clearly match what was asked, prefer isolated stems or sparse
    moments when the user asked for something clean, and avoid putting several windows of the same
    track next to each other. Trust the score when the metadata gives no reason to disagree.
-2. Return "notes": for each id in "order" that is listed under needs_note, one note of at most 30 words,
+2. Return "notes": for the first {note_cap} ids in your "order" that are listed under needs_note (no more
+   than {note_cap} notes), one note of at most 30 words,
    in plain friendly English for someone new to sampling: why this window could work as a sample for
    this request, and one concrete thing to try (chop on the chord changes, loop 2 bars, pitch it down,
    filter out the low end, and so on). Base it only on the metadata; do not claim things you cannot
@@ -214,6 +218,9 @@ def rerank(
         return keep("skipped:few")
     if all(s.candidate.window_id in cached for s in fallback_order):
         return keep("skipped:memo" if memo is not None else "skipped:cached")
+    if memo is not None and all(s.candidate.window_id in cached for s in fallback_order[:NOTES_PER_RERANK]):
+        # Gemini already ordered this exact candidate set and its top results have notes: the rest are /why's job.
+        return keep("skipped:memo")
     if gemini is None:
         return keep("skipped:no_client")
     if not gemini.available():
@@ -222,12 +229,13 @@ def rerank(
     needs_note = [s.candidate.window_id for s in top if s.candidate.window_id not in cached]
     try:
         raw = gemini.generate_json(
-            system=SYSTEM_TEMPLATE.format(limit=min(limit, len(top))),
+            system=SYSTEM_TEMPLATE.format(limit=min(limit, len(top)), note_cap=NOTES_PER_RERANK),
             contents=user_content(request, chips, top, needs_note),
             schema=RERANK_SCHEMA,
             temperature=RERANK_TEMPERATURE,
             budget=RERANK_BUDGET,
             what="rerank",
+            timeouts_degrade=False,  # missing our own 4 s budget is not an outage; don't switch Gemini off for all
         )
     except GeminiUnavailable:
         return keep("failed")
@@ -235,7 +243,8 @@ def rerank(
     ordered = apply_order(top, raw.get("order"), limit)
     order_memo.put(key, [s.candidate.window_id for s in ordered])
     ordered_ids = {s.candidate.window_id for s in ordered}
-    new = parse_notes(raw.get("notes"), ordered_ids & set(needs_note))
+    wanted = [s.candidate.window_id for s in ordered if s.candidate.window_id in set(needs_note)][:NOTES_PER_RERANK]
+    new = parse_notes(raw.get("notes"), set(wanted))
     if new:
         try:
             write_notes(pool, new, f"{gemini.model}:meta")
