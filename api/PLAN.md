@@ -115,8 +115,8 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-15 (session 6):** T1.1–T5.1, T7.1, T7.2, T8.1, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io on `53e3df3`, T8.1 live); T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
-needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
+**Status 2026-11-15 (session 6):** T1.1–T5.1, T7.1, T7.2, T8.1, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io on `53e3df3`, T8.1 live); T11.x not started. No fixture stand-ins are left in real mode. T2.2
+re-checked against seed tracks in session 7.
 
 ### → Gate H3: real DB wired, chips and tracks real
 - [x] **T1.1 Settings, errors, fixture mode** (1 h). *Done:* `create_app(settings)` factory; real mode mounts
@@ -144,6 +144,9 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       (`BEATOPIA_DB_TESTS=1`) that inserts a track/windows/stem in one transaction against the dev DB and rolls
       back. Windows are ordered mix first, then by stem and start. Real mode now also requires `SUPABASE_URL`.
       Re-check against the seed at H3. The `fs_*` live fallback is T8.1.
+      *Re-checked (session 7, production `53e3df3`):* 8 seed tracks found by `/search` (Jamendo, incl. heroes
+      `jam_1030277`/`jam_1030282` with 4 stems, a null-bpm track) validate `TrackDetail` against `shared/schema`;
+      26–163 windows, mix first, license + attribution set; unknown id → 404 `not_found`.
 
 ### → toward Gate H12: live `/search` in production
 - [x] **T3.1 Search SQL + scoring** (2 h). `core/search_sql.py` (must ⊆ tags, relax to overlap if < 10, exclude,
