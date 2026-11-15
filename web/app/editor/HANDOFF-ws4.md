@@ -1,4 +1,39 @@
-# WS4 current acceptance handoff (2026-11-15, resumed)
+# WS4 live API and worker acceptance (2026-11-15)
+
+**API: https://45-77-216-35.sslip.io. Production H16 acceptance now passes. Local H18-H19 remains complete. Real ready/queued worker acceptance for H16-H18 passes; that task remains open only for the explicit WS3 drawer/hooks replacement, whose interfaces are not present in this checkout.** No API, worker, WS3, generated-type, dependency or environment files were edited. This section supersedes every earlier unavailable-API/worker/production-acceptance claim below.
+
+## Live verification
+
+- HTTPS `/health`, `/openapi.json` and real `/tracks/jam_1047157` return 200. CORS allows `http://localhost:3000`. Approved shell network access succeeded after sandboxed requests failed; browser requests also succeeded. The local bootstrap source is unrelated to deployed availability.
+- Restarted the existing owned dev server with **fixtures disabled** and the supplied API URL, using temporary process environment only. Main `/editor` uses typed WS3 API client calls; no development metadata snapshot. Real hero `jam_1047157`, **km 1 - Escena III**, Oscar Avila, CC-BY-SA-3.0, BPM 139.675, G major; API and public mix each returned 200 in Chrome 157.
+- Actual hero chain: absolute 5..15 -> trim relative 1..9 -> four chops -> reverse/repitch c1.4 -3 -> order `[c1.4,c1.1,c1.4,c1.3,c1.2]`. Download: **1897548 bytes / 474376 frames / 10.756825396825397 seconds / 44100 Hz / 16-bit stereo**. Native browser WAV decode preserves 474376 frames; HTMLAudioElement reaches `canplay`, duration 10.756825. Current SHA256 **19dfc812c2e105ce51ac5e4b318c9e254e25dbf3bada3902dff41cd06b9cb9a0** (do not reuse the earlier Chrome-version hash). Play/stop works. Export `POST /events` returns **204** against the deployed API.
+- Hero ready separation request returns 200, `job_id: null`, four covering full-length stems. Drums append after the edited arrangement; total **915376 frames**. Source license stays visible. Undo restores the exact pre-add WAV bytes; redo restores the exact stem-added bytes.
+- **Real queued job `ef0e81a9-e7aa-415c-8c64-94b2c280134a`:** `jam_1029666`, Love Will Find a Way by Dr. Michael Lee, CC-BY-SA-3.0, unknown BPM, range **170..180**. No stems existed before the request. Main editor showed Queued 0%; actual API job progressed `queued -> running (.15, .65, .725, .8, .875) -> done (1)`, returning four public ranged MP3s with `range_start_s: 170`, `range_end_s: 180`. Polling is approximately one second while open; closed polling count stayed 1 across the wait, reopening resumed; polling stopped at done.
+- Before addition: chop/reverse/duplicate arrangement **551250 frames**. Deliberately aborted one real ranged drums fetch; error shown and exported bytes unchanged. Retry successfully mapped absolute 170..180 to file-local 0..10 and appended drums for **992250 frames**. Undo/redo exports compare byte-for-byte. Fit/beat snap unavailable for the real missing-BPM track. A 52.5-second arrangement (**2315250 frames**) exports; duplication to 62.5 seconds is rejected with byte-identical audio/history preserved. Undo restores the original 22.5-second stem arrangement.
+- **Retry job `0646eed6-1cd4-4b63-90e8-4a032eff193d`:** `jam_1029230`, Meine (ambient remix), range **20..25**. Injected one browser-local 503 separation response and one aborted job-status fetch; visible Retry separation / Retry job status controls recovered using the real API. Worker finished; drums appended with the earlier reverse retained, **441000 frames** total. These are deliberate transport-fault checks, not a claim that a real worker terminal-error occurred; terminal-error behavior remains covered by the existing query unit tests.
+- Live local/mixed export probe: library event count 1, append local WAV and export stays 1, undo local and export becomes 2; no `/imports` call. Exact hero WAV restored after undo. This replaces earlier fixture-only evidence for the live telemetry suppression branch.
+- **Human confirmed:** “Yes, preview/export sound right and open,” answering the live hero preview/download and player/DAW question. With actual API/edit/stem/missing-BPM/limit/error-retry/export/telemetry checks, H14-H16 is now checked in `PLAN-ws4.md`.
+
+## What remains / resume
+
+Final checks pass: `pnpm.cmd lint`, `pnpm.cmd tsc --noEmit`, `pnpm.cmd test` (**18 files / 76 tests**) and `git diff --check`. Final normal hero run has no browser console errors; earlier network/503 errors were deliberate retry scenarios.
+
+1. Replace the reviewed editor-owned `StemsDrawer` / `useEditorStems` / `useEditorStemJob` imports when WS3's actual drawer/useStems/useJob interfaces are available in this checkout. No second HTTP client exists: the adapter already uses WS3's typed API client and has now passed live ready/queued flows. The H16-H18 task box stays open for this specifically stated integration criterion, not for backend availability.
+2. Earlier H8 waveform/transport details and H12 Tone musical acceptance retain their own open criteria; this session does not claim them or start chat/optimization work. Existing source/native/arrangement acceptance is preserved.
+
+Dev server is running on **localhost:3000 in live mode**, with the edited real hero open. Do not start a second server. Fresh start from web after stopping the owned server:
+
+```powershell
+$env:NEXT_PUBLIC_USE_FIXTURES='0'
+$env:NEXT_PUBLIC_API_URL='https://45-77-216-35.sslip.io'
+pnpm.cmd dev
+```
+
+Main hero: `http://localhost:3000/editor?track=jam_1047157&start=5&end=15&stem=mix`. The newly produced ranged stems are persisted, so reusing those exact ranges now takes the ready path. Pick a genuinely uncovered range for a future queue check. Development fixture-check routes intentionally return not found in this live mode. `.playwright-mcp/` contains local generated logs/downloads and is not committed.
+
+---
+
+# Prior WS4 current acceptance handoff (2026-11-15, resumed)
 
 User authorized continuing after `e1a0517`; browser actions now work. This section supersedes the pending browser/local-listening claims in the historical sections below. **H18-H19 local-file acceptance is complete. H16-H18 stems integration remains open for WS3 integration and live API/worker verification. The human confirms the API exists and the worker is deployed on Vultr; the deployed API base URL has been requested.** Local bootstrap code is not evidence that the deployed services are missing. Earlier H8/H12/production gates keep their own unmet criteria; no chat or optimization work started.
 
