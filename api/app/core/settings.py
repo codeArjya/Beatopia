@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 from collections.abc import Mapping
 from dataclasses import dataclass, fields
 from functools import cache
@@ -26,6 +27,16 @@ def _flag(env: Mapping[str, str], name: str) -> bool:
 
 def _origins(raw: str | None) -> tuple[str, ...]:
     return tuple(o.strip() for o in (raw or DEFAULT_WEB_ORIGIN).split(",") if o.strip())
+
+
+def origin_regex(origins: tuple[str, ...]) -> str | None:
+    """Regex for the WEB_ORIGIN entries that contain `*` (e.g. Vercel previews `https://beatopia-*.vercel.app`).
+
+    `*` matches one or more of `[a-z0-9-]`, so it never crosses a dot: `https://beatopia-*.vercel.app` allows
+    `https://beatopia-git-main-team.vercel.app` but not `https://beatopia-x.evil.com/.vercel.app`.
+    """
+    patterns = [re.escape(o).replace(r"\*", "[a-z0-9-]+") for o in origins if "*" in o]
+    return f"^(?:{'|'.join(patterns)})$" if patterns else None
 
 
 @dataclass(frozen=True)
