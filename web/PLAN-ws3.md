@@ -116,7 +116,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Accept:* the production URL runs a live search with no CORS errors in the console.
 
 ### Import, H14 → **Gate H16** (Tier 0 in production)
-- [ ] **T7.1 ImportDropzone** (1 h). Drag-and-drop or click-to-browse, the client-side checks (`lib/import/validate.ts`), and upload through `useImport`.
+- [x] **T7.1 ImportDropzone** (1 h). Drag-and-drop or click-to-browse, the client-side checks (`lib/import/validate.ts`), and upload through `useImport`.
   *Accept:* unit tests for extension, size and MIME edge cases. A 30 MB file or a `.txt` is rejected before upload with a clear message.
 - [ ] **T7.2 Analyze polling + summary** (1 h). Progress, a summary of the `TrackDetail`, the `["track", id]` cache seeded, and "Open in editor" using the best window.
   *Accept:* fixture import → done → summary shows 90 BPM, A minor, and the editor opens. Live: upload a real 10 s WAV in production.
