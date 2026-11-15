@@ -78,7 +78,7 @@ def request_stems(conn: psycopg.Connection, track_id: str, req: StemsRequest) ->
     with conn.cursor(row_factory=dict_row) as cur:
         track = cur.execute("select duration_s from tracks where id = %s", (track_id,)).fetchone()
         if track is None:
-            # TODO(T8.1): an unstored `fs_*` fallback track first gets a minimal row (CONTRACT §7.7).
+            # Unstored `fs_*` fallback tracks were stored by `fallback.store_track` in the route before this.
             raise not_found(f"track {track_id} not found")
         start, end = check_range(req, track["duration_s"])
 

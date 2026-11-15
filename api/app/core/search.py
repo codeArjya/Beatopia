@@ -1,24 +1,28 @@
 """POST /search pipeline (CONTRACT §7): plan → CLAP → SQL → score → rerank + notes → snap → Result.
 
-Gemini planner + plan_cache (T4.1), Gemini rerank + notes (T4.2). No Freesound fallback yet (T8.1).
+Gemini planner + plan_cache (T4.1), Gemini rerank + notes (T4.2), Freesound fallback (T8.1, proposal C10).
 """
 
 from __future__ import annotations
 
+import logging
 import secrets
 
 from psycopg_pool import ConnectionPool
 
-from app.core import embed, personalize, planner, rerank, search_sql
+from app.core import embed, fallback, personalize, planner, rerank, search_sql
 from app.core.errors import bad_request
+from app.core.freesound import Freesound, FreesoundError, Sound
 from app.core.gemini import Gemini
 from app.core.scoring import Scored, rank
 from app.core.settings import Settings
 from app.core.snap import snap_window
 from app.core.timing import note, stage
 from app.core.tracks import track_lite
-from app.models.api import Result, SearchRequest, SearchResponse
+from app.models.api import Chip, Result, SearchRequest, SearchResponse
 from common.storage import public_url
+
+log = logging.getLogger("app.search")
 
 SCORE_DECIMALS = 3
 
@@ -51,7 +55,11 @@ def to_result(s: Scored, why: str | None = None) -> Result:
 
 
 def run_search(
-    req: SearchRequest, pool: ConnectionPool, settings: Settings, gemini: Gemini | None = None
+    req: SearchRequest,
+    pool: ConnectionPool,
+    settings: Settings,
+    gemini: Gemini | None = None,
+    freesound: Freesound | None = None,
 ) -> SearchResponse:
     text = planner.normalize_text(req.text)
     chips = planner.resolve_chips(req.chips, settings.vocab_path)
@@ -68,9 +76,20 @@ def run_search(
         candidates, relaxed = search_sql.fetch_candidates(conn, plan, q)
     with stage("score"):
         ranked = rank(candidates, plan)
-    with stage("rerank"):
-        rr = rerank.rerank(text or planner.chip_caption(chips), chips, ranked, req.limit, gemini=gemini, pool=pool)
-    results = [to_result(s, rr.notes.get(s.candidate.window_id)) for s in rr.ordered]
+
+    reason = fallback.trigger(candidates, outcome.missing_sounds)
+    sounds = fallback_sounds(reason, text, chips, outcome.missing_sounds, req.limit, freesound)
+    if sounds is not None:
+        # The library has no good match: Freesound results lead, library results (score order, cached notes)
+        # fill the rest. No rerank: it would cost ~3 s to order filler.
+        library = [to_result(s) for s in ranked[: req.limit]]
+        results = fallback.merge(sounds, library, req.limit)
+        status, new_notes = "skipped:fallback", 0
+    else:
+        with stage("rerank"):
+            rr = rerank.rerank(text or planner.chip_caption(chips), chips, ranked, req.limit, gemini=gemini, pool=pool)
+        results = [to_result(s, rr.notes.get(s.candidate.window_id)) for s in rr.ordered]
+        status, new_notes = rr.status, len(rr.new_notes)
     note(
         plan_source=outcome.source,
         plan_cached=outcome.cached,
@@ -79,8 +98,37 @@ def run_search(
         skips=feedback.skipped,
         candidates=len(candidates),
         n=len(results),
-        rerank=rr.status,
-        new_notes=len(rr.new_notes),
-        fallback=False,
+        rerank=status,
+        new_notes=new_notes,
+        fallback=reason if sounds is not None else False,
     )
-    return SearchResponse(query_id=new_query_id(), plan=plan, results=results, fallback_used=False)
+    return SearchResponse(query_id=new_query_id(), plan=plan, results=results, fallback_used=sounds is not None)
+
+
+def fallback_sounds(
+    reason: fallback.Reason | None,
+    text: str | None,
+    chips: list[Chip],
+    missing_sounds: tuple[str, ...],
+    limit: int,
+    freesound: Freesound | None,
+) -> list[Sound] | None:
+    """Freesound sounds when the fallback triggers and Freesound answers (possibly []), else None."""
+    if reason is None:
+        return None
+    if freesound is None:
+        note(fallback_skipped=f"{reason}:no_key")
+        return None
+    query = fallback.query_for(reason, text, chips, missing_sounds)
+    if not query:
+        note(fallback_skipped=f"{reason}:no_query")
+        return None
+    try:
+        with stage("freesound"):
+            sounds = freesound.search(query, limit)
+    except FreesoundError as exc:
+        log.warning("fallback (%s) failed: %s", reason, exc)
+        note(fallback_skipped=f"{reason}:error")
+        return None
+    note(fs_n=len(sounds), missing_sounds=list(missing_sounds))
+    return sounds

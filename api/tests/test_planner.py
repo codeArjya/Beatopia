@@ -17,7 +17,8 @@ from app.models.api import SearchPlan
 SETTINGS = Settings.from_env({})
 VOCAB = SETTINGS.vocab_path
 
-# What Gemini returned live for this request (T4.1 acceptance query), trimmed to the schema fields.
+# What Gemini returned live for this request (T4.1 acceptance query), trimmed to the schema fields
+# (`missing_sounds` added with proposal C10; trumpet is in the vocab).
 TRUMPET_RAW = {
     "clap_text": "a melancholy solo trumpet over soft, sparse jazz chords",
     "must_tags": ["trumpet"],
@@ -27,6 +28,7 @@ TRUMPET_RAW = {
     "key": None,
     "stems_wanted": [],
     "prefer_sparse": False,
+    "missing_sounds": [],
 }
 
 
@@ -69,12 +71,12 @@ def pool(monkeypatch: pytest.MonkeyPatch) -> Iterator[FakePool]:
     planner.memory_cache.clear()
     p = FakePool()
 
-    def get(pool: FakePool, key: str) -> SearchPlan | None:
+    def get(pool: FakePool, key: str) -> planner.Planned | None:
         row = pool.rows.get(key)
-        return SearchPlan.model_validate(row) if row else None
+        return planner.from_row(row) if row else None
 
-    def put(pool: FakePool, key: str, plan: SearchPlan) -> None:
-        pool.rows[key] = plan.model_dump(mode="json")
+    def put(pool: FakePool, key: str, planned: planner.Planned) -> None:
+        pool.rows[key] = planner.to_row(planned)
 
     monkeypatch.setattr(planner, "db_get", get)
     monkeypatch.setattr(planner, "db_put", put)

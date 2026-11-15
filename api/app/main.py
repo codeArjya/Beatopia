@@ -20,6 +20,8 @@ from app import fixture_routes
 from app.core import db, embed, gemini
 from app.core.chips import load_chips
 from app.core.errors import install_error_handlers
+from app.core.freesound import Freesound
+from app.core.planner import vocab_tags
 from app.core.settings import Settings, get_settings, origin_regex
 from app.core.timing import configure_logging, install_timing
 from app.fixture_routes import fixture
@@ -61,6 +63,7 @@ def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextMan
         app.state.pool = None
         app.state.clap_ready = False
         app.state.gemini = None
+        app.state.freesound = None
         if not settings.use_fixtures:
             # Fail loudly: a real-mode API without a database, storage URL or vocab is a broken deploy.
             missing = settings.missing("supabase_url")
@@ -70,6 +73,10 @@ def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextMan
             app.state.pool = await asyncio.to_thread(db.open_pool, settings)
             app.state.clap_ready = await asyncio.to_thread(embed.warm)
             app.state.gemini = gemini.from_settings(settings)
+            if settings.freesound_api_key:
+                app.state.freesound = Freesound(settings.freesound_api_key, vocab=vocab_tags(settings.vocab_path))
+            else:
+                log.warning("FREESOUND_API_KEY is not set: the search fallback is off")
         clap_model, clap_rev = clap_identity() if not settings.use_fixtures else ("-", "-")
         log.info(
             "identity: revision=%s mode=%s clap=%s@%s clap_ready=%s gemini=%s",
@@ -83,6 +90,9 @@ def _lifespan(settings: Settings) -> Callable[[FastAPI], AbstractAsyncContextMan
         try:
             yield
         finally:
+            if app.state.freesound is not None:
+                app.state.freesound.close()
+                app.state.freesound = None
             if app.state.pool is not None:
                 await asyncio.to_thread(app.state.pool.close)
                 app.state.pool = None

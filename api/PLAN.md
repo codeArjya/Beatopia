@@ -106,6 +106,7 @@ contract and no longer assumptions:
 | C6 | After the hackathon | `tracks.owner_session text` so imports can be listed per session |
 | C7 | **Landed** (PR #6, `b7485cf`) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
 | C9 | **Landed** (PR #6, `b7485cf`; `gemini-3.8-flash` was overloaded and slower; local `.env` has a non-existent model) | `GEMINI_MODEL=gemini-3.6-flash` in `.env.example` / §8; `docs/proposals/WS2-gemini-model.md`. Meanwhile set it in the local `.env` and the deploy env |
+| C10 | **Proposed** (T8.1: the §7.7 score trigger never fires) | §7.7 trigger = < 3 candidates with sim ≥ 0.30, or the planner names a sound outside the vocab; Freesound results first; `docs/proposals/WS2-fallback-trigger.md`. Built against it meanwhile |
 | C8 | **Landed** (PR #6, `b7485cf`; needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
 
 ---
@@ -114,7 +115,7 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-15 (session 5):** T1.1–T5.1, T7.1, T7.2, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io); T8.1, T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
+**Status 2026-11-15 (session 6):** T1.1–T5.1, T7.1, T7.2, T8.1, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io; T8.1 not deployed yet); T11.x not started. No fixture stand-ins are left in real mode. T2.2 still
 needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
 
 ### → Gate H3: real DB wired, chips and tracks real
@@ -259,11 +260,22 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       placeholder track validates; a text file named .wav → 415. Worker leg confirmed in production: upload →
       analyze done in ≈ 6 s → `GET /tracks/imp_79e47554` (16 s, 3 windows). Needed a fix: placeholders now get
       `attribution = "Uploaded by you"` (WS1's analyze rejects an empty one; was `''` per §2).
-- [ ] **T8.1 Freesound fallback** (1.5 h). `core/freesound.py` (httpx, 5 s, 1 h TTL cache, license mapping),
+- [x] **T8.1 Freesound fallback** (1.5 h). `core/freesound.py` (httpx, 5 s, 1 h TTL cache, license mapping),
       `/tracks/fs_*` and `/why` for non-DB ids (in-memory note cache), `POST /tracks/fs_*/stems` stores the minimal
       row + copies the preview first (CONTRACT §7.7). *Accept:* mock-HTTP tests; live nonsense query
       "kazoo orchestra" → `fallback_used: true`, results validate, attribution present; `pick` writes no track row.
-      *Left:* all of it; the §7.7 trigger (< 3 scores > 0.25) never fires on the seed (score floor ≈ 0.25), so trigger on `sim` + proposal.
+      *Done:* trigger per proposal **C10** (`docs/proposals/WS2-fallback-trigger.md`): < 3 candidates with
+      sim ≥ 0.30 ("weak"), or P1's new `missing_sounds` names a sound outside the vocab ("gap"). Measured first:
+      eval queries' 3rd-best sim 0.318–0.504, sound effects 0.158–0.302, but kazoo/didgeridoo/theremin 0.41–0.47
+      (CLAP matches other music), so `sim` alone can't do it. Freesound results first (score 0.5 − 0.02·rank),
+      library fills ≥ limit // 4; CC0 + CC BY only (as WS1); query = the missing sound on a gap (Freesound ANDs
+      words: "kazoo orchestra" 0 hits, "kazoo" 102). No rerank on a fallback. `plan_cache` keys are now `v2|…`
+      (rows carry `missing_sounds`), so every text query is re-planned once. `/why` on `fs_*` downloads the
+      preview and cuts locally (ffmpeg over Freesound's CDN took 7.4 s). Live (`scripts/fallback_check.py
+      --stems`, real DB/CLAP/Gemini/Freesound): **0/19 eval queries fall back, 5/5 out-of-library do** (kazoo,
+      bagpipes, didgeridoo, dog barking, rain; all "gap"), fallback searches 1.7–2.3 s, Freesound 0.2–0.5 s;
+      `/tracks/fs_754932` live and valid; `/why` 4.8 s then 106 ms from memory; pick → no track row; stems on
+      `fs_754932` → preview copied + minimal row + job → **done on the production worker** (4 stems).
       **Gate H16: search → preview → stems → editor works in production (checked with WS3/WS4).**
 
 ### → Gate H24: `/assist`
