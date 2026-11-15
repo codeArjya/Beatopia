@@ -1,6 +1,6 @@
 import { createStore } from "zustand/vanilla";
-import type { EditorState, Op } from "@/lib/types/api";
-import { evaluate, type Evaluation, type SourceRegistry, type OfflineRenderer } from "@/lib/audio/evaluate";
+import type { ClipSource, EditorState, Op } from "@/lib/types/api";
+import { evaluate, sourceKey, type SourceAsset, type Evaluation, type SourceRegistry, type OfflineRenderer } from "@/lib/audio/evaluate";
 import { duration } from "@/lib/audio/pcm";
 
 interface Checkpoint {
@@ -19,6 +19,7 @@ interface EditorStore {
   error: string | null;
   initialize: (wire: EditorState, registry: SourceRegistry) => Promise<void>;
   apply: (ops: Op[]) => Promise<void>;
+  addSource: (source: ClipSource, asset: SourceAsset, expectedRevision?: number) => Promise<boolean>;
   undo: () => void;
   redo: () => void;
   select: (id: string) => void;
@@ -41,28 +42,47 @@ export function createEditorStore(offline?: OfflineRenderer) {
       set({ current: checkpoint, active, selection: pcm ? [0, duration(pcm)] : null,
         pending: false, error: null, ...extra });
     };
-    const run = async (wire: EditorState, registry: SourceRegistry, initialize: boolean) => {
+    const run = async (wire: EditorState, registry: SourceRegistry, initialize: boolean): Promise<boolean> => {
       const revision = get().revision + 1;
       const before = get().current;
       set({ revision, pending: true, error: null });
       try {
         const evaluation = await evaluate(registry, wire, offline);
-        if (get().revision !== revision) return;
+        if (get().revision !== revision) return false;
         publish({ wire, registry, evaluation }, {
           past: initialize || !before ? [] : [...get().past, before], future: [],
         });
+        return true;
       } catch (error) {
         if (get().revision === revision) set({ pending: false,
           error: error instanceof Error ? error.message : "Audio edit failed." });
+        return false;
       }
     };
     return {
       ...initial,
-      initialize: (wire, registry) => run(structuredClone(wire), registry, true),
+      initialize: async (wire, registry) => { await run(structuredClone(wire), registry, true); },
       apply: async (ops) => {
         const { current, pending } = get();
         if (!current || pending || !ops.length) return;
         await run({ ...current.wire, ops: [...current.wire.ops, ...structuredClone(ops)] }, current.registry, false);
+      },
+      addSource: async (source, asset, expectedRevision = get().revision) => {
+        const { current, pending, revision } = get();
+        if (pending || revision !== expectedRevision) return false;
+        let index = 1;
+        while (current?.wire.clips.some((clip) => clip.id === `c${index}`)) index++;
+        const clip = { id: `c${index}`, source: structuredClone(source) };
+        const registry = new Map(current?.registry);
+        registry.set(sourceKey(source), asset);
+        const wire: EditorState = current ? {
+          ...current.wire, clips: [...current.wire.clips, clip],
+          // An explicit arrangement may omit new roots. Append after the existing audible order.
+          ops: [...current.wire.ops, { op: "arrange", order: [...current.evaluation.order, clip.id] }],
+        } : { bpm: asset.bpm, clips: [clip], ops: [], arrangement: [] };
+        const added = await run(wire, registry, !current);
+        if (added) get().select(clip.id);
+        return added;
       },
       undo: () => {
         const { past, current, future, pending } = get();

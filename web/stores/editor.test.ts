@@ -14,6 +14,39 @@ async function setup(offline?: OfflineRenderer) {
   return store;
 }
 describe("editor transactions", () => {
+  it("adds a source to a chopped/repeated arrangement as one undo step without changing old audio or edits", async () => {
+    const store = await setup();
+    await store.getState().apply([{ op: "slice", clip: "c1", count: 2, snap: "none" },
+      { op: "reverse", clip: "c1.2" }, { op: "arrange", order: ["c1.2", "c1.1", "c1.2"] }]);
+    const before = store.getState().current!;
+    const source = { track_id: "t", stem: "drums" as const, audio_url: "drums.wav", start_s: 5, end_s: 5 + 2 / SAMPLE_RATE };
+    const asset = { pcm: { sampleRate: SAMPLE_RATE, channels: [Float32Array.from([0.5, 0.25])] }, origin: 5, bpm: 90, beatTimes: [] };
+    expect(await store.getState().addSource(source, asset)).toBe(true);
+    const after = store.getState().current!;
+    expect(after.wire.ops.slice(0, -1)).toEqual(before.wire.ops);
+    expect(after.evaluation.order).toEqual(["c1.2", "c1.1", "c1.2", "c2"]);
+    expect(Array.from(after.evaluation.rendered.channels[0])).toEqual([4, 3, 1, 2, 4, 3, 0.5, 0.25]);
+    expect(store.getState().active).toBe("c2");
+    store.getState().undo(); expect(store.getState().current).toBe(before);
+    expect(store.getState().current!.registry.has(sourceKey(source))).toBe(false);
+    store.getState().redo(); expect(store.getState().current).toBe(after);
+    store.getState().undo();
+    await store.getState().addSource(source, asset);
+    expect(store.getState().future).toEqual([]);
+  });
+  it("rejects stale decode publication and over-limit source addition without losing history", async () => {
+    const store = await setup(); const revision = store.getState().revision;
+    await store.getState().apply([{ op: "reverse", clip: "c1" }]);
+    const before = store.getState().current;
+    const source = { track_id: "local", audio_url: "blob:local", start_s: 0, end_s: 60 };
+    const asset = { pcm: { sampleRate: SAMPLE_RATE, channels: [new Float32Array(60 * SAMPLE_RATE)] }, origin: 0, bpm: null, beatTimes: [] };
+    expect(await store.getState().addSource(source, asset, revision)).toBe(false);
+    expect(store.getState().current).toBe(before);
+    expect(await store.getState().addSource(source, asset)).toBe(false);
+    expect(store.getState().error).toContain("60 seconds");
+    expect(store.getState().current).toBe(before);
+    expect(store.getState().past).toHaveLength(1);
+  });
   it("groups a sequential batch, restores wire and render on undo/redo, and clears redo on new edit", async () => {
     const store = await setup();
     const before = store.getState().toEditorState();

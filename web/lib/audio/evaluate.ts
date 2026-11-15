@@ -12,6 +12,8 @@ export interface SourceAsset {
   readonly origin: number;
   readonly beatTimes: readonly number[];
   readonly bpm: number | null;
+  /** Display-only provenance; never serialized into EditorState. */
+  readonly metadata?: { title: string; license: string; attribution: string; key?: string | null };
 }
 export type SourceRegistry = ReadonlyMap<string, SourceAsset>;
 export const sourceKey = (source: ClipSource): string => JSON.stringify([
