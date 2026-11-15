@@ -1,4 +1,30 @@
-# WS4 acceptance follow-up (2026-11-14)
+# WS4 current acceptance handoff (2026-11-15, resumed)
+
+User authorized continuing after `e1a0517`; browser actions now work. This section supersedes the pending browser/local-listening claims in the historical sections below. **H18-H19 local-file acceptance is complete. H16-H18 stems integration remains open only for the missing upstream components/API/worker acceptance.** Earlier H8/H12/production gates keep their own unmet criteria; no chat or optimization work started.
+
+## Passed in actual Chrome 157 on Windows
+
+- Expanded `/editor/source-checks`: ranged-file offsets, edited/repeated arrangement plus source undo/redo; real 48 kHz mono/stereo decode to 44100 Hz (44099 frames); mono channel preservation; unique/revoked identities; unsupported, empty, over-25-MB, corrupt and 61-second rejection; cancelled file read; stereo edited WAV roundtrip at 66149 frames. Full browser log ends `ALL AUTOMATED BROWSER CHECKS PASSED`. The previous one-frame tolerance fix is retained.
+- Actual fixture editor at `?track=jam_1532881&start=5&end=10&stem=mix`: four chops, reverse c1.4, native -3 repitch, reorder and duplicate. Order `[c1.1,c1.2,c1.4,c1.4,c1.3]`; **296485 frames**. Requested ready stems; deliberately aborted one drums download and verified the error with unchanged history/order/audio. Retry appended c2 drums after existing edits, with visible CC-BY-SA-3.0 attribution; **516985 frames**. Downloaded WAVs before addition and after undo compare byte-for-byte; redo exactly restores the stem WAV. Preview play/stop and drawer Escape-close/reopen pass. The Next.js dev indicator covers the top-right X in this browser; no product workaround was added. Pointer X-close remains unmeasured in this dev configuration.
+- Native chooser and file drop both imported an actual generated one-second 48 kHz stereo WAV. Repeated imports created c3/c4 independently in the library arrangement; frame totals **561084 / 605183**. Undo/redo restored byte-identical downloads and the original stem arrangement. Local license/attribution explicitly unavailable; BPM fit disabled.
+- Bare `/editor`, actual file drop: trim .25..75, chop into four, reverse, preview and download. WAV **88244 bytes / 22050 frames / 0.5 seconds / 44100 Hz / 16-bit stereo**. Scripted drops of unsupported/empty/oversized/corrupt/61-second/multiple files all displayed the expected error; each resulting WAV was byte-identical to the edited original. Import uses local decoding; no upload endpoint is called.
+- Added development/fixture-only mount/unmount controls to `/editor/source-checks`, mounting the actual EditorClient (no replacement decoder/store). Browser instrumentation around native APIs observed playback unmount: one source start/stop/disconnect, AudioContext `closed`, zero editor key listeners and animation frames, import URL revoked. Held the completion of a real native decode, unmounted, released it, then remounted: no stale source published, all URLs revoked, listeners/frames zero. Download URL also revoked on immediate unmount. Generated input WAV was temporary and removed afterward.
+- Fixture telemetry branch probe: local-only export wrote no session ID. At exact library window 5..15, library export wrote once, mixed-local export added no write, undoing the local source then exporting wrote again (counts **1 / 1 / 2**). This checks the branch immediately preceding typed `api.postEvent`; fixture mode performs no network event delivery. Production telemetry acceptance remains open.
+- **Human confirmed:** “Yes, preview and downloaded WAV sound right,” answering the combined preview/listening and opening the downloaded file in an audio player/DAW question. With browser UI/decode/export/cleanup evidence above, the local-file task is now checked in `PLAN-ws4.md`.
+
+## Remaining work and resume
+
+Final checks pass: `pnpm.cmd lint`, `pnpm.cmd tsc --noEmit`, `pnpm.cmd test` (**18 files / 76 tests**) and `git diff --check`. Final lifecycle route mount/unmount smoke check also passes with no browser console errors.
+
+1. WS3 must supply actual StemsDrawer/useStems/useJob interfaces. Replace the reviewed WS4 adapter imports while preserving source/history behavior. They are still absent from this checkout; do not edit WS3 paths from this stream.
+2. WS1/WS2 must supply a working real TrackDetail/separation/job API and worker, then verify queued progress, close/reopen polling, errors/retry and a valid covering done result in the actual drawer. Existing fixture-ready stems cover every valid range of this 16-second track, so no valid queued UI scenario arises here. Query unit tests simulate those states; no live worker pass is claimed. The backend still explicitly identifies itself as the fixture bootstrap.
+3. When production API is ready, run the main `/editor` with fixtures off, a real hero track and production export telemetry. Existing storage-snapshot checks do not satisfy that H16 gate. No additional credentials are needed for already-public hero audio.
+
+The dev server remains in fixture mode on localhost:3000. For cleanup acceptance: open `/editor/source-checks`, use Mount/Unmount test editor, optionally supply the normal track/start/end/stem query. These controls are behind the existing development + fixture-only route gate. Earlier records below are historical and must not reopen the now-complete local task.
+
+---
+
+# Prior WS4 acceptance follow-up (2026-11-14)
 
 Started clean on `ws4-editor` at `4458314`. This section supersedes the browser-unavailable statements below; the earlier implementation records are retained as history. No upstream, generated-type, dependency or environment files changed.
 
