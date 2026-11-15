@@ -104,9 +104,9 @@ contract and no longer assumptions:
 | C5b | At H3, > 30% of the 20 eval queries fall back on the seed (CLAP text–audio cosine is usually 0.1–0.4) | Rescale `sim = clamp(cos / 0.5, 0, 1)` in §7.4 |
 | C4b | WS4 finds Freesound preview URLs don't decode in the browser (CORS) | Copy the preview to `tracks/fs_{id}/mix.mp3` on first `GET /tracks/fs_*` |
 | C6 | After the hackathon | `tracks.owner_session text` so imports can be listed per session |
-| C7 | **Proposed** (needed now, can land at H12) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
-| C9 | **Proposed** (`gemini-3.8-flash` was overloaded and slower; local `.env` has a non-existent model) | `GEMINI_MODEL=gemini-3.6-flash` in `.env.example` / §8; `docs/proposals/WS2-gemini-model.md`. Meanwhile set it in the local `.env` and the deploy env |
-| C8 | **Proposed** (needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
+| C7 | **In contract PR #6** (needed now, can land at H12) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
+| C9 | **In contract PR #6** (`gemini-3.8-flash` was overloaded and slower; local `.env` has a non-existent model) | `GEMINI_MODEL=gemini-3.6-flash` in `.env.example` / §8; `docs/proposals/WS2-gemini-model.md`. Meanwhile set it in the local `.env` and the deploy env |
+| C8 | **In contract PR #6** (needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
 
 ---
 
