@@ -163,6 +163,50 @@ class Gemini:
             raise GeminiUnavailable(f"gemini {what}: expected a JSON object")
         return data
 
+    def generate_tools(
+        self,
+        *,
+        system: str,
+        contents: list[types.Content],
+        declarations: list[types.FunctionDeclaration],
+        temperature: float,
+        thinking: ThinkingLevel = "LOW",
+        budget: CallBudget = DEFAULT_BUDGET,
+        what: str = "tools",
+    ) -> Any:
+        """Function calling (mode AUTO, no automatic execution). Returns the raw response; the caller reads
+        `.function_calls`, `.text` and appends `.candidates[0].content` unchanged (thought signatures)."""
+        reason = self.degraded_reason()
+        if reason:
+            raise GeminiUnavailable(reason)
+        config = types.GenerateContentConfig(
+            system_instruction=system,
+            tools=[types.Tool(function_declarations=declarations)],
+            tool_config=types.ToolConfig(function_calling_config=types.FunctionCallingConfig(mode="AUTO")),  # type: ignore[arg-type]
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+            temperature=temperature,
+            thinking_config=types.ThinkingConfig(thinking_level=thinking_for(self.model, thinking)),  # type: ignore[arg-type]
+            http_options=http_options(budget),
+        )
+        future = _executor.submit(
+            self._client.models.generate_content, model=self.model, contents=contents, config=config
+        )
+        try:
+            response = future.result(timeout=budget.timeout_ms / 1000)
+        except errors.APIError as exc:
+            self._record_failure()
+            log.warning("gemini %s failed: %s %s", what, exc.code, (exc.message or "")[:200])
+            raise GeminiUnavailable(f"gemini {what}: HTTP {exc.code}") from exc
+        except Exception as exc:
+            future.cancel()
+            self._record_failure()
+            log.warning("gemini %s failed: %s", what, type(exc).__name__)
+            raise GeminiUnavailable(f"gemini {what}: {type(exc).__name__}") from exc
+        if not response.candidates or response.candidates[0].content is None:
+            self._record_failure()
+            raise GeminiUnavailable(f"gemini {what}: empty response")
+        return response
+
 
 def from_settings(settings: Settings) -> Gemini:
     """The process-wide client (created once in the lifespan)."""
