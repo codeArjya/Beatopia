@@ -164,7 +164,8 @@ Signatures are fixed. Bodies are WS1's job; the bootstrap writes stubs that rais
 
 ```python
 # common/clap.py: the SAME model at ingest and at query time
-CLAP_MODEL = os.environ.get("CLAP_MODEL", "laion/larger_clap_music")
+CLAP_MODEL = os.environ.get("CLAP_MODEL", "laion/larger_clap_music")   # set laion/larger_clap_general (§8)
+CLAP_REVISION = os.environ.get("CLAP_REVISION", ...)                   # pinned commit; must match the ingest
 def embed_audio(chunks: list[np.ndarray], sr: int) -> np.ndarray: ...   # (n, 512), L2-normalized; resamples to 48 kHz
 def embed_text(texts: list[str]) -> np.ndarray: ...                   # (n, 512), L2-normalized
 
@@ -424,7 +425,7 @@ Base URL `NEXT_PUBLIC_API_URL`. JSON everywhere except `/imports` (multipart). C
 | `POST /assist` | `AssistRequest` | `AssistResponse` | Gemini function calling over the Op union |
 
 Error codes in use: `not_found`, `bad_request`, `range_too_long`, `clip_is_sliced`, `upload_too_large`,
-`unsupported_format`, `upstream_error` (Gemini/Freesound), `rate_limited`.
+`unsupported_format`, `upstream_error` (Gemini/Freesound), `rate_limited`, `internal_error` (unhandled server bug, 500).
 
 ---
 
@@ -444,9 +445,13 @@ Error codes in use: `not_found`, `bad_request`, `range_too_long`, `clip_is_slice
      to 0 at 10 bpm outside; 0.5 when the track bpm is null.
 5. Keep at most 3 windows per track; snap to 1/2/4/8/16 bars using beat_times.
 6. Gemini rerank of the top 20 → final `limit`; fill `why` from `notes` cache.
-7. If fewer than 3 results have score > 0.25 → Freesound fallback, normalized into `Result` (`track.source = "freesound"`,
+7. Freesound fallback when fewer than 3 candidates have `sim ≥ 0.30`, or when the planner finds that the request names
+   an instrument/sound outside the tag vocabulary (Freesound is then queried with those names, else with the request
+   text; CC0 and CC BY only, 1–30 s). Freesound results are normalized into `Result` (`track.source = "freesound"`,
    id `fs_{id}`, window id `fs_{id}:mix:0`, `audio_url` = Freesound `preview-hq-mp3`, window `0..min(duration, 16)` s,
-   `fallback_used = true`). Fallback tracks are **not stored** in v1 (not even when picked): `GET /tracks/{id}` and
+   `score = 0.5 − 0.02·rank`), listed **before** the library results that fill the rest of `limit` (so a fallback
+   response is not sorted by `score`), and `fallback_used = true` whenever Freesound was queried (even with 0 hits).
+   Fallback tracks are **not stored** in v1 (not even when picked): `GET /tracks/{id}` and
    `POST /why` serve them live, and a `pick` event only records the event. Exception: `POST /tracks/{id}/stems` on one
    first stores a minimal `tracks` row (preview copied to `tracks/{id}/mix.mp3`, `bpm`/`key` null, no windows) so
    the worker can separate it.
@@ -461,13 +466,14 @@ DATABASE_URL=postgresql://postgres.<ref>:<password>@aws-0-<region>.pooler.supaba
 SUPABASE_URL=https://<ref>.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=            # server only, never in web/
 GEMINI_API_KEY=
-GEMINI_MODEL=gemini-3.8-flash         # newest stable Flash on ai.google.dev as of 2026-11-14
+GEMINI_MODEL=gemini-3.6-flash         # fast + available; 3.8 Flash was overloaded (503) and slower (C9)
 GEMINI_DEGRADED=0                     # 1 = skip planner/rerank/why/assist generation (Gemini down or rate-limited)
 FREESOUND_API_KEY=
 JAMENDO_CLIENT_ID=                    # optional
-CLAP_MODEL=laion/larger_clap_music
+CLAP_MODEL=laion/larger_clap_general  # the checkpoint the library was ingested with (C8)
+CLAP_REVISION=ada0c23a36c4e8582805bb38fec3905903f18b41  # must match ingest + worker + api (C8)
 DEMUCS_MODEL=htdemucs
-WEB_ORIGIN=http://localhost:3000      # comma-separated list of allowed origins
+WEB_ORIGIN=http://localhost:3000      # comma-separated allowed origins; `*` matches [a-z0-9-]+ (Vercel previews)
 USE_FIXTURES=0                        # 1 = api answers every endpoint from shared/fixtures (no DB, no CLAP)
 API_DOMAIN=                           # deploy only: Caddy hostname, e.g. 203-0-113-7.sslip.io or api.example.com
 
