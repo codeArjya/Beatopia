@@ -112,6 +112,61 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 
 ## Execution record
 
+### Session 8 — approved live evaluation and worker integration (2026-11-14–15 EST)
+
+The human approved the six-step plan. Execution began after the supplied HTTPS API first worked.
+Full evidence and exact operator instructions: SESSION8.md / FINAL_SESSION8.json; raw data/session8/.
+Original task/gate checkboxes below remain open where combined acceptance is incomplete.
+
+- [x] Inspect contract/handoffs/baseline, protected PIDs/commands/start times, schema and frozen queue.
+- [x] Retain bounded API monitoring and endpoint outcomes. Initial seven probes timed out; extension
+  worked at 02:49:16 UTC, revision 43ea7a6, later 56838ae. Extended cadence had a recorded unobserved gap.
+- [x] Confirm selected general CLAP pins through WS2/user, inspect matching normalization/real SQL/import
+  exclusion, and verify all 95 returned window IDs/embeddings/tags/credits/public paths against DB.
+- [x] Run unchanged actual twenty-query eval; all HTTP 200, 95 results, q14 empty/runner exit 1.
+  Generate auditions and original ungraded review files; add three explicit snapping technical holds.
+- [x] Joint mixed-feedback review completed by Santiago & Arjya: all 95 supplied grades/notes saved,
+  identities/provenance validated, three technical holds excluded from statistics, original timestamp
+  preserved and UTC submission time approved. Completed work is retained as one joint review.
+- [x] Revised review acceptance: user explicitly replaced the original two-independent-reviewer
+  requirement with this completed joint review. No additional review round required for this baseline.
+  Scores are mixed query/tag feedback, not a separately measured pure query-relevance metric. Actual
+  scores combine query match and tag accuracy. All 95 supplied grades/notes are retained once in A;
+  92 valid rows average 1.0435/2 (2=32, 1=32, 0=28), excluding three technical holds. B stays blank.
+  Three technical holds stay excluded from statistics. No fabricated independent scores or eval-after.
+- [x] Verify full-hero cached reuse, real uncached htdemucs [5,35] job b8b7cb59-e316-4abc-b154-cf92fa4bdfbf,
+  approximately one-second polling, actual CPU inference, four public outputs, and narrower local [5,15]
+  reuse. Enqueue-to-terminal poll 22.750 s; handler 20.892 s; inference 11.088 s; no fallback.
+- [x] Dedicated real import acceptance: 631df075-73d8-42c8-936b-819ef25c45e7 / imp_430eb4b6, 5.891 s,
+  normalized 8 s audio, one unit 512-d window, preserved metadata, live public-search exclusion.
+- [x] User-requested main worker merge 018e0c7 in isolated worktree; preserve current checkout/schema.
+  Existing VM worker image 0694113/process stamp 567279d verified by operator; matching CLAP settings and
+  source parity. Avoided duplicate/name-conflicting worker; no container deletion/rename or job reset.
+- [x] Actual local Playwright live search and real hero preview/loop verified.
+- [ ] Browser editor integration: actual other [10,20] editor route plays mix from zero. Owner WS4.
+- [ ] WS2 API failures: three result snaps cross artificial joins; 60.005-second range accepted; q14
+  house/tempo coverage is absent and Freesound fallback is unimplemented. No other-stream repairs.
+- [x] Frozen hero run finished naturally 67 complete/33 rejected; 100 candidates exhausted. Original
+  producer preserved through completion. Target remains 80, short by 13; no extra hero production.
+- [x] Old density follower DB failure preserved; verified dead before receipt-based recovery. Recovery
+  verified all 67 heroes/9,562 windows, 68 updates, zero failures. No live lock/queue/cache deletion.
+- [x] Independent final pre-test-object report: 350 library + six imports, 67 heroes, 12,618 DB windows,
+  272 stems, all 622 public objects and all completed-hero density pass, zero integrity issues; exit 2.
+  Post-integration snapshot: 350 library + 11 imports, 67 heroes, 12,642 total DB / 12,615 library
+  windows, 284 stems, all 634 public objects and 67/9,562 density windows pass, zero integrity issues.
+  Jobs 18 done/seven intentional historical errors, none queued/running. Exit 2; target 80 unchanged.
+- [x] Decode/measure 12 new rejected candidates / 48 files with unchanged window/join/silence rules.
+  Every new rejection has a measured zero-eligible-window stem; all raw failures retained.
+- [x] Prepare 58 attributed calibration auditions (30 hero timbre candidates), frozen replay 12,239
+  windows/zero changed tags; propose 20 licensed candidates from 50 eligible mixes outside original queue.
+- [ ] Thirty prominent useful timbres / perceptual sparse-dense calibration / target 80 remain open.
+  Candidate tags and scores are numerical screening evidence; no audible prominence inferred.
+- [x] Focused eval 36, ingest 134, worker 23 pass; five live opt-in skips. Isolated main worker 23 pass/
+  five skips. Python Ruff check/format pass, 55 files; Make unavailable, no global lint pass.
+- [x] Retain scoped evidence/handoff, all raw artifacts and actual joint grades. Mixed-fixture 0.186066
+  remains failed/unreproduced this session; optional two-model comparison/automatic selection stay cut.
+
+
 ### Session 7 — required hero activity density, conditional comparison cut, final evidence (2026-11-14)
 
 Human approved the plan before implementation. Started `d2b86f3` on `ws1-data`. Refined tasks **13–14**.

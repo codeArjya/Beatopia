@@ -1,4 +1,97 @@
-# Codex handoff — session 7 of 7
+# Codex handoff — Session 8 live integration checkpoint
+
+## Current handoff — Session 8 (supersedes next steps below)
+
+2026-11-14–15 EST, ws1-data, starting 1118b804f19ac2ea9e5e688478507ec18a2cebf4.
+Human approved the plan; later explicitly requested worker main merge/start. Exact full record:
+ingest/SESSION8.md, ingest/FINAL_SESSION8.json, ingest/PLAN.md; raw ingest/data/session8/.
+
+- API https://45-77-216-35.sslip.io now works. Observed revisions 43ea7a61263b246c3e06af534a845bc5289a0a6a,
+  then 56838aecd79c3e1a299a450b8e792be7ef0a2a26. Health/chips/hero details/OpenAPI 200.
+  General CLAP/pin ada0c23a36c4e8582805bb38fec3905903f18b41 confirmed by WS2/user and worker runtime;
+  source uses matching common.clap/L2 normalization and real SQL/import exclusion. 95 returned DB
+  windows/vectors/tags/credits/public paths checked. Weights are not independently attested.
+- Actual unchanged twenty-query baseline: 20 HTTP 200, 19 x five results, q14 empty, runner exit 1.
+  No eval-after. Raw requests/results/timings/auditions and review files retained. Three API snapping
+  failures cross the 120-second excerpt join: q05 rank 5 jam_1121408:mix:120000 [119.56,126.247];
+  q06 rank 2 jam_1030279:mix:110000 [110.097,120.685]; q16 rank 2 jam_1348228:mix:120000
+  [119.954,128.955]. Leave those grades null; q14 has none. 92 valid clips remain for listening.
+  Santiago & Arjya completed one JOINT review combining query match and tag accuracy, recorded once
+  in A with B blank. All 95 supplied grades/notes preserved; three held range scores excluded from
+  stats. 92 valid rows: 2=32, 1=32, 0=28; mean 1.0434782609/2. User explicitly replaced the original
+  two-independent-reviewer requirement with this completed joint review: current review acceptance
+  is complete, with no extra baseline round required. Score is mixed feedback, not separately measured
+  pure query relevance. Canonical UTC submission timestamp 2026-11-15T06:20:06+00:00
+  approved by user; original 22:56pm/file bytes retained. Exact grades/snapshots: FINAL_SESSION8.json.
+- Real fresh stems job b8b7cb59-e316-4abc-b154-cf92fa4bdfbf: jam_1307441 [5,35] htdemucs, done,
+  22.750 s enqueue-to-terminal poll / 22.009521 s DB time. Progress 0→1, 23 approximately one-second
+  polls. Worker log: CPU, handler 20.89182137 s, inference 11.087572925 s, no fallback; actual new
+  separation. Reported model_load_s=0.314063149 is not proof of a cold job. Four 30 s public MP3s pass
+  decode/probe; narrower [10,20] reuses coverage [5,35], local [5,15]. Full cached hero path also passes.
+- Dedicated synthetic 8 s import imp_430eb4b6 / analyze job 631df075-73d8-42c8-936b-819ef25c45e7:
+  done in 5.891 s, real normalized audio and unit 512-d window; metadata preserved; excluded from
+  two live searches, supported by actual DB/source proof. All private import URLs redacted.
+  These are the only session job IDs; never reset/poll unrelated jobs.
+- Actual Playwright on https://beatopia-liart.vercel.app/ verifies live API search and Jazzi Girl
+  other-stem preview advancing/looping in the returned range. Editor offset test FAILS: real
+  fs_166649 other [10,20] route plays mix.mp3 from zero; native playback confirms it. Owner WS4.
+  WS2 owns snapping, 60.005-second acceptance (strict >60 gate fails), missing Freesound fallback and
+  house/120 BPM empty query (one house window, zero tempo-eligible). No API/web repair in WS1.
+- Final independent pre-integration snapshot 04:20:14.979874 UTC: 350 library + six excluded imports,
+  67 heroes, 12,618 total DB / 12,615 library windows, 272 stems. All 67/9,562 density windows and all
+  622 public objects verified, no invalid windows/cache-DB/density/public failures. Exit 2, short 13
+  of unchanged target 80. Final post-integration snapshot 05:09:47.987525 UTC: 350 library + 11 imports,
+  67 heroes, 12,642 DB / 12,615 library windows, 284 stems; all 634 public objects and 67/9,562 density
+  windows pass, zero integrity issues. 618 local hash anchors, 16 range objects without local anchors.
+  Jobs 18 done/seven exact intentional Session 4 errors, none queued/running. Exit 2, 671.297 s.
+- Producer 32252/30820 finished naturally 67 complete/33 rejected; frozen 100-ID queue exhausted,
+  hash 2bfe34247b61a8aeef5f746bb9b2a87588c843e8eaa72a1fd4ec643e759e22d6 unchanged. No extra hero
+  production or target extension. Old follower 28192/21740 exited after real DB OperationalError;
+  failed sweep retained. Verified death, then recovery uv 21728/Python 33096 verified 67/9,562,
+  68 updates, zero failures, 114.281 s, and finished. No live lock deletion or producer restart.
+  Logs: heroes/heroes.log, heroes-batch-20261114-163116.*, density-20261114-193827.*,
+  density-20261114-231648.* under ingest/data/. Recovery session8/density-recovery.json.
+- 12 new rejected heroes / 48 files measured with canonical FFmpeg and unchanged nominal/terminal/
+  join/-45 dBFS rules; all have a zero-window stem. Preserve raw rejections/receipts/fingerprints.
+  Prepared 58 calibration auditions incl. 30 hero timbre candidates; replay 12,239 windows, zero
+  changed tags. Proposed 20 extra candidates from 50 eligible licensed mixes, excluded original queue
+  and all known failures/completions. Screening/listening unreviewed; no production launched.
+- Worker merge is on main: worker-only 417556d, merged with concurrent contract b7485cf into
+  018e0c7ea25087cf46e9c0f438a6ab0b207fef73. No force push; current checkout never switched.
+  GitHub PR connector returned 403; authorized ordinary Git push merged the tested branch.
+  Operator's password SSH was used for deployment handoff; no password/private key collected.
+  Our image built in 64.5 s, then up hit an already-running container. Kept it intact:
+  beatopia-worker-1, reported start 04:50:53.714146507 UTC, image label 069411369305f7550e0ed1987491cf2a11ed4059,
+  process stamp 567279d63c37de408fe1aba4ff925bbfc3905584. Worker/common source identical to tested merge;
+  operator confirmed pinned CLAP and CUDA false; owned job proves actual CPU inference.
+  Record both stamps; WS2 should confirm durable worker/data mounts before future recreation.
+- Checks: focused 36 pass/5.15 s; ingest 134/74.31 s; worker 23 pass/5 skips/48.38 s; isolated main
+  worker 23 pass/5 skips/24.98 s. Python Ruff check/format pass, 55 files. Make absent, no global lint
+  pass; common runtime unchanged/no common rerun; no API/web checks claimed. Earlier UTF-8 diagnostic
+  credit false positives corrected (zero true mismatches), queue-reader/vocab screening mistakes and
+  failed attempts retained. No corpus relevance fix, retagging or embedding/vocab changes.
+- Initial seven bounded unrestricted API probes timed out across 30 minutes; extension worked,
+  but contains a recorded unobserved interval while tool interactions were pending. Preserve exact
+  times/statuses; do not claim uninterrupted five-minute coverage. CUA host/Chrome access failed;
+  user-requested local Playwright later completed actual browser checks.
+
+Next: joint mixed feedback is complete and accepted under the user-revised requirement. WS2 fixes
+snapping/strict range/fallback/version stamps; WS4 fixes editor source/offset routing. After actual
+fixes rerun the unchanged dataset in a new directory and collect fresh joint feedback. Complete real
+timbre/density listening and investigate the historical mixed-fixture 0.186066 < 0.2 failure; optional
+two-model comparison remains cut. Review additional candidates before any production; exhausted old
+queue cannot reach 80. Preserve the running VM worker and all caches/checkpoints; no bulk resets.
+Use new report outputs with explicit child-exit propagation and fresh pytest basetemps after code work.
+Exact commands, raw evidence paths, owned job UUIDs and recovery instructions: ingest/SESSION8.md.
+
+Tracked Session 8 changes here only ingest/{PLAN.md,SESSION8.md,FINAL_SESSION8.json} and this
+authorized handoff. Separate authorized main integration changes existing worker/ only relative to
+teammate main; incorporated contract changes were owner commits, not WS1 edits.
+Pre-existing schema preserved/excluded, SHA256
+BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5.
+
+---
+
 
 ## Current handoff — Session 7 (supersedes all next steps below)
 
