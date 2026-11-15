@@ -15,7 +15,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app import main
-from app.core import embed, planner, rerank, search_sql
+from app.core import embed, personalize, planner, rerank, search_sql
 from app.core.chips import chip_index
 from app.core.search_sql import Candidate
 from app.core.settings import REPO_ROOT, Settings
@@ -120,6 +120,7 @@ def client(monkeypatch: pytest.MonkeyPatch) -> Iterator[tuple[TestClient, list[S
     monkeypatch.setattr(planner, "db_put", lambda pool, key, plan: None)
     monkeypatch.setattr(embed, "embed_query", lambda text: np.ones(512, dtype=np.float32) / np.sqrt(512))
     monkeypatch.setattr(search_sql, "fetch_candidates", fake_fetch)
+    monkeypatch.setattr(personalize, "personalize", lambda conn, sid, q: (q, personalize.Feedback(0, 0)))
     app = main.create_app(SETTINGS)
     app.state.pool = FakePool()  # lifespan not run: no real DB or CLAP
     app.state.clap_ready = True
