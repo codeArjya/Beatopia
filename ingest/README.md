@@ -148,3 +148,65 @@ or modifying a live hero's artifacts is not a migration. No such tuning was just
 Recorded evidence: `SESSION5.md`, `REPORT_SESSION5.json`, `CALIBRATION_SESSION5.json`. Full local artifacts
 and the audition page remain under ignored `ingest/data/session5/`. Both plan rows remain open for the
 unfinished hero-count and listening acceptance; mapping agreement alone does not complete calibration.
+
+## Search evaluation (Session 6)
+
+`eval_queries.yaml` contains twenty listening intents spanning instruments, mood, genre, tempo,
+sparse arrangements and isolated stems, including stacked chips and text-only requests. Chip IDs
+are checked against the existing contract fixture; no vocabulary or API change is required.
+The runner reads the binding Pydantic response models directly, without loading the WS2 app.
+
+From the repository root, once WS2 supplies the actual API URL:
+
+```powershell
+uv run --project ingest python ingest/eval.py --base-url https://YOUR-WS2-API --output-dir ingest/data/session7/eval-before
+```
+
+It sends all twenty actual `POST /search` requests with `limit=5` and a run UUID. There is no fixture
+fallback, automatic retry, direct-DB search substitute or machine-generated relevance grade. Console
+and `results.md` show top-five window/track IDs, tags, license, attribution, stem/range, score, plan,
+fallback status, HTTP status, latency and failures. `results.json` preserves the request, raw successful
+JSON and validated response for each query. Network/provider exception text is not recorded; HTTP
+errors retain status and a bounded API error code. Timeout defaults to 30 seconds (`--timeout` overrides).
+An output directory must be new, so reruns cannot overwrite a baseline or human reviews.
+
+Known fixture markers, returned private imports, empty results, duplicate windows, ignored limit,
+missing license/attribution, nonfinite values and invalid ranges/scores are explicit failures. A lack
+of fixture markers does **not** prove live DB search or a matching CLAP model. WS2 must confirm
+`laion/larger_clap_general` revision `ada0c23a36c4e8582805bb38fec3905903f18b41` matches the corpus,
+imports stay excluded, and the endpoint uses real search. This is a process setting, not a request
+to change the shared model default or root `.env`.
+
+The two designated human reviewers are the requesting user and their teammate. Once valid live
+results exist, open `audition.html` to hear returned full-track/full-hero windows. It displays credits
+and bounds playback using returned start/end times. Browser playback itself still needs verification;
+this generated page is not evidence of WS4 playback or range-job offset handling.
+Each person independently fills their own `reviewer-A.json` or `reviewer-B.json`: reviewer identity,
+ISO timestamp in `recorded_at`, one integer grade per returned result, and listening notes. Rubric:
+**0 irrelevant / 1 partial match / 2 useful match** against the query's `listen_for` intent. Grades
+start null; technical failures are not turned into relevance zeros. No numerical pass threshold is
+invented. Fewer than five returned results remain fewer than five; no rows are fabricated.
+
+```powershell
+uv run --project ingest python ingest/eval.py --report ingest/data/session7/eval-before/results.json --grades ingest/data/session7/eval-before/reviewer-A.json ingest/data/session7/eval-before/reviewer-B.json
+```
+
+Reviews are tied to the exact run/result digest and ranked window IDs; stale, duplicate, unknown or
+noninteger grades and repeated reviewer identities fail validation. Reviewing saved results never
+calls `/search`. Investigate actual failures with listening evidence; only change WS1 data/tag code
+when justified and compatible with live fingerprints/frozen mapping. Leave WS2/WS4 fixes to owners.
+After a justified fix, run the same dataset into a new `eval-after` directory and collect both reviews
+again. Compare the saved runs (append these options to the saved-review command for the after run):
+
+```powershell
+--before ingest/data/session7/eval-before/results.json --before-grades ingest/data/session7/eval-before/reviewer-A.json ingest/data/session7/eval-before/reviewer-B.json
+```
+
+The comparison reports technical failures and per-query mean-grade changes only when both runs have
+complete reviews from the same two people; otherwise human deltas stay empty. Exit **1** means
+technical/validation failure, **2** means grading/comparison incomplete, **0** means two complete
+reviews were supplied. Exit 0 is not an automatic relevance or live-integration acceptance pass.
+
+Session 6 evidence is in `SESSION6.md` and `EVAL_SESSION6.json`. The human confirmed the live API is
+not ready; both twenty-query HTTP attempts timed out. No live results, human grades, evidence-backed
+relevance fix, before/after relevance improvement or WS2/WS4 integration pass is claimed.

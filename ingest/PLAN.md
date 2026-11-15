@@ -92,8 +92,8 @@ Each checkbox is a 1–2 hour active work unit; unattended downloads/inference a
 | [x] | H12 / 1 h | Worker import analysis + range caching (#6) | Session 4: real import/TrackDetail/3 normalized vectors/public MP3 verified; repeat has no duplicates; range offsets and covering reuse verified. CPU 30 s job 47.608574 s enqueue-to-terminal-poll (<60); CUDA/MPS unavailable, no GPU timing claimed. API/browser and actual six-source inference remain unverified. See `worker/SESSION4.md`. |
 | [ ] | H12 / 1 h | Reporting + coverage/quality audit (#7) | Session 5 reporter implemented: 350 library tracks, 24 complete heroes and 450 public objects technically verified; exact cuts/shortfalls and errors recorded in SESSION5.md. Target remains 80; 30 prominent timbres/listening incomplete. One identified human track/stem review. No full quality/H12 pass. |
 | [ ] | H12 / 1 h | Tag calibration and vocab freeze (#7) | Session 5: replayed tags for 7,249 cached windows, zero selected-tag changes; 48 attributed auditions and measured proxy examples published. Existing 120-tag mapping frozen; human confirmed WS2/WS3 agreement. Listening calibration remains open; no evidence-backed threshold/prompt change or DB rewrite claimed. |
-| [ ] | H20 (H12–H14) / 2 h | Twenty-query eval dataset and runner (#8) | `ingest/eval_queries.yaml` covers instruments, mood/genre, tempo, sparse/stem cases; runner calls actual `/search`, prints top five with IDs/tags/license and handles errors; two humans grade relevance and record failures. |
-| [ ] | H20 (H14–H16) / 2 h | Address eval failures and integration (#8) | Re-run failed queries after targeted data/tag fixes; record before/after human grades, no invented pass threshold; validate actual job polling/playback with WS2/WS4 or retain explicit unresolved dependency. |
+| [ ] | H20 (H12–H14) / 2 h | Twenty-query eval dataset and runner (#8) | Dataset/runner implemented in Session 6; 36 focused tests pass. Both actual twenty-query HTTP attempts timed out; human confirms live API not ready. Reviewers designated as user and teammate; no relevance grades yet. Original acceptance remains: representative queries, actual top-five IDs/tags/licenses/errors and two human reviews. See SESSION6.md/EVAL_SESSION6.json. |
+| [ ] | H20 (H14–H16) / 2 h | Address eval failures and integration (#8) | Session 6 records WS2/WS4 fixture/search/polling/playback dependencies. No live results justify a data/tag fix; no human before/after grades exist. Re-run after justified fixes, record actual grades without an invented threshold, validate live polling/playback or retain the explicit dependency. |
 | [ ] | H20 (after H16) / 2 h | Optional two-model quality comparison (#9) | Only if core gates passed: on a small held-out set report cross-correlation, residual energy and CLAP label similarity plus listening; use supported models, log actual model chosen; do not double all jobs without latency evidence. |
 | [ ] | H20 (after H16) / 1 h | Complete hero density + final handoff (#9) | All completed hero windows have stem-activity density; repeated report/checks clean; final counts, failed jobs, 30 s timings, eval grades, recovery commands and any cuts documented. Density completion remains required even if optional quality comparison is cut. |
 
@@ -111,6 +111,36 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 - **Storage/DB divergence and stale fingerprints.** Upload before transactional publish; resume validates all stages, preserve source provenance; changed model requires re-embedding with the same revision for query and corpus. No automatic incompatible model swap.
 
 ## Execution record
+
+### Session 6 — actual HTTP eval tooling; live relevance/integration dependencies (2026-11-14)
+
+Human approved the plan before code. Started `5feb19b` on `ws1-data`. Implemented twenty representative
+queries and the actual `/search` runner, retained response/error evidence, bounded audition HTML,
+independent ungraded review templates, provenance validation and saved before/after comparisons.
+No dependency, API/schema, ID, storage, vocabulary, common/worker helper or model-default change.
+
+- Actual `http://127.0.0.1:8000/search`: two twenty-query runs, **20/20 timeouts each**, including
+  an unrestricted network retry. No fixture substitute, fabricated results, relevance zeros or grades.
+  User confirms **live API is not ready**, and designates **the user and their teammate** as reviewers.
+  Both task rows stay unchecked. No relevance fix or before/after improvement can be claimed.
+- Local API source unconditionally returns fixtures; job polling source and editor placeholder do not
+  verify the actual WS2/WS4 flow. Integration requirements and range-file offset formula are retained
+  in SESSION6.md. No API/web repair or external messages were sent.
+- Final independent report snapshot **18:59:57 EST**, finished **19:01:21**, **83.953 s**, **exit 2**:
+  **350 library + 1 import, 27 heroes, 8,117 windows, 112 stem rows; 462 public objects** decoded/probed,
+  **458 local hash anchors**, zero invalid-window/cache-DB/public failures. **53 heroes short** of 80.
+  Formal 30-track timbre listening, existing mixed-fixture semantic failure and hero mix density stay open.
+- Read-only decode of **20 files from five new rejected heroes** confirms each has at least one stem
+  with zero eligible nominal audible windows. Includes both jam_1342553 and jam_1207327 carried from
+  Session 5. Exact RMS measurements in EVAL_SESSION6.json; unchanged -45 dBFS gate, no cache repair.
+- Focused eval **36 passed/2.43 s**; task-11 ingest **100 passed/46.36 s**, worker **23 passed,
+  5 skipped/33.63 s**; final ingest **105 passed/41.37 s**, worker **23 passed, 5 skipped/31.19 s**.
+  Python Ruff check/format pass (**61 files**); Make absent; web lint/typecheck fail on pinned
+  @pnpm/exe@12.14.0 bootstrap. Five opt-in live DB tests not rerun; common unchanged, no common rerun.
+- Original hero PIDs **32252/30820** remain alive, unrestarted. Separate later log checkpoint:
+  **29/80 complete, 14 rejected**, ETA ~3 h 16 m (not an independent DB/object audit).
+  Full commands, logs, artifact hashes, schema preservation and exact Session 7 instructions are in
+  SESSION6.md and docs/codex-handoff.md. H gates are not weakened or claimed met by tooling tests.
 
 ### Session 5 — reporting, cached tag replay and agreed mapping freeze (2026-11-14)
 

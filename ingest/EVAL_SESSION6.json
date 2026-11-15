@@ -1,0 +1,1212 @@
+{
+  "session": 6,
+  "recorded_at": "2026-11-15T00:06:27.345894+00:00",
+  "status": "Tooling implemented; task 11/12 acceptance remains open",
+  "live_api": {
+    "status": "not_ready",
+    "source": "User confirmation in Session 6",
+    "service_model_verified": false
+  },
+  "human_reviews": {
+    "designated_reviewers": [
+      "requesting user",
+      "their teammate"
+    ],
+    "source": "User confirmation in Session 6",
+    "grades": [],
+    "status": "pending actual live results"
+  },
+  "runs": [
+    {
+      "artifact": "ingest\\data\\session6\\eval-before\\results.json",
+      "artifact_sha256": "3c813906c4f92f01c6235eb695aa972e72668156211172dd06bd1f633162a82c",
+      "run_id": "3ccf0d1c-e987-4763-9242-e506d674b2d3",
+      "recorded_at": "2026-11-14T23:51:25.783791+00:00",
+      "result_sha256": "911cbde1b8d7a0dc3323095c11a9f7f611eecf6eb7dc957652685eb4ef82d867",
+      "dataset_sha256": "63ff9cc24fbf97a688f6cdeda81a9e88869e8d0e32b1f196b619ae163c89844f",
+      "base_url": "http://127.0.0.1:8000",
+      "technical_failures": 20,
+      "queries": [
+        {
+          "id": "q01",
+          "text": "dusty soul keys",
+          "http_status": null,
+          "elapsed_s": 2.0309999999990396,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q02",
+          "text": "solo trumpet",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q03",
+          "text": "boom bap drums 90 bpm",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q04",
+          "text": "melancholy strings",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q05",
+          "text": "vocal chop",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q06",
+          "text": "mellow jazz saxophone",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q07",
+          "text": "warm acoustic guitar picking",
+          "http_status": null,
+          "elapsed_s": 2.0160000000032596,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q08",
+          "text": "church organ chords",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q09",
+          "text": "funky electric bass groove",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q10",
+          "text": "dreamy ambient synth pad",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q11",
+          "text": "aggressive distorted rock guitar",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q12",
+          "text": "happy upbeat flute melody",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q13",
+          "text": "slow piano ballad around 70 bpm",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q14",
+          "text": "house groove 120 bpm",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q15",
+          "text": "fast breakbeat around 160 bpm",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q16",
+          "text": "find a cleaner moment with sparse piano and no drums",
+          "http_status": null,
+          "elapsed_s": 2.0160000000032596,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q17",
+          "text": "sparse horns with space between phrases",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q18",
+          "text": "isolated drums stem with no vocals",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q19",
+          "text": "isolated vocals stem for sampling",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q20",
+          "text": "other stem with clean strings or keys and no bass or drums",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        }
+      ]
+    },
+    {
+      "artifact": "ingest\\data\\session6\\eval-network-confirmed\\results.json",
+      "artifact_sha256": "74aa9640315d4b461454e1ca8b2ee0dc81de8f45d3d045068d3ae60aa0d557ab",
+      "run_id": "c323334d-a4c6-4b49-af15-f77a5460f8dd",
+      "recorded_at": "2026-11-14T23:52:54.191360+00:00",
+      "result_sha256": "ba766a5aaf4abf1da89fcade71a4a1b2a09b5eb6dba5c8bd1be62a4e7ca3a3b1",
+      "dataset_sha256": "63ff9cc24fbf97a688f6cdeda81a9e88869e8d0e32b1f196b619ae163c89844f",
+      "base_url": "http://127.0.0.1:8000",
+      "technical_failures": 20,
+      "queries": [
+        {
+          "id": "q01",
+          "text": "dusty soul keys",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q02",
+          "text": "solo trumpet",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q03",
+          "text": "boom bap drums 90 bpm",
+          "http_status": null,
+          "elapsed_s": 2.0160000000032596,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q04",
+          "text": "melancholy strings",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q05",
+          "text": "vocal chop",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q06",
+          "text": "mellow jazz saxophone",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q07",
+          "text": "warm acoustic guitar picking",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q08",
+          "text": "church organ chords",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q09",
+          "text": "funky electric bass groove",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q10",
+          "text": "dreamy ambient synth pad",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q11",
+          "text": "aggressive distorted rock guitar",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q12",
+          "text": "happy upbeat flute melody",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q13",
+          "text": "slow piano ballad around 70 bpm",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q14",
+          "text": "house groove 120 bpm",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q15",
+          "text": "fast breakbeat around 160 bpm",
+          "http_status": null,
+          "elapsed_s": 2.0160000000032596,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q16",
+          "text": "find a cleaner moment with sparse piano and no drums",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q17",
+          "text": "sparse horns with space between phrases",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q18",
+          "text": "isolated drums stem with no vocals",
+          "http_status": null,
+          "elapsed_s": 2.0,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q19",
+          "text": "isolated vocals stem for sampling",
+          "http_status": null,
+          "elapsed_s": 2.014999999999418,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        },
+        {
+          "id": "q20",
+          "text": "other stem with clean strings or keys and no bass or drums",
+          "http_status": null,
+          "elapsed_s": 2.0159999999996217,
+          "error": {
+            "kind": "timeout"
+          },
+          "issues": [],
+          "returned_window_ids": []
+        }
+      ]
+    }
+  ],
+  "readiness_retry_comparison": {
+    "before_run": "3ccf0d1c-e987-4763-9242-e506d674b2d3",
+    "after_run": "c323334d-a4c6-4b49-af15-f77a5460f8dd",
+    "before_failures": 20,
+    "after_failures": 20,
+    "before_grades": {
+      "reviews": [],
+      "two_complete_reviews": false,
+      "semantic_pass": "No numerical pass threshold was specified; human grades are evidence, not an automatic pass"
+    },
+    "after_grades": {
+      "reviews": [],
+      "two_complete_reviews": false,
+      "semantic_pass": "No numerical pass threshold was specified; human grades are evidence, not an automatic pass"
+    },
+    "human_comparison_available": false,
+    "query_grade_deltas": {}
+  },
+  "comparison_interpretation": "Access-confirmation retry, not a post-relevance-fix run; no relevance delta measured",
+  "audits": [
+    {
+      "artifact": "ingest\\data\\session6\\report-initial.json",
+      "artifact_sha256": "6553bcd2591cb19f85a5aba10d06625a4765dfb82d2768d334c68650aaf9f04f",
+      "snapshot_at": "2026-11-14T23:46:10.306064+00:00",
+      "finished_at": "2026-11-14T23:47:22.030313+00:00",
+      "elapsed_s": 72.23400000000038,
+      "counts": {
+        "hero_flags": 25,
+        "imports": 1,
+        "library_tracks": 350,
+        "stems": 104,
+        "windows": 7910
+      },
+      "source_license_counts": [
+        {
+          "count": 28,
+          "license": "CC-BY-3.0",
+          "source": "freesound"
+        },
+        {
+          "count": 98,
+          "license": "CC-BY-4.0",
+          "source": "freesound"
+        },
+        {
+          "count": 74,
+          "license": "CC0",
+          "source": "freesound"
+        },
+        {
+          "count": 34,
+          "license": "CC-BY-3.0",
+          "source": "jamendo"
+        },
+        {
+          "count": 116,
+          "license": "CC-BY-SA-3.0",
+          "source": "jamendo"
+        }
+      ],
+      "acceptance": {
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 55,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 25,
+        "technically_verified_library": 350,
+        "verified_hero_ids": [
+          "jam_1030282",
+          "jam_1039379",
+          "jam_1047157",
+          "jam_1096249",
+          "jam_1101341",
+          "jam_1121408",
+          "jam_1126354",
+          "jam_1149160",
+          "jam_1149166",
+          "jam_1179114",
+          "jam_1222581",
+          "jam_1223964",
+          "jam_1229099",
+          "jam_1270293",
+          "jam_1275400",
+          "jam_1282782",
+          "jam_1367270",
+          "jam_1432367",
+          "jam_1432369",
+          "jam_1433063",
+          "jam_1433892",
+          "jam_1436572",
+          "jam_1439805",
+          "jam_1464239",
+          "jam_1475806"
+        ]
+      },
+      "public_objects": 454,
+      "hash_anchored": 450,
+      "invalid_windows": 0,
+      "cache_db_failures": [],
+      "public_failures": [],
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7
+        },
+        "errors": [
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+            "kind": "analyze",
+            "progress": 0.0,
+            "status": "error"
+          }
+        ]
+      }
+    },
+    {
+      "artifact": "ingest\\data\\session6\\report-task11.json",
+      "artifact_sha256": "0afdb162bce1d01850b71d7144163d40017cbde2f2bc32b902019291b8d4f9ab",
+      "snapshot_at": "2026-11-14T23:53:34.366460+00:00",
+      "finished_at": "2026-11-14T23:54:51.447799+00:00",
+      "elapsed_s": 77.68699999999808,
+      "counts": {
+        "hero_flags": 26,
+        "imports": 1,
+        "library_tracks": 350,
+        "stems": 108,
+        "windows": 8015
+      },
+      "source_license_counts": [
+        {
+          "count": 28,
+          "license": "CC-BY-3.0",
+          "source": "freesound"
+        },
+        {
+          "count": 98,
+          "license": "CC-BY-4.0",
+          "source": "freesound"
+        },
+        {
+          "count": 74,
+          "license": "CC0",
+          "source": "freesound"
+        },
+        {
+          "count": 34,
+          "license": "CC-BY-3.0",
+          "source": "jamendo"
+        },
+        {
+          "count": 116,
+          "license": "CC-BY-SA-3.0",
+          "source": "jamendo"
+        }
+      ],
+      "acceptance": {
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 54,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 26,
+        "technically_verified_library": 350,
+        "verified_hero_ids": [
+          "jam_1030282",
+          "jam_1039379",
+          "jam_1047157",
+          "jam_1096249",
+          "jam_1101341",
+          "jam_1121408",
+          "jam_1126354",
+          "jam_1149160",
+          "jam_1149166",
+          "jam_1179114",
+          "jam_1222581",
+          "jam_1223964",
+          "jam_1229099",
+          "jam_1270293",
+          "jam_1275400",
+          "jam_1282782",
+          "jam_1367270",
+          "jam_1432367",
+          "jam_1432369",
+          "jam_1433063",
+          "jam_1433892",
+          "jam_1433978",
+          "jam_1436572",
+          "jam_1439805",
+          "jam_1464239",
+          "jam_1475806"
+        ]
+      },
+      "public_objects": 458,
+      "hash_anchored": 454,
+      "invalid_windows": 0,
+      "cache_db_failures": [],
+      "public_failures": [],
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7
+        },
+        "errors": [
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+            "kind": "analyze",
+            "progress": 0.0,
+            "status": "error"
+          }
+        ]
+      }
+    },
+    {
+      "artifact": "ingest\\data\\session6\\report-final.json",
+      "artifact_sha256": "4823ddefcb981583be6e5a358a0aa6f41d7ced84b9f88fc77f0a0b0d6790a5e2",
+      "snapshot_at": "2026-11-14T23:59:57.885553+00:00",
+      "finished_at": "2026-11-15T00:01:21.219570+00:00",
+      "elapsed_s": 83.9529999999977,
+      "counts": {
+        "hero_flags": 27,
+        "imports": 1,
+        "library_tracks": 350,
+        "stems": 112,
+        "windows": 8117
+      },
+      "source_license_counts": [
+        {
+          "count": 28,
+          "license": "CC-BY-3.0",
+          "source": "freesound"
+        },
+        {
+          "count": 98,
+          "license": "CC-BY-4.0",
+          "source": "freesound"
+        },
+        {
+          "count": 74,
+          "license": "CC0",
+          "source": "freesound"
+        },
+        {
+          "count": 34,
+          "license": "CC-BY-3.0",
+          "source": "jamendo"
+        },
+        {
+          "count": 116,
+          "license": "CC-BY-SA-3.0",
+          "source": "jamendo"
+        }
+      ],
+      "acceptance": {
+        "audibly_verified_prominent_timbres": 0,
+        "full_quality_gate": "open",
+        "hero_shortfall": 53,
+        "heroes_80": false,
+        "human_reviewed_hero_tracks": 1,
+        "library_300_500": true,
+        "listening": "See identified human track-level reviews; exact-window/formal prominence judgments remain incomplete",
+        "prominent_timbres_30": "unverified",
+        "technically_verified_heroes": 27,
+        "technically_verified_library": 350,
+        "verified_hero_ids": [
+          "jam_1030282",
+          "jam_1039379",
+          "jam_1047157",
+          "jam_1096249",
+          "jam_1101341",
+          "jam_1121408",
+          "jam_1121423",
+          "jam_1126354",
+          "jam_1149160",
+          "jam_1149166",
+          "jam_1179114",
+          "jam_1222581",
+          "jam_1223964",
+          "jam_1229099",
+          "jam_1270293",
+          "jam_1275400",
+          "jam_1282782",
+          "jam_1367270",
+          "jam_1432367",
+          "jam_1432369",
+          "jam_1433063",
+          "jam_1433892",
+          "jam_1433978",
+          "jam_1436572",
+          "jam_1439805",
+          "jam_1464239",
+          "jam_1475806"
+        ]
+      },
+      "public_objects": 462,
+      "hash_anchored": 458,
+      "invalid_windows": 0,
+      "cache_db_failures": [],
+      "public_failures": [],
+      "jobs": {
+        "counts": {
+          "done": 5,
+          "error": 7
+        },
+        "errors": [
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "6f6623b3-35f6-4e82-88f7-46f4d5f557e9",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "b6578779-67c4-4ea8-806b-6bb034ee0fdf",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "09c36510-c540-4040-a58d-82cc3dfab312",
+            "kind": "stems",
+            "progress": 0.4,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "e622c072-9226-4fa0-8a74-77d10a529661",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f445b330-4e1f-48ff-9c85-d46ee0fe0747",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "f1e55735-ffb5-4c13-a59b-65d2e1a0e501",
+            "kind": "stems",
+            "progress": 0.0,
+            "status": "error"
+          },
+          {
+            "classification": "intentional_session4_acceptance",
+            "has_error": true,
+            "id": "28f0ce2c-e627-4544-a921-7b189ecc260b",
+            "kind": "analyze",
+            "progress": 0.0,
+            "status": "error"
+          }
+        ]
+      }
+    }
+  ],
+  "new_rejection_measurements": {
+    "prior_measured_hero_ids": [
+      "jam_1149159",
+      "jam_1149161",
+      "jam_1149164",
+      "jam_1149165",
+      "jam_1238674",
+      "jam_1307441",
+      "jam_1348228",
+      "jam_1359980",
+      "jam_1544396"
+    ],
+    "new_failed_hero_ids": [
+      "jam_1149158",
+      "jam_1207327",
+      "jam_1342553",
+      "jam_1378003",
+      "jam_1485349"
+    ],
+    "decoded_files": 20,
+    "measurements": [
+      {
+        "id": "jam_1149158",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.00032278139407107624,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1149158",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.06935649443758625,
+        "audible_nominal_windows": 23
+      },
+      {
+        "id": "jam_1149158",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.18904824780538887,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1149158",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.06901763028141177,
+        "audible_nominal_windows": 6
+      },
+      {
+        "id": "jam_1207327",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 147.53954648526076,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.07838285698494411,
+        "audible_nominal_windows": 7
+      },
+      {
+        "id": "jam_1207327",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 147.53954648526076,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.014061785198133746,
+        "audible_nominal_windows": 5
+      },
+      {
+        "id": "jam_1207327",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 147.53954648526076,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.1524995958855661,
+        "audible_nominal_windows": 29
+      },
+      {
+        "id": "jam_1207327",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 147.53954648526076,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.0007990852254116104,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1342553",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 124.91861678004535,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.0015004514604241672,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1342553",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 124.91861678004535,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.27732776562315503,
+        "audible_nominal_windows": 19
+      },
+      {
+        "id": "jam_1342553",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 124.91861678004535,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.24302541105332826,
+        "audible_nominal_windows": 24
+      },
+      {
+        "id": "jam_1342553",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 124.91861678004535,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.001447864239616682,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1378003",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.1514810321305651,
+        "audible_nominal_windows": 30
+      },
+      {
+        "id": "jam_1378003",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.11673517070141293,
+        "audible_nominal_windows": 32
+      },
+      {
+        "id": "jam_1378003",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.18974805949799547,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1378003",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.0006712933679554443,
+        "audible_nominal_windows": 0
+      },
+      {
+        "id": "jam_1485349",
+        "stem": "bass",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.13423902081973055,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1485349",
+        "stem": "drums",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.0845943462361636,
+        "audible_nominal_windows": 22
+      },
+      {
+        "id": "jam_1485349",
+        "stem": "other",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.17752916313111433,
+        "audible_nominal_windows": 34
+      },
+      {
+        "id": "jam_1485349",
+        "stem": "vocals",
+        "sample_rate": 44100,
+        "channels": 2,
+        "duration_s": 180.0,
+        "silence_threshold": 0.005623413251903491,
+        "max_nominal_window_rms": 0.0012409908064298352,
+        "audible_nominal_windows": 0
+      }
+    ],
+    "interpretation": "A rejected hero requires all four stems to have eligible audible windows; no gate change or repair"
+  },
+  "live_batch_log_checkpoint": {
+    "completed": 29,
+    "elapsed_s": 9182.781508,
+    "eta_basis": "last ten newly published heroes; source-duration mix may change",
+    "eta_s": 11773.658613750038,
+    "event": "progress",
+    "failed": 14,
+    "target": 80,
+    "time": 1794701066.7256494
+  },
+  "integration": {
+    "status": "unverified; WS2/WS4 dependencies",
+    "search": "api/app/main.py:90 returns fixture(search) unconditionally in this checkout",
+    "polling": "api/app/main.py:109 returns fixture job outputs; web/lib/api/client.ts:80 simulates fixture polling",
+    "playback": "web/app/editor/editor-placeholder.tsx:34 renders whole track audio without range-job playback",
+    "required": "Actual queued job through GET /jobs/{id} at 1s, terminal output, real browser playback; seek requested_start_s - range_start_s for range stems"
+  },
+  "changes_to_data_or_tags": [],
+  "relevance_fixes": [],
+  "human_grade_improvement": "unmeasured",
+  "tests": {
+    "focused": "36 passed in 2.43s",
+    "task11_ingest": "100 passed in 46.36s",
+    "task11_worker": "23 passed, 5 skipped in 33.63s",
+    "final_ingest": "105 passed in 41.37s",
+    "final_worker": "23 passed, 5 skipped in 31.19s",
+    "python_ruff": "check and format-check pass, 61 files",
+    "make_lint": "unavailable: make not installed",
+    "web_lint_typecheck": "both fail to bootstrap @pnpm/exe@12.14.0",
+    "common": "not rerun; no shared helper changed"
+  },
+  "schema_sha256": "bb8f20c0ba862279a7b89b12c3e2946af087e43f10e1ae184132ac2e181f6df5"
+}

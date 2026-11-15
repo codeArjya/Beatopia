@@ -1,4 +1,123 @@
-# Codex handoff — session 5 of 7
+# Codex handoff — session 6 of 7
+
+## Current handoff — Session 6 (supersedes all next steps below)
+
+2026-11-14. Human approved the plan before code. Started **5feb19b** on `ws1-data`.
+Scope: refined original tasks **11–12**, the twenty-query actual `/search` eval and evidence-backed
+follow-up/integration. Tooling implemented; **both task checkboxes remain open** for live acceptance.
+User explicitly confirms **live API is not ready** and designates **the user and their teammate** as
+the two human reviewers. No grades, relevance fixes or before/after relevance improvements exist yet.
+
+### Verified results and unresolved acceptance
+
+- Added `ingest/eval_queries.yaml` with exactly 20 instrument/mood/genre/tempo/sparse/stem queries,
+  existing stacked chips and text-only cases. Listening intents are explicit; no desired IDs/grades.
+- `ingest/eval.py` sends actual HTTP POST `/search` with limit 5, prints top-five track/window IDs,
+  tags/licenses/credits/stems/ranges/plans/latency/errors and retains JSON/Markdown. Generates bounded
+  audition HTML plus two ungraded reviewer files, tied to immutable run/result hashes. Validates
+  identity/grades and compares saved runs without repolling or fabricating a pass threshold.
+  Reads binding Pydantic models; no API runtime dependency, dependency or shared-file change.
+- Real localhost eval attempts at **18:51:25 / 18:52:54 EST**, including unrestricted retry:
+  **20/20 timeouts each, exit 1**. No port-8000 listener was listed; health unavailable. No fixture
+  fallback or DB substitute. Comparison is **20 → 20 technical failures**, no human grade deltas.
+  It is a network confirmation, not a post-relevance-fix run. No actual results are available to grade.
+- This checkout's API search/stems/jobs unconditionally serve fixtures; web polling is simulated in
+  fixture mode and the editor is a whole-track placeholder. Actual WS2/WS4 HTTP job polling/browser
+  playback remains unverified. WS2 must supply the live URL/revision, confirm general CLAP identity
+  and import exclusion. Range stem playback seeks requested_start_s minus range_start_s.
+- Final independent report snapshot **18:59:57 EST**, finished **19:01:21**, **83.953 s**, observed
+  **exit 2**: **350 library + 1 excluded import, 27 complete heroes, 8,117 windows, 112 stem rows**.
+  All **462 public objects** decode/probe correctly; **458** local hash anchors, four on-demand
+  objects without local hash anchors. Zero invalid windows/cache-DB/public failures. **53 heroes
+  short** of unchanged target 80. Exactly 200 Freesound / 150 Jamendo; licenses unchanged. Jobs
+  done=5/error=7, all seven existing intentional Session-4 errors, no queued/running jobs in snapshot.
+- Earlier independent Session-6 audits: **25 heroes/7,910 windows/104 stems/454 objects** at 18:46:10,
+  then **26/8,015/108/458** at 18:53:34. Final full report SHA256:
+  **4823ddefcb981583be6e5a358a0aa6f41d7ced84b9f88fc77f0a0b0d6790a5e2**.
+- Read-only decode of **20 stem files for five new rejections** confirms each has >=1 stem with zero
+  eligible nominal windows. `jam_1207327` vocals max nominal RMS **0.0007990852**;
+  `jam_1342553` bass/vocals **0.0015004515/0.0014478642**. Also measured jam_1149158,
+  jam_1378003, jam_1485349. All zero-window stem maxima below unchanged **0.0056234133** gate.
+  Preserve raw files/failures; no lower gate or fabricated windows. Full measurements committed.
+- Existing mixed-fixture CLAP semantic failure, 80-hero target, 30 prominent timbres/formal listening,
+  hero mix activity-density completion and live integration remain open. One Session-5 track-level
+  listening review stays one; it is not a search relevance grade. Frozen 120-tag mapping unchanged.
+
+### Checks, artifacts and preservation
+
+- Focused eval initial **31 passed/2.27 s**, final **36 passed/2.43 s**. Task11 ingest **100 passed/
+  46.36 s**, worker **23 passed, 5 skipped/33.63 s**. Final ingest **105 passed/41.37 s**, worker
+  **23 passed, 5 skipped/31.19 s**. Five opt-in live DB tests not rerun; common unchanged/no common rerun.
+- Python Ruff check/format-check **pass, 61 files**. `make lint` attempted twice: Make absent.
+  Web lint/typecheck both fail before checking code: pinned **@pnpm/exe@12.14.0** unavailable.
+  No global lint pass. Only the newly generated 8 KiB pnpm cache DB was removed after path/creation
+  checks; pre-existing cache directories preserved. `git diff --check` passes.
+- Initial API-model package import/test collection failed, then corrected with read-only model-module
+  loading. Nonfinite successful HTTP JSON becomes an explicit error. Formatting failures corrected.
+  Initial DB/cache access failures succeeded on approved reruns; no ACL/model/dependency workaround.
+  Initial nested report host exit 1 has the previous PowerShell caveat; post-task/final commands
+  explicitly propagate child status and returned **2** for hero shortfall.
+- Evidence: `ingest/SESSION6.md`, committed `ingest/EVAL_SESSION6.json`, full artifacts under ignored
+  `ingest/data/session6/`: `report-{initial,task11,final}.json`, eval directories
+  `eval-{before,network-confirmed}`, sibling eval stdout/stderr logs, `comparison.*.log`,
+  `{task11,final}-{ingest,worker}.*.log`, `report-{task11,final}.{stdout,stderr}.log`,
+  `rejections.json`, `rejections[-confirmed].*.log`, `evidence.*.log` and supporting diagnostic scripts.
+  Exact commands, hashes, per-query failures, all test outcomes and integration dependencies are in
+  SESSION6.md/EVAL_SESSION6.json. Completed tool session IDs there are not OS PIDs.
+- Changed: `ingest/{eval.py,eval_queries.yaml,tests/test_eval.py,README.md,PLAN.md,SESSION6.md,
+  EVAL_SESSION6.json}` and this explicitly authorized handoff. No API/web/common/worker/schema,
+  dependency, ID/storage, `.env`, model-default or frozen-vocab changes. Pre-existing shared schema
+  modification is preserved/excluded; SHA256 remains
+  **BB8F20C0BA862279A7B89B12C3E2946AF087E43F10E1AE184132AC2E181F6DF5**.
+
+### Running processes — preserve
+
+Hero **uv PID 32252 / Python PID 30820** remain alive, original start **16:31:16/17 EST**.
+Command: `uv run --no-sync --project ingest --env-file .env python -m ingest.heroes --mode batch --limit 80`.
+Logs: `ingest/data/heroes-batch-20261114-163116.{stdout,stderr}.log`, `ingest/data/heroes/heroes.log`.
+Later log checkpoint **19:04:26 EST**: **29/80 complete, 14 rejected**, next jam_1432420 separating,
+ETA **11,773.659 s (~3 h 16 m)**, projected ~22:20 EST subject to failures/stalls. This later log is not
+the independently audited 27-hero snapshot. No worker daemon started and no job/process was reset,
+restarted or stopped. All Session-6 audit/eval/test/diagnostic commands finished.
+
+Final pre-commit read-only check **19:09:20 EST**: original PIDs still alive. A later log at
+**19:07:31 EST** records **29/80 completed, 15 rejected**, next **jam_1378557** separating. The newest
+rejection **jam_1432420** is at `heroes.py:164:features`; its individual stem RMS is **not measured**
+in this session. Preserve its cache and investigate next session. The independent audit remains 27.
+
+### Exact Session 7 instructions
+
+1. Read this current section, `ingest/{PLAN,SESSION6}.md`, contract and WS1 guide. Inspect git status/
+   commit, preserve the schema edit, present Session-7's plan and wait for required human approval.
+2. Check original hero **32252/30820** and log tails before any resume. While alive, inspect/audit only.
+   If both confirmed dead and below 80, resume `./ingest/launch-heroes.ps1 -Mode batch -Limit 80`.
+   Preserve failures, caches, queues and locks; never lower the gate or bulk-reset jobs.
+3. Refresh `./ingest/launch-audit.ps1 -Mode report -Output ingest/data/session7/report.json -Foreground`.
+   Use approved launcher environment, redirect logs if useful and explicitly propagate exit status.
+   Distinguish log counts, independently verified counts, imported tracks and human listening evidence.
+4. WS2 dependency: get a real API URL/revision and confirmation of **laion/larger_clap_general** revision
+   **ada0c23a36c4e8582805bb38fec3905903f18b41**, live DB search and import exclusion. Do not run this
+   checkout's fixture server and call it live relevance. If still unavailable, retain explicit dependency.
+5. Run `uv run --project ingest python ingest/eval.py --base-url <actual-URL> --output-dir
+   ingest/data/session7/eval-before` (one shell command). Save all twenty requests/results/errors.
+   User and teammate independently listen to `audition.html` and fill reviewer-A/B JSON files; then run
+   `--report <results.json> --grades <A.json> <B.json>`. README has exact runnable examples/rubric.
+   Do not manufacture two grades from Session-5 listening or replace absent results with fixtures.
+6. Investigate actual relevance failures; fix only evidence-backed WS1 issues, preserving fingerprints
+   and the agreed tag mapping. No data/tag fix was justified in Session 6. Re-run into a new eval-after
+   directory, obtain both reviewers' grades again and compare with `--before` / `--before-grades`.
+   Keep changed/partial/error cases visible; no invented semantic threshold or task checkbox.
+7. With WS2/WS4, verify actual 1 s job polling through terminal output and browser playback, including
+   a range whose start is nonzero. Seek local requested_start − range_start; preserve absolute metadata.
+   No API/web/shared edits to repair their work; state unresolved owners/dependencies if not ready.
+8. Continue formal timbre/sparse/dense listening and required hero mix stem-activity density work under
+   the approved Session-7 scope. Optional two-model comparison stays behind core gates. Check newly
+   rejected candidates read-only; Session-6 measurements cover the five listed IDs only.
+9. After each implementation task: focused tests, make lint, explicit ingest/worker suites, common if
+   helpers change, reporter. Record exact results/skips, counts/cuts, PIDs, logs, hashes, changed files,
+   remaining gates and recovery commands; update PLAN/handoff and commit only authorized paths.
+
+---
 
 ## Current handoff — Session 5 (supersedes all next steps below)
 
