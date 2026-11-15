@@ -206,14 +206,50 @@ def public_object(spec: dict, client: httpx.Client) -> dict:
     return result
 
 
+API_LICENSES = {"CC0", "CC-BY-3.0", "CC-BY-4.0"}  # WS2's Freesound fallback accepts CC0 and CC BY only
+
+
+def is_api_materialized(t: dict, windows: list[dict], root: Path) -> bool:
+    """A Freesound fallback track stored by the API before a stems request (CONTRACT §7.7, WS2
+    `fallback.store_track`), not by ingest: no windows, no local ingest folder, and no analysis
+    (bpm/key/beats). Ingest always writes windows and a manifest, so an ingested track never matches."""
+    return (
+        t["source"] == "freesound"
+        and not windows
+        and not (root / "tracks" / t["id"]).exists()
+        and t.get("bpm") is None
+        and t.get("key") is None
+        and not t.get("beat_times")
+    )
+
+
+def api_materialized_issues(t: dict) -> list[str]:
+    """What can be checked without an ingest manifest; the public mix is still decoded and probed."""
+    issues = []
+    if t["id"] != f"fs_{t.get('source_id')}":
+        issues.append("id_source_mismatch")
+    if t["audio_path"] != f"tracks/{t['id']}/mix.mp3":
+        issues.append("audio_path")
+    if t.get("license") not in API_LICENSES:
+        issues.append("license")
+    if not str(t.get("attribution") or "").strip():
+        issues.append("attribution")
+    if not (np.isfinite(t["duration_s"]) and t["duration_s"] > 0):
+        issues.append("duration")
+    return issues
+
+
 def build_report(data: dict, root: Path, seed: int = 5) -> tuple[dict, list[dict]]:
     tracks = {t["id"]: t for t in data["tracks"]}
-    library = {tid: t for tid, t in tracks.items() if t["source"] != "import"}
     windows, stems = defaultdict(list), defaultdict(list)
     for w in data["windows"]:
         windows[w["track_id"]].append(w)
     for s in data["stems"]:
         stems[s["track_id"]].append(s)
+    api_tracks = {
+        tid: t for tid, t in tracks.items() if t["source"] != "import" and is_api_materialized(t, windows[tid], root)
+    }
+    library = {tid: t for tid, t in tracks.items() if t["source"] != "import" and tid not in api_tracks}
     vocab = {tag for group in analysis._vocab().values() for tag in group}
     report = {
         "snapshot_at": data.get("snapshot_at", datetime.now(UTC).isoformat()),
@@ -221,7 +257,8 @@ def build_report(data: dict, root: Path, seed: int = 5) -> tuple[dict, list[dict
         "scope": "DB snapshot first; later objects/cache checks may overlap live publication",
         "counts": {
             "library_tracks": len(library),
-            "imports": len(tracks) - len(library),
+            "api_materialized_tracks": len(api_tracks),
+            "imports": len(tracks) - len(library) - len(api_tracks),
             "windows": len(data["windows"]),
             "stems": len(data["stems"]),
             "hero_flags": sum(t["is_hero"] for t in library.values()),
@@ -335,6 +372,23 @@ def build_report(data: dict, root: Path, seed: int = 5) -> tuple[dict, list[dict
             if s["path"] not in specs:
                 specs[s["path"]] = dict(path=s["path"], track_id=tid, duration_s=s["range_end_s"] - s["range_start_s"])
         report["track_audit"].append(record)
+    # API-materialized fallback tracks: audited separately (no ingest manifest exists for them), never counted
+    # toward the ingested-library targets. Their public mix and stems are still decoded and probed below.
+    report["api_materialized_audit"] = []
+    for tid, t in sorted(api_tracks.items()):
+        issues = api_materialized_issues(t)
+        specs[t["audio_path"]] = dict(path=t["audio_path"], track_id=tid, duration_s=t["duration_s"])
+        for s in stems[tid]:
+            if (
+                not np.isfinite([s["range_start_s"], s["range_end_s"]]).all()
+                or not 0 <= s["range_start_s"] < s["range_end_s"] <= t["duration_s"] + 0.001
+                or s["stem"] not in STEMS | {"guitar", "piano"}
+            ):
+                issues.append("invalid_stem_range_or_name")
+            specs.setdefault(
+                s["path"], dict(path=s["path"], track_id=tid, duration_s=s["range_end_s"] - s["range_start_s"])
+            )
+        report["api_materialized_audit"].append({"id": tid, "stems": len(stems[tid]), "issues": issues})
     for name, queue_path, directory in (
         ("mix", root / "queue.json", root / "tracks"),
         ("hero", root / "heroes/queue.json", root / "heroes"),
@@ -446,6 +500,7 @@ def main() -> None:
     if (
         report["invalid_windows"]
         or any(r["issues"] for r in report["track_audit"])
+        or any(r["issues"] for r in report.get("api_materialized_audit", []))
         or any(not o["verified"] for o in objects)
         or any(j["classification"] == "operational_unexplained" for j in report["jobs"]["errors"])
     ):
