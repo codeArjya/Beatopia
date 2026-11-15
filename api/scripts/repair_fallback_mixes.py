@@ -83,7 +83,9 @@ def main() -> int:
                 storage.upload(str(new), path, "audio/mpeg")
                 if abs(measured - float(duration)) > DURATION_SLACK_S:
                     conn.execute("update tracks set duration_s = %s where id = %s", (measured, track_id))
-                print(f"  re-encoded and uploaded ({after}); duration {duration} -> {measured} s; old bytes in {backup}")
+                print(
+                    f"  re-encoded and uploaded ({after}); duration {duration} -> {measured} s; old bytes in {backup}"
+                )
         conn.commit()
     print(f"{bad} not in contract format{'' if args.apply else ' (dry run; --apply to fix)'}")
     return 0
