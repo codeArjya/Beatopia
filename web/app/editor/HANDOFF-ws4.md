@@ -1,5 +1,7 @@
 # WS4 finalization handoff (2026-11-15)
 
+Final PR: [#12 — finalize cached rendering and editor polish](https://github.com/codeArjya/Beatopia/pull/12), **`ws4-finalize-performance` → `main`**. Local work remains on `ws4-editor`; publish follow-ups with `git push origin HEAD:ws4-finalize-performance`. Historical PR#8 is merged. This session does not merge#12.
+
 Latest assignment: profile16 bars, bounded prefix caching, equivalence/latest-render/cleanup, keyboard/focus/narrow layout/audio edge checks, final golden and PR for main. **All reviewed stream tasks are accepted.** Current automated checks/performance pass, and the human confirmed the requested final browser checklist: **“all works basically.”** H24–H26, H26–H28 and H28–H30 are checked. Earlier H8/H12/H16/H24 gates remain closed. No known functional issue or open plan criterion remains; measurement limitations below are explicit.
 
 Started at `4854809` on `ws4-editor`, preserving existing untracked `.playwright-mcp/`. Implementation commit **`9699910`**. PR#8 has now been **merged**; it is not the finalization PR. Fetched `origin/main` at **`d34bd98`** (WS3 sheet-focus#10) and rebased only the new commit onto it because the squashed WS4 baseline matches exactly. No other stream's source files, dependencies, generated wire types, API/backend, shared contract or environment files edited. `PLAN-ws4.md` contains the detailed session log.
