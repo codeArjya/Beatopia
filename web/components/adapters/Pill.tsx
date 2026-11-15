@@ -5,13 +5,16 @@ import type { ComponentProps, CSSProperties } from "react";
 
 /** Only a plain CSS custom property name is accepted as a color (ChipCategory.color, e.g. "--chip-genre"). */
 export function pillColorVar(color: string | undefined): string {
-  return color && /^--[a-z0-9-]+$/i.test(color) ? `var(${color})` : "var(--muted-foreground)";
+  return color && /^--[a-z0-9-]+$/i.test(color) ? `var(${color})` : "var(--chip-key)";
 }
 
 type PillProps = ComponentProps<"span"> & {
   /** CSS variable name from ChipCategory.color. */
   color?: string;
-  /** Tray chips use a lighter tint than stacked pills. */
+  /**
+   * `solid`: a stacked chip (search bar, drag overlay), always a sticker that snaps in on mount.
+   * `soft`: a tray chip, a plain gray label until `selected`.
+   */
   tone?: "solid" | "soft";
   selected?: boolean;
   /** Render the child element (e.g. a <button>) with pill styling instead of a <span>. No remove button then. */
@@ -21,8 +24,9 @@ type PillProps = ComponentProps<"span"> & {
 };
 
 /**
- * Category-colored chip. Forwards `ref` and any props (dnd-kit attributes/listeners) to the root element.
- * With `onRemove`, a separate remove <button> sits inside the pill (the root stays a span, so no nested buttons).
+ * Category chip as a "crate sticker" (the `.chip` rules in app/globals.css). Forwards `ref` and any props
+ * (dnd-kit attributes/listeners) to the root element. With `onRemove`, a separate remove <button> sits inside
+ * the pill (the root stays a span, so no nested buttons).
  */
 export function Pill({
   color,
@@ -37,18 +41,19 @@ export function Pill({
   ...props
 }: PillProps) {
   const Comp = asChild ? Slot.Root : "span";
-  const tint = selected ? "40%" : tone === "solid" ? "22%" : "10%";
+  const sticker = tone === "solid" || selected;
   return (
     <Comp
       data-slot="pill"
+      data-tone={tone}
       data-selected={selected || undefined}
-      style={{ "--pill": pillColorVar(color), "--pill-tint": tint, ...style } as CSSProperties}
+      data-sticker={sticker || undefined}
+      style={{ "--chip": pillColorVar(color), ...style } as CSSProperties}
       className={cn(
-        "inline-flex h-7 max-w-full shrink-0 select-none items-center gap-1 rounded-full border px-2.5 text-sm font-medium whitespace-nowrap",
-        "border-[color-mix(in_oklch,var(--pill)_70%,transparent)] bg-[color-mix(in_oklch,var(--pill)_var(--pill-tint),transparent)] text-foreground",
-        "outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_oklch,var(--pill)_55%,transparent)]",
-        asChild && "cursor-pointer hover:bg-[color-mix(in_oklch,var(--pill)_30%,transparent)]",
-        selected && "border-[var(--pill)]",
+        "chip shrink-0 outline-none",
+        tone === "soft" && "h-8 px-2.5 text-[13px] [@media(pointer:coarse)]:h-11",
+        tone === "solid" && "motion-safe:animate-chip-snap",
+        asChild && "cursor-pointer",
         onRemove && "pr-1",
         className,
       )}
@@ -58,16 +63,16 @@ export function Pill({
         children
       ) : (
         <>
-          <span className="truncate">{children}</span>
+          <span className="min-w-0 truncate">{children}</span>
           {onRemove && (
             <button
               type="button"
               onClick={onRemove}
               onPointerDown={(e) => e.stopPropagation()}
               aria-label={removeLabel ?? "Remove"}
-              className="grid size-5 place-items-center rounded-full text-muted-foreground outline-none hover:bg-foreground/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+              className="grid size-6 shrink-0 place-items-center rounded-[4px] text-current opacity-70 outline-none transition-[opacity,background-color] hover:bg-black/15 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
             >
-              <XIcon className="size-3.5" aria-hidden />
+              <XIcon className="size-3.5" aria-hidden strokeWidth={2.5} />
             </button>
           )}
         </>

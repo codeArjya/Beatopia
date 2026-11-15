@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cn";
 import { useRef, type ReactNode } from "react";
 
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -23,7 +24,14 @@ export function AppSheet({ open, onOpenChange, title, description, side = "right
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side={side}
-        className="flex w-full flex-col gap-0 sm:max-w-md"
+        className={cn(
+          "flex w-full flex-col gap-0 border-border bg-popover text-popover-foreground shadow-float",
+          // Tokens: nothing animates longer than 200 ms.
+          "data-[state=closed]:duration-150 data-[state=open]:duration-200",
+          side === "right" && "sm:max-w-md sm:rounded-l-xl",
+          side === "left" && "sm:max-w-md sm:rounded-r-xl",
+          side === "bottom" && "max-h-[85dvh] rounded-t-xl",
+        )}
         // Runs before Radix moves focus into the sheet, so activeElement is still the opener.
         onOpenAutoFocus={() => {
           opener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -37,15 +45,15 @@ export function AppSheet({ open, onOpenChange, title, description, side = "right
           }
         }}
       >
-        <SheetHeader className="border-b">
-          <SheetTitle className="line-clamp-2 break-words pr-6">{title}</SheetTitle>
+        <SheetHeader className="gap-1 border-b border-border px-5 pt-5 pb-4">
+          <SheetTitle className="line-clamp-2 pr-8 text-lg leading-6 font-extrabold tracking-tight break-words">{title}</SheetTitle>
           {description ? (
-            <SheetDescription>{description}</SheetDescription>
+            <SheetDescription className="text-text-secondary">{description}</SheetDescription>
           ) : (
             <SheetDescription className="sr-only">Drawer</SheetDescription>
           )}
         </SheetHeader>
-        <div className="flex-1 overflow-y-auto p-4">{children}</div>
+        <div className="flex-1 overflow-y-auto px-5 py-4">{children}</div>
       </SheetContent>
     </Sheet>
   );

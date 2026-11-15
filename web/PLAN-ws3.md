@@ -125,7 +125,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
   *Status (session 8):* **passed in production** after PR #7 merged (72773d0). Search → hear → why → stems → editor, and import → editor (6.1 s to the summary) all run on https://beatopia-liart.vercel.app. The editor at the end of both paths is still WS4's placeholder (WS4's work isn't on GitHub yet). The WS3 hand-off URLs are correct.
 
 ### Design pass, H16 → **Gate H20**
-- [ ] **T8.1 Apply the Claude Design tokens** (1.5 h) through `globals.css` and the adapters only.
+- [x] **T8.1 Apply the Claude Design tokens** (1.5 h) through `globals.css` and the adapters only.
   *Accept:* before and after screenshots of `/` and the stems drawer. No feature component edited for colors.
 - [ ] **T8.2 Typography + motion** (1.5 h). Grotesk UI (Geist) with monospace `tabular-nums` numbers, a chip snap animation (dnd-kit `dropAnimation`), and a result fade/shuffle of at most 200 ms in CSS only, with no new dependency. `prefers-reduced-motion` is respected.
   *Accept:* the animations don't delay audio start, and reduced motion turns them off.
