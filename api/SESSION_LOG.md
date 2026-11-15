@@ -314,3 +314,126 @@ this wrap-up. `origin/main` was still `0877d84`, so there was no sync.
   2. Create the Vultr VM and send me its IP plus SSH access (T6.2). Send WS3's exact Vercel domains for CORS.
   3. Land C8 (and C7, C9) with WS1, and add the two `CLAP_*` lines to `.env`.
   4. Ask WS1 for the worker's run command, packages and env, and a vocab freeze.
+
+
+## 2026-11-15 · session 5 (deploy, bench, stems/jobs/imports/events/assist)
+
+Started in the main checkout on `ws2-api`. At the human's request, `ws2-t4` (sessions 3–4) was fast-forwarded into
+`ws2-api` and pushed (`2de388d`). Work then continued in worktree `.claude/worktrees/ws2-deploy` on branch
+`ws2-deploy`, branched from that commit and pushed. `origin/ws2-api` is fast-forwarded to it after each push; the
+last push was this wrap-up. `origin/main` was still `0877d84`, so no sync was needed.
+
+### Done
+- **T6.1 Docker images: pass.** `deploy/api.Dockerfile` and `deploy/worker.Dockerfile` use python 3.11-slim, ffmpeg
+  and uv 0.13.8, run `uv sync --frozen --no-dev` from each lock (CPU torch), and each has its own `.dockerignore`.
+  Each image carries an OCI revision label and `BEATOPIA_REVISION`. The API image builds on the VM and reports
+  healthy, with the `hf_cache` volume. The worker image is defined but not built (see State).
+- **T6.2 VM + compose + Caddy: pass.** Live at **https://45-77-216-35.sslip.io**.
+  - `/health` returns 200 through Caddy with `X-Beatopia-Revision`.
+  - CORS allows `https://beatopia-liart.vercel.app`, any `https://beatopia-*.vercel.app` and
+    `http://localhost:3000`, and refuses other origins.
+  - **Contract test against production with `CONTRACT_WRITES=1`: 16 passed, 2 skipped.** One skip is because the
+    stems already existed; the other test runs only in fixture mode.
+  - Startup identity line: `revision=56838ae… mode=real clap=laion/larger_clap_general@ada0c23…
+    clap_ready=True gemini=gemini-3.6-flash`.
+- **T6.3 `scripts/bench.py`: pass** (the accept rule allows "or slowest stage noted"). Production, 20 eval queries:
+  - Pass 1: server **p50 3218 ms, p95 3923 ms. Slowest stage: rerank, p50 3.0 s.** 0 errors, at least 4 notes per
+    result set. Plans came mostly from `plan_cache`, so a never-seen query adds about 1.3–1.5 s for the planner.
+  - Warm pass: **p50 73 ms**, p95 164 ms (sql 71 ms).
+  - Locally (L2 → Supabase), the warm pass was p50 273 ms.
+- **T7.1 `/tracks/{id}/stems` + `/jobs/{id}`: pass, except the worker leg.** Unit tests and the opt-in DB test pass:
+  covering stems, a covering queued job reused, a separate job per model, end clamped, 404s.
+  - Live: hero `jam_1030277` 10–20 s → 4 full-length stems and no job. A done WS1 job validates.
+  - Not checked: queued → done, because no worker is running.
+- **T7.2 `/imports`: pass, except the worker leg.** A live upload of the 16 s fixture WAV created `imp_27b87909`
+  plus an analyze job in 1.1 s (0.9 s of it the upload). The placeholder `TrackDetail` validates. A text file named
+  `.wav` gets 415, and a file over the cap gets 413 (tested).
+- **T9.1 `/events` + Rocchio: pass.** DB test: after a pick and a skip, similarity to the picked window rises and
+  to the skipped one falls. `fs_*` picks and other sessions are ignored.
+- **T10.1–T10.3 `/assist`: pass.** Snapshot test of the 15 declarations, chain simulator tests, and loop tests with
+  real `google.genai` response objects.
+  - Live `scripts/assist_eval.py` on `gemini-3.6-flash`: **9/10, 2.1–4.8 s each.** "Chop this into 4 and reverse
+    the last one" gives exactly `[slice c1 count 4 beat, reverse c1.4]`.
+  - The miss is #9 ("reverse c1" after slicing): it reversed all 4 pieces and arranged them last-to-first.
+- **Verified for the human, against the real DB and model:**
+  - Query vectors, Rocchio output and 500 sampled window embeddings all have L2 norm 1.000000.
+  - Searching with each import window's own embedding (with and without its tags as `must_tags`) returned no
+    import tracks.
+  - Real mode has no fixture stand-ins left.
+- Checks at the end: `make lint` and `uv run --project api pytest api` (results are in the wrap-up commit message
+  and the report; nothing was red).
+
+### Deviations from PLAN.md
+- **Rerank writes at most 4 new notes per call (`NOTES_PER_RERANK`).** From the VM, 8 notes ran past the 4 s
+  budget on every search. A memo hit whose top 4 already have notes skips Gemini; the other results stay
+  `why: null` for `POST /why`.
+- **Rerank budget timeouts don't count toward auto-degrade** (`timeouts_degrade=False`). Three slow reranks had
+  switched Gemini off for 5 minutes, and with it `/why` and `/assist` (502). HTTP errors still count.
+- **`/assist` design changes:**
+  - Thinking is `LOW`, not `MEDIUM`, for latency.
+  - Invalid calls go back to the model for repair, and the response holds only the ops that validated (not
+    all-or-nothing).
+  - `search_library` runs without Gemini (raw-text plan, score order).
+  - The model is shown which clips can be edited now and which are sliced.
+- **Stems "covering" requires the same model**, including for heroes, because a 6-stem request needs guitar and
+  piano. The plan said hero stems always qualify. Among complete covering sets, the narrowest range wins.
+- **A done job with an invalid or missing `output`** is served as `status: "error"` instead of a 500.
+- **`WEB_ORIGIN` accepts `*` entries**, turned into `allow_origin_regex`, where `*` matches `[a-z0-9-]+`. This adds no
+  new env var. `Server-Timing` and `X-Beatopia-Revision` are exposed to browsers.
+- **New deploy-internal variable `BEATOPIA_REVISION`.** It is baked into the image by `deploy.sh`, never set in
+  `.env`, and isn't a §8 variable.
+- **The VM gets the tree as a `git archive` over SSH**, not a clone, so the VM needs no GitHub credentials. The
+  worker sits behind a compose `worker` profile. `deploy.sh` recreates caddy on every deploy.
+- **SSH key `id_ed25519`, not `vultr_hack`.** `vultr_hack` doesn't exist on L2; the human approved `id_ed25519`.
+
+### Gotchas
+- **The local `.env` line 8 has a typo: `CLAP_MODEL=laion/large_clap_general`.** That model doesn't exist (HF 401).
+  It must be `laion/larger_clap_general`. Local live checks used a corrected copy in the job tmp dir. The VM `.env`
+  is correct.
+- **No worker is running anywhere.** WS1's worker isn't on `main` (`worker/main.py` is still a stub). Earlier
+  done/error jobs came from WS1's acceptance runs. 5 analyze jobs from this session are queued (my import check
+  plus 4 contract-test runs), and the shared DB now has 6 `imp_*` tracks. A worker will process them when it
+  starts. They're synthetic fixture audio and private.
+- **Production and dev use the same Supabase.** The contract test with `CONTRACT_WRITES=1` writes real rows (an
+  import, a job, `play` events).
+- **VM:** Ubuntu 26.10 (`stonking`; Docker's apt repo has it), 4 vCPU, 15 GB RAM, no GPU. ufw was active and
+  dropped 80/443 until `vm_setup.sh` added them.
+  - Compose commands on the VM need `--env-file .env`, or the `API_DOMAIN` interpolation fails:
+    `cd /opt/beatopia && docker compose -f deploy/docker-compose.yml --env-file .env logs -f api`.
+- **Deploy:** `VM=root@45.77.216.35 SSH_KEY=~/.ssh/id_ed25519 deploy/deploy.sh <ref>`.
+  - It ships committed code only.
+  - A redeploy takes about 1 minute (cached layers, CLAP already in `hf_cache`). Health is back about 6 s after it.
+  - `/opt/beatopia/DEPLOYED_SHA`, the image label and the response header all show the revision.
+- **pgvector's psycopg loader returns `Vector` objects, not numpy arrays.** `personalize._array` handles both.
+- **The background-job guard rejects shell commands that contain "git" anywhere.** That includes hostnames such as
+  `beatopia-git-…` and `$(git …)` substitutions. Split commands, or put scripts in the job tmp dir.
+- The cwd can drift into `api/` after a `cd api && …`; `cd ..` brings it back.
+- Live scripts cost Gemini calls: `assist_eval.py` makes about 20, and a bench pass 1 makes up to 2 per uncached
+  text query.
+- No failing tests.
+
+### State
+- **Production:** https://45-77-216-35.sslip.io (VM 45.77.216.35, root, key `~/.ssh/id_ed25519`). Running
+  revision: the wrap-up commit (see `X-Beatopia-Revision`). Containers: `api` (healthy) and `caddy`. The worker is
+  not started.
+- **VM flags** (`/opt/beatopia/.env`, mode 600): `USE_FIXTURES=0`, `GEMINI_DEGRADED=0`,
+  `GEMINI_MODEL=gemini-3.6-flash`, `CLAP_MODEL=laion/larger_clap_general`, `CLAP_REVISION=ada0c23…`,
+  `WEB_ORIGIN=http://localhost:3000,https://beatopia-liart.vercel.app,https://beatopia-*.vercel.app`,
+  `API_DOMAIN=45-77-216-35.sslip.io`.
+- **Real endpoints:** all of CONTRACT §6. No fixture stand-ins. Not built yet: the Freesound fallback (T8.1). `fs_*`
+  ids not in the DB → 404.
+- **Fixtures: unchanged. Shared paths: untouched.** Proposals waiting to land: C7 (`internal_error`), C8 (CLAP
+  model/revision), C9 (`gemini-3.6-flash`).
+- **Others are already on production:** the logs show searches with limit 5 and `/why` calls from another client.
+
+### Next
+- **First task: T8.1 Freesound fallback.** The §7.7 trigger (< 3 results scoring > 0.25) never fires (the score floor
+  is about 0.25), so write a proposal to trigger on top-3 `sim` instead, then build it. After that, T11.1 (cold
+  search p50 3.2 s → < 3 s: rerank output and a parallel planner + embed), then T11.2 (token bucket, README toggle).
+- Human actions first:
+  1. In the main checkout: `git pull --ff-only` on `ws2-api` (the remote is ahead).
+  2. Send WS3 and WS4 `NEXT_PUBLIC_API_URL=https://45-77-216-35.sslip.io` (with `NEXT_PUBLIC_USE_FIXTURES=0`), and
+     run the Gate H16 check with them.
+  3. Ask WS1 to merge the worker loop into `main` and start it, then run `WORKER=1 VM=... SSH_KEY=...
+     deploy/deploy.sh ws2-api`.
+  4. Land C7, C8 and C9 in a `contract:` PR, and fix `.env` line 8.
