@@ -17,6 +17,12 @@ if (existsSync(rootEnv)) {
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    // Vercel restores .next/cache between builds, and the Turbopack build cache in it handed back an
+    // outdated compile of app/globals.css: production shipped the new markup with the old stylesheet
+    // (empty `@layer components`, no design tokens). A cold build is ~20 s, so always build CSS fresh.
+    turbopackFileSystemCacheForBuild: false,
+  },
   turbopack: {
     // Repo root, so lib/api can import ../shared/fixtures (the single source of fixture truth).
     root: repoRoot,
