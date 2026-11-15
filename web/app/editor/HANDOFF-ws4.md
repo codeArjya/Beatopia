@@ -2,6 +2,8 @@
 
 **Assigned assist session is complete. Fixture and live preview/apply/discard, invalid/stale rejection, grouped undo/redo, explicit retry and the real track + stem H24 demo pass. Human confirmed preview and WAV sound right and open.** Implementation: `ce3076e`; see subsequent documentation commit in git log. Started at `a2479fc` on `ws4-editor`, preserving existing untracked `web/.playwright-mcp/`. Only WS4 source paths and authorized plan/handoff logs changed. No dependency, generated-type, WS3, shared/backend or environment-file edits.
 
+Published branch: `origin/ws4-editor`. Integration PR: [#8 — browser sampler, WAV export, and guarded edit assist](https://github.com/codeArjya/Beatopia/pull/8), targeting `main`, open and not merged. GitHub reported mergeable/clean and Vercel success after the implementation and acceptance-log push. This PR carries the existing WS4 branch as well as this session; no other stream's code was rebased or merged into the working branch.
+
 ## Implemented and verified
 
 - `components/editor/chat-panel.tsx`, `stores/assist.ts`, `lib/audio/assist.ts`: right-side panel; TanStack mutation over existing typed `api.assist`; exact generated `{messages, editor}` wire payload; full conversation, ordered proposed-op preview, resulting duration/channels, Apply/Discard and explicit Retry. No PCM, registry, revision, selection, provenance or UI/history metadata is sent. Local/mixed-local assist stays disabled under the reviewed plan; editing/export remain available.
@@ -47,7 +49,7 @@ $env:NEXT_PUBLIC_API_URL='https://45-77-216-35.sslip.io'
 pnpm.cmd dev
 ```
 
-Main URL: `http://localhost:3000/editor?track=jam_1047157&start=5&end=15&stem=mix`. Fixture acceptance uses `NEXT_PUBLIC_USE_FIXTURES=1` and `jam_1532881`0..16; restart to change mode. Do not repeat completed acceptance merely because older historical handoffs below describe it as pending. GitHub PR details follow in the session's final reply.
+Main URL: `http://localhost:3000/editor?track=jam_1047157&start=5&end=15&stem=mix`. Fixture acceptance uses `NEXT_PUBLIC_USE_FIXTURES=1` and `jam_1532881` 0..16; restart to change mode. Do not repeat completed acceptance merely because older historical handoffs below describe it as pending. GitHub PR details are linked above.
 
 ---
 
