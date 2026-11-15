@@ -37,7 +37,8 @@ export function SearchPage() {
         </aside>
 
         <section aria-label="Search" className="min-w-0 space-y-4">
-          <h1 className="sr-only">Search samples</h1>
+          {/* The hero above carries the page's <h1>. */}
+          <h2 className="sr-only">Search samples</h2>
           <SearchBar state={state} index={index} dispatch={dispatch} />
           <div className="-mt-2 flex justify-end">
             <SearchShortcuts />

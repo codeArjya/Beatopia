@@ -12,6 +12,7 @@ import { usePreviewPlayer, type PreviewItem } from "@/lib/preview/PreviewProvide
 import { formatWindow, topTags } from "@/lib/search/results";
 import type { Result } from "@/lib/types/api";
 
+import { CoverArt } from "./CoverArt";
 import { MiniWaveform } from "./MiniWaveform";
 import { PlayButton } from "./PlayButton";
 import { FlipTips } from "./FlipTips";
@@ -60,6 +61,7 @@ export function ResultCard({ result: r }: { result: Result }) {
       <MiniWaveform item={item} />
 
       <div className="flex min-w-0 items-start gap-3">
+        <CoverArt result={r} />
         <div className="min-w-0 flex-1">
           <h3 id={titleId} className="truncate text-[16px] leading-6 font-semibold" title={r.track.title}>
             {r.track.title}

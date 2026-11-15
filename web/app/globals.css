@@ -5,6 +5,13 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
+  Scroll hero (components/hero). `cinema:` styles apply only where the pinned WebGL story runs; phones, short
+  windows and reduced motion get the stacked still-image layout. Keep this query identical to
+  HERO_CINEMA_QUERY in components/hero/config.ts (CSS lays out the stage, JS decides whether to load WebGL).
+*/
+@custom-variant cinema (@media (min-width: 721px) and (min-height: 521px) and (prefers-reduced-motion: no-preference));
+
+/*
   BEATOPIA DESIGN TOKENS v2: "a late-night listening room". Dark only: the same values live on :root and .dark.
   Decisions and deviations: docs/proposals/WS3-design-tokens.md. Feature code never uses raw colors; it uses
   these tokens through Tailwind (bg-card, text-text-secondary, …) or the adapters in components/adapters.

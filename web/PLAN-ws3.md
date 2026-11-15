@@ -140,6 +140,16 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 - [x] **T9.3 "Flip this sample" tips** (1.5 h), drawn from the why note.
 - [x] **T9.4 Keyboard shortcuts** (1 h). `/` focuses search, `j`/`k` move between cards, `s` opens stems, `e` opens the editor, `?` shows help.
 
+### Scroll hero (after H20, asked for by the human)
+- [x] **T10.1 3D sampler** (code-built, no models): six layers in `components/hero/parts/` (top shell, 16 instanced pads, screen, board, speaker, bottom shell), 20k GPU particles, contact shadow, bloom/aberration/grain/vignette.
+  *Accept:* screenshots at 0/30/60/85/100% in `docs/screenshots/hero/`; no console errors; no sideways scroll.
+- [x] **T10.2 Scroll timeline + text.** One scrubbed GSAP timeline over a 500vh pin, Lenis on the hero only, real HTML text with leader lines, every number in `components/hero/config.ts`.
+  *Accept:* scrolls forward and backward; "Start digging" and "Skip intro" land on the search with the box focused.
+- [x] **T10.3 Fallbacks.** Phones (≤ 720 px), short windows, reduced motion and no WebGL get the still image plus the same text; decided live.
+  *Accept:* no canvas and no three.js request in those modes; flipping reduced motion mid-session switches both ways.
+- [x] **T10.4 Optional art slots.** `public/hero/backdrop.jpg` (behind the device) and `public/covers/cover0-5.jpg` (result card thumbnails) switch on when the files exist.
+  *Accept:* no request for a missing file; with files present the backdrop and covers render.
+
 **Cut order if behind** (handoff §10): Tier 2 → motion → import page → why lazy fetch (cached notes only) → drag-and-drop (click-to-add stays).
 
 ## 5. Component tree: search page (`/`)
@@ -496,3 +506,22 @@ None blocking. The four review questions were resolved as the defaults in §1.
 - **Cause (evidence, not a proven Turbopack root cause):** the source is right. A clean local `pnpm build` of 43d98b8 emits the correct 74.9 KB stylesheet. On Vercel, the production build and two earlier `ws3-design` previews (313745a, 6bb8ed2) all emitted the **same stale chunk** (`1q9fh9easdcla.css`, 73.5 KB) after "Restored build cache from previous deployment"; the last `ws3-design` preview (8496e02, same tree as `main`) emitted the correct one. I could not reproduce the stale output locally by building b69c405 and then 43d98b8 over the kept `.next/cache`.
 - **Fix:** `experimental.turbopackFileSystemCacheForBuild: false` in `next.config.ts`, so `next build` never reads or writes `.next/cache/turbopack`. Cold compile is ~2 s locally, ~20 s for the whole Vercel build. Checks: lint and typecheck clean, 261/261 tests, `pnpm build` emits the correct CSS and no Turbopack cache directory.
 - **After merging:** confirm production's stylesheet contains `.chip{` (`curl` the CSS linked from `/`). If it's ever stale again, redeploy in Vercel with "Use existing Build Cache" unticked.
+
+### Session 11 (2026-11-15): scroll-driven 3D hero on `/` (T10.1–T10.4)
+- **Branch:** `ws3-hero-sampler`, cut from `origin/main` a0d49c8. Local `ws3-web` was 8 commits behind `main` (no design tokens there), so it was not used.
+- **What it is:** the top of `/` is now a hero pinned for 500vh: "the Beatopia sampler" (an original device, built from code) takes itself apart and reassembles as you scroll. The search page follows as its continuation. Beats: 0–15% assembled, 15–45% tears apart, 45–75% exploded with three labels (pads → chips, screen → waveform, speaker → stems), 75–95% snaps back with a violet edge pulse, 95–100% settle + "Start digging".
+- **Files:** `components/hero/{config.ts,HeroSection.tsx,HeroSampler.tsx,Particles.tsx,Backdrop.tsx}`, `components/hero/parts/{TopShell,Pads,Screen,Board,Speaker,BottomShell,EdgePulse}.tsx` + `dims.ts`, `components/search/CoverArt.tsx`, `lib/search/cover.ts` (+ test), `lib/assets/public.ts`, `scripts/hero-shots.mjs`, `public/hero/sampler-still.jpg`. Edited: `app/page.tsx`, `app/globals.css` (one `cinema` custom variant), `components/shell/AppHeader.tsx`, `components/search/ResultCard.tsx`.
+- **`[dep]` added (the human asked for these):** `three`, `@react-three/fiber`, `@react-three/drei`, `@react-three/postprocessing`, `postprocessing` (direct, for its blend-mode enum; pnpm does not hoist it), `gsap`, `lenis`, dev `@types/three`. All of it loads lazily, only where the pinned story runs.
+- **Decisions:**
+  - `HeroSection` (HTML, in the static shell) lazy-loads `HeroSampler` (canvas + scene + timeline) with `next/dynamic` `ssr: false`. `/` is still fully prerendered.
+  - The layout switch is CSS (`cinema:` variant = `(min-width: 721px) and (min-height: 521px) and (prefers-reduced-motion: no-preference)`), so nothing jumps on load; JS uses the same query (`HERO_CINEMA_QUERY`) to decide whether to load WebGL. Keep the two strings identical.
+  - Pin = CSS `position: sticky` under the header, not ScrollTrigger pinning. One ScrollTrigger scrubs one timeline whose positions are fractions of the scroll, all from `HERO.timeline`.
+  - Lenis smooths wheel scrolling over the hero only (`prevent` skips `#search` and dialogs), and is destroyed when the page hides, so the chip tray, sheets and other routes keep native scrolling.
+  - The header's Search link goes to `/#search` (past the intro); the logo goes to the top. A shared `/?q=…` or `?chips=…` link opens on the search.
+  - The hero headline is the page's `<h1>`; the search section's sr-only heading became an `<h2>` (result cards stay `<h3>`).
+  - The still image is a crop of the real scene (`node scripts/hero-shots.mjs --still`, time and grain frozen by `?hero-still`), so the canvas fades in exactly over it.
+  - Higgsfield: the human's free trial does not work from Claude Code, and they chose to spend no credits. So the backdrop is drawn in code, with `HERO.backdrop.image` (`/hero/backdrop.jpg`) as a slot; `app/page.tsx` checks on the server that the file exists before using it. Same for `public/covers/cover0-5.jpg` → `CoverArt` on result cards (picked by stem, then tags, then a stable hash of the track id).
+- **Bug worth knowing:** `@react-three/postprocessing` leaves `gl.autoClear = false`. drei's `ContactShadows` renders into its own target before the composer and needs that clear, otherwise its blur accumulates into a dark rectangle. `Scene` re-enables `autoClear` each frame and the canvas clears with alpha 0.
+- **Checks:** lint and typecheck clean, **266/266** tests (+5 for `pickCover`), `pnpm build` passes. Playwright against the production build (headless Chromium on this Mac's GPU, fixture mode): no console errors, 0 px sideways overflow at 800/1024/1440/1920 wide and at 390, no canvas at 390 or under reduced motion (and no three.js request), reduced motion flipped live both ways, a no-WebGL run keeps the still image with scrubbed text, both buttons land on the search with the box focused, rendering stops once the hero is off screen, and 60 fps idle and through a full scroll at device pixel ratio 1 and 2 (canvas capped at 1.5): 2 slow frames in 5,077 across six passes, one of them a single 283 ms stall.
+- **Not checked:** a real phone, Safari and Firefox, and a human-eyes frame-rate check on a laptop with integrated graphics. three r187 logs one console *warning* ("THREE.Clock … deprecated") that comes from inside `@react-three/fiber`.
+- **Next:** when `public/hero/backdrop.jpg` and the covers land, re-run `scripts/hero-shots.mjs --still` (so the phone image matches) and look at one result card.
