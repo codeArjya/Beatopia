@@ -1,4 +1,54 @@
-# WS4 assist and H24 handoff (2026-11-15)
+# WS4 integrated and confirmed handoff (2026-11-15)
+
+**All recorded integration next steps are applied and the H8, H12, H16 and H24 gates are accepted.** Actual WS3 drawer/hooks are integrated; older waveform/transport/cleanup and Tone musical criteria are now confirmed. `PLAN-ws4.md` has every through-H24 task checked. The remaining plan work is the separate post-H24 performance/responsiveness/polish phase, which was not implemented or marked complete in this integration session.
+
+Work from the Beatopia repo root on `ws4-editor`, use `pnpm.cmd` in PowerShell, and retain WS4 path ownership. Started at `2c1c44c`; fetched and rebased cleanly onto `origin/main` at `72773d0`. This rewrote the previously published WS4 commit IDs; historical IDs below refer to the old history. Integration implementation: **`29cf0a4`**. PR remains [#8 — browser sampler, WAV export, and guarded edit assist](https://github.com/codeArjya/Beatopia/pull/8); the rebased branch and current handoff are published there. Existing untracked `.playwright-mcp/` artifacts are preserved and excluded from commits.
+
+## Final integrated behavior
+
+- Actual `components/stems/StemsDrawer.tsx` now handles shared requesting/polling/preview through `useStems`/`useJob`. The small WS4 `components/editor/stems-drawer.tsx` component only owns open/close, async decode callback and **Retry adding drums** after a failed audio fetch. Selecting **Use Drums in the editor** closes the sheet before decoding so progress/errors are visible. Obsolete editor-owned stem query hooks/tests were removed; shared query/flow tests run in the combined suite.
+- Editor metadata, assist and telemetry now use WS3 `useTrack`, `useAssist` and `usePostEvent`. No direct endpoint fetch or duplicate HTTP client. Local/mixed-local assist and export telemetry guards are retained. Shared assist has no automatic retry; the explicit Retry sends the existing user turn/conversation with the latest wire state.
+- Fixed metadata invalidation erasing edits: after a successful entry load, stem-job TrackDetail refreshes preserve the decoded sources, op chain and undo history. Entry changes and explicit audio retry still load a fresh entry. Layout-effect teardown cancels transport/imports and resets resources on Next Activity hide and unmount. Shared preview and editor playback stop each other.
+
+## Acceptance evidence
+
+**Shared drawer + live worker:** real new job `17655270-026f-4823-af6a-799752d5a813`, missing-BPM `jam_1029666`, absolute **160..165 s**, returns four ranged stems. Closed polling is constant, reopen resumes, completion stops. Job-triggered metadata refresh preserves the earlier Reverse WAV SHA `55ec74bce7cc4349d98ab39a68bb7abe5d93fc0c25c3a5447cec3a19cb45c743`. Drums map to file-local 0..5 and append for 441000 frames; undo restores 220500 frames and the original hash; redo is exact. Licenses stay visible. Ready hero stems, stem-fetch error/retry, shared preview and missing-BPM controls pass. Browser-injected request503 and queued/running/terminal-error states show the actual shared UI and recover through explicit real-API200 retry, preserving existing audio. These injected failures are not claimed as a real worker crash.
+
+**Combined H24, including production build:** `jam_1047157` / km 1 - Escena III / Oscar Avila / CC-BY-SA-3.0, mix + drums 5..15. Add c2 drums; trim c1 relative1..9; four equal chops; reverse/native -3 c1.4; order `[c1.4,c1.1,c1.4,c1.3,c1.2,c2]`; preview. Real `/assist`200 proposes slice c2 count4 none then reverse c2.4. Apply is one step; undo/redo restore the respective WAVs; final undo/export matches the previously human-confirmed audio:
+
+- **915376 frames · 20.7568253968254 s · 3661548 bytes · 44100 Hz · 16-bit stereo**.
+- Final SHA **06899936153807206c8f7fbaaf9a00ae27eb1f8a97e64494b3752ccad23d20b0** in both development and production. Applied batch SHA **f0be45d781a070b82df8b45f76cda7b610283e04e9c99cfb03cfc76d41315755** restores on redo.
+- Stable artifacts: `.playwright-mcp/H24-combined-hero-drums.wav` and `.playwright-mcp/H24-production-hero-drums.wav`. Prior human “Preview and WAV sound right and open” confirmation applies to this identical final hash.
+- Production event204 passes. Shared event-hook export counts are **1 / 1 / 2** for library / mixed-local / undo-local-library. All four development acceptance routes return404 under `pnpm.cmd start`.
+- Injected assist503 generates one request, allows manual editing, then explicit retry succeeds with current ops and no duplicate user message. Existing malformed/invalid/stale/grouped-undo protections stay green.
+
+**Earlier H8 criteria now closed:** Chrome157 verified missing/invalid/reversed/overlong/beyond-track/stem URL cases, actual 5..15 bounds, HTTP/corrupt/network error + successful retry, real Regions handle drag and clip-relative trim, seek, start/end S rejection and interior split, later repeated-occurrence offset, cursor/loop wrap, edit stopping playback, nested repeated-leaf slicing and pointer drag with exact undo. Three instrumented mount/play/unmount cycles give starts/stops/disconnects 1/1/1 through3/3/3, all AudioContexts closed and zero tracked window/document listeners or animation frames. Two actual Next Search navigation/hide/back cycles also close contexts and restore a fresh editor. Source decode/resampling/validation/cleanup harness rerun passes. Current fixture UI golden is 705600 frames / 2822444 bytes / stereo with SHA **0b7b03f257582b8decef3ded8eed37912ef4c11c4a851c1a349212efc79e3422**, matching accepted fixture output; prior human fixture listening/player-opening confirmation is retained. Artifact: `.playwright-mcp/H8-combined-golden.wav`.
+
+**H12 musical acceptance now closed:** native/Tone browser harness passes all DSP measurements, concurrent Tone jobs, short clips and deterministic transient cuts. Actual toolbar exports: original16 s, +3 pitch shift16 s (both705600 frames), 90→120 keep-pitch12 s (529200 frames), transient chops16 s. Human compared **H12-original.wav, H12-shift-plus3.wav, H12-keep-pitch-120.wav, H12-transient.wav** and confirmed **“All comparisons sound correct.”** Files are in `.playwright-mcp/`. This confirmation covers the previously missing musical listening criterion.
+
+## Checks and tooling limits
+
+Final source checks all pass: `pnpm.cmd test lib/audio stores` (**17 files / 81 tests**), `pnpm.cmd lint` (clean), `pnpm.cmd tsc --noEmit`, `pnpm.cmd test` (**34 files / 189 tests**) and `git diff --check`. Combined production build passes, including TypeScript and prerendering. Initial build failed only on the existing Google Font downloads inside the sandbox; approved network retry succeeded without font/layout changes.
+
+**Separate sync-tooling record:** literal `make schema` is unavailable because make is not installed, and uv is absent. Ran the Makefile's scripts using installed Python3.11 with `PYTHONPATH=api`: schema generation succeeds; TS output is unchanged; Pydantic2.7.4 adds only redundant const-enum/numeric formatting differences to schema JSON. Restored the generated outputs so shared/canonical files remain unchanged. `scripts/check_fixtures.py` passes against both generated and restored canonical schema: **13 fixtures / 0 problems**. No required web check is blocked/unrun. All through-H24 gate criteria are met; no features were cut.
+
+## Next session
+
+1. Inspect branch/status/PR and read current plan/contract/agent rules. Preserve untracked browser artifacts. Do not reopen accepted tasks based on historical sections below.
+2. **Next queued phase is H24–H30 performance/responsiveness/polish.** Profile a 16-bar edit before deciding on bounded prefix caching; preserve generated wire shapes, exact replay order, resource caps, stale-revision rejection and grouped history. Those three plan boxes remain unchecked. No optimization or library swap is implied by this handoff.
+3. Dev server has been restored on **localhost:3000 in live mode**, not the production smoke server. Inspect the listener before starting another. Fresh command from web:
+
+```powershell
+$env:NEXT_PUBLIC_USE_FIXTURES='0'
+$env:NEXT_PUBLIC_API_URL='https://45-77-216-35.sslip.io'
+pnpm.cmd dev
+```
+
+Main URL: `http://localhost:3000/editor?track=jam_1047157&start=5&end=15&stem=mix`. For fixture harness routes, restart with `NEXT_PUBLIC_USE_FIXTURES=1`; fixture track is `jam_1532881`. Source has no new dependencies, shared/generated/backend/env edits. Browser faults/instrumentation were temporary and are removed by navigation; no interception remains in product code.
+
+---
+
+# Prior WS4 assist and H24 handoff (2026-11-15)
 
 **Assigned assist session is complete. Fixture and live preview/apply/discard, invalid/stale rejection, grouped undo/redo, explicit retry and the real track + stem H24 demo pass. Human confirmed preview and WAV sound right and open.** Implementation: `ce3076e`; see subsequent documentation commit in git log. Started at `a2479fc` on `ws4-editor`, preserving existing untracked `web/.playwright-mcp/`. Only WS4 source paths and authorized plan/handoff logs changed. No dependency, generated-type, WS3, shared/backend or environment-file edits.
 
