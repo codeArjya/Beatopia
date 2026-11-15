@@ -118,11 +118,11 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 ### Import, H14 → **Gate H16** (Tier 0 in production)
 - [x] **T7.1 ImportDropzone** (1 h). Drag-and-drop or click-to-browse, the client-side checks (`lib/import/validate.ts`), and upload through `useImport`.
   *Accept:* unit tests for extension, size and MIME edge cases. A 30 MB file or a `.txt` is rejected before upload with a clear message.
-- [ ] **T7.2 Analyze polling + summary** (1 h). Progress, a summary of the `TrackDetail`, the `["track", id]` cache seeded, and "Open in editor" using the best window.
+- [x] **T7.2 Analyze polling + summary** (1 h). Progress, a summary of the `TrackDetail`, the `["track", id]` cache seeded, and "Open in editor" using the best window.
   *Accept:* fixture import → done → summary shows 90 BPM, A minor, and the editor opens. Live: upload a real 10 s WAV in production.
-  *Status (session 8):* code done and the fixture path passes in Chrome. Live, the upload works (`POST /imports` 200 in ~1 s), but the analyze job never leaves `queued`: **no worker is claiming jobs** (WS1/WS2). Tick once a live import reaches the summary.
+  *Status (session 8):* code done and the fixture path passes in Chrome. The live run first failed because no worker was running. After WS1 started the worker, a real 10 s WAV went upload → summary in 4.9 s against the production API (this branch on `localhost:3000`, live mode), and the editor opened. Ticked.
 - [ ] **Gate H16:** in production, stack Soul + Keys + Melancholy → hear it → read the why note → open stems → send to the editor, and import → editor.
-  *Status (session 8):* search half passes in production. Import → editor is blocked by the stopped worker, and the editor is still WS4's placeholder. Failures are listed in the session 8 log and the PR.
+  *Status (session 8):* every step passes against the production API: the search half on the production URL, and import → editor from this branch on localhost (live mode). Still to do before ticking: merge PR #7, re-run the import half on the production URL, and replace the editor placeholder (WS4 hasn't opened a PR yet).
 
 ### Design pass, H16 → **Gate H20**
 - [ ] **T8.1 Apply the Claude Design tokens** (1.5 h) through `globals.css` and the adapters only.
@@ -426,3 +426,12 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - T7.2's live tick and Gate H16's import half: the worker (WS1/WS2).
   - Gate H16 "→ editor" is only as good as WS4's placeholder until WS4 merges.
   - Next: once the worker runs, re-run a live import in production after the PR merges, tick T7.2 and H16, then T8.1 (design tokens, if `docs/proposals/WS3-design-tokens.md` exists).
+- **Addendum (2026-11-15): worker up, gate re-run.**
+  - Rebased on `origin/main` (b7485cf, contract C7–C9: new `internal_error` code, CLAP/Gemini env). `make schema` made no changes; `make check-fixtures` passed 13/13. lint/typecheck are clean and tests pass 108/108. `internal_error` already falls through to the generic "Import failed: …" text.
+  - The two jobs that were stuck yesterday are both `done`. The worker's analysis is accurate: the 90 BPM A-minor test file gave 90.67 BPM / A minor, one 0–10 s window, loopability 0.95.
+  - **Live import through the UI:** `gate_h16_c_major_100.wav` went uploaded 0.6 s → 5% 1.7 s → 75% → 90% → summary 4.9 s, showing **99.4 BPM, C major** (generated at 100 BPM, C–E–G). The preview plays. Open in editor → `/editor?track=imp_9e766a4c&start=0&end=10&stem=mix`, and the placeholder shows the track. No console errors. T7.2 ticked.
+  - **Stems job path (API):** `jam_1265033` 30–40 s went queued → running 0.15 → 0.65 → 0.8 → 0.875 → done in 13 s with 4 stems. The 30 s stuck hint won't fire at that speed.
+  - **The editor is NOT merged:** `main` has only `web/app/editor/editor-placeholder.tsx`, and no WS4 PR exists (#1–#7). Failure 2 stands.
+  - **Rebased branch not pushed:** the force-push to `ws3-import` (needed after the rebase) was blocked by the session's permission check. PR #7 still shows the pre-rebase commits. Run `git push --force-with-lease origin ws3-web:ws3-import`, or merge #7 as is (it doesn't conflict: b7485cf touches no `web/` files).
+  - Gate H16 is still unticked. Left to do: merge #7 → re-run import on https://beatopia-liart.vercel.app/import → WS4 editor merge.
+  - Test data in the production DB: imports `imp_22efb81b`, `imp_9e766a4c` (plus 2 earlier `gate_h16_test_loop` imports), and new range stems for `jam_1485349` (20–30 s) and `jam_1265033` (30–40 s). Harmless.
