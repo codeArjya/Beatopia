@@ -114,7 +114,7 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-14 (end of session 3):** T1.1–T4.2 done. Everything from T4.3 on is not started. T2.2 still
+**Status 2026-11-14 (session 4):** T1.1–T4.3 done. Everything from T5.1 on is not started. T2.2 still
 needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
 
 ### → Gate H3: real DB wired, chips and tracks real
@@ -186,10 +186,19 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       the reranked set, so the "top 8 cached" skip alone would re-call Gemini on every repeat. Free-tier key hits
       `429 quota` after a few calls/minute; those searches fall back to score order + cached notes as designed.
       **Open for T11.1:** uncached search = 2.8–5.3 s total (rerank output is the slow part), over the 3 s p50.
-- [ ] **T4.3 `/why` with audio** (1.5 h). Excerpt via ffmpeg, P3 / P3b fallback, cache.
+- [x] **T4.3 `/why` with audio** (1.5 h). Excerpt via ffmpeg, P3 / P3b fallback, cache.
       *Accept:* live note ≤ 45 words, 2nd call cached; text-only path covered by a test with audio fetch forced to fail.
       Run the 20 eval queries once and eyeball plans (temperature check from §1).
-      *Left:* all of it; use thinking MINIMAL + `gemini.generate_json`, pace eval runs for the free-tier quota.
+      *Done:* live (`scripts/why_check.py`, `gemini-3.6-flash`, paid key): 4 audio notes (mix, 2 drum stems, a
+      null-bpm Freesound track) 39–43 words in 2.7–3.9 s (excerpt ≈ 1.1 s via ffmpeg HTTP seek, 60–95 KB mono
+      64 kbps; Gemini 1.5–2.3 s, thinking MINIMAL); forced text-only P3b 1.9 s; every 2nd call cached ≈ 100 ms.
+      The excerpt is the *snapped* window (what `/search` plays), ≤ 15 s. Stored as `<model>:audio|text`, first
+      writer wins. No cached note + Gemini degraded/failing → 502 `upstream_error`; `fs_*` not in DB → 404 until T8.1.
+      **Eyeball (20 eval queries, fresh):** all valid, 1.2–2.0 s each, no loops at temperature 0.2 (kept). Fix:
+      P1 put `stems_wanted` + `prefer_sparse` on "boom bap drum break" / "jazzy upright bass line"; only 33 of 351
+      tracks have stems, so P1 now asks for a stem only on explicit isolation ("just the", "only", "acapella").
+      Remaining quirks (left as is): 3 must_tags on "lo-fi piano with vinyl crackle" (the relax step covers it);
+      the acapella query expands exclude_tags to bass/piano/guitar.
 - [ ] **T5.1 Contract test** (1 h). `tests/test_contract.py`: every endpoint, live (`API_URL` env) or TestClient,
       validated against `shared/schema/api.schema.json` with `jsonschema`, and key sets compared to fixtures.
       *Accept:* passes in fixture mode and against local real mode.
