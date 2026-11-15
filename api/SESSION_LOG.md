@@ -414,7 +414,7 @@ last push was this wrap-up. `origin/main` was still `0877d84`, so no sync was ne
 
 ### State
 - **Production:** https://45-77-216-35.sslip.io (VM 45.77.216.35, root, key `~/.ssh/id_ed25519`). Running
-  revision: the wrap-up commit (see `X-Beatopia-Revision`). Containers: `api` (healthy) and `caddy`. The worker is
+  revision: `56838ae` (`X-Beatopia-Revision`). Later commits on `ws2-api` only change docs, so no redeploy is needed. Containers: `api` (healthy) and `caddy`. The worker is
   not started.
 - **VM flags** (`/opt/beatopia/.env`, mode 600): `USE_FIXTURES=0`, `GEMINI_DEGRADED=0`,
   `GEMINI_MODEL=gemini-3.6-flash`, `CLAP_MODEL=laion/larger_clap_general`, `CLAP_REVISION=ada0c23…`,
