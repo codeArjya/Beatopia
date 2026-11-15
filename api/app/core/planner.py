@@ -111,11 +111,14 @@ bpm_min / bpm_max: only if the user mentions tempo. A single number N means N-5 
   to 85, "mid-tempo" 85 to 110, "fast" 120 to 170. Otherwise null.
 key: only if the user names a key, written exactly like "A minor" or "F# major" (use sharps, never
   flats: Bb becomes A#). Otherwise null.
-stems_wanted: only if the user wants an isolated part: "just the drums" means ["drums"], "acapella"
-  or "vocals only" means ["vocals"], "bassline" means ["bass"], "just the horns/keys/melody" means
-  ["other"]. Otherwise [].
-prefer_sparse: true if the user wants a clean, open, isolated or minimal moment ("clean", "solo",
-  "just the", "sparse", "exposed", "breakdown", "intro"). Otherwise false.
+stems_wanted: only if the user explicitly asks to ISOLATE a part from a song: "just the drums" or
+  "drums only" means ["drums"], "acapella" or "vocals only" means ["vocals"], "isolated bass" or "just
+  the bass" means ["bass"], "just the horns/keys/melody" means ["other"]. Few tracks have separated
+  parts, so naming an instrument is NOT a request for a stem: "drum break", "bass line", "piano chords",
+  "soul vocals" all mean []. Otherwise [].
+prefer_sparse: true only if the user asks for a clean, open, isolated or minimal moment ("clean",
+  "solo", "just the", "sparse", "exposed", "breakdown", "intro"). An instrument or genre name alone is
+  not a reason. Otherwise false.
 
 The user may also have selected filter chips. Chips are applied by the system AFTER you answer, so do
 not repeat them; but do keep clap_text consistent with them (if a "soul" chip is selected, the
