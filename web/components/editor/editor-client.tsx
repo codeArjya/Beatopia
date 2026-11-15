@@ -24,6 +24,7 @@ import { ArrangementLane } from "./arrangement-lane";
 import { HistoryPanel } from "./history-panel";
 import { LocalFileDrop } from "./local-file-drop";
 import { StemsDrawer } from "./stems-drawer";
+import { ChatPanel } from "./chat-panel";
 
 export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDetail } = {}) {
   const params = useSearchParams();
@@ -226,7 +227,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
         return <p key={clip.id}>{clip.id} · {source?.metadata?.title ?? clip.source.track_id} · {clip.source.stem ?? "mix"} · {source?.metadata?.license ?? "License not supplied"} · {source?.metadata?.attribution ?? "Attribution not supplied"}</p>;
       })}
     </section>}
-    {current && active && selection && editor.active && <>
+    {current && active && selection && editor.active && <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]"><div className="min-w-0 space-y-6">
       <div className="flex flex-wrap gap-2" aria-label="Choose active clip">
         {current.evaluation.leaves.map((id) => <Button key={id} variant={editor.active === id ? "default" : "outline"} onClick={() => { stop(); editor.select(id); }}>
           {id} · {duration(current.evaluation.clips.get(id)!.pcm).toFixed(3)} s
@@ -257,7 +258,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
       <p className="text-muted-foreground text-sm">Shortcuts (outside controls): Space play/stop · S split at playhead · R reverse · ↑/↓ repitch ±1 · Ctrl/Cmd+Z undo · Ctrl/Cmd+Shift+Z redo · E export</p>
       <HistoryPanel editor={editor} />
       {editor.pending && <p role="status">Rendering…</p>}
-    </>}
+    </div><ChatPanel editor={store} /></div>}
     {notice && <p role="status" className="break-words text-sm">{notice}</p>}
   </div>;
 }

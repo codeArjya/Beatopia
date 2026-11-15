@@ -18,7 +18,8 @@ interface EditorStore {
   pending: boolean;
   error: string | null;
   initialize: (wire: EditorState, registry: SourceRegistry) => Promise<void>;
-  apply: (ops: Op[]) => Promise<void>;
+  apply: (ops: Op[], expectedRevision?: number) => Promise<boolean>;
+  preview: (ops: Op[], expectedRevision: number) => Promise<Evaluation>;
   addSource: (source: ClipSource, asset: SourceAsset, expectedRevision?: number) => Promise<boolean>;
   undo: () => void;
   redo: () => void;
@@ -62,10 +63,18 @@ export function createEditorStore(offline?: OfflineRenderer) {
     return {
       ...initial,
       initialize: async (wire, registry) => { await run(structuredClone(wire), registry, true); },
-      apply: async (ops) => {
-        const { current, pending } = get();
-        if (!current || pending || !ops.length) return;
-        await run({ ...current.wire, ops: [...current.wire.ops, ...structuredClone(ops)] }, current.registry, false);
+      preview: async (ops, expectedRevision) => {
+        const { current, pending, revision } = get();
+        if (!current || pending || revision !== expectedRevision) throw new Error("The editor changed. Request a new suggestion.");
+        const evaluation = await evaluate(current.registry,
+          { ...current.wire, ops: [...current.wire.ops, ...structuredClone(ops)] }, offline);
+        if (get().revision !== expectedRevision) throw new Error("The editor changed. Request a new suggestion.");
+        return evaluation;
+      },
+      apply: async (ops, expectedRevision = get().revision) => {
+        const { current, pending, revision } = get();
+        if (!current || pending || !ops.length || revision !== expectedRevision) return false;
+        return run({ ...current.wire, ops: [...current.wire.ops, ...structuredClone(ops)] }, current.registry, false);
       },
       addSource: async (source, asset, expectedRevision = get().revision) => {
         const { current, pending, revision } = get();
