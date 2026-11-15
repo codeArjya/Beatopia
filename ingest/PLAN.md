@@ -112,6 +112,18 @@ After every implementation task: run relevant focused tests, `make lint`, `uv ru
 
 ## Execution record
 
+### Session 9 — merge and deployment readiness only (2026-11-15)
+
+- [x] Preserve primary ws1-data/b7639a8, original schema edit and every raw Session 8 artifact; verify 44 raw hashes and frozen queue/schema hashes.
+- [x] Push outstanding commits normally; combine completed work with current main in an isolated worktree without conflicts, duplicate worker code, teammate overwrites or force-push.
+- [x] Validate combined source: focused 90, ingest 134, worker 23/5 skips, API integration 49/4 skips; Python lint/format pass; isolated JSON schema and 13 fixtures pass. Make/pnpm/TS limitations are recorded, not passed.
+- [x] Run fresh independent corpus/density/public-object audit and propagate actual exit 1: original 350 curated tracks/67 heroes pass; newly materialized fallback fs_754932 lacks a local manifest and fails exact 192k probe. Report failure is retained/reported; target remains 80 (13 short), independently of this failure. Full quality gate stays open.
+- [x] Recheck live real search/cache/browser playback and previous failures; current editor offsets and fallback pass; strict duration/snapping remain reported to WS2 issue #13.
+- [x] Reuse actual Session 8 inference evidence with unchanged worker/common runtime; leave VM worker and checkpoints running/intact.
+- [x] Prepare reviewed PR #14, exact no-restart deployment instructions and current handoff/evidence. Final merge identity is recorded in the handoff after repository merge.
+- [ ] Launch acceptance remains incomplete: target 80, deferred timbre/density listening and historical semantic gate; global lint/TS and WS2 range/snapping unresolved. Completed joint review remains accepted. No new production, listening, model/data experimentation or optional features.
+
+
 ### Session 8 — approved live evaluation and worker integration (2026-11-14–15 EST)
 
 The human approved the six-step plan. Execution began after the supplied HTTPS API first worked.
