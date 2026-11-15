@@ -114,7 +114,7 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-14 (session 4):** T1.1–T4.3 done. Everything from T5.1 on is not started. T2.2 still
+**Status 2026-11-14 (session 4):** T1.1–T5.1 done. Everything from T6.1 on is not started. T2.2 still
 needs one re-check against a seed track (the seed is in the DB now; not re-run yet).
 
 ### → Gate H3: real DB wired, chips and tracks real
@@ -199,9 +199,17 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       tracks have stems, so P1 now asks for a stem only on explicit isolation ("just the", "only", "acapella").
       Remaining quirks (left as is): 3 must_tags on "lo-fi piano with vinyl crackle" (the relax step covers it);
       the acapella query expands exclude_tags to bass/piano/guitar.
-- [ ] **T5.1 Contract test** (1 h). `tests/test_contract.py`: every endpoint, live (`API_URL` env) or TestClient,
+- [x] **T5.1 Contract test** (1 h). `tests/test_contract.py`: every endpoint, live (`API_URL` env) or TestClient,
       validated against `shared/schema/api.schema.json` with `jsonschema`, and key sets compared to fixtures.
       *Accept:* passes in fixture mode and against local real mode.
+      *Done:* fixture mode (in `make test`) 16 passed / 2 live-only skipped; local real mode
+      (`API_URL=http://127.0.0.1:8011`) 14 passed / 4 skipped, and with `CONTRACT_WRITES=1` 16 passed / 2 skipped.
+      Every 2xx body is checked against the schema + the Pydantic model, plus a recursive key-set compare with the
+      fixture (list items paired by `op`/`kind`/`category`). A key that is null on one side and absent on the other
+      counts as equal: `chips.json` omits null `bpm_range`/`key` in chip filters, the API serializes them as null.
+      Error bodies must be `{"error": ApiError}` (404 route/job/track/window, 400 body, `range_too_long`).
+      Live, stems/imports/events only run with `CONTRACT_WRITES=1` (they create jobs/rows once T7.x/T9.1 land).
+      Re-run against production at T6.2.
 - [ ] **T6.1 Docker images** (1.5 h). `deploy/api.Dockerfile`, `deploy/worker.Dockerfile`, `.dockerignore`.
       *Accept:* both build locally (or on the VM); `docker run api` → `/health` ok with HF cache volume.
 - [ ] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). SSH: install Docker, clone repo to `/opt/beatopia`,
