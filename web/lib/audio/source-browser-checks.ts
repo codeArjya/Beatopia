@@ -41,8 +41,47 @@ export async function runSourceBrowserChecks(detail: TrackDetail, report: (line:
     view.setInt16(46 + i * 4, Math.round(8000 * Math.sin(2 * Math.PI * 660 * i / 48000)), true);
   }
   const file = new File([bytes], "48khz-stereo.wav", { type: "audio/wav" });
+  // Exercise real browser failures too: the Node suite replaces decodeAudioData.
+  const rejectFile = async (input: File, message: string) => {
+    let failure: unknown;
+    try { await loadLocalFile(input, signal); } catch (error) { failure = error; }
+    assert(failure instanceof Error && failure.message.includes(message), `Expected ${message} for ${input.name}`);
+  };
+  await rejectFile(new File(["text"], "notes.txt"), "Choose a WAV");
+  await rejectFile(new File([], "empty.wav"), "nonempty");
+  await rejectFile(new File([new Uint8Array(25 * 1024 * 1024 + 1)], "oversized.wav"), "25 MB");
+  await rejectFile(new File(["not audio"], "corrupt.wav"), "corrupt or unsupported");
+  const longBytes = new ArrayBuffer(44 + 61 * frames * 4);
+  new Uint8Array(longBytes).set(new Uint8Array(bytes, 0, 44));
+  const longHeader = new DataView(longBytes);
+  longHeader.setUint32(4, longBytes.byteLength - 8, true);
+  longHeader.setUint32(40, longBytes.byteLength - 44, true);
+  await rejectFile(new File([longBytes], "61-seconds.wav"), "60 seconds");
+  const cancelled = new AbortController();
+  const pending = loadLocalFile(file, cancelled.signal);
+  cancelled.abort();
+  let aborted = false;
+  try { await pending; } catch (error) { aborted = error instanceof DOMException && error.name === "AbortError"; }
+  assert(aborted, "Cancelled local file read must not publish audio");
+  report("PASS browser local validation: unsupported/empty/over-25-MB/corrupt/61-second files rejected; cancelled read aborts");
   const first = await loadLocalFile(file, signal), second = await loadLocalFile(file, signal);
-  assert(first.asset.pcm.sampleRate === SAMPLE_RATE && first.asset.pcm.channels[0].length === SAMPLE_RATE && first.asset.pcm.channels.length === 2, "48k -> 44.1k stereo resampling");
+  // Chromium's decoder can round resampling down by one frame. Preserve its PCM
+  // rather than padding audio to satisfy a theoretical duration.
+  const localFrames = first.asset.pcm.channels[0].length;
+  assert(first.asset.pcm.sampleRate === SAMPLE_RATE && Math.abs(localFrames - SAMPLE_RATE) <= 1 && first.asset.pcm.channels.length === 2, "48k -> 44.1k stereo resampling");
+  assert(second.asset.pcm.channels[0].length === localFrames, "Repeated decode length");
+  const monoBytes = new ArrayBuffer(44 + frames * 2);
+  new Uint8Array(monoBytes).set(new Uint8Array(bytes, 0, 44));
+  const monoHeader = new DataView(monoBytes);
+  monoHeader.setUint32(4, monoBytes.byteLength - 8, true);
+  monoHeader.setUint16(22, 1, true); monoHeader.setUint32(28, 48000 * 2, true);
+  monoHeader.setUint16(32, 2, true); monoHeader.setUint32(40, frames * 2, true);
+  for (let i = 0; i < frames; i++) monoHeader.setInt16(44 + i * 2, view.getInt16(44 + i * 4, true), true);
+  const mono = await loadLocalFile(new File([monoBytes], "48khz-mono.wav"), signal);
+  assert(mono.asset.pcm.sampleRate === SAMPLE_RATE && mono.asset.pcm.channels.length === 1 &&
+    Math.abs(mono.asset.pcm.channels[0].length - SAMPLE_RATE) <= 1, "48k -> 44.1k mono resampling");
+  assert(new DataView(encodeWav(mono.asset.pcm)).getUint16(22, true) === 1, "Mono WAV export");
+  report(`PASS local 48k mono -> 44100 Hz (${mono.asset.pcm.channels[0].length} frames); mono WAV channel preserved`);
   assert(sourceKey(first.source) !== sourceKey(second.source), "Repeated file identities must differ");
   for (const source of [first.source, second.source]) {
     let revoked = false;
@@ -60,8 +99,9 @@ export async function runSourceBrowserChecks(detail: TrackDetail, report: (line:
   const wav = encodeWav(rendered), header = new DataView(wav);
   assert(header.getUint32(24, true) === SAMPLE_RATE && header.getUint16(34, true) === 16 && header.getUint16(22, true) === 2, "WAV format");
   const decoded = await new OfflineAudioContext(2, 1, SAMPLE_RATE).decodeAudioData(wav);
-  assert(decoded.length === 66150 && decoded.numberOfChannels === 2, "WAV browser roundtrip");
-  report("PASS local 48k stereo -> 44100 Hz; unique sources, revoked import URLs, trim/reverse/add/undo/redo and stereo 16-bit WAV roundtrip (66150 frames / 1.5 s)");
+  const expectedFrames = SAMPLE_RATE / 2 + localFrames;
+  assert(decoded.length === expectedFrames && decoded.numberOfChannels === 2, "WAV browser roundtrip");
+  report(`PASS local 48k stereo -> 44100 Hz (${localFrames} frames; one-frame resampling tolerance); unique sources, revoked import URLs, trim/reverse/add/undo/redo and stereo 16-bit WAV roundtrip (${expectedFrames} frames / ${expectedFrames / SAMPLE_RATE} s)`);
   report("UI drop/chooser, worker queue and musical listening remain separate checks.");
   return rendered;
 }

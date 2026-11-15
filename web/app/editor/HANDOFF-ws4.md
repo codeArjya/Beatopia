@@ -1,4 +1,29 @@
-# WS4 stems and local-source handoff
+# WS4 acceptance follow-up (2026-11-14)
+
+Started clean on `ws4-editor` at `4458314`. This section supersedes the browser-unavailable statements below; the earlier implementation records are retained as history. No upstream, generated-type, dependency or environment files changed.
+
+## Fixed and verified
+
+- Browser access initially worked through Playwright in Chrome **157.0.0.0 on Windows**. `/editor/source-checks` ran the real browser decoder, ranged WAV crop, edited/repeated arrangement, source append/undo/redo, revoked local identities and WAV roundtrip.
+- The first run exposed an overly strict harness assertion: Chrome decoded a one-second 48 kHz WAV to **44099 frames at 44100 Hz**, rather than exactly 44100. Independently reproduced with `OfflineAudioContext.decodeAudioData`. The importer correctly retains decoded PCM and derives its source range from that PCM. Updated `lib/audio/source-browser-checks.ts` to allow the plan's one-frame resampling rounding tolerance, require repeated decodes to match, and check the export against the actual decoded length. No padding, truncation or product DSP change.
+- Rerun: **ALL AUTOMATED BROWSER CHECKS PASSED**. Ranged track 6..8 maps to file 1..3; previous edits survive add/undo/redo. Stereo local resampling, unique/revoked identities, trim/reverse and WAV roundtrip pass.
+- Clicked preview/stop and downloaded the actual browser WAV; read its complete download stream and RIFF header: **264640 bytes, 44100 Hz, 16-bit stereo, 66149 frames, 1.4999773242630385 seconds**. This replaces the previous exact 66150-frame expectation for this browser. Browser decoded the WAV successfully; DAW opening and musical listening are still human checks. The two console `ERR_FILE_NOT_FOUND` entries are expected attempts to fetch the already-revoked import URLs.
+- Expanded the same harness with actual-browser mono 48 kHz decode/mono WAV, unsupported/empty/over-25-MB/corrupt/61-second rejection and read cancellation. **This expansion has not yet run in a browser:** approval review began rejecting browser actions after the successful stereo run. TypeScript/lint/Node checks cover compilation but do not establish those new browser results.
+
+## Remaining to accept H16-H19
+
+Final code checks pass: `pnpm.cmd lint`, `pnpm.cmd tsc --noEmit`, `pnpm.cmd test` (**18 files / 76 tests**) and `git diff --check`.
+
+1. **Resume browser UI checks after approval.** Automatic approval review rejected navigation to both the fixture editor and bare `/editor`, then rejected another harness run: `MCP tool call requires approval, but approval policy is never`. No reason beyond that was provided. Explicit user approval was requested; no alternate browser automation was used to bypass the rejection. Browser checks beyond the successful run above remain pending.
+2. Rerun the expanded `/editor/source-checks`; retain its log. Then use `/editor?track=jam_1532881&start=5&end=10&stem=mix`: chop/reverse/reorder/duplicate, add drums via Stems, check license/undo/redo/close/reopen/failed-decode retry, preview and export. Test actual chooser/drop at bare `/editor`, repeated import, trim/chop/reverse, rejected file and multi-file drop preservation, navigation during decode, and append to a library edit. Confirm local/mixed exports do not emit telemetry. Earlier Node tests remain evidence for these behaviors, not UI acceptance.
+3. Listen to preview/export and open the downloaded WAV in a DAW/player. Agent preview clicks and WAV header/decode checks do not establish listening quality.
+4. **Upstream integration is still unavailable in this checkout:** WS3's actual drawer/hooks do not exist (`lib/api/client.ts` only); `api/app/main.py` explicitly remains the fixture bootstrap. WS3 must supply StemsDrawer/useStems/useJob, and WS1/WS2 must supply real TrackDetail/separation/job endpoints and a worker. Keep the reviewed WS4 adapter meanwhile. Do not change another stream's paths or describe simulated queue tests as a live worker pass. The earlier production H16 gate stays open.
+
+Both H16-H19 plan boxes remain open because their full UI/upstream/listening criteria have not passed. Earlier H8/H12 gaps also remain as recorded below. No chat or optimization work started. Fixture dev server was restarted after confirming no listener on port 3000 and is running there; avoid starting a second server.
+
+---
+
+# Prior WS4 stems and local-source handoff (historical)
 
 Current assigned session started clean on `ws4-editor` at `bbb7b6a`. Core source/history/decoder commit: `fae1c4d`; see recent log for the UI/handoff commit. Work from repo root, use pnpm.cmd in web, preserve WS4 path ownership and generated wire types. Prior handoffs below are historical; their "unassigned stems/local work" statements are superseded by this section.
 
