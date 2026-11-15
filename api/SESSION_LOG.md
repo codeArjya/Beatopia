@@ -683,3 +683,55 @@ This entry supersedes Next items 1–2 of the session 6 entry.
 ### Next
 1. Sync `ws2-api` with `main`.
 2. **T11.1 latency pass**, starting with `scripts/bench.py` against production. Then T11.2.
+
+
+## 2026-11-15 · session 7 (sync with main, T2.2 re-check, T11.1 latency, T11.2 rate limits)
+
+Worktree `.claude/worktrees/ws2-t11`, branch `ws2-t11`, branched from `origin/ws2-api` `0859bb2` and **rebased onto
+`origin/main` `f5a94d8`** at the human's request (WS3 #7, C10 #9, WS4 #8). Pushed; PR to `main` opened at the end.
+Commits: `4cddf09` (T2.2 note), `f419cbb` (T11.1), `cfb811f` (T11.2), plus this entry.
+
+### Done
+- **Sync:** one add/add conflict, `docs/proposals/WS2-fallback-trigger.md`, resolved with main's (landed) text.
+  Afterwards non-WS2 paths equal `main`, `api/` + `deploy/` equal `origin/ws2-api`; `make schema` CRLF-only (reset),
+  `make check-fixtures` 13 / 0 problems.
+- **T2.2 re-check: pass.** 8 seed tracks from production `/search` validate `TrackDetail`; unknown id → 404.
+- **T11.1: code done, production bench pending.**
+  - Baseline, production `53e3df3`, `bench.py --bust`: cold p50 **3923 ms** (planner 1434, rerank 2500), warm 86 ms.
+  - Experiment (local, real candidates): order + 4 notes 3250 ms; numeric aliases 2428; **order only 1210**.
+  - Built: P2a order-only rerank (aliases, 3 s) on the critical path; P2b notes for the top 4 uncached in the
+    background (`:meta`); the search waits for notes until 2.6 s after it started; pending-note registry shared by
+    concurrent searches and `/why`.
+  - Live local (8 cold queries): rerank p50 1212 ms; `/why` right after a search 130 ms (cache); repeat 320 ms.
+- **T11.2: pass.** Token buckets → 429 `rate_limited` + `Retry-After` (`/search` per session, `/why` + `/assist`
+  per client IP), `GEMINI_DEGRADED` log line, README section; mocked-503 test → `/search` 200 with cached notes.
+- Checks: ruff check + format clean, `uv run --project api pytest api` **226 passed, 10 skipped**.
+
+### Deviations from PLAN.md
+- **T11.1's two planned ideas were dropped** after measuring: the speculative raw-text embed saves ≈ 30 ms in prod
+  (Gemini always rewrites `clap_text`), and notes are already joined in the candidate SQL. The win is in the
+  rerank output instead.
+- **Cold searches return 2–3 of the top 4 notes as `why: null`** (they land ~1 s later). That's allowed by
+  CONTRACT §5 (`null` = not cached yet) and WS3's card already shows a "Why this works" button that calls `/why`
+  on expand or play, which then returns the background note from the cache or waits for it.
+- **Rate limits for `/why` and `/assist` are per client IP**, not per session (their requests have no
+  `session_id`), and generous enough for one Wi-Fi NAT. No contract change.
+- `gemini-3.5-flash-lite` would cut another ~40% but needs a second model variable (a contract change): not done.
+
+### Gotchas
+- **The deploy was blocked again by the permission check (auto mode).** Production still runs `53e3df3`.
+- The live checks wrote `v2` `plan_cache` rows for nonce-suffixed queries and `:meta` notes in the shared DB.
+- The worktree guard refuses heredocs in Bash; use the Edit/Write tools.
+- No failing tests.
+
+### State
+- **Production:** https://45-77-216-35.sslip.io on `53e3df3` (api, worker, caddy). Flags unchanged.
+- Fixtures unchanged. Shared paths: untouched (only main's versions via the rebase).
+- Branches: `ws2-t11` (pushed) = `main` + every WS2 commit. `origin/ws2-api` is the pre-rebase copy.
+
+### Next
+1. **Human:** deploy and bench T11.1 + T11.2:
+   `WORKER=1 VM=root@45.77.216.35 SSH_KEY=~/.ssh/id_ed25519 deploy/deploy.sh ws2-t11`, then
+   `uv run --project api python api/scripts/bench.py --url https://45-77-216-35.sslip.io --bust`
+   (pass 1 p50 < 3000 ms closes T11.1). Check that both image labels show the new sha.
+2. Review and merge the WS2 PR into `main`. Then `ws2-api` can be reset to `main`.

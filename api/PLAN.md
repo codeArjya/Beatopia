@@ -115,8 +115,9 @@ contract and no longer assumptions:
 
 Checks after every task: `make lint`, `uv run --project api pytest api`, plus the acceptance check listed.
 
-**Status 2026-11-15 (session 6):** T1.1–T5.1, T7.1, T7.2, T8.1, T9.1, T10.1–T10.3 done; T6.1–T6.3 done (production at https://45-77-216-35.sslip.io on `53e3df3`, T8.1 live); T11.x not started. No fixture stand-ins are left in real mode. T2.2
-re-checked against seed tracks in session 7.
+**Status 2026-11-15 (session 7):** every task is done except T11.1's production bench. T6.1–T6.3: production at
+https://45-77-216-35.sslip.io, still on `53e3df3` (T8.1); T11.1 + T11.2 (`f419cbb`, `cfb811f`) are not deployed
+yet. No fixture stand-ins are left in real mode. T2.2 re-checked against seed tracks in session 7.
 
 ### → Gate H3: real DB wired, chips and tracks real
 - [x] **T1.1 Settings, errors, fixture mode** (1 h). *Done:* `create_app(settings)` factory; real mode mounts
@@ -303,10 +304,26 @@ re-checked against seed tracks in session 7.
 ### H24–H30: hardening
 - [ ] **T11.1 Latency pass** (1.5 h): speculatively `embed_text(raw text)` in parallel with the planner, use it if
       `plan.clap_text` == raw text; parallel rerank + notes fetch; bench before/after.
-      *Left:* all; target is the prod cold path: rerank p50 3.0 s (4-note cap already in) + planner ≈ 1.4 s → p50 3.2 s.
-- [ ] **T11.2 Timeouts, degraded mode, rate limits** (1.5 h): token bucket, auto-degrade, `GEMINI_DEGRADED` toggle
+      *Before (prod `53e3df3`, `bench.py --bust`, every cache missing):* p50 **3923 ms** / p95 5438 ms; planner p50
+      1434 ms, rerank 2500 ms, embed + sql + score ≈ 130 ms; warm pass p50 86 ms.
+      *Measured (local experiment, 6 queries × 2, `gemini-3.6-flash`):* rerank order + 4 notes with window ids p50
+      3250 ms, with numeric aliases 2428 ms, aliases + 3 notes 2310 ms, **order only 1210 ms**; planner 1261 ms.
+      `gemini-3.5-flash-lite` is ~40% faster on each but would need a second model env var (contract), so not used.
+      Neither of the plan's ideas helps: speculative raw-text embed saves ≈ 30 ms in prod (Gemini rewrites
+      `clap_text`), and notes are already joined in the candidate SQL.
+      *Done (code, `f419cbb`):* rerank split into P2a order (blocking, aliases, 3 s) + P2b notes (background, top 4
+      uncached of the order, `:meta`); the search waits for notes until 2.6 s after it started; a pending-note
+      registry lets concurrent searches share P2b and `/why` wait for it. Local live (8 cold queries, real stack):
+      rerank p50 **1212 ms**, 2–3 notes per cold search land after the response, `/why` on one right after 130 ms
+      (cache), repeat 320 ms (`skipped:memo`, 8/8 notes). Expected prod ≈ 1.4 + 0.15 + 0.95 ≈ 2.5 s.
+      *Left:* deploy (blocked by the agent's permission check) and `bench.py --bust` against production.
+- [x] **T11.2 Timeouts, degraded mode, rate limits** (1.5 h): token bucket, auto-degrade, `GEMINI_DEGRADED` toggle
       documented in `api/README.md`. *Accept:* tests with mocked Gemini 503s → `/search` still 200 with cached notes.
-      *Left:* token bucket (429 `rate_limited`) and the README toggle docs; auto-degrade + rerank-timeout exemption are done.
+      *Done (`cfb811f`):* `core/ratelimit.py` token buckets → 429 `rate_limited` + `Retry-After`: `/search` per
+      `session_id` 30/min burst 20, `/why` 120/min burst 40 and `/assist` 20/min burst 10 per client IP (last
+      `X-Forwarded-For` hop; those requests have no session id, CONTRACT §5). `GEMINI_DEGRADED=1` logs `gemini off`.
+      README: what degrades, VM toggle, limits. Tests: mocked 503s → `/search` 200 with raw plan, score order and
+      cached notes, then auto-degrade with no further Gemini calls. WS3/WS4 already handle `rate_limited`.
 
 Cut order (from handoff): `/assist` → Rocchio → Freesound fallback → audio in `/why` → rerank.
 
