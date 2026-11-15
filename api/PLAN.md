@@ -215,8 +215,8 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       *Done (files, session 5):* both Dockerfiles (python 3.11 slim, ffmpeg, uv `sync --frozen --no-dev`, CPU torch
       from each lock), per-Dockerfile `.dockerignore`s, OCI revision label + `BEATOPIA_REVISION` from the
       `REVISION` build arg. Built on the VM (Ubuntu 26.10, 4 vCPU / 15 GB, no GPU); `/health` healthy with the
-      `hf_cache` volume. The worker image is defined but not built yet. *Left:* WS1's real worker loop is on main
-      (`417556d`); sync `ws2-api`, check the Dockerfile against it, then `WORKER=1 deploy/deploy.sh`.
+      `hf_cache` volume. Worker image (WS1's loop from main `417556d`) built and running since the sync:
+      labels `567279d` on both images; OMP/MKL capped at 2 threads.
 - [x] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). SSH: install Docker, clone repo to `/opt/beatopia`,
       copy `.env`, `docker compose up -d`, Caddy HTTPS on `<ip>.sslip.io`, CORS origins.
       *Accept:* `curl https://<host>/health` ok; `/search` from the Vercel origin passes CORS; contract test green
@@ -250,12 +250,15 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       (narrowest wins; model must match, since a 6-stem request needs guitar/piano), else a covering queued/running
       job, else a new one; per-track advisory lock; end clamped to the track length. A done job with an invalid or
       missing output is reported as `status: error`. Live: hero `jam_1030277` 10–20 s → 4 full-length stems, a done
-      WS1 job validates. *Left (WS1):* queued → done needs a running worker; none is running (session 5 log).
+      WS1 job validates. Worker leg confirmed in production: a client's stems job (`jam_1485349`) went queued →
+      done on the VM worker.
 - [x] **T7.2 `/imports`** (1.5 h). ≤ 25 MB streamed check (`upload_too_large` 413), ext + magic sniff
       (`unsupported_format` 415), id `imp_{8 hex}`, upload `imports/{id}/original.{ext}`, placeholder row, `analyze` job.
       *Accept:* tests for size/format errors; live upload → job done → `GET /tracks/imp_x` validates.
       *Done:* live upload of the 16 s fixture WAV → `imp_27b87909` + queued analyze job in 1.1 s (upload 0.9 s); the
-      placeholder track validates; a text file named .wav → 415. *Left (WS1):* job → done needs the worker.
+      placeholder track validates; a text file named .wav → 415. Worker leg confirmed in production: upload →
+      analyze done in ≈ 6 s → `GET /tracks/imp_79e47554` (16 s, 3 windows). Needed a fix: placeholders now get
+      `attribution = "Uploaded by you"` (WS1's analyze rejects an empty one; was `''` per §2).
 - [ ] **T8.1 Freesound fallback** (1.5 h). `core/freesound.py` (httpx, 5 s, 1 h TTL cache, license mapping),
       `/tracks/fs_*` and `/why` for non-DB ids (in-memory note cache), `POST /tracks/fs_*/stems` stores the minimal
       row + copies the preview first (CONTRACT §7.7). *Accept:* mock-HTTP tests; live nonsense query
