@@ -4,6 +4,7 @@ import { sourceKey } from "../lib/audio/evaluate";
 import { SAMPLE_RATE } from "../lib/audio/types";
 import type { OfflineRenderer } from "../lib/audio/evaluate";
 import { planOfflineFrames } from "../lib/audio/offline";
+import { PrefixCache } from "../lib/audio/cache";
 
 async function setup(offline?: OfflineRenderer) {
   const store = createEditorStore(offline);
@@ -14,6 +15,29 @@ async function setup(offline?: OfflineRenderer) {
   return store;
 }
 describe("editor transactions", () => {
+  it("publishes only the latest initialization and reset releases prefixes and history", async () => {
+    const cache = new PrefixCache();
+    let release!: () => void;
+    const store = createEditorStore(async (pcm) => {
+      await new Promise<void>((resolve) => { release = resolve; }); return pcm;
+    }, cache);
+    const source = { track_id: "race", audio_url: "race.wav", start_s: 0, end_s: 4 / SAMPLE_RATE };
+    const registry = new Map([[sourceKey(source), { origin: 0, bpm: null, beatTimes: [],
+      pcm: { sampleRate: SAMPLE_RATE, channels: [Float32Array.from([1, 2, 3, 4])] } }]]);
+    const wire = { clips: [{ id: "c1", source }], ops: [], arrangement: [] };
+    const first = store.getState().initialize({ ...wire, ops: [{ op: "pitch_shift", clip: "c1", semitones: 3 }] }, registry);
+    await expect.poll(() => !!release).toBe(true);
+    await store.getState().initialize({ ...wire, ops: [{ op: "reverse", clip: "c1" }] }, registry);
+    const latest = store.getState().current;
+    release(); await first;
+    expect(store.getState().current).toBe(latest);
+    expect(Array.from(latest!.evaluation.rendered.channels[0])).toEqual([4, 3, 2, 1]);
+    expect(store.getState().pending).toBe(false); expect(store.getState().error).toBeNull();
+    expect(cache.stats.entries).toBeGreaterThan(0);
+    store.getState().reset();
+    expect(cache.stats).toEqual({ entries: 0, bytes: 0 });
+    expect(store.getState()).toMatchObject({ current: null, past: [], future: [], pending: false });
+  });
   it("adds a source to a chopped/repeated arrangement as one undo step without changing old audio or edits", async () => {
     const store = await setup();
     await store.getState().apply([{ op: "slice", clip: "c1", count: 2, snap: "none" },
@@ -98,9 +122,10 @@ describe("editor transactions", () => {
     expect(store.getState().current).toBe(repitched);
     expect(store.getState().past).toHaveLength(1);
     pause = true;
-    const pending = store.getState().apply([{ op: "pitch_shift", clip: "c1", semitones: 3 }]);
+    const pending = store.getState().apply([{ op: "pitch_shift", clip: "c1", semitones: -5 }]);
     expect(store.getState().pending).toBe(true);
     expect(store.getState().current).toBe(repitched);
+    await expect.poll(() => !!release).toBe(true);
     store.getState().reset(); pause = false; release!(); await pending;
     expect(store.getState().current).toBeNull();
   });

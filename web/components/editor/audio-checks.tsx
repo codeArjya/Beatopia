@@ -10,6 +10,7 @@ import { ObjectUrls } from "@/lib/audio/object-urls";
 import { PlaybackController } from "@/lib/audio/playback";
 import { encodeWav, exportFilename } from "@/lib/audio/wav";
 import type { PcmBuffer } from "@/lib/audio/types";
+import { runPerformanceChecks } from "@/lib/audio/performance-checks";
 
 export function AudioChecks({ liveDetail, sourceChecks = false }: { liveDetail?: TrackDetail; sourceChecks?: boolean }) {
   const [lines, setLines] = useState<string[]>([]);
@@ -41,6 +42,12 @@ export function AudioChecks({ liveDetail, sourceChecks = false }: { liveDetail?:
     {sourceChecks && <p>Source checks: actual ranged WAV crop, source undo/redo, local 48 kHz stereo resampling, blob cleanup and export. Open /editor for the local file chooser/drop UI.</p>}
     {liveDetail && <a className="block underline" href="/editor/live-editor-checks?track=jam_1047157&start=5&end=15&stem=mix">Open this real hero in the development editor</a>}
     <button className="rounded border p-2" disabled={pending} onClick={() => void run()}>{pending ? "Running checks…" : "Run audio checks"}</button>
+    {!liveDetail && !sourceChecks && <button className="ml-3 rounded border p-2" disabled={pending} onClick={async () => {
+      setPending(true); setLines([]);
+      try { await runPerformanceChecks(report); report("ALL PERFORMANCE CORRECTNESS CHECKS PASSED"); }
+      catch (error) { report(`FAIL: ${(error as Error).message}`); }
+      finally { setPending(false); }
+    }}>Profile 16-bar render</button>}
     <pre className="whitespace-pre-wrap" role="status">{lines.join("\n")}</pre>
     {golden && <div className="flex gap-4">
       <button onClick={() => void player.current?.play(golden, 0, false).catch((error: Error) => report(error.message))}>Preview golden WAV</button>
