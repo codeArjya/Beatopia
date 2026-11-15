@@ -33,6 +33,9 @@ CONTENT_TYPES = {
     "ogg": "audio/ogg",
 }
 PLACEHOLDER_LICENSE = "user-upload"
+# Non-empty on purpose: WS1's analyze job rejects a placeholder without license + attribution (the UI always shows
+# both), and the worker never overwrites them. Same text as shared/fixtures/job_done_analyze.json.
+PLACEHOLDER_ATTRIBUTION = "Uploaded by you"
 MAX_TITLE = 120
 
 
@@ -120,8 +123,8 @@ def create_import(conn: psycopg.Connection, track_id: str, title: str, original_
     with conn.transaction(), conn.cursor() as cur:
         cur.execute(
             "insert into tracks (id, source, title, license, attribution, duration_s, audio_path)"
-            " values (%s, 'import', %s, %s, '', 0, %s)",
-            (track_id, title, PLACEHOLDER_LICENSE, f"imports/{track_id}/mix.mp3"),
+            " values (%s, 'import', %s, %s, %s, 0, %s)",
+            (track_id, title, PLACEHOLDER_LICENSE, PLACEHOLDER_ATTRIBUTION, f"imports/{track_id}/mix.mp3"),
         )
         row = cur.execute(
             "insert into jobs (kind, input) values ('analyze', %s) returning id",

@@ -138,7 +138,7 @@ def test_create_import_against_db() -> None:
         track = conn.execute(
             "select source, title, license, attribution, duration_s, audio_path from tracks where id = %s", (tid,)
         ).fetchone()
-        assert track == ("import", "My loop", "user-upload", "", 0.0, f"imports/{tid}/mix.mp3")
+        assert track == ("import", "My loop", "user-upload", "Uploaded by you", 0.0, f"imports/{tid}/mix.mp3")
         job = conn.execute("select kind, status, input from jobs where id = %s", (job_id,)).fetchone()
         assert job == ("analyze", "queued", {"track_id": tid, "path": f"imports/{tid}/original.wav"})
     finally:
