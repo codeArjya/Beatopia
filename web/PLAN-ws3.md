@@ -458,3 +458,33 @@ None blocking. The four review questions were resolved as the defaults in §1.
   - **Fixed (WS3):** after "Use in editor" from the editor's Stems sheet, focus fell to `<body>`, because WS4 disables its Stems button while decoding and a disabled button can't take focus. `AppSheet`'s `restoreFocus` now waits for the opener to be enabled again (up to 15 s, and only if focus is still on `<body>`). Checked on localhost in live mode: focus was BODY during decode, then the Stems button.
   - For WS4 (no change needed): the editor page renders its own `<h1>Editor</h1>` and `<main>` in `max-w-5xl px-6`; the T8.1 design pass may want to line it up with the header's `max-w-7xl px-4 sm:px-6`.
   - More test data in production: `imp_b3022a69` and its range stems (0–10 s).
+
+### Session 9 (2026-11-15): T8.1–T8.3, Gate H20 screenshots, T9.1–T9.4
+- **Sync:** local `ws3-web` (42384e0) had the same tree as main's squash #10 (d34bd98), so nothing was lost. Work is on branch **`ws3-design`**, cut from `origin/main` b69c405 (WS1 #14/#15, WS2 #11/#16, WS4 #12). `make schema` gave no diff; `make check-fixtures` passed 13/13.
+- **Done (all ticked):** T8.1 tokens, T8.2 type + motion, T8.3 dark polish + a11y, T9.1 events, T9.2 `?offline=1`, T9.3 flip tips, T9.4 shortcuts. lint and typecheck are clean, **261/261** tests pass (+39 new), and `pnpm build` passes.
+- **Gate H20:** code and before/after screenshots (`web/docs/screenshots/{before,after}-{search,stems}.jpg`, live API, 1500 px wide) are in the PR. It stays unticked until the PR merges.
+- **Checked by hand in Chrome** (localhost:3000, live API `https://45-77-216-35.sslip.io`):
+  - The token look on `/`, the stems drawer, `/import` and the WS4 editor (which inherits the tokens). No console errors.
+  - A keyboard-only run: Skip to search → chips stacked by filter + Enter → Tab to a card → Space plays → Tab → Enter opens stems (focus moves into the sheet) → Esc returns focus to the Stems button. The focus outline is purple and visible.
+  - Events: play card 1 → `play`; play card 2 within 1.5 s → `skip`(1) + `play`(2); replay card 1 after 3 s sends nothing; Open in editor → `pick`. The live API answers **204**.
+  - Offline: `?offline=1` shows the banner and fixture results, with no API requests. It survives a reload without the flag (sessionStorage). Go live → `?offline=0` brings back live results.
+  - Shortcuts: `/` focuses search (and doesn't type the slash). `j`/`k` move between cards, `s` opens the stems sheet (and `j` is ignored while it's open), `e` opens the editor, and `?` opens the help, which returns focus to the card when closed.
+- **Decisions:**
+  - Tokens come from the human's pasted v2 sheet, recorded in `docs/proposals/WS3-design-tokens.md` (no contract change). Values live only in `app/globals.css`. Added `--skeleton` (shimmer on card, since `--muted` equals `--card`) and `--warning` (#E8C172, 11:1).
+  - No new dependencies. The sheet's component map suggested React Aria, Framer Motion, vaul and cmdk; instead the `.chip` sticker is applied by the `Pill` adapter on the existing dnd-kit buttons, the shuffle is a CSS 180 ms rise-in, the stems drawer stays a right Radix sheet (handoff decision, and WS4 embeds it), fonts load through `next/font` (Figtree + Geist Mono), and there is no persistent player bar (`.player-bar` is kept for later).
+  - The sticker tilt uses the CSS `rotate`/`scale` properties, not `transform`, so dnd-kit's inline sort transform still works. The tilt alternates with `:nth-of-type` in the bar.
+  - `AppButton` skins each variant over shadcn (`cn` is tailwind-merge compatible). Primitives' `outline-none` needs an explicit `focus-visible:outline-solid`, or the outline never draws (this was a real bug; fixed everywhere).
+  - Play is always the purple round button (the accent's main job). The waveform uses wave-played/unplayed with the glowing playhead.
+  - `lib/design/contrast.test.ts` parses `globals.css` and checks every text/token pair for ≥ 4.5:1 and borders/ring for ≥ 3:1. Change a token and the test tells you.
+  - Events: `lib/events/tracker.ts` is pure. `SearchEvents` (in `ResultList`) watches the shared preview player, so every way of playing counts. Stem/import previews are ignored. `StemsDrawer` gained an optional `onUse` (additive; WS4's `onPick` is unchanged).
+  - Offline: `fixturesActive()` = build-time `USE_FIXTURES` || `isOffline()`, decided once per page load. `USE_FIXTURES` is still exported unchanged for WS4.
+  - The idle page's "Open the editor on a fixture" link now shows only when fixtures are active (in live mode it went to "track not found").
+  - Flip tips are client-side only: the note's advice sentences, then tempo (half/double-time or repitch BPM), relative key, chop, and stem ideas, at most 4. No new endpoint.
+  - New a11y bits: a "Skip to search" link (the tray is ~150 tab stops), and an `AppDialog` adapter that returns focus to its opener.
+- **Files that matter next:** `app/globals.css`, `components/adapters/{Pill,AppButton,AppInput,AppCard,AppSheet,AppDialog}.tsx`, `lib/design/contrast.ts`, `lib/events/{tracker.ts,SearchEvents.tsx}`, `lib/api/{offline.ts,useOffline.ts,client.ts}`, `components/shell/{SkipLink,StatusBanner}.tsx`, `lib/search/{flip,shortcuts}.ts`, `components/search/{FlipTips,SearchShortcuts}.tsx`.
+- **Known bugs / notes:**
+  - **WS4 test is flaky:** `lib/audio/cooperative.test.ts` "yields between sample chunks…" failed 4 of 7 full runs while the dev server was busy, and passed every time on an idle machine. It's timing-sensitive, and it's in WS4's path, so I didn't touch it. → WS4.
+  - For WS4 (suggestion only): `components/editor/waveform.tsx` hardcodes `#64748b/#2563eb/#e11d48`. The tokens want `#4A4A57/#EDEDED/#8B5CF6`, cursorWidth 2, bars 2/2/2. `chat-panel.tsx` labels by `USE_FIXTURES`; use `fixturesActive()` so `?offline=1` reads right.
+  - Grid rows stretch to the tallest card, so an expanded "Flip this sample" leaves empty space in its row neighbour. That's cosmetic.
+  - The API's CORS allows only `http://localhost:3000` (plus production), so a dev server on another port shows "Couldn't load chips".
+- **Blocked:** nothing. Merging the PR ticks Gate H20.
