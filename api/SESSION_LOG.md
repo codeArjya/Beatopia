@@ -654,3 +654,32 @@ confirmed T8.1.
 3. **First task: T11.1 latency pass** (cold search p50 3.2 s → < 3 s: parallel planner + embed, rerank output size).
    Then T11.2 (token bucket, README toggle). Re-run `scripts/bench.py` against production after the deploy: the
    `v2` cache reset makes the first pass colder than session 5's.
+
+
+## 2026-11-15 · session 6 wrap-up 2 (deployed, C10 landed)
+
+This entry supersedes Next items 1–2 of the session 6 entry.
+
+### Done
+- **The human deployed T8.1 and merged PR #9 (C10).** Checked from L2 over the public URL:
+  - `/health` returns `X-Beatopia-Revision: 53e3df3`.
+  - `POST /search` "kazoo orchestra" gives `fallback_used: true` with 6 Freesound results, then 2 library.
+  - So `FREESOUND_API_KEY` is set on the VM.
+- PLAN.md: C10 landed, status line updated.
+
+### Deviations
+- None.
+
+### Gotchas
+- `main` now has C10 (PR #9), and `ws2-api` doesn't have that merge yet. The next session should sync (`git fetch &&
+  git rebase origin/main`, or ask), and expect at most a trivial overlap in `docs/proposals/WS2-fallback-trigger.md`
+  (main has the "landed" status line).
+- No failing tests.
+
+### State
+- **Production:** https://45-77-216-35.sslip.io on `53e3df3` (api, worker, caddy). Flags unchanged. Fixtures
+  unchanged.
+
+### Next
+1. Sync `ws2-api` with `main`.
+2. **T11.1 latency pass**, starting with `scripts/bench.py` against production. Then T11.2.
