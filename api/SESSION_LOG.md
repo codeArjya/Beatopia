@@ -437,3 +437,61 @@ last push was this wrap-up. `origin/main` was still `0877d84`, so no sync was ne
   3. Ask WS1 to merge the worker loop into `main` and start it, then run `WORKER=1 VM=... SSH_KEY=...
      deploy/deploy.sh ws2-api`.
   4. Land C7, C8 and C9 in a `contract:` PR, and fix `.env` line 8.
+
+
+## 2026-11-15 · session 5 wrap-up 2 (contract PR, main moved)
+
+This entry adds to the session 5 entry above and supersedes its "Next" list.
+
+### Done
+- **C7–C9 landed:** contract PR #6 (`contract-ws2-c7-c8-c9`), merged by the human at 04:29 UTC as `b7485cf`.
+  - It changes `.env.example`, CONTRACT §4, §6 and §8, and the four WS2 proposal files (marked landed). It also
+    documents the `*` entries in `WEB_ORIGIN`.
+  - No models, schema or fixtures changed (`make check-fixtures`: 13 fixtures, 0 problems).
+- **The API's built-in `GEMINI_MODEL` default is now `gemini-3.6-flash`** (`226e46c`, to match C9). Production is
+  unaffected, because its `.env` sets the value.
+- PLAN §3 marks C7–C9 as in PR #6 (now merged). T8.1, T11.1 and T11.2 stay unchecked, each with a "Left" note.
+- **Answered:** stopping or rebooting the VM needs no redeploy. Docker starts at boot and the containers are
+  `unless-stopped`. A manual `docker compose stop`/`down`, or destroying the VM, does need `deploy.sh` again.
+  Every redeploy needs `WORKER=1` once the worker runs.
+- Checks: `make lint` green, `uv run --project api pytest api` 183 passed, 10 skipped.
+
+### Deviations
+- None. The contract PR followed the AGENTS.md process: the human asked for it, a `contract:` PR was opened, and
+  the human merged it.
+
+### Gotchas
+- **`main` moved:** `32bc7f8` (WS3 search flow #4), `b7485cf` (contract C7–C9), and **`417556d` + `018e0c7`, WS1's
+  real worker loop** (`worker/main.py`, `jobs.py`, `handlers.py`, `engine.py`, `imports.py` plus tests).
+  `ws2-api` is 4 behind `main` and 31 ahead.
+- `deploy/worker.Dockerfile` was written against the stub. It hasn't been built with the real worker yet. WS1's
+  `worker/launch.ps1` and `SESSION4.md` may list env vars or system packages the image lacks.
+- Since C8 is in `.env.example`, new laptops get the right CLAP values. The human's local `.env` line 8 still needs
+  `laion/larger_clap_general`.
+- `common/clap.py`'s code default is still `laion/larger_clap_music` (WS1's file). Every env must set `CLAP_*`.
+
+### State
+- Production is unchanged: https://45-77-216-35.sslip.io on `56838ae`, `api` + `caddy`, no worker container.
+- Branches: `ws2-deploy` = `origin/ws2-api` = `226e46c` plus this entry. `contract-ws2-c7-c8-c9` is merged and can
+  be deleted.
+- 5 analyze jobs are still queued in the shared DB (synthetic test imports). The first worker to start will
+  process them.
+
+### Next
+1. **First: sync `ws2-api` with `main`.** Run `git fetch && git rebase origin/main`, then `make schema` and
+   `make check-fixtures`, and re-run the checks. Updating the remote needs a force-push, which the human must run
+   or approve: `git push --force-with-lease origin ws2-api`. A merge of `origin/main` would avoid the force-push,
+   but it departs from the AGENTS.md sync rule.
+2. **Start the production worker:** check `deploy/worker.Dockerfile` against WS1's real worker (deps, env, how it
+   launches). Then run `WORKER=1 VM=root@45.77.216.35 SSH_KEY=~/.ssh/id_ed25519 deploy/deploy.sh ws2-api`.
+   Confirm with `docker image inspect beatopia-worker:latest` (revision label), the worker log, and the 5 queued
+   jobs going to done. Also finishes the worker leg of T7.1/T7.2: stems queued → done, import → `GET /tracks/imp_*`.
+   Check with WS1 first whether their laptop worker is also running (safe either way: `skip locked`).
+3. Then T8.1 (Freesound fallback, plus the §7.7 trigger proposal), T11.1, T11.2.
+- Human actions:
+  - Approve the force-push in step 1, or choose the merge.
+  - Tell WS1 that the VM will run a worker.
+  - Fix `.env` line 8.
+  - Delete the merged `contract-ws2-c7-c8-c9` branch if you like.
+  - WS3/WS4: `NEXT_PUBLIC_API_URL=https://45-77-216-35.sslip.io`, `NEXT_PUBLIC_USE_FIXTURES=0`, then the Gate H16
+    check.
