@@ -132,6 +132,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 - [x] **T8.3 Dark polish + a11y sweep** (1 h). Contrast of chip tints on dark, focus rings, keyboard-only run of the whole flow.
   *Accept:* the flow is doable without a mouse, and chip text contrast is ≥ 4.5:1.
 - [ ] **Gate H20:** design pass merged, screenshots in the PR.
+  *Status (session 9):* code + before/after screenshots in PR #17; tick on merge.
 
 ### Tier 2 (H20+, in cut-list order)
 - [x] **T9.1 Events** (1 h). `usePostEvent` fire-and-forget for `play` (first play per card per query), `pick` (open in editor or use stem), and `skip` (another card played within 1.5 s of starting this one).
