@@ -14,7 +14,7 @@ from app.main import create_app
 
 def test_settings_defaults() -> None:
     s = Settings.from_env({})
-    assert s.gemini_model == DEFAULT_GEMINI_MODEL == "gemini-3.8-flash"
+    assert s.gemini_model == DEFAULT_GEMINI_MODEL == "gemini-3.6-flash"
     assert s.web_origins == ("http://localhost:3000",)
     assert not s.use_fixtures and not s.gemini_degraded
     assert s.database_url is None
