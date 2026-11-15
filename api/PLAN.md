@@ -104,9 +104,9 @@ contract and no longer assumptions:
 | C5b | At H3, > 30% of the 20 eval queries fall back on the seed (CLAP text–audio cosine is usually 0.1–0.4) | Rescale `sim = clamp(cos / 0.5, 0, 1)` in §7.4 |
 | C4b | WS4 finds Freesound preview URLs don't decode in the browser (CORS) | Copy the preview to `tracks/fs_{id}/mix.mp3` on first `GET /tracks/fs_*` |
 | C6 | After the hackathon | `tracks.owner_session text` so imports can be listed per session |
-| C7 | **In contract PR #6** (needed now, can land at H12) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
-| C9 | **In contract PR #6** (`gemini-3.8-flash` was overloaded and slower; local `.env` has a non-existent model) | `GEMINI_MODEL=gemini-3.6-flash` in `.env.example` / §8; `docs/proposals/WS2-gemini-model.md`. Meanwhile set it in the local `.env` and the deploy env |
-| C8 | **In contract PR #6** (needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
+| C7 | **Landed** (PR #6, `b7485cf`) | `internal_error` (500) in §6 error codes; `docs/proposals/WS2-internal-error-code.md` |
+| C9 | **Landed** (PR #6, `b7485cf`; `gemini-3.8-flash` was overloaded and slower; local `.env` has a non-existent model) | `GEMINI_MODEL=gemini-3.6-flash` in `.env.example` / §8; `docs/proposals/WS2-gemini-model.md`. Meanwhile set it in the local `.env` and the deploy env |
+| C8 | **Landed** (PR #6, `b7485cf`; needed now: the corpus uses a different CLAP checkpoint than `.env.example`) | `CLAP_MODEL=laion/larger_clap_general` + `CLAP_REVISION=ada0c23…` in `.env.example` / §8; `docs/proposals/WS2-clap-model-env.md`. Meanwhile set both in the local `.env` and the deploy env |
 
 ---
 
@@ -215,8 +215,8 @@ needs one re-check against a seed track (the seed is in the DB now; not re-run y
       *Done (files, session 5):* both Dockerfiles (python 3.11 slim, ffmpeg, uv `sync --frozen --no-dev`, CPU torch
       from each lock), per-Dockerfile `.dockerignore`s, OCI revision label + `BEATOPIA_REVISION` from the
       `REVISION` build arg. Built on the VM (Ubuntu 26.10, 4 vCPU / 15 GB, no GPU); `/health` healthy with the
-      `hf_cache` volume. The worker image is defined but not built yet: WS1's `worker/main.py` is still a stub on
-      main, so compose keeps it behind the `worker` profile (`WORKER=1 deploy/deploy.sh` once WS1 lands it).
+      `hf_cache` volume. The worker image is defined but not built yet. *Left:* WS1's real worker loop is on main
+      (`417556d`); sync `ws2-api`, check the Dockerfile against it, then `WORKER=1 deploy/deploy.sh`.
 - [x] **T6.2 VM + compose + Caddy** (2 h, needs human: VM IP). SSH: install Docker, clone repo to `/opt/beatopia`,
       copy `.env`, `docker compose up -d`, Caddy HTTPS on `<ip>.sslip.io`, CORS origins.
       *Accept:* `curl https://<host>/health` ok; `/search` from the Vercel origin passes CORS; contract test green
