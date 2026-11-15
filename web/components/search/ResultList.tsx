@@ -107,10 +107,11 @@ export function ResultList({ request, lastChipLabel, onRemoveLastChip }: ResultL
         <ol
           aria-label="Results"
           aria-busy={refreshing}
-          className={cn("grid gap-3 transition-opacity xl:grid-cols-2", refreshing && "opacity-60")}
+          className={cn("grid gap-3 transition-opacity duration-(--dur-shuffle) xl:grid-cols-2", refreshing && "opacity-60")}
         >
           {results.map((r) => (
-            <li key={r.window_id} className="flex min-w-0">
+            // New results rise in (180 ms, CSS only; off under reduced motion). Keyed by window, so kept cards don't re-run it.
+            <li key={r.window_id} className="flex min-w-0 motion-safe:animate-rise-in">
               <ResultCard result={r} />
             </li>
           ))}

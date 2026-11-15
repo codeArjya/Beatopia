@@ -184,7 +184,7 @@ function ProgressBar({ value }: { value: number | null }) {
       className="h-1.5 w-full overflow-hidden rounded-full bg-muted"
     >
       <div
-        className={pct == null ? "h-full w-1/3 animate-pulse rounded-full bg-primary/60" : "h-full rounded-full bg-primary transition-[width] duration-300"}
+        className={pct == null ? "h-full w-1/3 animate-pulse rounded-full bg-primary/60" : "h-full rounded-full bg-primary transition-[width] duration-200"}
         style={pct == null ? undefined : { width: `${Math.max(pct, 3)}%` }}
       />
     </div>

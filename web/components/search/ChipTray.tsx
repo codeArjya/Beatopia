@@ -52,7 +52,7 @@ export function ChipTray({ selected, onToggle, className }: ChipTrayProps) {
   return (
     <nav aria-label="Search chips" className={cn("flex min-h-0 flex-col gap-3", className)}>
       <div className="space-y-1.5">
-        <label htmlFor={filterId} className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        <label htmlFor={filterId} className="eyebrow">
           Chips
         </label>
         <AppInput

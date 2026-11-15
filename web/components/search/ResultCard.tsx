@@ -58,7 +58,7 @@ export function ResultCard({ result: r }: { result: Result }) {
 
       <div className="flex min-w-0 items-start gap-3">
         <div className="min-w-0 flex-1">
-          <h3 id={titleId} className="truncate font-medium leading-snug" title={r.track.title}>
+          <h3 id={titleId} className="truncate text-[16px] leading-6 font-semibold" title={r.track.title}>
             {r.track.title}
           </h3>
           <p className="truncate text-sm text-muted-foreground" title={r.track.artist ?? undefined}>

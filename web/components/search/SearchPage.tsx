@@ -44,10 +44,10 @@ export function SearchPage() {
               onRemoveLastChip={() => dispatch({ type: "removeLast" })}
             />
           ) : (
-            <div className="space-y-2 py-12 text-center">
-              <p className="text-lg font-medium">Find your next sample</p>
-              <p className="text-sm text-muted-foreground">Type a sound, or stack chips from the tray.</p>
-              <p className="text-xs text-muted-foreground">
+            <div className="space-y-3 py-16 text-center">
+              <p className="text-title">Find your next sample</p>
+              <p className="text-text-secondary">Type a sound, or stack chips from the tray.</p>
+              <p className="text-caption text-text-tertiary">
                 <Link className="underline underline-offset-4 hover:text-foreground" href="/editor?track=jam_1532881&start=0&end=10.667&stem=mix">
                   Open the editor on a fixture
                 </Link>

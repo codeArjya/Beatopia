@@ -127,7 +127,7 @@ The vitest environment is `node`, and I'm **not** adding jsdom or testing-librar
 ### Design pass, H16 → **Gate H20**
 - [x] **T8.1 Apply the Claude Design tokens** (1.5 h) through `globals.css` and the adapters only.
   *Accept:* before and after screenshots of `/` and the stems drawer. No feature component edited for colors.
-- [ ] **T8.2 Typography + motion** (1.5 h). Grotesk UI (Geist) with monospace `tabular-nums` numbers, a chip snap animation (dnd-kit `dropAnimation`), and a result fade/shuffle of at most 200 ms in CSS only, with no new dependency. `prefers-reduced-motion` is respected.
+- [x] **T8.2 Typography + motion** (1.5 h). Grotesk UI (Geist) with monospace `tabular-nums` numbers, a chip snap animation (dnd-kit `dropAnimation`), and a result fade/shuffle of at most 200 ms in CSS only, with no new dependency. `prefers-reduced-motion` is respected.
   *Accept:* the animations don't delay audio start, and reduced motion turns them off.
 - [ ] **T8.3 Dark polish + a11y sweep** (1 h). Contrast of chip tints on dark, focus rings, keyboard-only run of the whole flow.
   *Accept:* the flow is doable without a mouse, and chip text contrast is ≥ 4.5:1.
