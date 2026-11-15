@@ -41,7 +41,11 @@ git archive --format=tar "$REF" | "${SSH[@]}" "$VM" "set -euo pipefail
     mkdir -p \"\$backup\"
     if docker inspect beatopia-worker-1 >/dev/null 2>&1; then
       echo \"old worker mounts: \$(docker inspect --format '{{json .Mounts}}' beatopia-worker-1)\"
-      docker cp beatopia-worker-1:/app/worker/data \"\$backup/\" && echo \"backed up worker data to \$backup\"
+      if docker cp beatopia-worker-1:/app/worker/data \"\$backup/\" 2>/dev/null; then
+        echo \"backed up worker data to \$backup\"
+      else
+        echo 'old worker has no /app/worker/data (no job since it was created): nothing to back up'
+      fi
     fi
     dc build worker
     dc create --force-recreate worker      # stops/replaces the old container; the new one is not started yet
