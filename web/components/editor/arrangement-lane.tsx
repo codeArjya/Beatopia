@@ -34,7 +34,7 @@ function Tile({ id, index, props }: { id: string; index: number; props: Props })
 export function ArrangementLane(props: Props) {
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
   const ids = props.evaluation.order.map((clip, index) => `${index}:${clip}`);
-  return <section aria-label="Arrangement" className="space-y-2">
+  return <section aria-label="Arrangement" className="min-w-0 space-y-2">
     <h3 className="font-medium">Arrangement</h3>
     <p className="text-muted-foreground text-sm">Drag or use the arrows to reorder. + repeats a clip; edits affect every occurrence. Output limit: 60 seconds.</p>
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={({ active, over }) => {
@@ -43,7 +43,7 @@ export function ArrangementLane(props: Props) {
       if (from >= 0 && to >= 0) props.onApply([{ op: "arrange", order: arrayMove([...props.evaluation.order], from, to) }]);
     }}>
       <SortableContext items={ids} strategy={horizontalListSortingStrategy}>
-        <ol className="flex gap-2 overflow-x-auto pb-3">{ids.map((id, index) => <Tile key={id} id={id} index={index} props={props} />)}</ol>
+        <ol aria-label="Clip occurrences; scroll horizontally for more" tabIndex={0} className="flex gap-2 overflow-x-auto pb-3 focus-visible:outline-2 focus-visible:outline-ring">{ids.map((id, index) => <Tile key={id} id={id} index={index} props={props} />)}</ol>
       </SortableContext>
     </DndContext>
   </section>;

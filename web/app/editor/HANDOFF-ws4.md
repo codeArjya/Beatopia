@@ -1,4 +1,40 @@
-# WS4 integrated and confirmed handoff (2026-11-15)
+# WS4 finalization handoff (2026-11-15)
+
+Final PR: [#12 — finalize cached rendering and editor polish](https://github.com/codeArjya/Beatopia/pull/12), **`ws4-finalize-performance` → `main`**. Local work remains on `ws4-editor`; publish follow-ups with `git push origin HEAD:ws4-finalize-performance`. Historical PR#8 is merged. This session does not merge#12.
+
+Latest assignment: profile16 bars, bounded prefix caching, equivalence/latest-render/cleanup, keyboard/focus/narrow layout/audio edge checks, final golden and PR for main. **All reviewed stream tasks are accepted.** Current automated checks/performance pass, and the human confirmed the requested final browser checklist: **“all works basically.”** H24–H26, H26–H28 and H28–H30 are checked. Earlier H8/H12/H16/H24 gates remain closed. No known functional issue or open plan criterion remains; measurement limitations below are explicit.
+
+Started at `4854809` on `ws4-editor`, preserving existing untracked `.playwright-mcp/`. Implementation commit **`9699910`**. PR#8 has now been **merged**; it is not the finalization PR. Fetched `origin/main` at **`d34bd98`** (WS3 sheet-focus#10) and rebased only the new commit onto it because the squashed WS4 baseline matches exactly. No other stream's source files, dependencies, generated wire types, API/backend, shared contract or environment files edited. `PLAN-ws4.md` contains the detailed session log.
+
+Implemented: store-scoped LRU prefix cache (12 entries/64 MiB accounted retained buffers+metadata), collision-free exact-prefix/source/context keys, unaffected PCM sharing, generation-safe clear;65536-frame cooperative validation/copy/transform/concat with8 ms yield budget and abort checks; initial paint yield; stale initialization/reset protection; native DSP cleanup regression test. Existing checkpoints/decoded-source memory is outside the cache limit. Input PCM is immutable by convention; replace the asset/PCM to change samples. In-flight native/Tone offline rendering finishes and disposes, then abort prevents stale publication/cache refill. Manual edits are disabled/rejected while pending; latest accepted initialization wins. UI changes add render spinner/aria-busy, focus outlines/restoration after disabled controls, focusable lane overflow, and narrow grid/assist wrapping.
+
+Windows Node performance, full16-bar32-second stereo root at120 BPM/44100 Hz, existing gain/fade-in/fade-out/reverse chain, five uncached appended operations including store-style initial yield and concatenation:
+
+| Append | Fresh median / max ms | Cached median / max ms |
+| --- | --- | --- |
+| Reverse |227.12 /287.11 |16.48 /33.26 |
+| Gain |249.29 /260.43 |52.63 /92.52 |
+| Normalize |206.13 /291.45 |53.91 /71.43 |
+
+Final cached target<150 ms passes. Initial generic chunk implementation missed normalize max at155.89 ms; per-chunk dispatch/copy optimization corrected that sampled miss. Cold replay still exceeds150 ms. No Chrome timing is claimed. Profile retains7 entries/59287484 accounted bytes, clear0/0. Full op union, metadata, beats/tempo, branch/preview and encoded WAV equivalence, unaffected PCM identity, invalidation/eviction, cap rejection, latest-render/reset and native success/failure cleanup all pass. Silence/one-frame/mono/stereo and existing keyboard/URL cleanup tests pass.
+
+Final checks after rebase: `pnpm.cmd test lib/audio stores` **21 files/91 tests**; `pnpm.cmd lint`; `pnpm.cmd tsc --noEmit`; `pnpm.cmd test` **38 files/199 tests**; live-config `pnpm.cmd build`; `git diff --check` all pass. Fixture `/editor` and `/editor/audio-checks`HTTP200 prove compilation only. Production smoke on3001: editor200; all four dev acceptance routes404. Owned production server stopped. Python independently read the new Node golden (approved retry after sandbox WindowsApps launch denial).
+
+Current Node golden: `jam_1532881`0..16 → chop4 equal → reverse c1.4 → undo/redo → export. Every encoded sample checked. **`C:\Users\ethan\AppData\Local\Temp\beatopia-ws4-post-h24-golden.wav`**,705600 frames,16 seconds,2822444 bytes,44100 Hz,16-bit stereo, SHA256 **`8baa31ebb26127aa14f824e0633757fa71d75a42b67875a7ac184414aa227e03`**; Python read all2822400 PCM data bytes. This is a Node fixture artifact, separate from prior Chrome/live goldens. No new Chrome download/listening verification is claimed.
+
+Automation limitation and human resolution: Computer Use browser host unavailable. Native Chrome observation worked, but input returned **“Computer Use has been stopped for this turn because it could not determine the current browser URL on Windows with enough confidence to enforce policy.”** The [computer-use skill](C:/Users/ethan/.codex/plugins/cache/openai-bundled/computer-use/26.1111.21308/skills/computer-use/SKILL.md) guidance says **“If Computer Use reports that the turn ended or that the user stopped Computer Use, stop issuing app input.”** No further automated UI input attempted. Requested the human run **both current browser harnesses**, Tab/typing/focus/narrow-window checks, chop/reverse/repitch/preview/export, and twice leave/return. Human replied **“all works basically.”** Recorded as confirmation of that requested functional checklist, with no reported issue. Exact Chrome timing values, new instrumented resource counts and a new live/production download hash were not collected; do not invent them. Prior detailed live and cleanup evidence remains historical; current Node equivalence/reset/disposal checks and the human browser confirmation complement it. Required pnpm checks all ran/passed. Native conversion, WAV encoding and transient analysis still run synchronously; cold/transient/advanced DSP latency has no<150 ms claim. No feature cuts needed.
+
+Fresh-session handoff:
+
+1. Read AGENTS/contract/WS4 handoff/plan and this current section; inspect branch/status/remotes. Preserve untracked browser artifacts. Every reviewed task is checked; do not start additional scope or repeat accepted gates automatically.
+2. Review the new finalization PR for main and its CI/deployment checks; PR#8 is merged. This session does not merge to main. No force-push to the historical ws4-editor remote is needed; finalization uses a new remote branch.
+3. Fixture dev server is on **localhost:3000**, owned by this session, temporary `NEXT_PUBLIC_USE_FIXTURES=1`. Reuse if alive. Restart if needed from web: `$env:NEXT_PUBLIC_USE_FIXTURES='1'; pnpm.cmd dev`. Production smoke server3001 was stopped.
+4. Reproduce Node timings with `pnpm.cmd test lib/audio/performance.test.ts --reporter=verbose --silent=false`; actual browser numerical timings can be captured with `/editor/audio-checks` → **Profile16-bar render** if desired. Current human functional confirmation is already recorded; exact Chrome latency has no numerical claim. To regenerate the golden: `$env:WS4_GOLDEN_WAV=Join-Path $env:TEMP 'beatopia-ws4-post-h24-golden.wav'; pnpm.cmd test lib/audio/golden.test.ts`.
+5. Existing combined live hero/assist instructions and accepted golden hashes are retained below; production API `https://45-77-216-35.sslip.io`, fixtures off. Do not enqueue new jobs unnecessarily. Re-run stream checks after any future source change; retain the reviewed cut order if future gates slip.
+
+---
+
+# Prior WS4 integrated and confirmed handoff (2026-11-15)
 
 **All recorded integration next steps are applied and the H8, H12, H16 and H24 gates are accepted.** Actual WS3 drawer/hooks are integrated; older waveform/transport/cleanup and Tone musical criteria are now confirmed. `PLAN-ws4.md` has every through-H24 task checked. The remaining plan work is the separate post-H24 performance/responsiveness/polish phase, which was not implemented or marked complete in this integration session.
 

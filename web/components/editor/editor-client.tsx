@@ -49,6 +49,27 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
   const importController = useRef<AbortController | null>(null);
   const [downloadUrls] = useState(() => new ObjectUrls());
   const loadedEntry = useRef<string | null>(null);
+  const editorRoot = useRef<HTMLDivElement | null>(null);
+  useLayoutEffect(() => {
+    let restore: HTMLElement | null = null;
+    let frame = 0;
+    const unsubscribe = store.subscribe((state, previous) => {
+      if (state.pending && !previous.pending && previous.current) {
+        const focused = document.activeElement;
+        restore = focused instanceof HTMLElement && editorRoot.current?.contains(focused) ? focused : null;
+      }
+      if (!state.pending && previous.pending && restore) {
+        const target = restore;
+        restore = null;
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          // Restore a disabled edit control only if the user has not moved focus elsewhere.
+          if (target.isConnected && !target.matches(":disabled") && document.activeElement === document.body) target.focus({ preventScroll: true });
+        });
+      }
+    });
+    return () => { unsubscribe(); cancelAnimationFrame(frame); };
+  }, [store]);
   // Development-only metadata injection keeps real storage/UI checks independent of WS2.
   // Use an isolated cache key so a snapshot never seeds the product's track cache.
   const acceptance = process.env.NODE_ENV === "development" && acceptanceDetail?.track.id === parsed.entry?.trackId ? acceptanceDetail : undefined;
@@ -217,7 +238,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
   if (track.isError && !current) return <div>{inputs}<p role="alert">{track.error.message}</p><Button onClick={retry}>Retry track</Button></div>;
   if (parsed.entry && !track.data && !current) return <>{inputs}<p role="status">Loading track metadata…</p></>;
   const metadata = track.data?.track;
-  return <div className="space-y-6">
+  return <div ref={editorRoot} className="min-w-0 space-y-6 break-words [&_input:focus-visible]:outline-2 [&_input:focus-visible]:outline-ring [&_select:focus-visible]:outline-2 [&_select:focus-visible]:outline-ring [&_textarea:focus-visible]:outline-2 [&_textarea:focus-visible]:outline-ring">
     {inputs}
     <header className="space-y-1">
       <h2 className="text-xl font-medium">{metadata?.title ?? "Local audio editor"}</h2>
@@ -239,7 +260,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
         return <p key={clip.id}>{clip.id} · {source?.metadata?.title ?? clip.source.track_id} · {clip.source.stem ?? "mix"} · {source?.metadata?.license ?? "License not supplied"} · {source?.metadata?.attribution ?? "Attribution not supplied"}</p>;
       })}
     </section>}
-    {current && active && selection && editor.active && <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]"><div className="min-w-0 space-y-6">
+    {current && active && selection && editor.active && <div aria-busy={editor.pending} className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]"><div className="min-w-0 space-y-6">
       <div className="flex flex-wrap gap-2" aria-label="Choose active clip">
         {current.evaluation.leaves.map((id) => <Button key={id} variant={editor.active === id ? "default" : "outline"} onClick={() => { stop(); editor.select(id); }}>
           {id} · {duration(current.evaluation.clips.get(id)!.pcm).toFixed(3)} s
@@ -269,7 +290,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
       <p className="text-muted-foreground text-sm">{current.wire.ops.length} edits · {current.evaluation.rendered.channels[0].length} frames · {current.evaluation.rendered.channels.length} channels · WAV: 44.1 kHz / 16-bit</p>
       <p className="text-muted-foreground text-sm">Shortcuts (outside controls): Space play/stop · S split at playhead · R reverse · ↑/↓ repitch ±1 · Ctrl/Cmd+Z undo · Ctrl/Cmd+Shift+Z redo · E export</p>
       <HistoryPanel editor={editor} />
-      {editor.pending && <p role="status">Rendering…</p>}
+      {editor.pending && <p role="status" className="flex items-center gap-2"><span aria-hidden="true" className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none" />Rendering…</p>}
     </div><ChatPanel editor={store} /></div>}
     {notice && <p role="status" className="break-words text-sm">{notice}</p>}
   </div>;

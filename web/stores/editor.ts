@@ -2,6 +2,7 @@ import { createStore } from "zustand/vanilla";
 import type { ClipSource, EditorState, Op } from "@/lib/types/api";
 import { evaluate, sourceKey, type SourceAsset, type Evaluation, type SourceRegistry, type OfflineRenderer } from "@/lib/audio/evaluate";
 import { duration } from "@/lib/audio/pcm";
+import { PrefixCache } from "@/lib/audio/cache";
 
 interface Checkpoint {
   wire: EditorState;
@@ -32,7 +33,9 @@ const initial = {
   current: null, past: [], future: [], active: null, selection: null,
   revision: 0, pending: false, error: null,
 };
-export function createEditorStore(offline?: OfflineRenderer) {
+export function createEditorStore(offline?: OfflineRenderer, cache = new PrefixCache()) {
+  const controllers = new Set<AbortController>();
+  const cancel = () => { controllers.forEach((controller) => controller.abort()); controllers.clear(); cache.clear(); };
   return createStore<EditorStore>((set, get) => {
     const publish = (checkpoint: Checkpoint, extra: Partial<EditorStore> = {}) => {
       const previous = get().active;
@@ -44,11 +47,14 @@ export function createEditorStore(offline?: OfflineRenderer) {
         pending: false, error: null, ...extra });
     };
     const run = async (wire: EditorState, registry: SourceRegistry, initialize: boolean): Promise<boolean> => {
+      if (initialize) cancel();
+      const controller = new AbortController();
+      controllers.add(controller);
       const revision = get().revision + 1;
       const before = get().current;
       set({ revision, pending: true, error: null });
       try {
-        const evaluation = await evaluate(registry, wire, offline);
+        const evaluation = await evaluate(registry, wire, offline, { cache, signal: controller.signal });
         if (get().revision !== revision) return false;
         publish({ wire, registry, evaluation }, {
           past: initialize || !before ? [] : [...get().past, before], future: [],
@@ -58,6 +64,8 @@ export function createEditorStore(offline?: OfflineRenderer) {
         if (get().revision === revision) set({ pending: false,
           error: error instanceof Error ? error.message : "Audio edit failed." });
         return false;
+      } finally {
+        controllers.delete(controller);
       }
     };
     return {
@@ -66,10 +74,14 @@ export function createEditorStore(offline?: OfflineRenderer) {
       preview: async (ops, expectedRevision) => {
         const { current, pending, revision } = get();
         if (!current || pending || revision !== expectedRevision) throw new Error("The editor changed. Request a new suggestion.");
-        const evaluation = await evaluate(current.registry,
-          { ...current.wire, ops: [...current.wire.ops, ...structuredClone(ops)] }, offline);
-        if (get().revision !== expectedRevision) throw new Error("The editor changed. Request a new suggestion.");
-        return evaluation;
+        const controller = new AbortController();
+        controllers.add(controller);
+        try {
+          const evaluation = await evaluate(current.registry,
+            { ...current.wire, ops: [...current.wire.ops, ...structuredClone(ops)] }, offline, { cache, signal: controller.signal });
+          if (get().revision !== expectedRevision) throw new Error("The editor changed. Request a new suggestion.");
+          return evaluation;
+        } finally { controllers.delete(controller); }
       },
       apply: async (ops, expectedRevision = get().revision) => {
         const { current, pending, revision } = get();
@@ -114,7 +126,7 @@ export function createEditorStore(offline?: OfflineRenderer) {
           set({ selection: range });
         }
       },
-      reset: () => set({ ...initial, revision: get().revision + 1 }),
+      reset: () => { cancel(); set({ ...initial, revision: get().revision + 1 }); },
       toEditorState: () => get().current ? structuredClone(get().current!.wire) : null,
     };
   });

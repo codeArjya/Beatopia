@@ -20,7 +20,7 @@ export function ChatPanel({ editor }: { editor: EditorStoreApi }) {
   const unavailable = assistUnavailable(state.current?.wire ?? null);
   const stale = !!chat.proposal && chat.proposal.revision !== state.revision;
   const disabled = !!unavailable || state.pending || chat.pending;
-  return <aside aria-label="Edit assist" data-editor-shortcuts="off" className="space-y-3 rounded-xl border p-4 lg:sticky lg:top-4 lg:self-start">
+  return <aside aria-label="Edit assist" data-editor-shortcuts="off" className="min-w-0 space-y-3 break-words rounded-xl border p-4 lg:sticky lg:top-4 lg:self-start">
     <h3 className="font-medium">Edit assist</h3>
     <p className="text-muted-foreground text-sm">{USE_FIXTURES ? "Fixture suggestion" : "Ask for an edit"} · Review every suggestion before applying it.</p>
     {unavailable && <p className="text-sm">{unavailable}</p>}
@@ -37,7 +37,7 @@ export function ChatPanel({ editor }: { editor: EditorStoreApi }) {
       <ol className="list-inside list-decimal">{chat.proposal.response.ops.map((op, index) => <li key={index}>{describeOp(op)}</li>)}</ol>
       <p>Result: {duration(chat.proposal.evaluation.rendered).toFixed(3)} s · {chat.proposal.evaluation.rendered.channels.length} channels</p>
       {stale && <p role="alert">The editor changed. Discard this preview and ask again.</p>}
-      <div className="flex gap-2"><Button disabled={disabled || stale} onClick={() => void chat.apply()}>Apply suggestion</Button><Button variant="outline" disabled={chat.pending} onClick={chat.discard}>Discard</Button></div>
+      <div className="flex flex-wrap gap-2"><Button disabled={disabled || stale} onClick={() => void chat.apply()}>Apply suggestion</Button><Button variant="outline" disabled={chat.pending} onClick={chat.discard}>Discard</Button></div>
     </section>}
     {chat.error && <p role="alert" className="break-words text-sm">{chat.error} Your audio is unchanged.</p>}
     {chat.retryMessages && <Button variant="outline" disabled={disabled} onClick={() => void chat.retry()}>Retry assist</Button>}
