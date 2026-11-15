@@ -48,8 +48,10 @@ def fade_after_trim(ops: list[dict[str, Any]], _: str) -> bool:
 
 def lofi(ops: list[dict[str, Any]], _: str) -> bool:
     filters = [o for o in ops if o["op"] == "filter"]
-    return bool(filters) and all(o["type"] == "lowpass" and 500 <= o["freq_hz"] <= 3000 for o in filters) and all(
-        o["op"] in ("filter", "gain") for o in ops
+    return (
+        bool(filters)
+        and all(o["type"] == "lowpass" and 500 <= o["freq_hz"] <= 3000 for o in filters)
+        and all(o["op"] in ("filter", "gain") for o in ops)
     )
 
 

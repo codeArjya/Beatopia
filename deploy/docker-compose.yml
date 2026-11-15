@@ -9,6 +9,8 @@ services:
     build:
       context: ..
       dockerfile: deploy/api.Dockerfile
+      args: &revision
+        REVISION: ${REVISION:-unknown}
     image: beatopia-api:latest
     env_file: ../.env
     environment:
@@ -27,6 +29,7 @@ services:
     build:
       context: ..
       dockerfile: deploy/worker.Dockerfile
+      args: *revision
     image: beatopia-worker:latest
     env_file: ../.env
     volumes:

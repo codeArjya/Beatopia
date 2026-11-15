@@ -127,3 +127,13 @@ def test_cors_wildcard_origins_for_vercel_previews() -> None:
     assert not allowed("http://beatopia-x.vercel.app")
     r = client.get("/health", headers={"Origin": "https://beatopia-liart.vercel.app"})
     assert "server-timing" in r.headers["access-control-expose-headers"].lower()
+
+
+def test_revision_header() -> None:
+    env = {"BEATOPIA_REVISION": "abc123", "WEB_ORIGIN": "https://a.example"}
+    client = TestClient(create_app(Settings.from_env(env)))
+    r = client.get("/health", headers={"Origin": "https://a.example"})
+    assert r.headers["x-beatopia-revision"] == "abc123"
+    assert "x-beatopia-revision" in r.headers["access-control-expose-headers"].lower()
+    assert client.get("/nope").headers["x-beatopia-revision"] == "abc123"  # error responses too
+    assert Settings.from_env({}).revision == "dev"

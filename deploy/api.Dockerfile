@@ -35,6 +35,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 WORKDIR /app/api
 ENV PATH="/app/api/.venv/bin:$PATH"
+# Revision stamp (deploy.sh passes the git sha): readable via the OCI label, and the API returns it in
+# X-Beatopia-Revision. Kept last so changing it never invalidates the dependency layers.
+ARG REVISION=unknown
+LABEL org.opencontainers.image.revision=$REVISION org.opencontainers.image.title=beatopia-api
+ENV BEATOPIA_REVISION=$REVISION
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=240s --retries=3 \
     CMD curl -fsS http://127.0.0.1:8000/health || exit 1

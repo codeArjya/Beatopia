@@ -54,6 +54,7 @@ class Settings:
     use_fixtures: bool
     fixtures_dir: Path
     vocab_path: Path
+    revision: str = "dev"  # git sha baked into the image by deploy.sh (BEATOPIA_REVISION)
 
     @classmethod
     def from_env(cls, env: Mapping[str, str] | None = None) -> Settings:
@@ -72,6 +73,7 @@ class Settings:
             use_fixtures=_flag(env, "USE_FIXTURES"),
             fixtures_dir=Path(_str(env, "FIXTURES_DIR") or REPO_ROOT / "shared" / "fixtures"),
             vocab_path=REPO_ROOT / "ingest" / "vocab.txt",
+            revision=_str(env, "BEATOPIA_REVISION") or "dev",
         )
 
     def missing(self, *names: str) -> list[str]:

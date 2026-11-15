@@ -12,7 +12,7 @@ SSH=(ssh -o StrictHostKeyChecking=accept-new)
 PROFILE=""
 [[ "${WORKER:-0}" == "1" ]] && PROFILE="--profile worker"
 
-sha="$(git rev-parse --short "$REF")"
+sha="$(git rev-parse "$REF")"
 echo "deploying $REF ($sha) to $VM"
 
 git archive --format=tar "$REF" | "${SSH[@]}" "$VM" "set -e
@@ -24,5 +24,7 @@ git archive --format=tar "$REF" | "${SSH[@]}" "$VM" "set -e
   mv /opt/beatopia /opt/beatopia.old && mv /opt/beatopia.new /opt/beatopia
   echo $sha > /opt/beatopia/DEPLOYED_SHA
   cd /opt/beatopia
-  docker compose -f deploy/docker-compose.yml --env-file .env $PROFILE up -d --build --remove-orphans
-  docker compose -f deploy/docker-compose.yml --env-file .env ps"
+  REVISION=$sha docker compose -f deploy/docker-compose.yml --env-file .env $PROFILE up -d --build --remove-orphans
+  docker compose -f deploy/docker-compose.yml --env-file .env ps
+  docker image inspect beatopia-api:latest beatopia-worker:latest 2>/dev/null \
+    --format '{{ index .Config.Labels \"org.opencontainers.image.title\" }} {{ index .Config.Labels \"org.opencontainers.image.revision\" }}' || true"
