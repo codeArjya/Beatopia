@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useStore } from "zustand";
-import { api, USE_FIXTURES } from "@/lib/api/client";
+import { useAssist, USE_FIXTURES } from "@/lib/api";
 import { assistUnavailable } from "@/lib/audio/assist";
 import { describeOp } from "@/lib/audio/editor-actions";
 import { duration } from "@/lib/audio/pcm";
@@ -12,8 +11,7 @@ import type { EditorStoreApi } from "@/stores/editor";
 import { Button } from "@/components/ui/button";
 
 export function ChatPanel({ editor }: { editor: EditorStoreApi }) {
-  // Reviewed editor-owned wrapper until WS3 supplies useAssist. HTTP stays in its typed client.
-  const mutation = useMutation({ mutationFn: api.assist, retry: false });
+  const mutation = useAssist();
   const [store] = useState(() => createAssistStore(editor, mutation.mutateAsync));
   const chat = useStore(store);
   const state = useStore(editor);

@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "zustand";
-import { api, USE_FIXTURES } from "@/lib/api/client";
+import { usePostEvent, useTrack, USE_FIXTURES } from "@/lib/api";
+import { usePreviewPlayer } from "@/lib/preview/PreviewProvider";
 import type { Op, TrackDetail } from "@/lib/types/api";
 import { loadSource } from "@/lib/audio/decode";
 import { parseEntry, resolveEntry } from "@/lib/audio/entry";
@@ -33,6 +34,8 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
     catch (error) { return { entry: null, error: (error as Error).message }; }
   }, [params]);
   const [store] = useState(() => createEditorStore(renderOffline));
+  const sharedPreview = usePreviewPlayer();
+  const postEvent = usePostEvent();
   const editor = useStore(store);
   const transport = useRef<PlaybackController | null>(null);
   const [attempt, setAttempt] = useState(0);
@@ -45,16 +48,25 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
   const [importError, setImportError] = useState<string | null>(null);
   const importController = useRef<AbortController | null>(null);
   const [downloadUrls] = useState(() => new ObjectUrls());
+  const loadedEntry = useRef<string | null>(null);
   // Development-only metadata injection keeps real storage/UI checks independent of WS2.
   // Use an isolated cache key so a snapshot never seeds the product's track cache.
   const acceptance = process.env.NODE_ENV === "development" && acceptanceDetail?.track.id === parsed.entry?.trackId ? acceptanceDetail : undefined;
-  const track = useQuery({ queryKey: ["track", parsed.entry?.trackId, ...(acceptance ? ["acceptance-snapshot", acceptance.audio_url, acceptance.track.bpm, acceptance.beat_times.length] : [])],
-    queryFn: () => acceptance ? Promise.resolve(acceptance) : api.getTrack(parsed.entry!.trackId), enabled: !!parsed.entry,
+  const productTrack = useTrack(acceptance ? null : parsed.entry?.trackId ?? null);
+  const snapshotTrack = useQuery({ queryKey: ["editor-acceptance", parsed.entry?.trackId, acceptance?.audio_url, acceptance?.track.bpm, acceptance?.beat_times.length],
+    queryFn: () => Promise.resolve(acceptance!), enabled: !!acceptance,
     staleTime: Infinity, refetchOnWindowFocus: false, refetchOnReconnect: false });
+  const track = acceptance ? snapshotTrack : productTrack;
+  const loadKey = JSON.stringify([parsed.entry, attempt, acceptance?.audio_url, acceptance?.track.bpm, acceptance?.beat_times.length]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const player = new PlaybackController();
+    sharedPreview.stop();
     transport.current = player;
+    const offPreview = sharedPreview.subscribe(() => {
+      const status = sharedPreview.getSnapshot().status;
+      if (status === "loading" || status === "playing") player.stop();
+    });
     let frame = 0;
     const tick = () => {
       const state = store.getState();
@@ -70,12 +82,15 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
     const unsubscribe = store.subscribe((state, previous) => {
       if (state.revision !== previous.revision) player.seek(0);
     });
-    return () => { cancelAnimationFrame(frame); unsubscribe(); player.dispose(); transport.current = null;
+    return () => { cancelAnimationFrame(frame); unsubscribe(); offPreview(); sharedPreview.stop(); player.dispose(); transport.current = null;
       importController.current?.abort(); downloadUrls.dispose(); store.getState().reset(); };
-  }, [store, downloadUrls]);
+  }, [store, downloadUrls, sharedPreview]);
 
   useEffect(() => {
+    // WS3 invalidates TrackDetail after separation. Fresh metadata must not reset an edit.
+    if (loadedEntry.current === loadKey && store.getState().current) return;
     const controller = new AbortController();
+    loadedEntry.current = null;
     importController.current?.abort();
     store.getState().reset();
     if (!parsed.entry || !track.data) return () => controller.abort();
@@ -90,14 +105,14 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
         await store.getState().initialize({ bpm: detail.track.bpm, clips: [{ id: "c1", source: resolved.source }], ops: [], arrangement: [] },
           new Map([[sourceKey(resolved.source), { pcm, origin: entry.start, beatTimes: detail.beat_times, bpm: detail.track.bpm ?? null, metadata: detail.track }]]));
         if (!store.getState().current && !controller.signal.aborted) throw new Error(store.getState().error ?? "Audio could not be loaded.");
-        if (!controller.signal.aborted) setLoad({ status: "ready" });
+        if (!controller.signal.aborted) { loadedEntry.current = loadKey; setLoad({ status: "ready" }); }
       } catch (error) {
         if (!controller.signal.aborted) setLoad({ status: "error", error: (error as Error).message });
       }
     };
     void run();
-    return () => { controller.abort(); store.getState().reset(); };
-  }, [parsed.entry, track.data, attempt, store]);
+    return () => controller.abort();
+  }, [parsed.entry, track.data, loadKey, store]);
 
   const retry = () => { if (track.isError) void track.refetch(); setAttempt((value) => value + 1); };
   const stop = () => transport.current?.stop();
@@ -145,6 +160,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
   const play = () => {
     if (!current) return;
     if (transport.current?.playing) { stop(); return; }
+    sharedPreview.stop();
     void transport.current?.play(current.evaluation.rendered, clock.position, loop).catch((error: Error) => setNotice(error.message));
   };
   const download = () => {
@@ -161,11 +177,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
       const hasLocal = current.wire.clips.some((clip) => clip.source.track_id === "local");
       const windowId = !hasLocal && parsed.entry && track.data ? resolveEntry(parsed.entry, track.data).windowId : undefined;
       if (windowId) {
-        try {
-          const sessionId = localStorage.getItem("session_id") ?? crypto.randomUUID();
-          localStorage.setItem("session_id", sessionId);
-          void api.postEvent({ session_id: sessionId, window_id: windowId, action: "export" }).catch(() => setNotice((value) => `${value} · Export telemetry unavailable.`));
-        } catch { /* Browser storage availability must not invalidate a download. */ }
+        postEvent({ window_id: windowId, action: "export" });
       }
     } catch (error) { setNotice(`Export failed: ${(error as Error).message}`); }
   };
@@ -219,7 +231,7 @@ export function EditorClient({ acceptanceDetail }: { acceptanceDetail?: TrackDet
         : <p className="text-sm">Fixture fallback: start the web server with NEXT_PUBLIC_USE_FIXTURES=1 and open the fixture link.</p>}</div>}
     {editor.error && <p className="text-destructive" role="alert">{editor.error}</p>}
     {track.data && parsed.entry && current && <StemsDrawer key={`${parsed.entry.trackId}:${parsed.entry.start}:${parsed.entry.end}`}
-      detail={track.data} start={parsed.entry.start} end={parsed.entry.end} disabled={importing || editor.pending} error={importError}
+      detail={track.data} start={parsed.entry.start} end={parsed.entry.end} disabled={importing || editor.pending} onOpen={stop}
       onSelect={(stem) => importSource((signal) => loadStem(stem, track.data!, parsed.entry!.start, parsed.entry!.end, signal))} />}
     {current && <section aria-label="Source licenses" className="space-y-1 text-sm">
       {current.wire.clips.map((clip) => {
