@@ -10,7 +10,7 @@ from functools import cache
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_GEMINI_MODEL = "gemini-3.8-flash"
+DEFAULT_GEMINI_MODEL = "gemini-3.6-flash"  # CONTRACT §8 after C9 (PR #6)
 DEFAULT_WEB_ORIGIN = "http://localhost:3000"
 
 _TRUE = {"1", "true", "yes", "on"}
