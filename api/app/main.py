@@ -20,7 +20,7 @@ from app import fixture_routes
 from app.core import db, embed, gemini
 from app.core.chips import load_chips
 from app.core.errors import install_error_handlers
-from app.core.settings import Settings, get_settings
+from app.core.settings import Settings, get_settings, origin_regex
 from app.core.timing import configure_logging, install_timing
 from app.fixture_routes import fixture
 from app.routes import chips, search, tracks, why
@@ -71,9 +71,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     install_timing(app)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=list(settings.web_origins),
+        allow_origins=[o for o in settings.web_origins if "*" not in o],
+        allow_origin_regex=origin_regex(settings.web_origins),
         allow_methods=["*"],
         allow_headers=["*"],
+        expose_headers=["Server-Timing"],
     )
     install_error_handlers(app)
 
