@@ -19,14 +19,20 @@ export function PlayButton({ item, title, className }: { item: PreviewItem; titl
   return (
     <AppButton
       size="icon"
-      variant={active ? "default" : "outline"}
-      className={cn("shrink-0 rounded-full", status === "error" && "border-destructive text-destructive", className)}
+      // The accent's main job (design tokens): play is always the purple round button; an error turns it outline-red.
+      variant={status === "error" ? "outline" : "default"}
+      className={cn(
+        "shrink-0 rounded-full hover:scale-105",
+        active && "bg-primary-hover",
+        status === "error" && "border-destructive text-destructive hover:text-destructive",
+        className,
+      )}
       aria-label={label}
       aria-pressed={active}
       title={status === "error" ? "Couldn't play this preview. Click to retry." : undefined}
       onClick={() => player.toggle(item)}
     >
-      <Icon className={cn("size-4", status === "loading" && "animate-spin", status === "playing" && "fill-current")} aria-hidden />
+      <Icon className={cn("size-4", status === "loading" && "animate-spin", status !== "loading" && status !== "error" && "fill-current")} aria-hidden />
     </AppButton>
   );
 }

@@ -70,7 +70,7 @@ export function Pill({
               onClick={onRemove}
               onPointerDown={(e) => e.stopPropagation()}
               aria-label={removeLabel ?? "Remove"}
-              className="grid size-6 shrink-0 place-items-center rounded-[4px] text-current opacity-70 outline-none transition-[opacity,background-color] hover:bg-black/15 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+              className="grid size-6 shrink-0 place-items-center rounded-[4px] text-current opacity-70 outline-none transition-[opacity,background-color] hover:bg-black/15 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-1 focus-visible:outline-ring"
             >
               <XIcon className="size-3.5" aria-hidden strokeWidth={2.5} />
             </button>

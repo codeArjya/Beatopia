@@ -63,8 +63,8 @@ export function SearchPage() {
 export function SearchPageSkeleton() {
   return (
     <div className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-4 py-6 sm:px-6 md:grid-cols-[16rem_1fr]">
-      <div className="h-96 animate-pulse rounded-lg bg-muted/50" />
-      <div className="h-11 animate-pulse rounded-lg bg-muted/50" />
+      <div className="h-96 animate-pulse rounded-lg bg-skeleton" />
+      <div className="h-11 animate-pulse rounded-lg bg-skeleton" />
     </div>
   );
 }

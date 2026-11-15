@@ -174,10 +174,10 @@ function TraySkeleton() {
       <span className="sr-only">Loading chips…</span>
       {[10, 6, 6, 4, 6].map((n, i) => (
         <div key={i} className="space-y-2">
-          <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+          <div className="h-4 w-24 animate-pulse rounded bg-skeleton" />
           <div className="flex flex-wrap gap-1.5">
             {Array.from({ length: n }, (_, j) => (
-              <div key={j} className="h-7 w-16 animate-pulse rounded-full bg-muted" />
+              <div key={j} className="h-7 w-16 animate-pulse rounded-[6px] bg-skeleton" />
             ))}
           </div>
         </div>

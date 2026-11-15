@@ -76,7 +76,7 @@ export function StemsDrawer({ trackId, startS, endS, open, onOpenChange, trackTi
             <p className="text-xs text-muted-foreground">Separation takes up to a minute. You can close this and come back.</p>
           )}
           {stuck && (
-            <p className="text-sm text-amber-600 dark:text-amber-400">
+            <p className="text-sm text-warning">
               The separator hasn&apos;t started this yet; it may be busy or offline. We&apos;ll keep checking.
             </p>
           )}
@@ -181,7 +181,7 @@ function ProgressBar({ value }: { value: number | null }) {
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={pct ?? undefined}
-      className="h-1.5 w-full overflow-hidden rounded-full bg-muted"
+      className="h-1.5 w-full overflow-hidden rounded-full bg-secondary"
     >
       <div
         className={pct == null ? "h-full w-1/3 animate-pulse rounded-full bg-primary/60" : "h-full rounded-full bg-primary transition-[width] duration-200"}

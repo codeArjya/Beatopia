@@ -23,7 +23,7 @@ const SKIN: Record<Variant, string> = {
 };
 
 const BASE =
-  "rounded-full transition-[background-color,color,box-shadow,scale] duration-(--dur-hover) ease-(--ease-out) focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.97]";
+  "rounded-full transition-[background-color,color,box-shadow,scale] duration-(--dur-hover) ease-(--ease-out) focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.97]";
 
 /** App button. Feature code uses this, never components/ui/button, so the design pass restyles one place. */
 export function AppButton({ className, variant = "default", ...props }: ButtonProps) {

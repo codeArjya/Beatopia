@@ -114,7 +114,7 @@ export function ResultCard({ result: r }: { result: Result }) {
         {tags.length > 0 && (
           <ul aria-label="Tags" className="flex min-w-0 flex-wrap gap-1">
             {tags.map((t) => (
-              <li key={t} title={t} className="max-w-48 truncate rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+              <li key={t} title={t} className="max-w-48 truncate rounded-[6px] bg-secondary px-2 py-0.5 text-xs text-text-secondary">
                 {t}
               </li>
             ))}
@@ -135,18 +135,18 @@ export function ResultCard({ result: r }: { result: Result }) {
 /** Same footprint as ResultCard, shown on the first load. */
 export function ResultCardSkeleton() {
   return (
-    <div aria-hidden className="flex flex-col gap-2.5 rounded-xl border bg-card p-4">
-      <div className="h-12 animate-pulse rounded-md bg-muted/50" />
+    <div aria-hidden className="flex flex-col gap-2.5 rounded-lg border bg-card p-4">
+      <div className="h-12 animate-pulse rounded-md bg-skeleton" />
       <div className="flex items-start gap-3">
         <div className="flex-1 space-y-1.5">
-          <div className="h-4 w-2/3 animate-pulse rounded bg-muted/60" />
-          <div className="h-3.5 w-1/3 animate-pulse rounded bg-muted/50" />
+          <div className="h-4 w-2/3 animate-pulse rounded bg-skeleton" />
+          <div className="h-3.5 w-1/3 animate-pulse rounded bg-skeleton" />
         </div>
-        <div className="size-9 animate-pulse rounded-full bg-muted/60" />
+        <div className="size-9 animate-pulse rounded-full bg-skeleton" />
       </div>
-      <div className="h-3.5 w-1/2 animate-pulse rounded bg-muted/50" />
-      <div className="h-8 animate-pulse rounded bg-muted/40" />
-      <div className="h-5 w-3/4 animate-pulse rounded bg-muted/40" />
+      <div className="h-3.5 w-1/2 animate-pulse rounded bg-skeleton" />
+      <div className="h-8 animate-pulse rounded bg-skeleton" />
+      <div className="h-5 w-3/4 animate-pulse rounded bg-skeleton" />
     </div>
   );
 }

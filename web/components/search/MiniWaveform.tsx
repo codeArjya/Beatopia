@@ -83,13 +83,13 @@ export function MiniWaveform({ item, className }: { item: PreviewItem; className
     <div
       ref={boxRef}
       aria-hidden
-      className={cn("relative h-12 overflow-hidden rounded-md bg-muted/30", peaks.isFetching && !data && "animate-pulse", className)}
+      className={cn("relative h-12 overflow-hidden rounded-[var(--radius-art)] bg-background/50", peaks.isFetching && !data && "animate-pulse", className)}
     >
-      <canvas ref={baseRef} className="absolute inset-0 size-full text-muted-foreground opacity-60" />
+      <canvas ref={baseRef} className="absolute inset-0 size-full text-wave-unplayed" />
       <div ref={clipRef} className="absolute inset-0" style={{ clipPath: "inset(0 100% 0 0)" }}>
-        <canvas ref={playedRef} className="absolute inset-0 size-full text-primary" />
+        <canvas ref={playedRef} className="absolute inset-0 size-full text-wave-played" />
       </div>
-      <div ref={headRef} hidden className="absolute inset-y-0 left-0 -ml-px w-0.5 bg-primary" />
+      <div ref={headRef} hidden className="absolute inset-y-0 left-0 -ml-px w-0.5 bg-playhead shadow-(--playhead-glow)" />
     </div>
   );
 }

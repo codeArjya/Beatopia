@@ -75,8 +75,8 @@ export function ResultList({ request, lastChipLabel, onRemoveLastChip }: ResultL
       )}
 
       {data?.fallback_used && results && results.length > 0 && (
-        <div className="flex items-start gap-2 rounded-lg border bg-muted/40 px-3 py-2 text-sm">
-          <GlobeIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
+        <div className="flex items-start gap-2 rounded-lg border bg-secondary px-3 py-2 text-sm">
+          <GlobeIcon className="mt-0.5 size-4 shrink-0 text-primary-strong" aria-hidden />
           <p>
             <span className="font-medium">Expanded to Freesound.</span>{" "}
             <span className="text-muted-foreground">Few matches in the library, so these include Freesound sounds.</span>

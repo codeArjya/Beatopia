@@ -8,7 +8,7 @@ import { licenseUrl } from "@/lib/license";
 export function LicenseBadge({ license, attribution }: { license: string; attribution: string }) {
   const href = licenseUrl(license);
   const badge = (
-    <Badge variant="outline" asChild className="rounded-[6px] border-input px-1.5 font-mono text-[11px] tracking-tight text-text-secondary outline-none hover:text-foreground focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [a&]:hover:bg-accent">
+    <Badge variant="outline" asChild className="rounded-[6px] border-input px-1.5 font-mono text-[11px] tracking-tight text-text-secondary outline-none hover:text-foreground focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring [a&]:hover:bg-accent">
       {href ? (
         <a href={href} target="_blank" rel="noreferrer noopener" aria-label={`License ${license} (opens in new tab)`}>
           {license}

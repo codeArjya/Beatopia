@@ -34,7 +34,7 @@ export function WhyNote({ windowId, cachedNote }: { windowId: string; cachedNote
           onClick={() => setExpanded(true)}
           className="inline-flex items-center gap-1.5 rounded text-muted-foreground underline-offset-4 outline-none hover:text-foreground hover:underline focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <SparklesIcon className="size-3.5" aria-hidden />
+          <SparklesIcon className="size-3.5 text-primary-strong" aria-hidden />
           Why this works as a sample
         </button>
       )}
@@ -42,8 +42,8 @@ export function WhyNote({ windowId, cachedNote }: { windowId: string; cachedNote
       {view === "loading" && (
         <div className="space-y-1.5 py-0.5" role="status">
           <span className="sr-only">Loading why this works as a sample…</span>
-          <div className="h-3.5 w-full animate-pulse rounded bg-muted/60" />
-          <div className="h-3.5 w-2/3 animate-pulse rounded bg-muted/50" />
+          <div className="h-3.5 w-full animate-pulse rounded bg-skeleton" />
+          <div className="h-3.5 w-2/3 animate-pulse rounded bg-skeleton" />
         </div>
       )}
 

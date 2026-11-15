@@ -12,7 +12,7 @@ export function AppCard({ className, ...props }: ComponentProps<"article">) {
       className={cn(
         "flex flex-col gap-3 rounded-lg border border-border bg-card p-4 text-card-foreground outline-none",
         "transition-[border-color,background-color] duration-(--dur-hover) ease-(--ease-out) hover:border-accent",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
         className,
       )}
       {...props}
