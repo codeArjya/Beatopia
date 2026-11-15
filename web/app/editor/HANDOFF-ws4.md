@@ -1,4 +1,57 @@
-# WS4 live API and worker acceptance (2026-11-15)
+# WS4 assist and H24 handoff (2026-11-15)
+
+**Assigned assist session is complete. Fixture and live preview/apply/discard, invalid/stale rejection, grouped undo/redo, explicit retry and the real track + stem H24 demo pass. Human confirmed preview and WAV sound right and open.** Implementation: `ce3076e`; see subsequent documentation commit in git log. Started at `a2479fc` on `ws4-editor`, preserving existing untracked `web/.playwright-mcp/`. Only WS4 source paths and authorized plan/handoff logs changed. No dependency, generated-type, WS3, shared/backend or environment-file edits.
+
+## Implemented and verified
+
+- `components/editor/chat-panel.tsx`, `stores/assist.ts`, `lib/audio/assist.ts`: right-side panel; TanStack mutation over existing typed `api.assist`; exact generated `{messages, editor}` wire payload; full conversation, ordered proposed-op preview, resulting duration/channels, Apply/Discard and explicit Retry. No PCM, registry, revision, selection, provenance or UI/history metadata is sent. Local/mixed-local assist stays disabled under the reviewed plan; editing/export remain available.
+- Runtime validation reads the generated JSON schema rather than recreating Op wire types. Entire batch then replays sequentially in isolation: later ops can target newly sliced children; invalid references/parents/ranges/resource limits reject all ops. Preview/Discard do not publish audio or history. Apply checks expected revision and commits through the existing editor store in one checkpoint. Stale responses or previews cannot Apply; request again against the latest state. Disposal ignores late responses.
+- `stores/editor.ts` adds isolated `preview` and optional expected-revision/success result on `apply`. Existing manual callers remain compatible. Any committed revision still stops old transport. Explicit retry sends the same user turn/full conversation against the latest wire snapshot, preserving manual edits. No automatic assist retries.
+- Chrome **157.0.0.0** fixture: actual `assist.json` preview lists slice c1 then reverse c1.4. Preview/discard preserve original WAV SHA; Apply changes it; single undo/redo restore the respective hashes. Output 44100 Hz/16-bit/stereo, 705600 frames, 2822444 bytes. Node verifies c1.4 usability and exact wire fields, malformed/invalid/stale batches, over-cap rejection preserving redo, late disposal and local guards.
+- Real deployed `/assist`200: “chop into 4” → beat slice c1 count4; “reverse the last slice” → reverse c1.4. “make it 2 bars and loop it 4 times” returned trim c1.4 to3.436 s then loop4, exceeding that leaf's 2.623809523809524 s; client rejected the entire batch with a clear range error. No partial edit is presented as success.
+
+## Real H24 demo and exported file
+
+Main `/editor`, fixtures off, API **https://45-77-216-35.sslip.io**. Track **jam_1047157 — km 1 - Escena III**, Oscar Avila, CC-BY-SA-3.0, BPM139.675, G major. Both mix and covering full-length drums loaded from public production storage at absolute5..15 s (file origin0).
+
+1. Add drums as c2, retaining c1 and its license. Trim c1 relative1..9 (track6..14); four equal chops; reverse c1.4; native repitch -3 gives104888 frames for that leaf.
+2. Reorder/repeat to `[c1.4,c1.1,c1.4,c1.3,c1.2,c2]`; Play/Stop preview.
+3. Live prompt explicitly asks to slice c2 into4 equal parts with snap none, then reverse c2.4. Real API200 returns those two ordered ops. Preview, Apply: history step12 contains both. Byte-for-byte downloaded WAV comparisons pass single-step undo/redo. Final undo restores step11, then export.
+4. Final WAV: **915376 frames / 20.7568253968254 seconds / 3661548 bytes / 44100 Hz / 16-bit stereo**. Native browser WAV decode and HTMLAudioElement canplay pass. SHA256 **06899936153807206c8f7fbaaf9a00ae27eb1f8a97e64494b3752ccad23d20b0**. Export events return204. Human answered **“Preview and WAV sound right and open”** to the current pitch/duration/listening/player/DAW check.
+
+Artifact (generated, untracked): `web/.playwright-mcp/km-1---Escena-III-139-675bpm-G-major.wav`. Tool download filename is `km 1 - Escena III-139.675bpm-G major.wav`. Full-page screenshot and browser logs remain alongside it; preserve the pre-existing artifact directory and keep it out of commits.
+
+Fault matrix on that actual edit, using deliberately browser-injected responses (not claimed as real Gemini outages): 503 leaves audio unchanged; manual Reverse/export/undo work; explicit retry reaches real API200, retains the latest manual op and sends the user message once. Valid-prefix/missing-clip-suffix rejects all. Holding response across manual edit yields a stale error; editing after valid preview disables Apply. After restoring manual edits, final WAV hash matches the demo above. Only browser console error is the intentional503.
+
+## Checks and remaining gates
+
+All required checks ran and passed from web using PowerShell `pnpm.cmd`:
+
+- Relevant audio/store/stem-hook suite: **18 files / 84 tests**.
+- `pnpm.cmd lint`: no warnings.
+- `pnpm.cmd tsc --noEmit`.
+- `pnpm.cmd test`: **19 files / 91 tests**.
+- `git diff --check`.
+
+**Blocked/unrun required checks: none.** H19-H21, H21-H23 and this H23-H24 regression acceptance are checked in `PLAN-ws4.md`. Earlier H4-H8 waveform/transport/detail matrix and H10-H12 Tone musical keep-pitch acceptance remain unchecked; this session does not claim to close those gates. The separate H16-H18 actual WS3 drawer/hooks replacement is still open on this branch. No cuts were required in this assigned session; retain reviewed chat → advanced pitch/keep-pitch → filter → transient → drag cut order for future slipped gates. No post-H24 optimization/polish was started.
+
+## Fresh-session integration notes
+
+Publishing review fetched **origin/main at72773d0**, which now supplies WS3 `web/components/stems/StemsDrawer.tsx` and `web/lib/api/hooks.ts` (`useAssist`, `useStems`, `useJob`, etc.). These interfaces are absent from the working `ws4-editor` checkout, but **are now available upstream**. The drawer accepts `trackId,startS,endS,open,onOpenChange,trackTitle?,onPick?`; onPick receives generated `Stem`. The reviewed editor-owned adapters remain functional and passed this session. Next assigned integration session should sync per repo workflow, replace adapter imports using these actual interfaces, retain atomic decoding/history and explicit retry policy, then re-run combined shell/editor checks. Do not edit WS3 paths to integrate them.
+
+Dev server remains on **localhost:3000 in live mode**, with the real hero+drums demo restored after fault checks. Chat contains test conversation; no fault route remains active. Do not start a second server. Fresh restart from web after stopping the owned server:
+
+```powershell
+$env:NEXT_PUBLIC_USE_FIXTURES='0'
+$env:NEXT_PUBLIC_API_URL='https://45-77-216-35.sslip.io'
+pnpm.cmd dev
+```
+
+Main URL: `http://localhost:3000/editor?track=jam_1047157&start=5&end=15&stem=mix`. Fixture acceptance uses `NEXT_PUBLIC_USE_FIXTURES=1` and `jam_1532881`0..16; restart to change mode. Do not repeat completed acceptance merely because older historical handoffs below describe it as pending. GitHub PR details follow in the session's final reply.
+
+---
+
+# Prior WS4 live API and worker acceptance (2026-11-15)
 
 **API: https://45-77-216-35.sslip.io. Production H16 acceptance now passes. Local H18-H19 remains complete. Real ready/queued worker acceptance for H16-H18 passes; that task remains open only for the explicit WS3 drawer/hooks replacement, whose interfaces are not present in this checkout.** No API, worker, WS3, generated-type, dependency or environment files were edited. This section supersedes every earlier unavailable-API/worker/production-acceptance claim below.
 
