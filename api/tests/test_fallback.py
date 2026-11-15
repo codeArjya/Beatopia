@@ -433,7 +433,23 @@ def test_search_results_pick_up_cached_fallback_notes(search_env: dict[str, Any]
     assert {r.window_id: r.why for r in resp.results}["fs_754931:mix:0"] == "cached kazoo note"
 
 
-def test_store_track_copies_the_preview_once(monkeypatch: pytest.MonkeyPatch) -> None:
+@pytest.fixture
+def transcodes(monkeypatch: pytest.MonkeyPatch) -> list[tuple[str, str]]:
+    """The fake previews aren't real audio: stand in for common.audio (bitrate recorded, 11.0 s decoded)."""
+    calls: list[tuple[str, str]] = []
+
+    def fake_to_mp3(src: str, dst: str, bitrate: str = "192k") -> None:
+        calls.append((Path(src).name, bitrate))
+        Path(dst).write_bytes(Path(src).read_bytes())
+
+    monkeypatch.setattr(fallback.audio, "to_mp3", fake_to_mp3)
+    monkeypatch.setattr(fallback.audio, "load_mono", lambda path, sr=44100: (np.zeros(11 * 44100), 44100))
+    return calls
+
+
+def test_store_track_transcodes_the_preview_once(
+    monkeypatch: pytest.MonkeyPatch, transcodes: list[tuple[str, str]]
+) -> None:
     from common import storage
 
     uploads: list[tuple[str, str, bytes]] = []
@@ -451,6 +467,8 @@ def test_store_track_copies_the_preview_once(monkeypatch: pytest.MonkeyPatch) ->
     assert row[1:3] == ("754931", "https://freesound.org/people/someone/sounds/754931/")
     assert row[5] == "CC0" and row[6].startswith("kazoo take 754931 by someone") and row[-1] == uploads[0][0]
     assert "bpm" not in pool.sql[-1]  # bpm/key stay null, no windows
+    assert transcodes == [("preview.mp3", "192k")]  # CONTRACT §2 mix format, not Freesound's bytes as they are
+    assert row[-2] == 11.0  # duration measured from the stored mix
 
     assert fallback.store_track(pool, fs, "fs_754931") is False and len(uploads) == 1  # already stored
     assert fallback.store_track(pool, fs, "jam_1") is False  # not a fallback id
@@ -466,8 +484,34 @@ def test_store_track_copies_the_preview_once(monkeypatch: pytest.MonkeyPatch) ->
     assert getattr(info.value, "code", None) == "upstream_error" and "fs_754929" not in pool.stored
 
 
+@pytest.mark.skipif(__import__("shutil").which("ffprobe") is None, reason="ffmpeg/ffprobe not installed")
+def test_store_track_writes_a_contract_mix(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """Real ffmpeg: the stored mix is 44.1 kHz stereo MP3 at 192 kbit/s (WS1's full report probes exactly this)."""
+    import subprocess
+
+    from app.core.settings import REPO_ROOT
+    from common import storage
+
+    fixture = REPO_ROOT / "web" / "public" / "fixtures" / "audio" / "mix.wav"
+    kept = tmp_path / "stored.mp3"
+    monkeypatch.setattr(storage, "upload", lambda local, path, ct: kept.write_bytes(Path(local).read_bytes()) and "u")
+    pool, fs = DbPool(), FakeFreesound().client()
+    monkeypatch.setattr(fs, "download_preview", lambda sound, dest: Path(dest).write_bytes(fixture.read_bytes()))
+
+    assert fallback.store_track(pool, fs, "fs_754931") is True  # type: ignore[arg-type]
+    probe = subprocess.run(
+        ["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries",
+         "stream=codec_name,sample_rate,channels,bit_rate", "-of", "json", str(kept)],
+        capture_output=True, text=True, check=True,
+    )  # fmt: skip
+    stream = json.loads(probe.stdout)["streams"][0]
+    assert stream["codec_name"] == "mp3" and stream["sample_rate"] == "44100" and stream["channels"] == 2
+    assert stream["bit_rate"] == "192000"
+    assert pool.stored["fs_754931"][-2] == pytest.approx(16.0, abs=0.1)  # the 16 s fixture, measured
+
+
 def test_stems_route_stores_the_fallback_track_first(
-    live_app: tuple[TestClient, FakeFreesound], monkeypatch: pytest.MonkeyPatch
+    live_app: tuple[TestClient, FakeFreesound], monkeypatch: pytest.MonkeyPatch, transcodes: list[tuple[str, str]]
 ) -> None:
     from app.core import jobs
     from app.models.api import StemsResponse
